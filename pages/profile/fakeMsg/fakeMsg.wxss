@@ -1,0 +1,8 @@
+@import "../../../style/tailwind.wxss";
+page {
+    height: 100%;
+}
+
+.rotate180 {
+    transform: rotate(180deg);
+}

@@ -1,0 +1,95 @@
+<!--pages/test/test.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+	<view slot="backText"></view>
+	<view slot="content">活动列表</view>
+</cu-custom>
+
+<block wx:if="{{type == 1}}">
+  <block wx:for="{{list}}" wx:for-item="item" wx:for-index="idx" wx:key="id" wx:if="{{item.type == 'activity'}}">
+    <view class="cu-card case {{isCard?'no-card':''}}">
+      <view class="cu-card case {{isCard?'no-card':''}}">
+        <view class="cu-item shadow">
+          <view class="image" bindtap="jumpToSonPages" data-id="{{item.id}}">
+            <block wx:if="{{item.content.photo != ''}}">
+              <image src="https://se.alangy.net/{{item.content.photo}}" mode="widthFix"/>
+            </block>
+            <block wx:else>
+              <image src="../../static/img/nophoto.jpg" mode="widthFix"/>
+            </block>
+            <view class="cu-bar bg-shadeBottom">
+            </view>
+          </view>
+          <van-card>
+            <view slot="thumb" bindtap="gotoUserPage" data-userid="{{item.content.create_user.id}}">
+              <view class="cu-avatar round lg" 
+              style="background-image:url({{item.content.create_user.avatarUrl == ''?'../../img/default_avatar.png':item.content.create_user.avatarUrl}});"></view>
+            </view>
+            <view slot="title" class="text-black text-df">
+              {{item.content.name}}
+            </view>
+            <view slot="desc" bindtap="jumpToSonPages" data-id="{{item.id}}">
+              <van-tag wx:for="{{item.content.tags}}" wx:for-item="tag" wx:key="id" round type="primary">{{tag.name}}
+              </van-tag>
+              <view><van-icon name="user-o"/><text class="field-name text-blue" >发起人：</text>{{item.content.create_user.nickName}}</view>
+              <view><van-icon name="clock-o"/><text class="field-name text-blue" >报名时间:</text>{{item.content.start_enrollment_at}}-{{item.content.end_enrollment_at}}</view>
+              <view><van-icon name="clock"/><text class="field-name text-blue">活动时间:</text>{{item.content.normal_activity.start_at}}-{{item.content.normal_activity.end_at}}</view>
+              <view><van-icon name="location-o"/><text class="field-name text-blue">活动地点:</text>{{locList[item.content.location]}} {{item.content.position}}</view>
+              <view><van-icon name="friends-o"/><text class="field-name text-blue">已选人数/总人数:</text>{{item.content.attend_user_num === null?'-':item.content.attend_user_num}}/{{item.content.normal_activity.allow_total}}</view>
+            </view>
+          </van-card>
+        </view>
+      </view>
+    </view>
+  </block>
+</block>
+<block wx:else>
+  <block wx:for="{{list}}" wx:for-item="item" wx:for-index="idx" wx:key="id">
+    <view class="cu-card case {{isCard?'no-card':''}}">
+      <view class="cu-card case {{isCard?'no-card':''}}">
+        <view class="cu-item shadow">
+          <view class="image" bindtap="jumpToSonPages" data-id="{{item.id}}">
+            <block wx:if="{{item.photo != ''}}">
+              <image src="https://se.alangy.net/{{item.photo}}" mode="widthFix"/>
+            </block>
+            <block wx:else>
+              <image src="../../static/img/nophoto.jpg" mode="widthFix"/>
+            </block>
+            <view class="cu-tag bg-red" wx:if="{{type == 7}}"><text class="icon iconfont icon-hot" wx:for="{{item.heat}}" wx:key="*this"/>
+            </view>
+            <view class="cu-bar bg-shadeBottom">
+            </view>
+          </view>
+          <van-card>
+            <view slot="thumb" bindtap="gotoUserPage" data-userid="{{item.create_user.id}}">
+              <view class="cu-avatar round lg" 
+              style="background-image:url({{item.create_user.avatarUrl == ''?'../../img/default_avatar.png':item.create_user.avatarUrl}});"></view>
+            </view>
+            <view slot="title" class="text-black text-df">
+              {{item.name}}
+            </view>
+            <view slot="desc" bindtap="jumpToSonPages" data-id="{{item.id}}">
+              <van-tag wx:for="{{item.tags}}" wx:for-item="tag" wx:key="id" round type="primary">{{tag.name}}</van-tag>
+              <view><van-icon name="user-o"/><text class="field-name text-blue" >发起人：</text>{{item.create_user.nickName}}</view>
+              <view><van-icon name="clock-o"/><text class="field-name text-blue" >报名时间:</text>{{item.start_enrollment_at}}-{{item.end_enrollment_at}}</view>
+              <view><van-icon name="clock"/><text class="field-name text-blue">活动时间:</text>{{item.normal_activity.start_at}}-{{item.normal_activity.end_at}}</view>
+              <view><van-icon name="location-o"/><text class="field-name text-blue">活动地点:</text>{{locList[item.location]}} {{item.position}}</view>
+              <view><van-icon name="friends-o"/><text class="field-name text-blue">已选人数/总人数:</text>{{item.attend_user_num === null?'-':item.attend_user_num}}/{{item.normal_activity.allow_total}}</view>
+            </view>
+          </van-card>
+        </view>
+      </view>
+    </view>
+  </block>
+</block>
+<block wx:if="{{list.length == 0}}">
+  <view class="bg-white">
+    <view class="padding-xs flex align-center">
+      <view class="flex-sub text-center">
+        <view class="text-xsl padding">
+          <text class=" cuIcon-emojifill text-blue"></text>
+        </view>
+        <view class="padding">暂时没有活动哦~</view>
+      </view>
+    </view>
+  </view>
+</block>

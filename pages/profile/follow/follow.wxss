@@ -1,0 +1,4 @@
+@import "../../../style/tailwind.wxss";
+page {
+    padding-bottom: 100rpx;
+}

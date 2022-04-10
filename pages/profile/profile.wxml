@@ -1,0 +1,79 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText"></view>
+  <view slot="content">个人信息</view>
+</cu-custom>
+
+<view class="bg-gray-100 flex flex-col">
+  <view class=" bg-white flex-row items-center mb-4 h-auto mx-4 mt-4 rounded-xl shadow-xl p-4">
+    <view class="text-xl ml-2 text-gray-700"> 个人主页 </view>
+    <view class="overflow-hidden">
+      <view class="flex mx-2 my-2 space-between justify-between text-center items-center">
+        <image mode="aspectFit" class="flex-0 w-20 h-20 rounded-full shadow-lg mb-4" src="{{ userAvatarUrl===''?'../../img/default_avatar.png':userAvatarUrl }}" />
+        <block wx:if="{{ !isMe }}">
+          <view class="flex-row w-24">
+            <view class="flex-initial flex items-center text-gray-800 m-1 px-2 pt-1.5 pb-1 rounded-full shadow-md justify-end border" bindtap="onTapLikeButton">
+              <block wx:if="{{ liked }}">
+                <text class="flex-grow text-xs mr-1 ml-2">已关注</text>
+                <text class='flex-initial iconfont if-icon-star-filled text-base mr-1' />
+              </block>
+              <block wx:else>
+                <text class="flex-grow text-xs mr-1 ml-2">关注</text>
+                <text class='flex-initial iconfont if-icon-star text-base mr-1' />
+              </block>
+            </view>
+            <view class="mt-2 flex-initial flex items-center text-gray-800 m-1 px-2 pt-1.5 pb-1 rounded-full shadow-md justify-end border" bindtap="onTapMsgButton">
+              <text class="flex-grow text-xs mr-1 ml-2">私信TA</text>
+              <text class='flex-initial iconfont if-icon-msg text-base mr-1' />
+            </view>
+          </view>
+        </block>
+        <block wx:else>
+          <view class="flex-row w-auto">
+            <view class="mt-2 flex-initial flex items-center text-gray-800 m-1 px-2 pt-1.5 pb-1 rounded-full shadow-md justify-end border" bindtap="onTapEditButton">
+              <text class="flex-grow text-xs mr-1 ml-2">修改个人资料</text>
+              <text class='flex-initial iconfont if-icon-edit text-base mr-1' />
+            </view>
+          </view>
+        </block>
+      </view>
+
+      <view wx:if="{{ isMe }}">
+        <van-cell-group>
+          <van-cell title="用户名" value="{{ username }}" class="break-all" />
+          <van-cell title="手机号码" value="{{ phone }}" class="break-all" />
+          <van-cell title="学号" value="{{ studentId }}" class="break-all" />
+          <van-cell title="性别" value="{{ gender === 0?'未知':gender === 1?'男':'女' }}" class="break-all" />
+          <van-cell title="电子邮箱" value="{{ email }}" class="break-all" />
+        </van-cell-group>
+      </view>
+      <view wx:else>
+        <van-cell-group>
+          <van-cell title="用户名" value="{{ username }}" class="break-all" />
+          <van-cell title="性别" value="{{ gender === 0?'未知':gender === 1?'男':'女' }}" class="break-all" />
+        </van-cell-group>
+        <van-tabs active="{{ 0 }}">
+          <van-tab title="该用户发布的活动" >
+            <van-cell title="综合评分" value="{{ score_avg }}" class="break-all" />
+            <view class="content">
+
+              <view class="cu-card article" wx:for="{{ releasedActivities }}" wx:for-item="item" wx:for-index="idx" wx:key="id">
+                <view class="cu-item shadow" data-activityid="{{ item.id }}" bindtap="onTapActivity">
+                  <view class="title">
+                    <view class="text-cut">{{ item.name }}</view>
+                  </view>
+                  <view class="content">
+                    <image src="{{ item.imageUrl }}" mode="aspectFill" style="width: 33.333333%"></image>
+                    <view class="desc w-2on3">
+                      <view class="text-content">{{ item.detail }}</view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+
+            </view>
+          </van-tab>
+        </van-tabs>
+      </view>
+    </view>
+  </view>
+</view>

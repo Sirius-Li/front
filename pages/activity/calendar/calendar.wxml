@@ -1,0 +1,55 @@
+<!--pages/activity/calendar/calendar.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{false}}">
+	<view slot="backText">返回</view>
+	<view slot="content">日程</view>
+</cu-custom>
+<view>
+  <view class="selected_date">
+    <view bindtap="preMonth">
+      <image class="select_icon" src="../../../static/img/left.png"></image>
+    </view>
+    <view class="text_center">{{curYear}}年{{curMonth}}月</view>
+    <view style="text-align:right;" bindtap="nextMonth">
+      <image class="select_icon" src="../../../static/img/right.png"></image>
+    </view>
+  </view>
+  <view class="calendar_panel">
+    <view class="calendar_box_title">
+      <view class="weekday_label">一</view>
+      <view class="weekday_label">二</view>
+      <view class="weekday_label">三</view>
+      <view class="weekday_label">四</view>
+      <view class="weekday_label">五</view>
+      <view class="weekday_label">六</view>
+      <view class="weekday_label">日</view>
+    </view>
+    <view class="calendar_box" wx:for="{{dateList}}" wx:for-item="week" wx:key="index">
+      <view class="{{item.value==selectedDate?'weekday_label_active':'weekday_label'}}"  bindtap="selectDate" data-date="{{item}}" wx:for="{{week}}" wx:key="index">
+        <view style="height:60rpx">
+          <text class="{{item.value==nowDate?'today_date':''}}">{{item.date}}</text>
+        </view>
+        <image wx:if="{{item.activitiesCnt==1}}" class="icon1" src="/static/img/one_event.png"></image>
+        <image wx:elif="{{item.activitiesCnt==2}}" class="icon2" src="/static/img/two_events.png"></image>
+        <image wx:elif="{{item.activitiesCnt>=3}}" class="icon3" src="/static/img/more_events.png"></image>
+      </view>
+    </view>
+  </view>
+  <!-- <text>{{this.data.activityList[this.data.selectDay]}}</text> -->
+  <view style="border-radius:20px">
+    <van-cell-group style="border-radius:20px;padding:30px">
+      <van-cell wx:for="{{todoList}}" wx:key="key" use-label-slot="{{true}}" bindtap="routeActivityDescription" data-activityid="{{item.activityId}}">
+        <view slot="title">
+          <text dot>{{item.activityName}}</text>
+        </view>
+        <view slot="label">
+          <text>{{item.activityLocation}}</text>
+          <text style="display:flex;flex-direction:row-reverse">{{item.activityTime}}</text>
+          <!-- <view style="display:flex;flex-direction:row-reverse">
+            <text style="display:flex;flex-direction:row-reverse">{{item.activityTime}}</text>
+          </view> -->
+        </view>
+      </van-cell>
+    </van-cell-group>
+  </view>
+</view>
+

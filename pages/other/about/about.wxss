@@ -1,0 +1,2 @@
+/* pages/other/about/about.wxss */
+@import "../../../style/tailwind.wxss";

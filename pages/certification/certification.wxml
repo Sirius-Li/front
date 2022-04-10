@@ -1,0 +1,214 @@
+<!--pages/certification/certification.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{false}}">
+	<view slot="backText"></view>
+	<view slot="content">身份认证</view>
+</cu-custom>
+<view class="bg-white padding-xs">
+  <view class="cu-steps">
+    <view class="cu-item {{index>num?'':'text-blue'}}" wx:for="{{stepsList}}" wx:key="this">
+      <text class="num" data-index="{{index + 1}}"></text> {{item.name}}
+    </view>
+  </view>
+</view>
+<block wx:if="{{num == 0}}">
+  <view class="bg-white padding-xl">
+    <van-checkbox value="{{ checked }}" shape="square" bind:change="checkedChange">同意本产品使用微信用户信息</van-checkbox>
+    <view class="flex padding justify-center">
+      <view class="action">
+        <button class="cu-btn bg-green shadow" disabled="{{wrrantDisabled}}" bindtap="nextStep">下一步</button>
+      </view>
+    </view>
+    <view class="flex padding justify-center">
+      <view class="action">
+        <button class="cu-btn bg-blue shadow" bindtap="gotoHome">回到首页</button>
+      </view>
+    </view>
+  </view>
+</block>
+<block wx:if="{{num == 1}}">
+  <view class="bg-white padding-xl">
+    <van-radio-group value="{{ radio }}" bind:change="radioChange">
+      <van-cell-group>
+        <van-cell title="通过北航邮箱认证">
+          <van-radio slot="right-icon" name="1" />
+        </van-cell>
+        <van-cell title="通过北航证件照片认证">
+          <van-radio slot="right-icon" name="2" />
+        </van-cell>
+      </van-cell-group>
+    </van-radio-group>
+    <view class="flex padding justify-center">
+      <view class="action">
+        <button class="cu-btn bg-green shadow" bindtap="nextStep">下一步</button>
+      </view>
+    </view>
+    <view class="flex padding justify-center">
+      <view class="action">
+        <button class="cu-btn bg-blue shadow" bindtap="gotoHome">回到首页</button>
+      </view>
+    </view>
+  </view>
+</block>
+<block wx:elif="{{num == 2}}">
+  <block wx:if="{{radio == '1'}}">
+    <view class="bg-white padding-xl">
+      <view class="flex-sub">
+        <view class="text-sm padding text-gray">请填写您的手机号和学号</view>
+        <van-cell-group>
+          <van-field
+            label="手机"
+            placeholder="请输入手机号"
+            error-message="{{errMsg3}}"
+            bind:input="saveInput3"
+            maxlength="{{20}}"
+          />
+          <van-field
+            label="学号"
+            placeholder="请输入学号"
+            error-message="{{errMsg4}}"
+            bind:input="saveInput4"
+            maxlength="{{15}}"
+          />
+        </van-cell-group>
+        <view class="text-sm padding text-gray">我们将向下面的北航邮箱发送身份认证邮件</view>
+        <van-cell-group>
+          <van-field
+            model:value="{{input1}}"
+            disabled
+          >
+          </van-field>
+        </van-cell-group>
+        <view class="flex padding justify-center">
+          <van-button slot="button" size="small" type="info" bindtap="sendMail">发送认证邮件</van-button>
+        </view>
+        <view class="text-sm padding text-gray">请检查您的邮箱，在此填入认证邮件中的验证码</view>
+        <van-cell-group>
+          <van-field
+            label="验证码"
+            placeholder="请输入验证码"
+            error-message="{{errMsg2}}"
+            bind:input="saveInput2"
+            maxlength="{{6}}"
+          />
+        </van-cell-group>
+        <view class="flex padding justify-center">
+          <view class="action">
+            <button class="cu-btn bg-green shadow" bindtap="nextStep" disabled="{{disabled}}">下一步</button>
+          </view>
+        </view>
+        <view class="flex padding justify-center">
+          <view class="action">
+            <button class="cu-btn bg-blue shadow" bindtap="gotoHome">回到首页</button>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="bg-white padding-xl">
+      <view class="flex-sub">
+        <view class="text-sm padding text-gray">请填写一个可用的邮箱，我们将向此邮箱发送验证邮件</view>
+        <van-cell-group>
+          <van-field
+            value="{{ username }}"
+            placeholder="请输入邮箱"
+            error-message="{{errMsg1}}"
+            bind:input="saveInput1"
+            maxlength="{{50}}"
+          >
+          </van-field>
+        </van-cell-group>
+        <view class="flex padding justify-center">
+          <van-button slot="button" size="small" type="info" bindtap="sendMail">发送验证邮件</van-button>
+        </view>
+        <view class="text-sm padding text-gray">请检查您的邮箱，在此填入验证邮件中的验证码</view>
+        <van-cell-group>
+          <van-field
+            label="验证码"
+            placeholder="请输入验证码"
+            error-message="{{errMsg2}}"
+            bind:input="saveInput2"
+            maxlength="{{6}}"
+          />
+        </van-cell-group>
+        <view class="text-sm padding text-gray">请填写您的手机号和学号</view>
+        <van-cell-group>
+          <van-field
+            label="手机"
+            placeholder="请输入手机号"
+            error-message="{{errMsg3}}"
+            bind:input="saveInput3"
+            maxlength="{{20}}"
+          />
+          <van-field
+            label="学号"
+            placeholder="请输入学号"
+            error-message="{{errMsg4}}"
+            bind:input="saveInput4"
+            maxlength="{{15}}"
+          />
+        </van-cell-group>
+        <view class="text-sm padding text-gray">请在此上传您的北航证件的照片</view>
+        <view class="cu-form-group">
+          <view class="grid col-4 grid-square flex-sub">
+            <view class="bg-img" wx:for="{{fileList}}" wx:key="this" bindtap="ViewImage" data-url="{{fileList[index]}}">
+				      <image src='{{fileList[index]}}' mode='aspectFill'></image>
+				      <view class="cu-tag bg-red" catchtap="DelImg" data-index="{{index}}">
+					      <text class="cuIcon-close"></text>
+				      </view>
+			      </view> 
+            <view class="solids" bindtap="ChooseImage" wx:if="{{fileList.length<fileMaxNum}}">
+              <text class="cuIcon-cameraadd"></text>
+            </view>
+          </view>
+        </view>
+        <view class="flex padding justify-center">
+          <view class="action">
+            <button class="cu-btn bg-green shadow" bindtap="nextStep" disabled="{{disabled}}">下一步</button>
+          </view>
+        </view>
+        <view class="flex padding justify-center">
+          <view class="action">
+            <button class="cu-btn bg-blue shadow" bindtap="gotoHome">回到首页</button>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+</block>
+<block wx:if="{{num == 3}}">
+  <block wx:if="{{radio == '1'}}">
+    <view class="bg-white">
+      <view class="padding-xs flex align-center">
+        <view class="flex-sub text-center">
+          <view class="text-xsl padding">
+            <text class=" cuIcon-roundcheckfill text-green"></text>
+          </view>
+          <view class="padding">身份认证成功</view>
+          <view class="flex padding justify-center">
+            <view class="action">
+              <button class="cu-btn bg-blue shadow" bindtap="gotoHomeSuccess">回到首页</button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="bg-white">
+      <view class="padding-xs flex align-center">
+        <view class="flex-sub text-center">
+          <view class="text-xsl padding">
+            <text class=" cuIcon-roundcheckfill text-green"></text>
+          </view>
+          <view class="padding">认证信息已经提交，请耐心等待管理员审核</view>
+          <view class="flex padding justify-center">
+            <view class="action">
+              <button class="cu-btn bg-blue shadow" bindtap="gotoHomeSuccess">回到首页</button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+</block>

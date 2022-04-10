@@ -1,0 +1,30 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText"></view>
+  <view slot="content">意见反馈</view>
+</cu-custom>
+
+<view class="bg-gray-100 flex flex-col w-full">
+  <view class=" bg-white flex-row items-center mb-4 h-auto mx-4 mt-4 rounded-xl shadow-xl p-4 overflow-hidden w-auto">
+    <view class="w-full">
+      <form bindsubmit="onTapSubmit">
+        <view class="text-base mb-2">反馈内容</view>
+        <view class="border-2 border-black">
+          <van-field
+              value="{{ content }}"
+              name="content"
+              autosize
+              type="textarea"
+              border="{{ false }}"
+              show-word-limit
+              maxlength="400"
+              placeholder="请在此处输入反馈内容"
+          />
+        </view>
+        <view class="py-4 w-full" >
+          <van-button formType="submit" type="info" block class="lock w-full mx-auto">提交反馈</van-button>
+        </view>
+      </form>
+    </view>
+    <van-toast id="van-toast" />
+  </view>
+</view>

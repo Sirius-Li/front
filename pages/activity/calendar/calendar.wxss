@@ -1,0 +1,126 @@
+/* pages/activity/calendar/calendar.wxss */
+/* pages/others/calendar/calendar.wxss */
+.page {
+  margin-bottom: 100px;
+}
+.selected_date {
+  padding: 20rpx;
+  overflow: hidden;
+}
+
+.selected_date>view {
+  width: 33.3%;
+  float: left;
+}
+
+.calendar_panel {
+  width: 100%;
+  /* height: 600rpx; */
+}
+
+.calendar_box {
+  width: 100%;
+  background: #fff;
+  overflow: hidden;
+  border-bottom: 1rpx solid #ececec;
+  height: 120rpx;
+}
+
+.calendar_box_title {
+  width: 100%;
+  background: #fff;
+  overflow: hidden;
+  border-bottom: 1rpx solid #ececec;
+  height: 70rpx;
+}
+
+.weekday_label {
+  width: 14.28%;
+  float: left;
+  display: block;
+  text-align: center;
+  font-size: 35rpx;
+  padding: 10rpx 0;
+  height: 100rpx;
+}
+
+.weekday_label_active {
+  width: 14.28%;
+  float: left;
+  display: block;
+  text-align: center;
+  font-size: 35rpx;
+  padding: 6rpx 0;
+  border: 5rpx solid #4a95d9;
+  border-radius: 25%;
+  height: 110rpx;
+}
+
+.weekday_label>view>text {
+  width: 60rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  display: inline-block;
+}
+
+.weekday_label_active>view>text {
+  width: 60rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  display: inline-block;
+}
+
+.select_icon {
+  width: 30rpx;
+  height: 30rpx;
+  align-items: center;
+}
+
+.active_date {
+  /* background: #148447; */
+  /* color: #fff; */
+  border: 2px solid blue;
+  border-radius: 25%;
+}
+
+.today_date {
+  background: #3d85c6;
+  color: #fff;
+  border-radius: 100%;
+}
+
+.show_box {
+  padding: 20rpx;
+  font-size: 26rpx;
+}
+
+.calendar_box:nth-child(2) .weekday_label{
+  float: right;
+}
+
+.calendar_box:nth-child(2) .weekday_label_active{
+  float: right;
+}
+
+.text_center {
+  text-align: center;
+  font-size: 35rpx;
+}
+
+.icon1{
+  width: 27rpx;
+  height: 30rpx;
+  align-items: center;
+}
+
+.icon2{
+  width: 50rpx;
+  height: 30rpx;
+  align-items: center;
+}
+
+.icon3{
+  width: 70rpx;
+  height: 30rpx;
+  align-items: center;
+}
