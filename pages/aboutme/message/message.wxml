@@ -1,0 +1,81 @@
+<!--pages/message/message.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+	<view slot="backText"></view>
+	<view slot="content">我的消息</view>
+</cu-custom>
+<van-tabs active="{{ active }}" bind:change="onChange" swipeable>
+  <van-tab title="私聊消息" dot="{{newSecretMsgCount !== 0}}">
+    <van-cell use-label-slot="true">
+      <view slot="label">
+        <van-row>
+          <van-col span="12">
+            <text bindtap="setAllSecretMsgRead">全部设为已读</text>
+          </van-col>
+          <van-col span="12">
+            <view style="display:flex;flex-direction:row-reverse">
+              <text bindtap="deleteAllSecretMsg">清空</text>
+            </view>
+          </van-col>
+        </van-row>
+      </view>
+    </van-cell>
+    <view class="cu-list menu-avatar">
+      <view class="cu-item " wx:for="{{ secretMsg }}" wx:for-item="item" wx:for-index="idx" wx:key="index"
+      bindtap="routeSecretMsg" bindlongpress="deleteSecretMsg" data-fromuserid="{{item.fromUserId}}"
+      data-fromusername="{{item.name}}" data-fromuseravatar="{{item.avatarUrl}}">
+        <view class="cu-avatar round lg" 
+        style="background-image:url({{ item.avatarUrl===''?'../../../img/default_avatar.png':item.avatarUrl }});"></view>
+        <view class="content">
+          <view style="width: 100%">
+            <text class="text-cut overflow-ellipsis" >{{ item.name  }}</text>
+          </view>
+          <view class="text-gray text-sm flex">
+            <text class="text-cut">{{ item.lastMsg}}</text>
+          </view>
+        </view>
+        <view class="action">
+          <view class="text-grey text-xs">{{ item.lastTime }}</view>
+          <block wx:if="{{ item.unreadCount }}">
+            <view class="cu-tag round bg-red sm">{{ item.unreadCount }}</view>
+          </block>
+        </view>
+      </view>
+    </view>
+  </van-tab>
+  <van-tab title="系统消息" dot="{{newNotificationCount !== 0}}">
+    <van-cell-group>
+      <van-cell use-label-slot="true">
+        <view slot="label">
+          <van-row>
+            <van-col span="12">
+              <text bindtap="setAllRead">全部设为已读</text>
+            </van-col>
+            <van-col span="12">
+              <view style="display:flex;flex-direction:row-reverse">
+                <text bindtap="deleteAll">清空</text>
+              </view>
+            </van-col>
+          </van-row>
+        </view>
+      </van-cell>
+      <view wx:for="{{systemMessages}}" wx:key="key">
+        <view bindlongpress="deleteMessage" data-messageid="{{item.id}}">
+          <van-cell bindtap="routeActivityDescription" data-activityid="{{item.activity}}" data-messageid="{{item.id}}"use-label-slot="{{true}}">
+            <view slot="title">
+              <text dot>{{item.display.title}}</text>
+              <van-icon wx:if="{{item.isread === false}}" name="/static/img/small_blank.png" dot />
+            </view>
+            <view slot="label">
+              <text>{{item.display.content}}\n</text>
+              <view style="display:flex;flex-direction:row-reverse">
+                <text>{{item.display.time}}</text>
+              </view>
+            </view>
+          </van-cell>
+        </view>
+      </view>
+    </van-cell-group>
+  </van-tab>
+</van-tabs>
+
+<van-dialog id="van-dialog" />

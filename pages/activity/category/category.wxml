@@ -1,0 +1,24 @@
+<!--pages/activity/category/category.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{false}}">
+	<view slot="backText">返回</view>
+	<view slot="content">分类</view>
+</cu-custom>
+<van-notify id="van-notify" />
+<view class="card">
+  <view class="demo-home">
+    <view class="demo-home-nav">
+      <view class="demo-home-nav__group">
+        <a class="demo-home-nav__block" wx:for="{{categories}}" wx:key="key"  bindtap="routeActivities" data-id="{{item.id}}">
+          <a>
+            {{item.name}}
+          </a>
+          <van-icon wx:if="{{item.is_subscribe}}" name="star" class="demo-home-nav__icon" style="color:#FFA042"
+          catchtap="undoSubscribe" data-id="{{item.id}}" size="25"/>
+          <van-icon wx:else name="star-o" class="demo-home-nav__icon"
+          catchtap="subscribe" data-id="{{item.id}}" size="25"/>
+        </a>
+      </view>
+    </view>
+  </view>
+</view>
+<van-notify id="van-notify" style="margin-top:100px"/>

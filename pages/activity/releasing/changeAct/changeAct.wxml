@@ -1,0 +1,114 @@
+<!--pages/publish/publish.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+	<view slot="backText"></view>
+	<view slot="content">活动修改</view>
+</cu-custom>
+
+<view style= "margin-bottom:100px">
+	<form>
+	<!--name-->
+	<view class="cu-form-group margin-top">
+		<view class="title">名称</view>
+		<input placeholder="{{act_name}}" bindinput="NameChange" maxlength="{{30}}"></input>
+	</view>
+	<!--number-->
+	<view class="cu-form-group margin-top">
+		<view class="title">人数</view>
+		<input placeholder="{{act_number}}" bindinput="NumberChange" maxlength="{{5}}"></input>
+	</view>
+	<!--location position-->
+	<view class="cu-form-group">
+		<view class="title">地点</view>
+		<picker bindchange="PickerChange" value="{{index}}" range="{{picker}}">
+			<view class="picker">
+				{{picker[index]}}
+			</view>
+		</picker>
+		<input placeholder="{{position}}" bindinput="actPositionChange" maxlength="{{30}}"></input>
+	</view>
+	<!--time-->
+	<view class="cu-form-group">
+		<view class="title">活动日期选择</view>
+		<picker mode="date" value="{{date}}" start="2015-09-01" end="2050-09-01" bindchange="DateChange">
+			<view class="picker">
+				{{date}}
+			</view>
+		</picker>
+	</view>
+	<view class="cu-form-group">
+		<view class="title">活动开始时间</view>
+		<picker mode="time" value="{{start_time}}" start="00:01" end="23:59" bindchange="StartTimeChange">
+			<view class="picker">
+				{{start_time}}
+			</view>
+		</picker>
+	</view>
+	<view class="cu-form-group">
+		<view class="title">活动结束时间</view>
+		<picker mode="time" value="{{end_time}}" start="00:01" end="23:59" bindchange="EndTimeChange">
+			<view class="picker">
+				{{end_time}}
+			</view>
+		</picker>
+	</view>
+	<view class="cu-form-group margin-top">
+		<view class="title">类型选择</view>
+		<picker bindchange="TypeChange" value="{{typeStr}}" range="{{type}}">
+			<view class="picker">
+				{{typeStr!=null?type[typeStr]:'选择类型'}}
+			</view>
+		</picker>
+	</view>
+	<!--增加活动地图地点选取-->
+	<view class="bg-white shadow" wx:if="{{!mapDisabled}}">
+		<view class="flex padding justify-center">
+			<button class="cu-btn bg-blue lg shadow" bindtap="onClick">{{location}}</button>
+		</view>
+	</view>
+	<view class="cu-form-group">
+		<view class="title">报名开始日期</view>
+		<picker mode="date" value="{{signDate}}" start="2015-09-01" end="2050-09-01" bindchange="signDateChange">
+			<view class="picker">
+				{{signDate}}
+			</view>
+		</picker>
+	</view>
+	<view class="cu-form-group">
+		<view class="title">报名结束日期</view>
+		<picker mode="date" value="{{stopDate}}" start="2015-09-01" end="2050-09-01" bindchange="stopDateChange">
+			<view class="picker">
+				{{stopDate}}
+			</view>
+		</picker>
+	</view>
+	
+	<view class="cu-bar bg-white margin-top">
+		<view class="action">
+			图片浏览
+		</view>
+		<!--<view class="action">
+			1/1
+		</view>-->
+	</view>
+	<view class="cu-form-group">
+		<view class="grid col-4 grid-square flex-sub">
+			<view class="bg-img">
+				<image src='https://se.alangy.net/{{imgList}}' mode='aspectFill'></image>
+			</view>
+		</view>
+	</view>
+
+	<view class="cu-form-group margin-top">
+		<textarea maxlength="100" disabled="{{modalName!=null}}" bindinput="textareaAInput" placeholder="{{textareaValue}}"></textarea>
+	</view>
+	</form>
+
+	<view class="padding flex flex-direction">
+		<button class="cu-btn bg-blue lg" bindtap="submit">修改活动</button>
+	</view>
+	<view class="margin-sm">
+		<view class="flex padding justify-center">
+      <text class="text-sm text-gray">---活动修改后，需经过管理员审核方可被他人看到---</text>
+    </view>
+	</view>
+</view>

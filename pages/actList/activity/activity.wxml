@@ -1,0 +1,182 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText"></view>
+  <view slot="content">活动详情</view>
+</cu-custom>
+
+<view style="merge-bottom:100px">
+  <view class="cu-bar bg-white margin-top">
+    <view class="action font-break">
+      <text class="cuIcon-title text-blue">{{activity.name}}</text> 
+    </view>
+    <view class="text-gray text-sm padding" bindtap="gotoAttended">
+      <text class="cuIcon-attentionfill margin-lr-xs"></text>
+      参加人数{{activity.attend_user_num === null?'-':activity.attend_user_num}}/{{activity.normal_activity.allow_total}}
+    </view>
+  </view>
+  <!--<view class="tower-swiper" bindtouchmove="towerMove" bindtouchstart="towerStart" bindtouchend="towerEnd">
+  <view class="tower-item {{item.zIndex==1?'none':''}}" wx:for="{{swiperList}}" wx:key="id" style="--index:{{item.zIndex}};--left:{{item.mLeft}}">
+    <view class="swiper-item">
+      <image src="{{item.url}}" mode="aspectFill" wx:if="{{item.type=='image'}}"></image>
+      <video src="{{item.url}}" autoplay loop muted show-play-btn="{{false}}" controls="{{false}}" objectFit="cover" wx:if="{{item.type=='video'}}"></video>
+    </view>
+  </view>
+  </view>-->
+  <view class="margin-sm">
+    <swiper class="screen-swiper">
+      <swiper-item wx:for="{{swiperList}}" wx:key="id" bindtap="view" data-url="{{item.url}}">
+        <image src="{{item.url}}" mode="aspectFit"></image>
+      </swiper-item>
+    </swiper>
+  </view>
+  <van-toast id="van-toast" />
+  <block wx:if="{{activity.audit_status == 3}}">
+    <view class="padding-xs flex align-center">
+      <view class="flex-sub text-center">
+        <view class="padding text-red" wx:if="{{toStart == true}}">还未到活动报名时间</view>
+        <view class="padding text-grey" wx:if="{{ended == true && actEnded == false}}">活动报名和退选已结束</view>
+        <view class="padding text-grey" wx:if="{{actEnded == true}}">活动已结束</view>
+      </view>
+    </view>
+    <block wx:if="{{user_status == 0}}">
+      <view class="flex padding justify-center">
+        <block wx:if="{{type != 5 && type != 4 && chooseable == true && choosed == false}}">
+          <button class="cu-btn bg-blue lg" bindtap="attActivity">加入活动</button>
+        </block>
+        <block wx:if="{{type != 5 && type != 4 && chooseable == true && choosed == true}}">
+          <button class="cu-btn bg-red lg" bindtap="outActivity">退出活动</button>
+        </block>
+        <block wx:if="{{type == 5 && fixed == true}}">
+          <button class="cu-btn bg-green lg" bindtap="gotoFix">修改活动</button>
+        </block>
+        <van-rate value="{{ rate }}" bind:change="onChange" wx:if="{{type == 4}}" />
+      </view>
+      <view class="flex padding justify-center">
+        <block wx:if="{{type == 4}}">
+          <button class="cu-btn bg-blue lg" bindtap="submitStar">提交评分</button>
+        </block>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="flex padding justify-center">
+        <block wx:if="{{chooseable == true}}">
+          <button class="cu-btn bg-blue lg" bindtap="attActivity">加入活动</button>
+        </block>
+      </view>
+    </block>
+  </block>
+  <block wx:elif="{{activity.audit_status == 2}}">
+    <view class="padding-xs flex align-center">
+      <view class="flex-sub text-center">
+        <view class="padding text-yellow">该活动正在审核中...</view>
+      </view>
+    </view>
+  </block>
+  <block wx:elif="{{activity.audit_status == 4}}">
+    <view class="padding-xs flex align-center">
+      <view class="flex-sub text-center">
+        <view class="padding text-red">该活动未通过审核！</view>
+      </view>
+    </view>
+    <view class="flex justify-center">
+      <button class="cu-btn bg-blue margin-tb-sm lg" bindtap="deleteActivity">删除活动</button>
+    </view>
+    <van-dialog id="van-dialog" />
+  </block>
+
+  <view class="cu-list menu-avatar comment solids-top">
+    <view class="cu-item">
+      <view class="cu-avatar round"
+        style="background-image:url({{activity.create_user.avatarUrl == ''?'../../../img/default_avatar.png':activity.create_user.avatarUrl}});"
+        bindtap="gotoUserPage" data-userid="{{activity.create_user.id}}"></view>
+      <view class="content">
+        <block wx:if="{{activity.location==1}}">
+          <view class="text-gray text-content font-break">{{activity.name}} 学院路 {{activity.position}}</view>
+        </block>
+        <block wx:if="{{activity.location==2}}">
+          <view class="text-gray text-content font-break">{{activity.name}} 沙河 {{activity.position}}</view>
+        </block>
+        <block wx:if="{{activity.location==3}}">
+          <view class="text-gray text-content font-break">{{activity.name}} 校外 {{activity.position}}</view>
+        </block>
+        <view class="text-gray text-content text-df font-break">
+          活动详细描述：{{activity.normal_activity.description}}
+        </view>
+        <view class="margin-top-sm flex justify-between">
+          <view class="text-gray text-df">报名时间：{{activity.start_enrollment_at}}-{{activity.end_enrollment_at}}</view>
+        </view>
+        <view class="margin-top-sm flex justify-between">
+          <view class="text-gray text-df">活动时间：{{activity.normal_activity.start_at}}-{{activity.normal_activity.end_at}}
+          </view>
+        </view>
+        <view wx:if="{{activity.audit_status == 3}}">
+          <view class="cu-bar bg-white margin-top">
+            <view class="action">
+              <button class="cu-btn bg-grey bg" bindtap="showModal" data-index="{{-1}}">comment</button>
+            </view>
+          </view>
+          <view class="cu-modal {{commentShow[0]==true?'show':''}}">
+            <view class="cu-dialog">
+              <view class="cu-bar bg-white justify-end">
+                <view class="content">评论活动：{{activity.name}}</view>
+                <view class="action" bindtap="hideModal" data-index="{{-1}}">
+                  <text class="cuIcon-close text-red"></text>
+                </view>
+              </view>
+              <view class="padding-xl">
+                <input placeholder="请输入评论" value="{{str}}" bindinput="setValue"></input>
+                <button class="cu-btn bg-grey sm" bindtap="submitCom">提交评论</button>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <block wx:for="{{activity.comment}}" data-item="item" wx:for-index="idx" wx:key="this">
+    <view class="cu-list menu-avatar comment solids-top">
+      <view class="cu-item">
+        <view class="cu-avatar round"
+          style="background-image:url({{item.user.avatarUrl===''?'../../../img/default_avatar.png':item.user.avatarUrl}});"
+          bindtap="gotoUserPage" data-userid="{{item.user.id}}"></view>
+        <view class="content">
+          <view class="text-grey">{{item.user.nickName}}</view>
+          <block wx:if="{{item.at_user.id > 1}}">
+            <view>
+              @{{item.at_user.nickName}}
+            </view>
+          </block>
+          <view class="text-gray text-content text-df">
+            {{item.comment}}
+          </view>
+          <view class="margin-top-sm flex justify-between">
+            <view class="text-gray text-df">{{idx+1}}楼</view>
+          </view>
+          <view>
+            <view class="cu-bar bg-white margin-top">
+              <view class="action">
+                <button class="cu-btn bg-grey bg" bindtap="showModal" data-index="{{idx}}">comment</button>
+              </view>
+              <van-icon bindtap="deleteComment" data-commentid="{{item.id}}" data-userid="{{item.user.id}}" wx:if="{{item.user.id === myUserId}}" name="delete-o" />
+            </view>
+            <view class="cu-modal {{commentShow[idx + 1]==true?'show':''}}">
+              <view class="cu-dialog">
+                <view class="cu-bar bg-white justify-end">
+                  <view class="content">回复{{item.user.nickName}}</view>
+                  <view class="action" bindtap="hideModal" data-index="{{idx}}">
+                    <text class="cuIcon-close text-red"></text>
+                  </view>
+                </view>
+                <view class="padding-xl">
+                  <input placeholder="请输入回复" value="{{str}}" bindinput="setValue"></input>
+                  <button class="cu-btn bg-grey sm" bindtap="resubmitCom" data-userid="{{item.user.id}}">提交回复</button>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>
+<van-dialog id="van-dialog" />

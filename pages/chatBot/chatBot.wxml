@@ -1,0 +1,53 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">小助手</view>
+</cu-custom>
+<view class="h-screen flex-row w-screen"
+  style="position: fixed; top: 0px; padding-top:{{ CustomBar }}px">
+  <scroll-view scroll-top="{{scrollTop}}" scroll-y class="h-auto flex-1 rotate180"
+    style="height: {{ scrollHeight - InputBottom }}px; overflow-anchor: auto;" 
+    >
+    <view class="cu-chat" id="chat-window">
+      <block wx:for="{{ messages }}" wx:for-index="idx" wx:for-item="item" wx:key="index">
+        <block wx:if="{{ item.self }}">
+          <view class="cu-item self rotate180">
+            <view class="main">
+              <view class="content bg-green shadow break-all">
+                <text>{{ item.text }}</text>
+              </view>
+            </view>
+            <view class="cu-avatar radius"
+              style="background-image:url({{ myAvatarUrl===''?'../../../img/default_avatar.png':myAvatarUrl }});">
+            </view>
+          </view>
+        </block>
+        <block wx:else>
+          <view class="cu-item rotate180">
+            <view class="cu-avatar radius"
+              style="background-image: url('data:image/png;base64,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');">
+            </view>
+            <view class="main">
+              <view class="content shadow break-all">
+                <text>{{ item.text }}</text>
+              </view>
+            </view>
+          </view>
+        </block>
+      </block>
+      <view class="cu-info round rotate180">聊天机器人反应较慢，请耐心等候！</view>
+    </view>
+  </scroll-view>
+
+  <view id="input-bar" class="cu-bar w-screen input h-auto">
+    <!-- <input class="solid-bottom" bindfocus="InputFocus" bindblur="InputBlur" value="{{ newMsgTxt }}" bindinput="setNewMsgTxt" adjust-position="{{false}}" focus="{{false}}" maxlength="300" cursor-spacing="10" style="auto-height"></input> -->
+    <textarea class="ml-2 my-2 solid-bottom" bindfocus="InputFocus" bindblur="InputBlur" value="{{ newMsgTxt }}"
+      bindinput="setNewMsgTxt" adjust-position="{{false}}" focus="{{false}}" maxlength="140" cursor="{{100}}"
+      style="width:80%;font-size:35rpx;line-height:35rpx; height: {{ textHeight }}rpx; resize:none; border:none"
+      show-confirm-bar="{{false}}" 
+      bindlinechange="onInputLineChange"
+      hold-keyboard
+      ></textarea>
+    <button class="cu-btn bg-green shadow" bindtap="onTapSendBtn">发送</button>
+  </view>
+
+</view>

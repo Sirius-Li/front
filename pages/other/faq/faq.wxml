@@ -1,0 +1,20 @@
+<!-- pages/other/faq/faq.wxml -->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText"></view>
+  <view slot="content">FAQ</view>
+</cu-custom>
+<view class="m-4 flex-row">
+  <block wx:for="{{ FAQs }}" wx:key="id" >
+    <view class="flex mb-4 bg-gray-100 shadow rounded-md flex-auto items-center content-center p-4">
+      <view class="flex-none text-xs text-white w-6 h-6 bg-yellow-500 mr-2 rounded-full flex justify-center items-center">
+        <view>
+          {{ item.id + 1 }}
+        </view>
+      </view>
+      <view class="bg-gray-100 flex-grow flex-row text-sm">
+        <view class="w-full">Q: {{ item.question}}</view>
+        <view class="w-full mt-1">A: {{ item.answer }}</view>
+      </view>
+    </view>
+  </block>
+</view>

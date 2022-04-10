@@ -1,0 +1,57 @@
+<van-tabbar active="{{ active }}" bind:change="onChange" class="tabber">
+  <block wx:for="{{list}}" wx:key="index">
+    <van-tabbar-item wx:if="{{index == 4}}" info="{{item.info}}" icon="{{ item.icon }}" dot="{{messageCount || notificationCount}}">{{
+      item.text
+    }}</van-tabbar-item>
+    <van-tabbar-item wx:else info="{{item.info}}" icon="{{ item.icon }}">{{
+      item.text
+    }}</van-tabbar-item>
+  </block>
+</van-tabbar>
+<!-- 
+<van-tabbar-item data-path="/pages/index/index">
+    <image
+      slot="icon"
+      src="/images/home.png"
+      mode="aspectFit"
+      style="width: 36px; height: 24px;"
+    />
+    <image
+      slot="icon-active"
+      src="/images/home_h.png"
+      mode="aspectFit"
+      style="width: 36px; height: 24px;"
+    />
+    首页
+  </van-tabbar-item>
+  <van-tabbar-item data-path="/pages/news/index" info="3">
+    <image
+      slot="icon"
+      src="/images/message.png"
+      mode="aspectFit"
+      style="width: 36px; height: 24px;"
+    />
+    <image
+      slot="icon-active"
+      src="/images/message_h.png"
+      mode="aspectFit"
+      style="width: 36px; height: 24px;"
+    />
+    消息
+  </van-tabbar-item>
+  <van-tabbar-item data-path="/pages/mine/index">
+    <image
+      slot="icon"
+      src="/images/mine.png"
+      mode="aspectFit"
+      style="width: 36px; height: 24px;"
+    />
+    <image
+      slot="icon-active"
+      src="/images/mine_h.png"
+      mode="aspectFit"
+      style="width: 36px; height: 24px;"
+    />
+    我的
+  </van-tabbar-item>
+</van-tabbar> -->

@@ -1,0 +1,48 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">运动</view>
+</cu-custom>
+<view class="bg-gray-100 h-full w-full">
+  <view class="h-1on2">
+    <map id="myMap" latitude="{{latitude}}" longitude="{{longitude}}" bindmarkertap="markertap" bindcallouttap="callouttap" bindlabeltap="labeltap" markers="{{markers}}" scale="16" class="h-full w-full">
+      <cover-view slot="callout">
+        <block wx:for="{{sportsList}}" wx:key="id">
+          <cover-view marker-id="{{item.id}}">
+            <cover-view class="text-white">
+              {{item.id}}
+            </cover-view>
+          </cover-view>
+        </block>
+      </cover-view>
+    </map>
+  </view>
+
+  <view class="bg-white text-gray-700 pt-3 px-4 pb-8">
+    <view class="grid grid-cols-2 pb-4">
+      <view class="text-lg">{{ dateToday }}</view>
+      <view class="text-lg text-right">共 {{ sportsList.length }} 个运动日程</view>
+    </view>
+
+    <view class="flex-row">
+      <view class="flex items-center flex-1 bg-gray-100 mb-4 p-3"
+            wx:for="{{ sportsList }}" wx:key="id"
+            data-actid="{{ item.act_id }}"  bindtap="onTapSport">
+        <view class="text-center align-center flex-initial mr-2 h-8 w-8 text-white"
+              data-sportid="{{ item.id }}" catchtap="onTapSportId"
+              style="line-height: 1.8rem;background-image:url('data:image/png;base64,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');background-size: cover"
+        >{{ item.id }}</view>
+        <view class="flex-1 w-3on5">
+          <view class="text-base">{{ item.name }}</view>
+          <view class="text-sm">{{ item.location }}</view>
+        </view>
+        <view class="flex-initial text-right mr-2">{{ item.datetime }}</view>
+      </view>
+    </view>
+  </view>
+  <!-- <view class="text-center w-full text-gray-500 pt-2 text-xs">已经到底了</view> -->
+  <van-divider
+      contentPosition="center"
+      class="mx-4 border-gray-800 text-gray-500" >
+    已经到底了 </van-divider>
+  <!-- <text class='iconfont if-icon-weizhi-copy' style='color:#7F8389;font-size:60rpx;'></text> -->
+</view>

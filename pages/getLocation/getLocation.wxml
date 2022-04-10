@@ -1,0 +1,6 @@
+<!--pages/getLocation/getLocation.wxml-->
+<text>pages/getLocation/getLocation.wxml</text>
+<view>
+<view class="text-4xl">{{ location }}</view>
+<button bindtap="onClick"> 选个点吧 </button>
+</view>

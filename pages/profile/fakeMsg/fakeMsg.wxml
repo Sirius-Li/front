@@ -1,0 +1,62 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">私聊：{{ thatUser }}</view>
+</cu-custom>
+<view class="h-screen flex-row w-screen"
+  style="visibility: {{ hideMsgs ? 'hidden' : 'visible'}}; position: fixed; top: 0px; padding-top:{{ CustomBar }}px">
+  <scroll-view scroll-top="{{scrollTop}}" scroll-y class="h-auto flex-1 rotate180"
+    style="height: {{ scrollHeight - InputBottom }}px; overflow-anchor: auto;" 
+    lower-threshold="200"
+    bindscrolltolower="onScrollToUpper"
+    >
+    <view class="cu-chat" id="chat-window">
+      <block wx:for="{{ showMessages }}" wx:for-index="idx" wx:for-item="item" wx:key="id">
+        <block wx:if="{{ item.self }}">
+          <view id="message-{{idx}}" class="cu-item self rotate180">
+            <view class="main">
+              <view class="action text-grey">
+                <van-loading size="40rpx" wx:if="{{item.loading === true}}" />
+                <van-icon name="warning" color="red" size="40rpx" wx:if="{{item.fail === true}}" />
+              </view>
+              <view class="content bg-green shadow break-all">
+                <text>{{ item.text }}</text>
+              </view>
+            </view>
+            <view class="cu-avatar radius"
+              style="background-image:url({{ myAvatarUrl===''?'../../../img/default_avatar.png':myAvatarUrl }});"
+              bindtap="routeToProfile" data-id="{{myId}}">
+            </view>
+            <view class="date">{{ item.time }}</view>
+          </view>
+        </block>
+        <block wx:else>
+          <view id="message-{{idx}}" class="cu-item rotate180">
+            <view class="cu-avatar radius"
+              style="background-image:url({{ thatAvatarUrl===''?'../../../img/default_avatar.png':thatAvatarUrl }});"
+              bindtap="routeToProfile" data-id="{{thatUserId}}">
+            </view>
+            <view class="main">
+              <view class="content shadow break-all">
+                <text>{{ item.text }}</text>
+              </view>
+            </view>
+            <view class="date ">{{ item.time }}</view>
+          </view>
+        </block>
+      </block>
+    </view>
+  </scroll-view>
+
+  <view id="input-bar" class="cu-bar w-screen input h-auto">
+    <!-- <input class="solid-bottom" bindfocus="InputFocus" bindblur="InputBlur" value="{{ newMsgTxt }}" bindinput="setNewMsgTxt" adjust-position="{{false}}" focus="{{false}}" maxlength="300" cursor-spacing="10" style="auto-height"></input> -->
+    <textarea class="ml-2 my-2 solid-bottom" bindfocus="InputFocus" bindblur="InputBlur" value="{{ newMsgTxt }}"
+      bindinput="setNewMsgTxt" adjust-position="{{false}}" focus="{{false}}" maxlength="140" cursor="{{100}}"
+      style="width:80%;font-size:35rpx;line-height:35rpx; height: {{ textHeight }}rpx; resize:none; border:none"
+      show-confirm-bar="{{false}}" 
+      bindlinechange="onInputLineChange"
+      hold-keyboard
+      ></textarea>
+    <button class="cu-btn bg-green shadow" bindtap="onTapSendBtn">发送</button>
+  </view>
+
+</view>

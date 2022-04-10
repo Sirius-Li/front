@@ -1,0 +1,89 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText"></view>
+  <view slot="content">修改个人资料</view>
+</cu-custom>
+
+<view class="bg-gray-100 flex flex-col w-full">
+  <view class=" bg-white flex-row items-center mb-4 h-auto mx-4 mt-4 rounded-xl shadow-xl p-4 overflow-hidden w-auto">
+    <!--    <view class="text-lg mb-2 text-gray-800 w-full">修改头像</view>-->
+    <view class="flex-row mx-2 my-2 space-between justify-between text-center items-center w-auto">
+      <image mode="aspectFill" class="flex-0 w-40 h-40 rounded-full shadow-lg mb-2" 
+      src="{{ userAvatarUrl===''?'../../../img/default_avatar.png':userAvatarUrl }}" />
+      <view class="flex-row w-full">
+        <view class="mt-2 flex-initial h-10 flex items-center text-white m-1 px-2 pt-1.5 pb-1 rounded-full shadow-md justify-end border"
+              style="background-color:#1AAD19"
+              bindtap="onTapSyncAvatar">
+          <text class="flex-grow text-sm mr-1 mx-2 w-auto">同步微信头像</text>
+          <text class='flex-initial iconfont if-icon-edit text-base mr-1' />
+        </view>
+      </view>
+    </view>
+    <!--    <view class="text-lg mb-2 mt-8 text-gray-800 w-full">修改个人信息</view>-->
+    <view class="w-full">
+      <form bindsubmit="onTapSubmit">
+        <van-cell-group>
+          <van-field
+              value="{{ username }}"
+              border="{{ false }}"
+              label="用户名"
+              input-align="right" center
+              bind:change="onChangeUsername"
+              maxlength="30" show-word-limit
+          />
+          <van-field
+              value="{{ phone }}"
+              border="{{ false }}"
+              label="手机号码"
+              input-align="right" center
+              autosize="{{ true }}"
+              type="textarea"
+              disabled
+          />
+          <van-field
+              value="{{ studentId }}"
+              border="{{ false }}"
+              label="学号"
+              input-align="right" center
+              autosize="{{ true }}"
+              bind:change="onChangeStudentId"
+              type="textarea"
+              maxlength="15" show-word-limit
+          />
+          <van-field
+              value="{{ genders[gender] }}"
+              border="{{ false }}"
+              label="性别"
+              input-align="right" center
+              bind:click-input="showGenderPopup"
+              readonly
+          />
+          <van-field
+              value="{{ email }}"
+              border="{{ false }}"
+              label="电子邮箱"
+              input-align="right" center
+              autosize="{{ true }}"
+              type="textarea"
+              disabled
+          />
+          <van-popup
+              show="{{ show.genderPopup }}"
+              position="bottom"
+              bind:close="hideGenderPopup" >
+            <van-picker
+                show-toolbar
+                columns="{{ ['未知', '男', '女'] }}"
+                default-index="{{ gender }}"
+                bind:change="onChangeGender"
+                bind:confirm="onGenderConfirm"
+                bind:cancel="hideGenderPopup"
+            />
+          </van-popup>
+        </van-cell-group>
+        <view class="py-4 w-full px-2">
+          <van-button formType="submit" type="info" block class="lock w-full mx-auto">应用修改</van-button>
+        </view>
+      </form>
+    </view>
+  </view>
+</view>

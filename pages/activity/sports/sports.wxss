@@ -1,0 +1,43 @@
+@import "../../../style/tailwind.wxss";
+page {
+  height: 100%;
+  padding-top: env(safe-area-inset-top);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+}
+
+@font-face {
+  font-family: "iconfont"; /* Project id 2527434 */
+  src: url('//at.alicdn.com/t/font_2527434_1orjwe0vmle.woff2?t=1621349088655') format('woff2'),
+       url('//at.alicdn.com/t/font_2527434_1orjwe0vmle.woff?t=1621349088655') format('woff'),
+       url('//at.alicdn.com/t/font_2527434_1orjwe0vmle.ttf?t=1621349088655') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.if-icon-edit:before {
+  content: "\e63d";
+}
+
+.if-icon-msg:before {
+  content: "\e635";
+}
+
+.if-icon-star:before {
+  content: "\e657";
+}
+
+.if-icon-star-filled:before {
+  content: "\e658";
+}
+
+.if-icon-weizhi-copy:before {
+  content: "\e60d";
+}

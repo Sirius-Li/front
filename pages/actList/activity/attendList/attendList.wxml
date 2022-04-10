@@ -1,0 +1,25 @@
+<!--pages/actList/activity/attendList/attendList.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText"></view>
+  <view slot="content">已报名</view>
+</cu-custom>
+<view class="bg-white" wx:if="{{attend_users.length == 0}}">
+  <view class="padding-xs flex align-center">
+    <view class="flex-sub text-center">
+      <view class="text-xsl padding">
+        <text class=" cuIcon-emojifill text-blue"></text>
+      </view>
+      <view class="padding">暂时无人报名或您没有权限查看报名人员</view>
+    </view>
+  </view>
+</view>
+<view class="cu-list menu-avatar">
+  <view class="cu-item" wx:for="{{ attend_users }}" wx:for-item="item" wx:key="id" data-userid="{{ item.id }}" bindtap="onTapUser">
+    <view class="cu-avatar round lg" 
+    style="background-image:url({{ item.avatarUrl==''?'../../../img/default_avatar.png':item.avatarUrl }});">
+    </view>
+    <view class="content">
+      <view class="text-grey" style="font-size: 32rpx">{{ item.nickName }}</view>
+    </view>
+  </view>
+</view>

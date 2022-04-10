@@ -1,0 +1,32 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText"></view>
+  <view slot="content">关注列表</view>
+</cu-custom>
+
+<van-tabs active="{{ active }}" bindchange="onChangeTab">
+  <van-tab title="我关注的">
+    <view class="cu-list menu-avatar">
+      <view class="cu-item" wx:for="{{ followees }}" wx:for-item="item" wx:key="id" data-userid="{{ item.id }}" bindtap="onTapUser">
+        <view class="cu-avatar round lg" 
+        style="background-image:url({{ item.avatarUrl===''?'../../../img/default_avatar.png':item.avatarUrl }});">
+        </view>
+        <view class="content">
+          <view class="text-grey" style="font-size: 32rpx; width: 60%">{{ item.username }}</view>
+        </view>
+        <view class="cu-btn mr-2" data-userid="{{ item.id }}" catchtap="onTapUserCancelFollow">取消关注</view>
+      </view>
+    </view>
+  </van-tab>
+  <van-tab title="关注我的">
+    <view class="cu-list menu-avatar">
+      <view class="cu-item" wx:for="{{ followers }}" wx:for-item="item" wx:key="id" data-userid="{{ item.id }}" bindtap="onTapUser">
+        <view class="cu-avatar round lg" 
+        style="background-image:url({{ item.avatarUrl===''?'../../../img/default_avatar.png':item.avatarUrl }});">
+        </view>
+        <view class="content">
+          <view class="text-grey" style="font-size: 32rpx; width: 60%">{{ item.username }}</view>
+        </view>
+      </view>
+    </view>
+  </van-tab>
+</van-tabs>

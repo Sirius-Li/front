@@ -1,0 +1,66 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 2495016 */
+  src: url('//at.alicdn.com/t/font_2495016_p5ng4mbfkmb.woff2?t=1623338881356') format('woff2'),
+       url('//at.alicdn.com/t/font_2495016_p5ng4mbfkmb.woff?t=1623338881356') format('woff'),
+       url('//at.alicdn.com/t/font_2495016_p5ng4mbfkmb.ttf?t=1623338881356') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-robot1:before {
+  content: "\e68b";
+}
+
+.icon-MsgSubscribe:before {
+  content: "\e6a1";
+}
+
+.icon-guanzhu:before {
+  content: "\e626";
+}
+
+.icon-boya-o:before {
+  content: "\e609";
+}
+
+.icon-message:before {
+  content: "\e625";
+}
+
+.icon-sport-o:before {
+  content: "\e622";
+}
+
+.icon-faq:before {
+  content: "\e600";
+}
+
+.icon-robot:before {
+  content: "\e61e";
+}
+
+.icon-hot:before {
+  content: "\e615";
+}
+
+.icon-rank:before {
+  content: "\e60b";
+}
+
+.icon-boya:before {
+  content: "\e638";
+}
+
+.icon-sport:before {
+  content: "\e672";
+}
+
+.icon-zhiyuan:before {
+  content: "\e761";
+}
