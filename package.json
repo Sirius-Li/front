@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@vant/weapp": "^1.6.8",
+    "i": "^0.3.7",
     "npm": "^8.6.0"
   },
   "keywords": [],
