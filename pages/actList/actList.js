@@ -7,7 +7,7 @@ Page({
   data: {
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
-    list:[/*
+    list:[
       {
         name:"张1",
         photo:"https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg",
@@ -56,7 +56,7 @@ Page({
         "location": 3,
         "position": "adddd"
       }
-    */],
+    ],
     //包括关键字
     keywords: '',
     //id
