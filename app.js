@@ -3,10 +3,6 @@ const util = require('./utils/util.js')
 
 App({
   onLaunch() {
-    // var x = []
-    // var y = x[x.length - 1]
-    // 
-
     let that = this
     this.myDefineProperty('messageCount', '_messageCount', 'messageCountFunc')
     this.myDefineProperty('notificationCount', '_notificationCount', 'notificationCountFunc')
@@ -43,7 +39,6 @@ App({
     wx.login({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
-        
         if (res.code) {
           wx.request({
             url: 'https://se.alangy.net/api/auth/',
@@ -118,7 +113,6 @@ App({
           success() {
           },
           fail(res) {
-            
           }
         });
         this.serverTimeoutObj = setTimeout(() =>{
