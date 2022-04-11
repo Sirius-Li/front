@@ -1,6 +1,13 @@
 // custom-tab-bar/index.js
 Component({
   /**
+   * 组件的样式隔离
+   */
+  options: {
+    styleIsolation: "shared"
+  },
+
+  /**
    * 组件的属性列表
    */
   properties: {
@@ -52,8 +59,8 @@ Component({
    * 组件的方法列表
    */
   methods: {
+
     onChange(e) {
-      
       this.setData({
         active: e.detail
       });
@@ -61,18 +68,9 @@ Component({
       wx.switchTab({
         url: this.data.list[e.detail].url
       });
-
-      /*if(e.detail == 2){
-        wx.requestSubscribeMessage({
-          tmplIds: [
-            'mEFV6psbMGpP9i8CU8NXTJ27dOoppg8FZsYQmN9lHcs',
-            'C4V9ycGzS0BGvjVsmcondcBwFMOvLFQ3sE8j0KKTF0g',
-            'N0g3qePR6hz8Fn79lM_5sIT9jhUTKEYQW5Y_VObffZ0'],
-          success(res){}
-        })
-      }*/
     },
 
+    
     init() {
       const that = this
       const page = getCurrentPages().pop();
@@ -81,8 +79,6 @@ Component({
       });
       this.setNotificationCount(this)
       this.setMessageCount(this)
-
-      
 
       getApp().watch('notificationCountFunc', 'tabbar', (value) => {
         if (value != that.data.notificationCount) {
@@ -109,4 +105,5 @@ Component({
       })
     }
   }
+
 })

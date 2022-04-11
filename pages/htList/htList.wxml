@@ -1,0 +1,51 @@
+<!--pages/htList/htList.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}"> 
+    <view slot="backText"> </view>>
+    <view slot="content">话题列表</view>>
+</cu-custom>
+
+<block wx:for="{{list}}" wx:for-item="item" wx:for-index="idx" wx:key="id">
+  <view class="cu-card case":class="isCard?'no-card':''">
+    <view class="cu-item shadow">
+        <van-card>
+            <view slot="thumb" bindtap="goToUserPage" data-userid="{{item.user_id}}">
+              <view class="cu-avatar round lg" 
+              style="background-image:url({{item.user_profile_url === ''?'../../img/default_avatar.png':item.content.create_user.avatarUrl}});"></view>
+            </view>
+
+            <view slot="title" class="text-black text-df">
+              {{item.name}}
+            </view>
+
+            <view slot="desc" bindtap="jumpToSonPages" data-id="{{item.id}}">
+              <view><van-icon name="user-o"/><text class="field-name text-blue" >发布者:</text>{{item.user_id}}</view>
+              <view><van-icon name="clock-o"/><text class="field-name text-blue" >发布时间:</text>{{item.create_at}}</view>
+            </view>
+        </van-card>
+        <view class="image" bindtap="jumpToSonPages" data-id="{{item.id}}">
+            <block wx:if="{{item.photos != ''}}">
+              <image src="todo" mode="widthFix"/>
+              <view class="cu-bar bg-shadeBottom">
+                </view>
+            </block> 
+        </view>
+        <view class="text-gray text-sm text-right padding">
+			<text class="cuIcon-likefill margin-lr-xs"></text> {{item.follow}}
+			<text class="cuIcon-appreciatefill margin-lr-xs"></text> {{item.like}}
+		</view>
+    </view>      
+  </view>
+</block>
+
+<block wx:if="{{list.length == 0}}">
+  <view class="bg-white">
+    <view class="padding-xs flex align-center">
+      <view class="flex-sub text-center">
+        <view class="text-xsl padding">
+          <text class=" cuIcon-emojifill text-blue"></text>
+        </view>
+        <view class="padding">暂时没有话题哦~</view>
+      </view>
+    </view>
+  </view>
+</block>
