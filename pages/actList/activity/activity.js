@@ -29,7 +29,7 @@ Page({
       type: 'image',
       url:''
       //url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwww.nmgxhysp.com%2F__local%2FC%2F09%2F0E%2F5A9790D8C56AF559D01296479C0_CCB34C87_91461.png&refer=http%3A%2F%2Fwww.nmgxhysp.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1622786836&t=3dc648d2a3145af18d89c3bb9ec99829'
-    }, /*{
+    }, {
       id: 1,
         type: 'image',
         url:''
@@ -43,7 +43,7 @@ Page({
       type: 'image',
       url:''
       //url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20171222%2F49f19646cf004ab2a025e5d058fc6f1b.jpeg&refer=http%3A%2F%2F5b0988e595225.cdn.sohucs.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1622786836&t=8a452f08edc2c7836aece52d04a77edd'
-    }*/],
+    }],
 
     //活动id
     id: null,

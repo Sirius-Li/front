@@ -19,7 +19,7 @@ bind:focus="focus"
     </swiper-item>
   </swiper>
 </view>
-<van-grid gutter="{{ 5 }}">
+<van-grid gutter="{{ 5 }}"> <!--通过gutter属性设置格子之间的距离-->
   <van-grid-item
   icon="icon iconfont icon-rank"
   text="热门活动"

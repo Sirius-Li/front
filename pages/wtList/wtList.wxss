@@ -1,0 +1,4 @@
+/* pages/test/test.wxss */
+.field-name{
+  font-family: "楷体";
+}
