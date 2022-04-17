@@ -11,47 +11,54 @@ Page({
         */
         list: [
             {
-                "id": 114514,
-                "ht_type_name": "选课",
+                "id": 1,
+                "topic_type": {
+                  "id": 2,
+                  "name": "求助"
+                },
                 "name": "学院路计院大三选课",
-                "create_at": "2022/04/11 08:42",
-                "updated_at": "2022/04/12 08:42",
-                "user_id": 1919810,
-                "user_profile_url":'',
-                "description": "如题",
+                "create_at": "2022/04/13 23:39",
                 "audit": 1,
-                "photos": "",
-                "like": 2333,	
-                "follow": 6666
+                "photo": "",
+                "description": "核心专业和个人专业都拜托了",
+                "like": 1,
+                "follow": 0,
+                "create_user": {
+                  "id": 1,
+                  "nickName": "田所浩二",
+                  "avatarUrl": "../../img/profile2.jpg",
+                  "email": "admin@se.alangy.net",
+                  "age": 22,
+                  "gender": 0,
+                  "audit_status": 3,
+                  "is_staff": true
+                }
             }, {
-                "id": 2333,
-                "ht_type_name": "生活",
+                "id": 2,
+                "topic_type": {
+                  "id": 1,
+                  "name": "生活"
+                },
                 "name": "求推荐学校周边餐馆",
-                "create_at": "2022/04/11 08:42",
-                "updated_at": "2022/04/12 08:42",
-                "user_id": 1919811,
-                "user_profile_url":'',
-                "description": "如题",
+                "create_at": "2022/04/13 23:39",
                 "audit": 1,
-                "photos": "https://ossweb-img.qq.com/images/lol/web201310/skin/big10005.jpg",
-                "like": 2334,	
-                "follow": 6667
-            }, {
-                "id": 6666,
-                "ht_type_name": "吐槽",
-                "name": "#￥%%……#",
-                "create_at": "2022/04/11 08:42",
-                "updated_at": "2022/04/12 08:42",
-                "user_id": 1919812,
-                "user_profile_url":'',
-                "description": "如题",
-                "audit": 1,
-                "photos": "https://ossweb-img.qq.com/images/lol/web201310/skin/big10005.jpg",
-                "like": 2335,	
-                "follow": 6668
-            }
+                "photo": "../../img/bg.jpg",
+                "description": "RT",
+                "like": 56,
+                "follow": 987,
+                "create_user": {
+                  "id": 1,
+                  "nickName": "远野",
+                  "avatarUrl": "../../img/profile1.jpg",
+                  "email": "admin@se.alangy.net",
+                  "age": 22,
+                  "gender": 0,
+                  "audit_status": 3,
+                  "is_staff": true
+                }
+            },  
         ],
-        request_type:  1,
+        type: 1,
         keywords: '',
         sort: ''
     },
@@ -73,7 +80,7 @@ Page({
               'Authorization': 'Token ' + app.globalData.token
             }
         }
-        if (request_type == 1) {
+        if (this.data.type == 1) {
             wx.request({
                 url:'todo',
                 header: head,
@@ -97,7 +104,7 @@ Page({
     jumpToSonPages:function(event) {
         let id = event.currentTarget.dataset.id
         wx.navigateTo({
-          url: 'todo' + id,
+          url: '../actList/activity/activity?id=' + id,
         })
     },
 
@@ -112,7 +119,15 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-
+        this.setData({
+            keywords:options.keywords
+        })
+        if (this.data.keywords == undefined) {
+            this.setData({
+                type: options.type,
+                sort:options.sort
+            })
+        }
     },
 
     /**

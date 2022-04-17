@@ -16,6 +16,13 @@
                     "name": "",
                     "pathName": "pages/htList/htList",
                     "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "",
+                    "pathName": "pages/activity/category/category",
+                    "query": "",
                     "scene": null,
                     "launchMode": "default"
                 }

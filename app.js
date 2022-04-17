@@ -2,6 +2,7 @@
 const util = require('./utils/util.js')
 
 App({
+  
   onLaunch() {
     let that = this
     this.myDefineProperty('messageCount', '_messageCount', 'messageCountFunc')
