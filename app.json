@@ -26,7 +26,8 @@
     "pages/other/about/about",
     "pages/htList/htList",
     "pages/commission",
-    "pages/commission/commission"
+    "pages/commission/commission",
+    "pages/activity/home/releaseCommission/rerleaseCommission"
   ],
   "window": {
     "backgroundTextStyle": "light",

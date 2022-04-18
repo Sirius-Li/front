@@ -25,6 +25,7 @@
       <text wx:if="{{status==2}}">已申请</text>
       <text wx:if="{{status==3}}">已完成</text>
     </view>
+    
     <!-- TODO -->
     <view class="text-gray text-content text-df font-break">委托类型：
       <text wx:if="{{commission_type_id==1}}">类型一</text>
@@ -37,7 +38,13 @@
       <text wx:if="{{location==1}}">学院路</text> 
       <text wx:if="{{location==2}}">沙河</text>
     </view>
+    <view class="text-gray text-content text-df font-break">软妹币：￥{{fee}}</view>
     <view class="text-gray text-content text-df font-break">委托描述：{{description}}</view>
+   
+  </view>
+
+  <view>
+    <button class="bg-gradual-blue">接取委托</button>
   </view>
 
   <!-- 发表评论 -->

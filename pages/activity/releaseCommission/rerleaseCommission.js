@@ -1,4 +1,4 @@
-// pages/commission/commission.js
+// pages/activity/home/releaseCommission/rerleaseCommission.js
 Page({
 
   /**
@@ -50,8 +50,11 @@ Page({
     ],
 
     //一些控制变量
-    
+    // 自动获取今天的日期
+    date: 'today',
+    imgList: [],
   },
+
 
   /**
    * 生命周期函数--监听页面加载
