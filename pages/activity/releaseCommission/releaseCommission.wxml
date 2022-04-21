@@ -1,5 +1,5 @@
-<!--pages/activity/home/releaseCommission/rerleaseCommission.wxml-->
-<!-- <text>pages/activity/home/releaseCommission/rerleaseCommission.wxml</text> -->
+<!--pages/activity/releaseCommission/rerleaseCommission.wxml-->
+<!-- <text>pages/activity/releaseCommission/rerleaseCommission.wxml</text> -->
 <cu-custom bgColor="bg-gradual-blue" isBack="{{false}}">
 	<view slot="backText">返回</view>
 	<view slot="content">委托发布</view>
@@ -10,7 +10,7 @@
 	<!--name-->
 	<view class="cu-form-group margin-top">
 		<view class="title">名称</view>
-		<input placeholder="请输入委托名称" value="{{act_name}}" bindinput="NameChange" maxlength="{{30}}"></input>
+		<input placeholder="请输入委托名称" value="{{name}}" bindinput="NameChange" maxlength="{{30}}"></input>
 	</view>
 	<!--number-->
 	<!-- <view class="padding flex flex-direction">
@@ -18,30 +18,31 @@
 	</view> -->
 	<view class="cu-form-group margin-top">
 		<view class="title">fee</view>
-		<input placeholder="请输入委托报酬" value="{{act_number}}" bindinput="NumberChange" maxlength="{{5}}"></input>
+		<input placeholder="请输入委托报酬" value="{{fee}}" bindinput="FeeChange" maxlength="{{5}}"></input>
 	</view>
   <view class="cu-form-group">
 		<view class="title">类型选择</view>
-		<picker bindchange="TypeChange" value="{{typeStr}}" range="{{type}}">
+		<picker bindchange="TypeChange" value="{{commission_type_id}}" range="{{type_list}}">
 			<view class="picker">
-				{{typeStr?type[typeStr]:'活动类型'}}
+				{{(commission_type_id>-1)?type_list[commission_type_id]:'活动类型'}}
 			</view>
 		</picker>
 	</view>
 	<!--location position-->
 	<view class="cu-form-group">
 		<view class="title">活动所在校区</view>
-		<picker bindchange="PickerChange" value="{{index}}" range="{{picker}}">
+		<picker bindchange="PickerChange" value="{{location}}" range="{{location_list}}">
 			<view class="picker">
-				{{index?picker[index]:'选择校区'}}
+				{{(location>-1)?location_list[location]:'选择校区'}}
 			</view>
 		</picker>
-		<input placeholder="请输入具体地点" value="{{position}}" bindinput="actPositionChange" maxlength="{{30}}"></input>
+    <!-- ?输入校外地址?  -->
+    <!-- <input placeholder="请输入具体地点" value="{{position}}" bindinput="actPositionChange" maxlength="{{30}}"></input> -->
 	</view>
 	<!--time-->
 	<view class="cu-form-group">
 		<view class="title">委托日期选择</view>
-		<picker mode="date" value="{{date}}" start="2015-09-01" end="2050-09-01" bindchange="DateChange">
+		<picker mode="date" value="{{date}}" start="2022-04-01" end="2050-09-01" bindchange="DateChange">
 			<view class="picker">
 			  {{date}}
 			</view>
@@ -91,7 +92,7 @@
 	<!-- <view class="cu-form-group">
 		<view class="title">自定义活动标签</view>
 		<input placeholder="请用空格隔开每个标签" bindchange="acttagsChange" value="{{acttags}}"></input>
-	</view> --> -->
+	</view> --> 
 
 	<view class="cu-bar bg-white margin-top">
 		<view class="action">
@@ -103,8 +104,8 @@
 	</view>
 	<view class="cu-form-group">
 		<view class="grid col-4 grid-square flex-sub">
-			<view class="bg-img" wx:for="{{imgList}}" wx:key="this" bindtap="ViewImage" data-url="{{imgList[index]}}">
-				<image src='{{imgList[index]}}' mode='aspectFill'></image>
+			<view class="bg-img" wx:for="{{imgList}}" wx:key="this" bindtap="ViewImg" data-url="{{item}}">
+				<image src='{{item}}' mode='aspectFill'></image>
 				<view class="cu-tag bg-red" catchtap="DelImg" data-index="{{index}}">
 					<text class="cuIcon-close"></text>
 				</view>
@@ -116,7 +117,7 @@
 	</view>
 
 	<view class="cu-form-group margin-top">
-		<textarea maxlength="100" disabled="{{modalName!=null}}" bindinput="textareaAInput" placeholder="输入委托简介" value="{{textareaValue}}"></textarea>
+		<textarea maxlength="100" bindinput="DescriptionChange" placeholder="输入委托简介" value="{{description}}"></textarea>
 	</view>
 	</form>
 
@@ -125,7 +126,7 @@
 	</view>
 	<view class="margin-sm">
 		<view class="flex padding justify-center">
-      <text class="text-sm text-gray">---活动发布后，需经过管理员审核方可被他人看到---</text>
+      <text class="text-sm text-gray">---委托发布后，需经过管理员审核方可被他人看到---</text>
     </view>
 	</view>
 </view>

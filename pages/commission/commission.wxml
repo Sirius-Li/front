@@ -43,9 +43,20 @@
    
   </view>
 
-  <view>
+  <!-- TODO -->
+  <!-- 判断是申请者还是发布者 -->
+  <view wx:if="{{status==1 }}">
     <button class="bg-gradual-blue">接取委托</button>
   </view>
+  <!-- <view wx:if="{{status==2}}">
+    <button class="bg-gradual-blue">修改委托</button>
+  </view> -->
+  <view wx:if="{{status==3}}">
+    <button class="bg-gradual-blue" bindtap="Evaluate">发表评价</button>
+  </view>
+  <!-- <view>
+    <button class="bg-gradual-blue">删除</button>
+  </view> -->
 
   <!-- 发表评论 -->
   <view >

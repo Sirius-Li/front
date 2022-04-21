@@ -12,14 +12,17 @@
         },
         {
           "name": "",
-          "pathName": "pages/activity/home/releaseCommission/rerleaseCommission",
+          "pathName": "pages/activity/releaseCommission/releaseCommission",
           "query": "",
           "launchMode": "default",
-          "scene": null,
-          "partialCompile": {
-            "enabled": true,
-            "pages": []
-          }
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/commission/commission",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
