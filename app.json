@@ -117,7 +117,7 @@
                 "pagePath": "pages/activity/releasing/releasing"
             },
             {
-                "pagePath": "pages/activity/calendar/calendar"
+                "pagePath": "pages/aboutme/message/message"
             },
             {
                 "pagePath": "pages/aboutme/aboutme"

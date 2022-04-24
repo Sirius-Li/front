@@ -60,7 +60,8 @@ Page({
         ],
         type: 1,
         keywords: '',
-        sort: ''
+        sort: '',
+        activename:'0'
     },
 
     /*
@@ -115,6 +116,122 @@ Page({
         })
     },
 
+
+    changeTab:function(event) {
+        let activeID = event.detail.index
+        let app = getApp()
+        let head
+        let self = this
+        if (app.globalData.token == null) {
+            head = {      
+              'content-type': 'application/json'
+            }
+        } else {
+            head = {      
+              'content-type': 'application/json',
+              'Authorization': 'Token ' + app.globalData.token
+            }
+        }
+        if (activeID === 0) {
+            wx.request({
+                url:'todo',
+                header: head,
+                method:"GET",   //todo
+                data: {
+                    // todo
+                },
+                success(res) {
+                    self.setData({
+                        list: res.data
+                    })
+                },
+                fail(res) {
+                    getApp().globalData.util.netErrorToast()
+                }
+            })
+        } else if (activeID === 1) {
+            wx.request({
+                url:'todo',
+                header: head,
+                method:"GET",   //todo
+                data: {
+                    // todo
+                },
+                success(res) {
+                    self.setData({
+                        list: res.data
+                    })
+                },
+                fail(res) {
+                    getApp().globalData.util.netErrorToast()
+                }
+            })
+        }
+    },
+
+    deleteHt:function(event) {
+        let id = event.currentTarget.dataset.id
+        let app = getApp()
+        let head
+        if (app.globalData.token == null) {
+            head = {      
+                'content-type': 'application/json'
+            }
+        } else {
+            head = {      
+                'content-type': 'application/json',
+                'Authorization': 'Token ' + app.globalData.token
+            }
+        }
+        wx.request({    
+            url: 'todo', //接口名称   
+            header: head,
+            method:"GET",  //请求方式    
+            data: {
+              'id': id
+            }, 
+            success(res) {   
+                wx.showToast({
+                  title: '删除成功',
+                })
+            },
+            fail(res){
+              getApp().globalData.util.netErrorToast()
+            }
+          })
+    }, 
+
+    undoFollow:function(event) {
+        let id = event.currentTarget.dataset.id
+        let app = getApp()
+        let head
+        if (app.globalData.token == null) {
+            head = {      
+                'content-type': 'application/json'
+            }
+        } else {
+            head = {      
+                'content-type': 'application/json',
+                'Authorization': 'Token ' + app.globalData.token
+            }
+        }
+        wx.request({    
+            url: 'todo', //接口名称   
+            header: head,
+            method:"GET",  //请求方式    
+            data: {
+              'id': id
+            }, 
+            success(res) {   
+                wx.showToast({
+                  title: '操作成功',
+                })
+            },
+            fail(res){
+              getApp().globalData.util.netErrorToast()
+            }
+          })
+    },
     /**
      * 生命周期函数--监听页面加载
      */
