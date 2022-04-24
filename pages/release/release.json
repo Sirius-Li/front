@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "releaseCommission":  "releaseCommission/releaseCommission",
+    "releaseHt": "releaseHt/releaseHt",
+    "releaseAct": "releaseAct/releaseAct"
+  }
+}
