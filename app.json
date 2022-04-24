@@ -28,6 +28,8 @@
     "pages/commission/commission",
     "pages/wtList/wtList",
     "pages/release/release"
+    "pages/htdetail/htdetail",
+    "pages/htrelease/htrealse"
   ],
   "window": {
     "backgroundTextStyle": "light",
