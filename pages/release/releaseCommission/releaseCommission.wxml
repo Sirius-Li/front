@@ -1,5 +1,8 @@
 
 <!--pages/release/releaseCommission/releaseConnission.wxml-->
+
+
+<!--pages/release/releaseCommission/releaseConnission.wxml-->
 <view style= "margin-bottom:100px">
 	<form>
 	<!--name-->
