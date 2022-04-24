@@ -24,7 +24,10 @@
         "pages/profile/follow/follow",
         "pages/chatBot/chatBot",
         "pages/other/about/about",
-        "pages/htList/htList"
+        "pages/htList/htList",
+        "pages/commission/commission",
+        "pages/activity/releaseCommission/releaseCommission",
+        "pages/wtList/wtList"
     ],
     "window": {
         "backgroundTextStyle": "light",

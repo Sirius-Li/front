@@ -26,13 +26,13 @@ Page({
     //位置
     location: '1',
     //状态
-    status: '1',
+    status: '3',
     //详细描述
-    description: '',
+    description: "正值青春脑子灵，\n 哪有时间儿女情。\n 献身航空与航天，\n 单身十年笑盈盈。",
     //审核状态
     audit: '',
     //费用
-    fee: '',
+    fee: '198',
     //评论
     comments: [
       {
@@ -53,6 +53,22 @@ Page({
     
   },
 
+  Evaluate() {
+    wx.showModal({
+      title: "评价",
+      placeholderText: "请输入您的评价",
+      showCancel: true,
+      editable: true,
+      success: (res) => {
+        var evaluate = res.content;
+        if (res.confirm) {
+          //TODO
+          //提交到后端
+          console.log(evaluate);
+        }
+      },
+    });
+  },
   /**
    * 生命周期函数--监听页面加载
    */
