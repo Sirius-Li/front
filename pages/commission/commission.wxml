@@ -25,7 +25,7 @@
       <text wx:if="{{status==2}}">已申请</text>
       <text wx:if="{{status==3}}">已完成</text>
     </view>
-    
+
     <!-- TODO -->
     <view class="text-gray text-content text-df font-break">委托类型：
       <text wx:if="{{commission_type_id==1}}">类型一</text>

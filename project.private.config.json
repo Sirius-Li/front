@@ -17,12 +17,33 @@
           "launchMode": "default",
           "scene": null
         },
-        {
-          "name": "",
-          "pathName": "pages/commission/commission",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
+        "gamePlugin": {
+            "list": []
+        },
+        "miniprogram": {
+            "list": [
+                {
+                    "name": "",
+                    "pathName": "pages/htList/htList",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "",
+                    "pathName": "pages/activity/category/category",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "",
+                    "pathName": "pages/aboutme/aboutme",
+                    "query": "",
+                    "scene": null,
+                    "launchMode": "default"
+                }
+            ]
         }
       ]
     }

@@ -41,10 +41,10 @@ Component({
         "text": "发布"
       },
       {
-        "url": "/pages/activity/calendar/calendar",
-        "icon": "todo-list-o",
+        "url": "/pages/aboutme/message/message",
+        "icon": "envelop-o",
         "info": '',
-        "text": "日程"
+        "text": "消息"
       },
       {
         "url": "/pages/aboutme/aboutme",

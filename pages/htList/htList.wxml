@@ -4,37 +4,106 @@
     <view slot="content">话题列表</view>>
 </cu-custom>
 
-<block wx:for="{{list}}" wx:for-item="item" wx:for-index="idx" wx:key="id">
-  <view class="cu-card case":class="isCard?'no-card':''">
-    <view class="cu-item shadow">
-        <van-card>
-            <view slot="thumb" bindtap="goToUserPage" data-userid="{{item.user_id}}">
-              <view class="cu-avatar round lg" 
-              style="background-image:url({{item.user_profile_url === ''?'../../img/default_avatar.png':item.content.create_user.avatarUrl}});"></view>
-            </view>
+<block wx:if="{{type === 1}}">
+  <van-tabs active = "{{activename}}" bind:change="changeTab">
+    <van-tab title="我发布的" wx:key="0" name="0">
+      <block wx:for="{{list}}" wx:for-item="item" wx:for-index="idx" wx:key="id">
+        <view class="cu-card case":class="isCard?'no-card':''">
+          <view class="cu-item shadow">
+            <van-card bindtap="jumpToSonPages">
+              <view slot="thumb" bindtap="goToUserPage" data-userid="{{item.user_id}}">
+                <view class="cu-avatar round lg" 
+                style="background-image:url({{item.create_user.avatarUrl === ''?'../../img/default_avatar.png':item.create_user.avatarUrl}});"></view>
+              </view>
 
-            <view slot="title" class="text-black text-df">
-              {{item.name}}
-            </view>
+              <view slot="title" class="text-black text-df">
+                {{item.name}}
+              </view>
 
-            <view slot="desc" bindtap="jumpToSonPages" data-id="{{item.id}}">
-              <view><van-icon name="user-o"/><text class="field-name text-blue" >发布者:</text>{{item.user_id}}</view>
-              <view><van-icon name="clock-o"/><text class="field-name text-blue" >发布时间:</text>{{item.create_at}}</view>
+              <view slot="desc" bindtap="jumpToSonPages" data-id="{{item.id}}">
+                <view><van-icon name="clock-o"/><text class="field-name text-blue" decode="true">发布时间:&nbsp;</text>{{item.create_at}}</view>
+                <view><van-icon name="good-job-o"/><text class="field-name text-blue" decode="true">点赞数:&nbsp;</text>{{item.follow}}</view>
+                <view><van-icon name="like-o"/><text class="field-name text-blue" decode="true">关注数:&nbsp;</text>{{item.like}}</view>
+                <view>{{item.description}}</view>
+              </view>
+                  
+            </van-card>
+            <view class="text-gray text-sm text-right padding">
+              <van-button type="danger" size="small" round bindtap="deleteHt" data-id="{{item.id}}">删除</van-button>
             </view>
-        </van-card>
-        <view class="image" bindtap="jumpToSonPages" data-id="{{item.id}}">
-            <block wx:if="{{item.photos != ''}}">
-              <image src="todo" mode="widthFix"/>
-              <view class="cu-bar bg-shadeBottom">
-                </view>
-            </block> 
+          </view>      
         </view>
-        <view class="text-gray text-sm text-right padding">
-			<text class="cuIcon-likefill margin-lr-xs"></text> {{item.follow}}
-			<text class="cuIcon-appreciatefill margin-lr-xs"></text> {{item.like}}
-		</view>
-    </view>      
-  </view>
+      </block>
+    </van-tab>
+    <van-tab title="我关注的" wx:key="1" name="1">
+      <block wx:for="{{list}}" wx:for-item="item" wx:for-index="idx" wx:key="id">
+        <view class="cu-card case":class="isCard?'no-card':''">
+          <view class="cu-item shadow">
+            <van-card bindtap="jumpToSonPages">
+              <view slot="thumb" bindtap="goToUserPage" data-userid="{{item.user_id}}">
+                <view class="cu-avatar round lg" 
+                style="background-image:url({{item.create_user.avatarUrl === ''?'../../img/default_avatar.png':item.create_user.avatarUrl}});"></view>
+              </view>
+
+              <view slot="title" class="text-black text-df">
+                {{item.name}}
+              </view>
+
+              <view slot="desc" bindtap="jumpToSonPages" data-id="{{item.id}}">
+                <view><van-icon name="user-o"/><text class="field-name text-blue" decode="true">发布者:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</text>{{item.create_user.nickName}}</view>
+                <view><van-icon name="clock-o"/><text class="field-name text-blue" decode="true">发布时间:&nbsp;</text>{{item.create_at}}</view>
+                <view><van-icon name="good-job-o"/><text class="field-name text-blue" decode="true">点赞数:&nbsp;</text>{{item.follow}}</view>
+                <view><van-icon name="like-o"/><text class="field-name text-blue" decode="true">关注数:&nbsp;</text>{{item.like}}</view>
+                <view>{{item.description}}</view>
+              </view>
+                  
+            </van-card>
+            <view class="text-gray text-sm text-right padding">
+              <van-button type="danger" size="small" round bindtap="undoFollow" data-id="{{item.id}}">取消关注</van-button>
+            </view>
+          </view>      
+        </view>
+      </block>
+    </van-tab>
+  </van-tabs>
+  
+</block>
+
+<block wx:else>
+  <block wx:for="{{list}}" wx:for-item="item" wx:for-index="idx" wx:key="id">
+    <view class="cu-card case":class="isCard?'no-card':''">
+      <view class="cu-item shadow">
+          <van-card bindtap="jumpToSonPages">
+              <view slot="thumb" bindtap="goToUserPage" data-userid="{{item.user_id}}">
+                <view class="cu-avatar round lg" 
+                style="background-image:url({{item.create_user.avatarUrl === ''?'../../img/default_avatar.png':item.create_user.avatarUrl}});"></view>
+              </view>
+
+              <view slot="title" class="text-black text-df">
+                {{item.name}}
+              </view>
+
+              <view slot="desc" bindtap="jumpToSonPages" data-id="{{item.id}}">
+                <view><van-icon name="user-o"/><text class="field-name text-blue" decode="true">发布者:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</text>{{item.create_user.nickName}}</view>
+                <view><van-icon name="clock-o"/><text class="field-name text-blue" decode="true">发布时间:&nbsp;</text>{{item.create_at}}</view>
+                <view>{{item.description}}</view>
+              </view>
+              
+          </van-card>
+          <block wx:if="{{item.photo != ''}}">
+            <view class="image" bindtap="jumpToSonPages" data-id="{{item.id}}">
+                <image src= "{{item.photo}}" mode="widthFix"/>
+                <view class="cu-bar bg-shadeBottom">
+                </view>  
+            </view>
+          </block> 
+          <view class="text-gray text-sm text-right padding">
+            <text class="cuIcon-likefill margin-lr-xs"></text> {{item.follow}}
+            <text class="cuIcon-appreciatefill margin-lr-xs"></text> {{item.like}}
+          </view>
+      </view>      
+    </view>
+  </block>
 </block>
 
 <block wx:if="{{list.length == 0}}">
