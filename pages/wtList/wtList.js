@@ -11,6 +11,7 @@ Page({
       {
         type: "wt",
         name:"first man",
+        photo:"",
         content: {
           description: "取快递",
           realTime: "否",
@@ -19,6 +20,15 @@ Page({
       },{
         type: "wt",
         name:"second man",
+        photo:"https://ossweb-img.qq.com/images/lol/web201310/skin/big10005.jpg",
+        content: {
+          description: "取外卖",
+          realTime: "是",
+          fee: 3
+        }
+      },{
+        type: "wt",
+        name:"third man",
         content: {
           description: "取外卖",
           realTime: "是",
