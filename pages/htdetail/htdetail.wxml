@@ -1,0 +1,121 @@
+<!--pages/htdetail/htdetail.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText"></view>
+  <view slot="content">话题详情</view>
+</cu-custom>
+
+<view style="merge-bottom:100px">
+  <view class="cu-bar bg-white margin-top">
+    <view class="action font-break">
+      <text class="cuIcon-title text-blue">{{ht.name}}</text> 
+    </view>
+    <view class="text-gray text-sm padding" bindtap="gotoAttended">
+      <text class="cuIcon-attentionfill margin-lr-xs"></text>
+      关注人数 {{ht.follow}}
+    </view>
+  </view>
+  <van-toast id="van-toast" />
+
+  <view class="cu-list menu-avatar comment solids-top">
+    <view class="cu-item">
+      <view class="content">
+        <view class="text-gray text-content text-df font-break">
+          created at：{{ht.created_at}}
+        </view>
+        <view class="margin-top-sm flex justify-between">
+          <view class="text-gray text-df">updated at：{{ht.updated_at}}</view>
+        </view>
+        <view class="margin-top-sm flex justify-between">
+          <view class="text-gray text-df">likes：{{ht.like}}</view>
+        </view>
+        <view class="margin-top-sm flex justify-between">
+          <view class="text-gray text-df">category：{{ht.ht_type_name}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="cu-list menu-avatar comment solids-top">
+    <view class="cu-item">
+      <view class="cu-avatar round"
+          bindtap="gotoUserPage" data-userid="{{ht.user_name}}"></view>
+      <view class="content">
+        <view class="text-grey">{{ht.user_name}}</view>
+        <view class="text-black text-content text-df font-break">
+          {{ht.description}}
+        </view>
+        
+        <view>
+          <view class="cu-bar bg-white margin-top">
+            <view class="action">
+              <button class="cu-btn bg-grey bg" bindtap="showModal" data-index="{{-1}}">comment</button>
+            </view>
+            <view class="action">
+              <button class="cu-btn bg-grey bg" bindtap="showModal" data-index="{{-1}}">like</button>
+            </view>
+          </view>
+          <view class="cu-modal">
+            <view class="cu-dialog">
+              <view class="cu-bar bg-white justify-end">
+                <view class="content">评论话题：{{ht.name}}</view>
+                <view class="action" bindtap="hideModal" data-index="{{-1}}">
+                  <text class="cuIcon-close text-red"></text>
+                </view>
+              </view>
+              <view class="padding-xl">
+                <input placeholder="请输入评论" value="{{str}}" bindinput="setValue"></input>
+                <button class="cu-btn bg-grey sm" bindtap="submitCom">提交评论</button>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <view class="text-gray text-df">查看全部评论</view>
+  <block wx:for="{{comments}}" data-item="item" wx:for-index="idx" wx:key="this">
+    <view class="cu-list menu-avatar comment solids-top">
+      <view class="cu-item">
+        <view class="cu-avatar round"
+          bindtap="gotoUserPage" data-userid="{{item.user_name}}"></view>
+        <view class="content">
+          <view class="text-grey">{{item.user_name}}</view>
+          <block wx:if="{{item.reference_id > 1}}">
+            <view>
+              @{{item.reference_name}}
+            </view>
+          </block>
+          <view class="text-gray text-content text-df">
+            {{item.content}}
+          </view>
+          <view class="margin-top-sm flex justify-between">
+            <view class="text-gray text-df">{{idx+1}}楼 点赞数：{{item.like}}</view>
+          </view>
+          <view>
+            <view class="cu-bar bg-white margin-top">
+              <view class="action">
+                <button class="cu-btn bg-grey bg" bindtap="showModal" data-index="{{idx}}">comment</button>
+              </view>
+              <van-icon bindtap="deleteComment" data-commentid="{{item.user_id}}" data-userid="{{item.user_id}}" wx:if="{{item.user_id === myUserId}}" name="delete-o" />
+            </view>
+            <view class="cu-modal">
+              <view class="cu-dialog">
+                <view class="cu-bar bg-white justify-end">
+                  <view class="content">回复{{item.user_name}}</view>
+                  <view class="action" bindtap="hideModal" data-index="{{idx}}">
+                    <text class="cuIcon-close text-red"></text>
+                  </view>
+                </view>
+                <view class="padding-xl">
+                  <input placeholder="请输入回复" value="{{str}}" bindinput="setValue"></input>
+                  <button class="cu-btn bg-grey sm" bindtap="resubmitCom" data-userid="{{item.user_id}}">提交回复</button>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

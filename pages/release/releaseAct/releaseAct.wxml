@@ -1,51 +1,41 @@
-
-<!--pages/release/releaseCommission/releaseConnission.wxml-->
-
+<!--pages/release/releasing/releaseAct.wxml-->
+<!-- <text>pages/release/releasing/releaseAct.wxml</text> -->
 <view style= "margin-bottom:100px">
 	<form>
 	<!--name-->
 	<view class="cu-form-group margin-top">
 		<view class="title">名称</view>
-		<input placeholder="请输入委托名称" value="{{name}}" bindinput="NameChange" maxlength="{{30}}"></input>
+		<input placeholder="请输入活动名称" value="{{act_name}}" bindinput="NameChange" maxlength="{{30}}"></input>
 	</view>
 	<!--number-->
-	<!-- <view class="padding flex flex-direction">
+	<!--<view class="padding flex flex-direction">
 		<button class="cu-btn bg-blue lg" bindtap="onClick" >{{location}}</button>
-	</view> -->
+	</view>-->
 	<view class="cu-form-group margin-top">
-		<view class="title">fee</view>
-		<input placeholder="请输入委托报酬" value="{{fee}}" bindinput="FeeChange" maxlength="{{5}}"></input>
-	</view>
-  <view class="cu-form-group">
-		<view class="title">类型选择</view>
-		<picker bindchange="TypeChange" value="{{commission_type_id}}" range="{{type_list}}">
-			<view class="picker">
-				{{(commission_type_id>-1)?type_list[commission_type_id]:'活动类型'}}
-			</view>
-		</picker>
+		<view class="title">人数</view>
+		<input placeholder="请输入活动限制人数" value="{{act_number}}" bindinput="NumberChange" maxlength="{{5}}"></input>
 	</view>
 	<!--location position-->
 	<view class="cu-form-group">
 		<view class="title">活动所在校区</view>
-		<picker bindchange="PickerChange" value="{{location}}" range="{{location_list}}">
+		<picker bindchange="PickerChange" value="{{index}}" range="{{picker}}">
 			<view class="picker">
-				{{(location>-1)?location_list[location]:'选择校区'}}
+				{{index?picker[index]:'选择校区'}}
 			</view>
 		</picker>
-    <!-- ?输入校外地址?  -->
-    <!-- <input placeholder="请输入具体地点" value="{{position}}" bindinput="actPositionChange" maxlength="{{30}}"></input> -->
+		<input placeholder="请输入具体地点" value="{{position}}" bindinput="actPositionChange" maxlength="{{30}}"></input>
 	</view>
 	<!--time-->
 	<view class="cu-form-group">
-		<view class="title">委托日期选择</view>
-		<picker mode="date" value="{{date}}" start="2022-04-01" end="2050-09-01" bindchange="DateChange">
+		<view class="title">活动日期选择</view>
+		<picker mode="date" value="{{date}}" start="2015-09-01" end="2050-09-01" bindchange="DateChange">
 			<view class="picker">
-			  {{date}}
+				{{date}}
 			</view>
 		</picker>
 	</view>
 	<view class="cu-form-group">
-		<view class="title">委托开始时间</view>
+		<view class="title">活动开始时间</view>
 		<picker mode="time" value="{{start_time}}" start="00:01" end="23:59" bindchange="StartTimeChange">
 			<view class="picker">
 				{{start_time}}
@@ -53,7 +43,7 @@
 		</picker>
 	</view>
 	<view class="cu-form-group">
-		<view class="title">委托结束时间</view>
+		<view class="title">活动结束时间</view>
 		<picker mode="time" value="{{end_time}}" start="09:00" end="23:59" bindchange="EndTimeChange">
 			<view class="picker">
 				{{end_time}}
@@ -61,9 +51,16 @@
 		</picker>
 	</view>
 	
-	
-	<!-- 地点？ -->
-	<!-- <view class="bg-white shadow" wx:if="{{!mapDisabled}}">
+	<view class="cu-form-group margin-top">
+		<view class="title">类型选择</view>
+		<picker bindchange="TypeChange" value="{{typeStr}}" range="{{type}}">
+			<view class="picker">
+				{{typeStr?type[typeStr]:'活动类型'}}
+			</view>
+		</picker>
+	</view>
+	<!--增加活动地图地点选取-->
+	<view class="bg-white shadow" wx:if="{{!mapDisabled}}">
 		<view class="flex padding justify-center">
 			<button class="cu-btn bg-blue lg shadow" bindtap="onClick">{{location}}</button>
 		</view>
@@ -85,10 +82,10 @@
 		</picker>
 	</view>
 	<!--tags-->
-	<!-- <view class="cu-form-group">
+	<view class="cu-form-group">
 		<view class="title">自定义活动标签</view>
 		<input placeholder="请用空格隔开每个标签" bindchange="acttagsChange" value="{{acttags}}"></input>
-	</view> --> 
+	</view>
 
 	<view class="cu-bar bg-white margin-top">
 		<view class="action">
@@ -100,8 +97,8 @@
 	</view>
 	<view class="cu-form-group">
 		<view class="grid col-4 grid-square flex-sub">
-			<view class="bg-img" wx:for="{{imgList}}" wx:key="this" bindtap="ViewImg" data-url="{{item}}">
-				<image src='{{item}}' mode='aspectFill'></image>
+			<view class="bg-img" wx:for="{{imgList}}" wx:key="this" bindtap="ViewImage" data-url="{{imgList[index]}}">
+				<image src='{{imgList[index]}}' mode='aspectFill'></image>
 				<view class="cu-tag bg-red" catchtap="DelImg" data-index="{{index}}">
 					<text class="cuIcon-close"></text>
 				</view>
@@ -113,16 +110,16 @@
 	</view>
 
 	<view class="cu-form-group margin-top">
-		<textarea maxlength="100" bindinput="DescriptionChange" placeholder="输入委托简介" value="{{description}}"></textarea>
+		<textarea maxlength="100" disabled="{{modalName!=null}}" bindinput="textareaAInput" placeholder="输入活动简介" value="{{textareaValue}}"></textarea>
 	</view>
 	</form>
 
 	<view class="padding flex flex-direction margin-bottom">
-		<button class="cu-btn bg-blue lg" bindtap="submit">发布委托</button>
+		<button class="cu-btn bg-blue lg" bindtap="submit">发布活动</button>
 	</view>
 	<view class="margin-sm">
 		<view class="flex padding justify-center">
-      <text class="text-sm text-gray">---委托发布后，需经过管理员审核方可被他人看到---</text>
+      <text class="text-sm text-gray">---活动发布后，需经过管理员审核方可被他人看到---</text>
     </view>
 	</view>
 </view>
