@@ -1,11 +1,21 @@
 {
-    "setting": {},
-    "condition": {
-        "plugin": {
-            "list": []
+  "setting": {},
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "",
+          "pathName": "pages/htList/htList",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         },
-        "game": {
-            "list": []
+        {
+          "name": "",
+          "pathName": "pages/activity/releaseCommission/releaseCommission",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         },
         "gamePlugin": {
             "list": []

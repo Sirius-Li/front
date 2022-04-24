@@ -25,6 +25,8 @@
         "pages/chatBot/chatBot",
         "pages/other/about/about",
         "pages/htList/htList"
+        "pages/commission/commission",
+        "pages/activity/releaseCommission/releaseCommission"
     ],
     "window": {
         "backgroundTextStyle": "light",
