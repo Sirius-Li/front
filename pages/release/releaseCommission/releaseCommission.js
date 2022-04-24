@@ -1,4 +1,3 @@
-
 // pages/release/releaseCommission/releaseConnission.js
 Component({
   /**
@@ -72,6 +71,7 @@ Component({
       "其他",
     ],
   },
+
 
   
   /**
@@ -219,6 +219,7 @@ Component({
     addGlobalClass: true
   }
 })
+
 
 
 
@@ -415,5 +416,6 @@ Component({
   onShareAppMessage() {
 
   }
+
 })
 
