@@ -35,7 +35,7 @@ Component({
         "text": "分类"
       },
       {
-        "url": "/pages/activity/releasing/releasing",
+        "url": "/pages/release/releasing/releasing",
         "icon": "add-o",
         "info": '',
         "text": "发布"

@@ -1,4 +1,6 @@
 // pages/htList/htList.js
+import Toast from '../../miniprogram_npm/@vant/weapp/toast/toast';
+import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog'
 Page({
 
     /**
@@ -119,6 +121,7 @@ Page({
 
     changeTab:function(event) {
         let activeID = event.detail.index
+        console.log(activeID)
         let app = getApp()
         let head
         let self = this
@@ -172,6 +175,7 @@ Page({
     deleteHt:function(event) {
         let id = event.currentTarget.dataset.id
         let app = getApp()
+        let that = this
         let head
         if (app.globalData.token == null) {
             head = {      
@@ -183,14 +187,17 @@ Page({
                 'Authorization': 'Token ' + app.globalData.token
             }
         }
-        wx.request({    
-            url: 'todo', //接口名称   
+        Dialog.confirm({
+            message: '您是否要删除该话题？'
+          }).then(() => {wx.request({    
+            url: getApp().globalData.baseUrl + '/api/topic/', //接口名称   
             header: head,
-            method:"GET",  //请求方式    
+            method:"DELETE",  //请求方式    
             data: {
               'id': id
             }, 
             success(res) {   
+                that.getDetail()
                 wx.showToast({
                   title: '删除成功',
                 })
@@ -199,6 +206,7 @@ Page({
               getApp().globalData.util.netErrorToast()
             }
           })
+        })  
     }, 
 
     undoFollow:function(event) {
@@ -215,22 +223,26 @@ Page({
                 'Authorization': 'Token ' + app.globalData.token
             }
         }
-        wx.request({    
-            url: 'todo', //接口名称   
+        Dialog.confirm({
+            message: '您是否决定不再关注该话题？'
+          }).then(() => {wx.request({    
+            url: getApp().globalData.baseUrl + '/api/topic_follows/', //接口名称   
             header: head,
-            method:"GET",  //请求方式    
+            method:"DELETE",  //请求方式    
             data: {
               'id': id
             }, 
             success(res) {   
+                that.getDetail()
                 wx.showToast({
-                  title: '操作成功',
+                  title: '取消关注成功',
                 })
             },
             fail(res){
               getApp().globalData.util.netErrorToast()
             }
           })
+        })
     },
     /**
      * 生命周期函数--监听页面加载
