@@ -1,6 +1,7 @@
 {
   "name": "weapp-vant-project",
   "version": "1.0.0",
+  "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,10 +13,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@vant/weapp": "^1.6.8",
-    "i": "^0.3.7",
-    "npm": "^8.6.0"
-  },
-  "keywords": [],
-  "description": ""
+    "@vant/weapp": "^1.6.8"
+  }
 }

@@ -12,7 +12,7 @@
         <view class="text-sm mb-2">运营团队：航Go项目团队</view>
         <view class="text-sm mb-2">维护团队：航Go项目团队</view>
         <view class="text-sm mb-2">开发团队：航Go项目团队</view>
-        <view class="text-xs mb-2">北京航空航天大学2020~2021春《软件工程》课程项目</view>
+        <view class="text-xs mb-2">北京航空航天大学2021~2022春《软件工程》课程项目</view>
     </view>
     <van-toast id="van-toast" />
   </view>

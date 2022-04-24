@@ -191,7 +191,7 @@ Page({
           getApp().globalData.util.netErrorToast()
         }
       })
-    }else{
+    } else{
       wx.request({    
         url: 'https://se.alangy.net/api/condition/activities/', //接口名称   
         header: this.data.head,
