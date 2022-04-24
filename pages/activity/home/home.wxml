@@ -21,25 +21,25 @@ bind:focus="focus"
 </view>
 <van-grid gutter="{{ 5 }}"> <!--通过gutter属性设置格子之间的距离-->
   <van-grid-item
-  icon="icon iconfont icon-rank"
-  text="热门活动"
+  icon="hot"
+  text="实时委托"
   link-type="navigateTo"
-  url="../../actList/actList?type=7"/>
+  url="../../wtList/wtList"/>
   <van-grid-item 
-  icon="icon iconfont icon-boya" 
-  text="博雅选课"
+  icon="chat" 
+  text="话题"
   link-type="navigateTo"
-  url="../../actList/actList?type=8"/>
+  url="../../htList/htList?type=2"/>
   <van-grid-item 
-  icon="icon iconfont icon-zhiyuan"
-  text="志愿服务"
+  icon="award"
+  text="委托"
   link-type="navigateTo"
-  url="../../actList/actList?type=6&id=10"/>
+  url="../../wtList/wtList"/>
   <van-grid-item
-  icon="icon iconfont icon-sport" 
-  text="体育运动"
+  icon="icon iconfont icon-boya" 
+  text="活动"
   link-type="navigateTo"
-  url="../../actList/actList?type=6&id=1"/>
+  url="../../actList/actList?type=6"/>
 </van-grid>
 
 <view class='margin-xs bg-white padding-sm radius shadow-lg'>
