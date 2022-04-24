@@ -17,3 +17,18 @@
     <van-toast id="van-toast" />
   </view>
 </view>
+
+<view class="bg-gray-100 flex flex-col w-full">
+  <view class=" bg-white flex-row items-center mb-4 h-auto mx-4 mt-4 rounded-xl shadow-xl p-4 overflow-hidden w-auto">
+    <view class="w-full">
+        <view class="text-lg mb-2">关于迭代开发团队</view>
+        <view class="text-sm mb-2">软件名称：航Go——大学生活动发布与社交平台</view>
+        <view class="text-sm mb-2">软件版本：v1.4.0</view>
+        <view class="text-sm mb-2">运营团队：航Go项目团队</view>
+        <view class="text-sm mb-2">维护团队：航Go项目团队</view>
+        <view class="text-sm mb-2">开发团队：航Go项目团队</view>
+        <view class="text-xs mb-2">北京航空航天大学2021~2022春《软件工程》课程项目</view>
+    </view>
+    <van-toast id="van-toast" />
+  </view>
+</view>

@@ -34,7 +34,8 @@ Page({
       url: '../../../img/bg.jpg'
     }],
 
-    activityList:[/*{
+    activityList:[
+      {
       id: 0,
       url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg',
       name:'活动1',
@@ -73,10 +74,10 @@ Page({
       total:'200',
       brief:'啦啦啦啦啦啦啦啦啦',
       tags:['标签1', '标签2','标签3']
-    }*/
+    }
     ],
 
-    shortcutList:[/*{
+    shortcutList:[{
         bgColor: "#16C2C2",
         //图标/图片地址
         imgUrl: "img/robot.png",
@@ -90,7 +91,7 @@ Page({
         fontSize: 34,
         //字体颜色
         color: "#fff"
-    }*/
+    }
     ],
 
     height: null,
@@ -190,7 +191,7 @@ Page({
           getApp().globalData.util.netErrorToast()
         }
       })
-    }else{
+    } else{
       wx.request({    
         url: 'https://se.alangy.net/api/condition/activities/', //接口名称   
         header: this.data.head,

@@ -24,7 +24,7 @@
   <view class="w-auto mx-4 bg-white rounded-xl shadow-md items-center mb-6 flex overflow-hidden">
     <van-grid square class="flex-1 block">
       <van-grid-item icon="{{ item.icon }}" text="{{ item.text }}" wx:for="{{ activityClasses }}" wx:key="text"
-       bindtap="navigateToActivities" data-type="{{index + 2}}"/>
+       bindtap="navigateToActivities" data-type="{{index}}"/>
     </van-grid>
     <view class="clear-both" />
   </view>

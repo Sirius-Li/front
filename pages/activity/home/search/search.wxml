@@ -3,40 +3,41 @@
 	<view slot="backText"></view>
 	<view slot="content">搜索</view>
 </cu-custom>
-<van-search
+
+<van-tabs v-model:active="default">
+  <!-- <van-tab title="全部">
+    <van-search
   value="{{ value }}"
   placeholder="请输入搜索关键词"
   show-action
-  bind:search="onSearch"
+  bind:search="onSearchAll"
   bind:cancel="onCancel"
   bind:change="hasKeyword"
   error = "{{searchError}}"
 />
+  </van-tab> -->
+  <van-tab title="活动">
+    <van-search
+  value="{{ value }}"
+  placeholder="请输入搜索关键词"
+  show-action
+  bind:search="onSearchActivity"
+  bind:cancel="onCancel"
+  bind:change="hasKeyword"
+  error = "{{searchError}}"
+/>
+<!-- 
 <view class='bg-white padding-lg'>
   <text class="text-bold text-black">热搜</text>
-  <!--出现了不对齐的问题-->
-  <!--<van-grid column-num="1" border="{{false}}" center="{{false}}">
-    <van-grid-item use-slot wx:for="{{hotSearchList}}" wx:key="id" bindtap="tagSearch" data-keywords="{{item.keyword}}">
-      <text><text class="{{index < 3?'text-red':''}} text-bold">{{index + 1}} </text>{{item.keyword}}<text class="{{index < 3?'icon iconfont icon-hot':''}}"/></text>
-    </van-grid-item>
-  </van-grid>-->
-  <van-grid direction="horizontal" column-num="2" center="{{false}}" border="{{false}}">
+  <van-grid direction="horizontal" column-num="2" center="{{false}}" border="{{false}}" >
     <van-grid-item wx:for="{{hotSearchList}}" wx:key="id" bindtap="tagSearch" data-keyword="{{item.keyword}}">
       <view slot="text">
         <text>
-          <text class="{{index < 3?'text-red':''}} text-bold" decode="{{true}}">{{index + 1}}&nbsp;&nbsp;&nbsp;</text>{{item.keyword}}<text wx:if="{{index == 0}}" class="icon iconfont icon-hot" wx:for="{{3}}" wx:for-index="idx" wx:key="*this"/><text wx:if="{{index == 1}}" class="icon iconfont icon-hot" wx:for="{{2}}" wx:for-index="idx" wx:key="*this"/><text wx:if="{{index == 2}}" class="icon iconfont icon-hot" wx:for="{{1}}" wx:for-index="idx" wx:key="*this"/>
+          <text class="{{index < 3?'text-red':''}} text-bold" decode="{{true}}">{{index + 1}}&nbsp; &nbsp; &nbsp; {{item.keyword}}</text>
         </text>
       </view>
     </van-grid-item>
   </van-grid>
-  <!--换用thorui的组件-->
-  <!--<tui-grid unlined>
-    <block wx:for="{{hotSearchList}}" wx:key="index">
-      <tui-grid-item  cell="1" border="{{false}}" bottom-line="{{false}}"  bindclick="tagSearch">
-        <text><text class="{{index < 3?'text-red':''}} text-bold">{{index + 1}} </text>{{item.keyword}}<text class="{{index < 3?'icon iconfont icon-hot':''}}"/></text>
-      </tui-grid-item>
-    </block>
-  </tui-grid>-->
 </view>
 <view class='bg-white padding-lg'>
   <text class="text-bold text-black">历史搜索</text>
@@ -46,13 +47,184 @@
       <van-row gutter="10">
         <van-col wx:for="{{historySearchList}}" wx:key="id">
           <van-tag 
-          round type="primary" 
+          round color="#dcdcdc"
           closeable="{{cancelable[index]}}" 
           bindtap="tagSearch" data-keyword="{{item.keyword}}" 
           bindlongpress="canCancel" data-index="{{index}}"
           close="deleteHistorySearch">
           {{item.keyword}}
           </van-tag>
+          <text>
+          \n</text>
+        </van-col>
+      </van-row>
+    </view>
+    <view class="flex padding justify-center" bindtap="clearHistorySearch">
+      <van-icon name="delete-o"/><text class="text-sm text-gray">清空历史记录</text>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="flex padding">
+      <text class="text-sm text-gray">暂无历史记录</text>
+    </view>
+  </block>
+</view> -->
+  </van-tab>
+  <van-tab title="委托">
+    <van-search
+  value="{{ value }}"
+  placeholder="请输入搜索关键词"
+  show-action
+  bind:search="onSearchWt"
+  bind:cancel="onCancel"
+  bind:change="hasKeyword"
+  error = "{{searchError}}"
+/>
+<!-- 
+<view class='bg-white padding-lg'>
+  <text class="text-bold text-black">热搜</text>
+  <van-grid direction="horizontal" column-num="2" center="{{false}}" border="{{false}}" >
+    <van-grid-item wx:for="{{hotSearchList}}" wx:key="id" bindtap="tagSearch" data-keyword="{{item.keyword}}">
+      <view slot="text">
+        <text>
+          <text class="{{index < 3?'text-red':''}} text-bold" decode="{{true}}">{{index + 1}}&nbsp; &nbsp; &nbsp; {{item.keyword}}</text>
+        </text>
+      </view>
+    </van-grid-item>
+  </van-grid>
+</view>
+
+
+<view class='bg-white padding-lg'>
+  <text class="text-bold text-black">历史搜索</text>
+  <van-dialog id="van-dialog"/>
+  <block wx:if="{{historySearchList.length>0}}">
+    <view class='padding-sm'>
+      <van-row gutter="10">
+        <van-col wx:for="{{historySearchList}}" wx:key="id">
+          <van-tag 
+          round color="#dcdcdc"
+          closeable="{{cancelable[index]}}" 
+          bindtap="tagSearch" data-keyword="{{item.keyword}}" 
+          bindlongpress="canCancel" data-index="{{index}}"
+          close="deleteHistorySearch">
+          {{item.keyword}}
+          </van-tag>
+          <text>
+          \n</text>
+        </van-col>
+      </van-row>
+    </view>
+    <view class="flex padding justify-center" bindtap="clearHistorySearch">
+      <van-icon name="delete-o"/><text class="text-sm text-gray">清空历史记录</text>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="flex padding">
+      <text class="text-sm text-gray">暂无历史记录</text>
+    </view>
+  </block>
+</view> -->
+  </van-tab>
+  <van-tab title="话题">
+    <van-search
+  value="{{ value }}"
+  placeholder="请输入搜索关键词"
+  show-action
+  bind:search="onSearchTopic"
+  bind:cancel="onCancel"
+  bind:change="hasKeyword"
+  error = "{{searchError}}"
+/>
+<!-- 
+<view class='bg-white padding-lg'>
+  <text class="text-bold text-black">热搜</text>
+  <van-grid direction="horizontal" column-num="2" center="{{false}}" border="{{false}}" >
+    <van-grid-item wx:for="{{hotSearchList}}" wx:key="id" bindtap="tagSearch" data-keyword="{{item.keyword}}">
+      <view slot="text">
+        <text>
+          <text class="{{index < 3?'text-red':''}} text-bold" decode="{{true}}">{{index + 1}}&nbsp; &nbsp; &nbsp; {{item.keyword}}</text>
+
+        </text>
+      </view>
+    </van-grid-item>
+  </van-grid>
+
+</view>
+<view class='bg-white padding-lg'>
+  <text class="text-bold text-black">历史搜索</text>
+  <van-dialog id="van-dialog"/>
+  <block wx:if="{{historySearchList.length>0}}">
+    <view class='padding-sm'>
+      <van-row gutter="10">
+        <van-col wx:for="{{historySearchList}}" wx:key="id">
+          <van-tag 
+          round color="#dcdcdc"
+          closeable="{{cancelable[index]}}" 
+          bindtap="tagSearch" data-keyword="{{item.keyword}}" 
+          bindlongpress="canCancel" data-index="{{index}}"
+          close="deleteHistorySearch">
+          {{item.keyword}}
+          </van-tag>
+          <text>
+          \n</text>
+        </van-col>
+      </van-row>
+    </view>
+    <view class="flex padding justify-center" bindtap="clearHistorySearch">
+      <van-icon name="delete-o"/><text class="text-sm text-gray">清空历史记录</text>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="flex padding">
+      <text class="text-sm text-gray">暂无历史记录</text>
+    </view>
+  </block>
+</view> -->
+  </van-tab>
+</van-tabs>
+
+<!-- <van-search
+  value="{{ value }}"
+  placeholder="请输入搜索关键词"
+  show-action
+  bind:search="onSearch"
+  bind:cancel="onCancel"
+  bind:change="hasKeyword"
+  error = "{{searchError}}"
+/> -->
+
+
+<view class='bg-white padding-lg'>
+  <text class="text-bold text-black">热搜</text>
+
+  <van-grid direction="horizontal" column-num="2" center="{{false}}" border="{{false}}" >
+    <van-grid-item wx:for="{{hotSearchList}}" wx:key="id" bindtap="tagSearch" data-keyword="{{item.keyword}}">
+      <view slot="text">
+        <text>
+          <text class="{{index < 3?'text-red':''}} text-bold" decode="{{true}}">{{index + 1}}&nbsp; &nbsp; &nbsp; {{item.keyword}}</text>
+        </text>
+      </view>
+    </van-grid-item>
+  </van-grid>
+</view>
+<view class='bg-white padding-lg'>
+  <text class="text-bold text-black">历史搜索</text>
+  <van-dialog id="van-dialog"/>
+  <block wx:if="{{historySearchList.length>0}}">
+    <view class='padding-sm'>
+      <van-row gutter="10">
+        <van-col wx:for="{{historySearchList}}" wx:key="id">
+          <van-tag 
+          round color="#dcdcdc"
+          closeable="{{cancelable[index]}}" 
+          bindtap="tagSearch" data-keyword="{{item.keyword}}" 
+          bindlongpress="canCancel" data-index="{{index}}"
+          close="deleteHistorySearch">
+          {{item.keyword}}
+          </van-tag>
+          <text>
+          \n</text>
         </van-col>
       </van-row>
     </view>
@@ -66,13 +238,19 @@
     </view>
   </block>
 </view>
+
+
 <view class='bg-white padding-lg'>
   <text class="text-bold text-black">分类搜索</text>
-  <view class='padding-sm'>
-    <van-row gutter="10">
-      <van-col wx:for="{{categorySearchList}}" wx:key="id" bindtap="typeSearch" data-id="{{item.id}}">
-        <van-tag round type="primary">{{item.name}}</van-tag>
-      </van-col>
+
+  <view>
+    <block wx:for="{{categorySearchList}}" wx:key="id">
+      <text class="text-bold text-black">\n{{item.type}}\n\n</text>
+      <van-row gutter="10">
+        <van-col wx:for="{{item.subkind}}" wx:key="id" bindtap="typeSearch" data-id="{{item.id}}">
+          <van-tag round type="primary">{{item.name}}</van-tag>
+        </van-col>
     </van-row>
+    </block>
   </view>
-</view>
+</view> 

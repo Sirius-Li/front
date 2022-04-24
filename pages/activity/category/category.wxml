@@ -3,6 +3,29 @@
 	<view slot="backText">返回</view>
 	<view slot="content">分类</view>
 </cu-custom>
+
+<view class="scroll-view-container">
+
+  <view class="left_bar">
+    <van-sidebar active-key="{{ activeID }}" bind:change="changeActiveId">
+      <block wx:for="{{menu}}" wx:for-item="item" wx:for-index="idx" wx:key="id">
+        <van-sidebar-item  data-id="{{item.id}}"  >
+          <view slot='title'>{{item.content}}</view>     
+        </van-sidebar-item>
+      </block>
+    </van-sidebar>
+  </view>
+  
+  <view class="right_list">
+    <view class="right_item" wx:for="{{categories}}" wx:for-item="item" wx:for-index="idx" wx:key="id" bindtap="jumpToList" data-id="{{item.id}}">
+      <image class="right_image" src="{{item.icon}}"> </image>
+      <text class="right_text"> {{item.content}} </text>
+    </view>
+  </view>
+</view>
+
+
+<!--
 <van-notify id="van-notify" />
 <view class="card">
   <view class="demo-home">
@@ -22,3 +45,4 @@
   </view>
 </view>
 <van-notify id="van-notify" style="margin-top:100px"/>
+-->
