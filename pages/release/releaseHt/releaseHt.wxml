@@ -1,9 +1,4 @@
 <!--pages/htrelease/htrealse.wxml-->
-<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
-	<view slot="backText">返回</view>
-	<view slot="content">话题发布</view>
-</cu-custom>
-
 <view style= "margin-bottom:100px">
 	<form>
 	<view class="cu-form-group margin-top">

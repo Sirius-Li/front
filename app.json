@@ -3,14 +3,13 @@
     "pages/activity/home/home",
     "pages/certification/certification",
     "pages/actList/activity/attendList/attendList",
-    "pages/release/releasing/changeAct/changeAct",
+    "pages/release/releaseAct/changeAct/changeAct",
     "pages/actList/activity/activity",
     "pages/index/index",
     "pages/logs/logs",
     "pages/aboutme/aboutme",
     "pages/activity/category/category",
     "pages/activity/calendar/calendar",
-    "pages/release/releasing/releasing",
     "pages/activity/home/search/search",
     "pages/actList/actList",
     "pages/activity/sports/sports",
@@ -27,9 +26,8 @@
     "pages/htList/htList",
     "pages/commission/commission",
     "pages/wtList/wtList",
-    "pages/release/release"
-    "pages/htdetail/htdetail",
-    "pages/htrelease/htrealse"
+    "pages/release/release",
+    "pages/htdetail/htdetail"
   ],
   "window": {
     "backgroundTextStyle": "light",

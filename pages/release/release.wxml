@@ -5,13 +5,20 @@
 </cu-custom>   
 <block>
   <van-tabs active="{{ active }}" bind:change="onChange">
-    <van-tab title="活动">
+    <van-tab title="委托">
       <view>
         <releaseCommission></releaseCommission>
       </view>
-    
     </van-tab>
-    <van-tab title="话题">内容 2</van-tab>
-    <van-tab title="委托">内容 3</van-tab>
+    <van-tab title="话题">
+      <view>
+        <releaseHt></releaseHt>
+      </view>
+    </van-tab>
+    <van-tab title="活动">
+      <view>
+        <releaseAct></releaseAct>
+      </view>
+    </van-tab>
   </van-tabs>
 </block>
