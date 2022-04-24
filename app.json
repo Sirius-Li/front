@@ -23,7 +23,9 @@
     "pages/feedback/feedback",
     "pages/profile/follow/follow",
     "pages/chatBot/chatBot",
-    "pages/other/about/about"
+    "pages/other/about/about",
+    "pages/htdetail/htdetail",
+    "pages/htrelease/htrealse"
   ],
   "window": {
     "backgroundTextStyle": "light",
