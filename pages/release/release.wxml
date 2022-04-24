@@ -1,0 +1,17 @@
+<!--pages/release/release.wxml-->
+<!-- <text>pages/release/release.wxml</text> -->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{false}}">
+	<view slot="content">发布</view>
+</cu-custom>   
+<block>
+  <van-tabs active="{{ active }}" bind:change="onChange">
+    <van-tab title="活动">
+      <view>
+        <releaseCommission></releaseCommission>
+      </view>
+    
+    </van-tab>
+    <van-tab title="话题">内容 2</van-tab>
+    <van-tab title="委托">内容 3</van-tab>
+  </van-tabs>
+</block>
