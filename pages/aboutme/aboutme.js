@@ -340,7 +340,7 @@ Page({
       const url = `../actList/actList?type=${type}`
       wx.navigateTo({url})
     } else if (type === 2) {
-      const url = `../htList/htList`
+      const url = `../wtList/wtList`
       wx.navigateTo({url})
     } else if (type === 3) {
       const url = `../htList/htList`
