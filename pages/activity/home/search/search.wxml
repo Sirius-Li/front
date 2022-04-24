@@ -239,7 +239,7 @@
   </block>
 </view>
 
-
+<!-- 
 <view class='bg-white padding-lg'>
   <text class="text-bold text-black">分类搜索</text>
 
@@ -253,4 +253,4 @@
     </van-row>
     </block>
   </view>
-</view> 
+</view>  -->
