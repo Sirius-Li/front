@@ -323,7 +323,7 @@ Page({
   jumpToSonPages : function(event) {
     let id = event.currentTarget.dataset.id
     wx.navigateTo({
-      url: './activity/activity?id='+id+'&type='+this.data.type,
+      url: '../commission/commission',
     })
   },
 
