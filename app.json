@@ -27,7 +27,9 @@
         "pages/htList/htList",
         "pages/commission/commission",
         "pages/release/releaseCommission/releaseCommission",
-        "pages/wtList/wtList"
+        "pages/wtList/wtList",
+        "pages/htdetail/htdetail",
+        "pages/htrelease/htrealse"
     ],
     "window": {
         "backgroundTextStyle": "light",
