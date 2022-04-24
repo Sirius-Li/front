@@ -21,7 +21,8 @@
           <van-card>
             <view slot="thumb" bindtap="gotoUserPage" data-userid="{{item.content.create_user.id}}">
               <view class="cu-avatar round lg" 
-              style="background-image:url({{item.content.create_user.avatarUrl == ''?'../../img/default_avatar.png':item.content.create_user.avatarUrl}});"></view>
+                style="background-image:url({{item.photo == null ? '../../img/default_avatar.png' : (item.photo == '' ? '../../img/default_avatar.png' : item.photo)}})">
+              </view>
             </view>
             <view slot="title" class="text-black text-df">
               {{item.content.description}}

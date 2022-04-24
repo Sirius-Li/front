@@ -7,69 +7,109 @@ Page({
    * 页面的初始数据
    */
   data: {
-    hotSearchList:[/*{
+    hotSearchList:[
+    {
       id: 0,
-      keyword: "热搜"
+      keyword: "热搜一"
     }, {
       id: 1,
-      keyword: "热搜zdxx"
+      keyword: "热搜二"
     }, {
       id: 2,
-      keyword: "z"
+      keyword: "热搜三"
     }, {
       id: 3,
-      keyword: "1"
+      keyword: "热搜四"
     }, {
       id: 4,
-      keyword: "zd"
+      keyword: "热搜五"
     }, {
       id: 5,
-      keyword: "1"
-    }*/],
+      keyword: "热搜六"
+    }
+  ],
     
     //这个列表仅显示前20条历史记录
-    historySearchList:[/*{
+    historySearchList:[
+    {
       id: 0,
-      name: "热搜122222222222222222222222"
+      keyword: "热搜1"
     }, {
       id: 1,
-      name: "热搜2"
+      keyword: "热搜2"
     }, {
       id: 2,
-      name: "热搜3"
+      keyword: "热搜3"
     }, {
       id: 3,
-      name: "热搜4"
+      keyword: "热搜4"
     }, {
       id: 4,
-      name: "热搜5"
+      keyword: "热搜5"
     }, {
       id: 5,
-      name: "热搜6"
-    }*/],
+      keyword: "热搜6"
+    }
+  ],
 
     //这个列表用于保存完整的历史记录
     historySearchListAll:[],
 
-    categorySearchList:[/*{
+    categorySearchList:[
+    { // 活动相关
       id: 0,
-      content: "博雅"
-    }, {
+      type: "活动",
+      subkind: [
+        {
+          id: 0,
+          name: "博雅"
+        }, {
+          id: 1,
+          name: "运动"
+        }, {
+          id: 2,
+          name: "志愿"
+        }, {
+          id: 3,
+          name: "学术讲座"
+        }
+      ]
+    }, { // 委托相关
       id: 1,
-      content: "运动"
-    }, {
-      id: 2,
-      content: "志愿"
-    }, {
-      id: 3,
-      content: "学术讲座"
-    }, {
-      id: 4,
-      content: "类别5"
-    }, {
-      id: 5,
-      content: "类别6"
-    }*/],
+      type: "委托",
+      subkind: [
+        {
+        id: 0,
+        name: "取快递"
+      }, {
+        id: 1,
+        name: "取外卖"
+      }, {
+        id: 2,
+        name: "其他"
+      }]
+    }, { // 话题相关
+        id: 2,
+        type: "话题",
+        subkind: [
+        {
+          id: 0,
+          name: "选课"
+        }, {
+          id: 1,
+          name: "运动"
+        }, {
+          id: 2,
+          name: "志愿"
+        }, {
+          id: 3,
+          name: "生活服务"
+        }, {
+          id: 4,
+          name: "其他"
+        }]
+      }
+  ],
 
     //请求头
     head: null,
@@ -298,8 +338,53 @@ Page({
     })
   },
 
+//将关键词传值到活动列表
+onSearch(event){
+  //空输入报错
+  if(event.detail == ''){
+    this.setData({
+      searchError: true
+    })
+  }else{
+    
+  wx.navigateTo({
+    url: '../../../actList/actList?keywords='+ event.detail
+  })
+  }
+},
+
   //将关键词传值到活动列表
-  onSearch(event){
+  onSearchActivity(event){
+    //空输入报错
+    if(event.detail == ''){
+      this.setData({
+        searchError: true
+      })
+    }else{
+      
+    wx.navigateTo({
+      url: '../../../actList/actList?keywords='+ event.detail
+    })
+    }
+  },
+
+  //将关键词传值到委托列表
+  onSearchWt(event){
+    //空输入报错
+    if(event.detail == ''){
+      this.setData({
+        searchError: true
+      })
+    }else{
+      
+    wx.navigateTo({
+      url: '../../../wtList/wtList?keywords='+ event.detail
+    })
+    }
+  },
+
+   //将关键词传值到话题列表
+   onSearchTopic(event){
     //空输入报错
     if(event.detail == ''){
       this.setData({
