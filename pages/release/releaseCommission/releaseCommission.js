@@ -1,6 +1,8 @@
+
 // pages/release/releaseCommission/releaseConnission.js
 Component({
   /**
+
    * 组件的初始数据
    */
   data: {
@@ -64,6 +66,7 @@ Component({
       "其他",
     ],
   },
+
 
   
   /**
