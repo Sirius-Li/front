@@ -48,9 +48,8 @@
   "projectname": "weapp",
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
-
-  "appid": "wx3a8a4d6b7c9995b0",
-
+  "appid": "wx648a542c2028db6a",
+  "condition": {},
   "editorSetting": {
     "tabIndent": "insertSpaces",
     "tabSize": 2
