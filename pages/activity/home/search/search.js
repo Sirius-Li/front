@@ -142,7 +142,7 @@ Page({
       }
     }
     wx.request({
-      url: 'https://se.alangy.net/api/search_trending/',
+      url: getApp().globalData.baseUrl + '/api/search_trending/',
       method: 'POST',
       data: {
 
@@ -193,7 +193,7 @@ Page({
            }
         }
         wx.request({
-          url: 'https://se.alangy.net/api/search/',
+          url: getApp().globalData.baseUrl + '/api/search/',
           method: 'POST',
           data: {
             'name': keywordList,
@@ -258,7 +258,7 @@ Page({
            }
         }
         wx.request({
-          url: 'https://se.alangy.net/api/search/',
+          url: getApp().globalData.baseUrl + '/api/search/',
           method: 'POST',
           data: {
             'name': [keyword]
@@ -318,7 +318,7 @@ Page({
     }
     let self = this
     wx.request({
-      url: 'https://se.alangy.net/api/search_history/',
+      url: getApp().globalData.baseUrl + '/api/search_history/',
       method: 'POST',
       data: {
 
@@ -441,7 +441,7 @@ onSearch(event){
       }
     }
     wx.request({
-      url: 'https://se.alangy.net/api/activity_types/',
+      url: getApp().globalData.baseUrl + '/api/activity_types/',
       method: 'GET',
       data: {
 

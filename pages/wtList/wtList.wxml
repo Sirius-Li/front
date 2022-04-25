@@ -4,28 +4,18 @@
 </cu-custom>
 
 <block wx:if="{{type == 1}}">
-  <block wx:for="{{list}}" wx:for-item="item" wx:for-index="idx" wx:key="id" wx:if="{{item.type == 'wt'}}">
+  <block wx:for="{{list}}" wx:for-item="item" wx:for-index="idx" wx:key="id">
     <view class="cu-card case {{isCard?'no-card':''}}">
       <view class="cu-card case {{isCard?'no-card':''}}">
         <view class="cu-item shadow">
-          <!-- <view class="image" bindtap="jumpToSonPages" data-id="{{item.id}}">
-            <block wx:if="{{item.content.photo != ''}}">
-              <image src="https://se.alangy.net/{{item.content.photo}}" mode="widthFix"/>
-            </block>
-            <block wx:else>
-              <image src="../../static/img/nophoto.jpg" mode="widthFix"/>
-            </block>
-            <view class="cu-bar bg-shadeBottom">
-            </view>
-          </view> -->
           <van-card>
             <view slot="thumb" bindtap="gotoUserPage" data-userid="{{item.user.id}}">
               <view class="cu-avatar round lg" 
-                style="background-image:url({{item.photo == null ? '../../img/default_avatar.png' : (item.photo == '' ? '../../img/default_avatar.png' : item.photo)}})">
+                style="background-image:url({{item.user.avatarUrl == null ? '../../img/default_avatar.png' : (item.user.avatarUrl == '' ? '../../img/default_avatar.png' : item.photo)}})">
               </view>
             </view>
             <view slot="title" class="text-black text-df">
-              {{item.description}}
+              {{item.name}}
             </view>
             <view slot="desc" bindtap="jumpToSonPages" data-id="{{item.id}}">
             <!-- 以上绑定点击事件 -->
@@ -36,7 +26,7 @@
                 <van-icon name="clock-o"/><text class="field-name text-blue" >委托内容:</text>{{item.description}}
               </view>
               <view>
-                <van-icon name="clock"/><text class="field-name text-blue">是否实时:</text>{{item.real_time}}
+                <van-icon name="clock"/><text class="field-name text-blue">是否实时:</text>{{item.real_time == 2 ? '否' : '是'}}
               </view>
               <view>
                 <van-icon name="location-o"/><text class="field-name text-blue">金额:</text>{{item.fee}}元

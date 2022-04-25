@@ -204,8 +204,8 @@ Page({
     }
     if (this.data.activeID === 0) {
       wx.request({
-        url: 'todo',
-        method:'todo',
+        url: getApp().globalData.baseUrl + '/api/activity_types_list/',
+        method:'GET',
         header:headers,
         success(res) {
           that.setData({
@@ -219,7 +219,7 @@ Page({
     } else if (this.data.activeID === 1) {
       wx.request({
         url: 'todo',
-        method:'todo',
+        method:'GET',
         header:headers,
         success(res) {
           that.setData({
@@ -233,7 +233,7 @@ Page({
     } else if (this.data.activeID === 2) {
       wx.request({
         url: 'todo',
-        method:'todo',
+        method:'GET',
         header:headers,
         success(res) {
           that.setData({
