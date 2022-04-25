@@ -8,6 +8,9 @@ Component({
 
   },
 
+
+// pages/release/releaseCommission/releaseConnission.js
+Component({
   /**
    * 组件的初始数据
    */
@@ -219,6 +222,156 @@ Component({
     addGlobalClass: true
   },
 
+  
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    NameChange(event) {
+      this.setData({
+        name: event.detail.value,
+      });
+    },
+  
+    FeeChange(event) {
+      this.setData({
+        fee: event.detail.value,
+      });
+    },
+  
+    TypeChange(event) {
+      this.setData({
+        commission_type_id: event.detail.value,
+      });
+    },
+  
+    DateChange(event) {
+      this.setData({
+        date: event.detail.value,
+      });
+    },
+  
+    StartTimeChange(event) {
+      this.setData({
+        start_time: event.detail.value,
+      });
+    },
+  
+    EndTimeChange(event) {
+      this.setData({
+        end_time: event.detail.value,
+      });
+    },
+  
+    DiscriptionChange(event) {
+      this.setData({
+        description: event.detail.value,
+      });
+    },
+  
+    DelImg(event) {
+      console.log("del this img")
+      wx.showModal({
+        title: '亲爱的用户',
+        content: '确定要删除这张介绍图吗？',
+        cancelText: '取消',
+        confirmText: '确定',
+        success: res => {
+          if (res.confirm) {
+            this.data.imgList.splice(event.currentTarget.dataset.index, 1);
+            this.setData({
+              imgList: this.data.imgList,
+            });
+          }
+        }
+      })
+    },
+  
+    ChooseImage() {
+      // wx.chooseImage({
+      //   count: 1, //默认9
+      //   sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+      //   sourceType: ['album'], //从相册选择
+      //   success: (res) => {
+      //     console.log(res.tempFilePaths);
+      //     if (this.data.imgList.length != 0) {
+      //       this.setData({
+      //         imgList: this.data.imgList.concat(res.tempFilePaths),
+      //         'list.photo': res.tempFilePaths
+      //       })
+      //     } else {
+      //       this.setData({
+      //         imgList: res.tempFilePaths,
+      //         haveimg: 1
+      //       })
+      //     }
+      //   }
+      // });
+      wx.chooseMedia({
+        count: 1, //默认9
+        mediaType: ['image'], //默认['image', 'video']
+        sourceType: ['camera'], //默认二者皆有
+        camera: ['front'], //摄像头选择front | back
+        sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+        // success(res) {
+        success: (res) => {
+          // console.log(res.tempFiles[0].tempFilePath)
+          // console.log(this.data.imgList.length)
+          if (this.data.imgList.length != 0) {
+            this.setData({
+              imgList: this.data.imgList.concat(res.tempFiles[0].tempFilePath),
+              'list.photo': res.tempFiles[0].tempFilePath
+            })
+          } else {
+            this.setData({
+              imgList: this.data.imgList.concat(res.tempFiles[0].tempFilePath),
+            });
+            // console.log(this.data.imgList)
+          }
+        },
+        fail: (res) => {
+            wx.showModal({
+              title: "警告",
+              content: "打开相册失败",
+              showCancel: false,
+              cancelColor: 'cancelColor',
+            })
+        },
+      })
+    },
+  
+    ViewImg(event) {
+      // wx.previewImage({
+      //   urls: this.data.imgList,
+      //   current: e.currentTarget.dataset.url
+      // });
+      console.log(event.currentTarget.dataset.url)
+      wx.previewMedia({
+        sources: this.data.imgList,
+        current: event.currentTarget.dataset.url,
+        fail: (res) => {
+          wx.showModal({
+            title: "警告",
+            content: "打开图片失败",
+            showCancel: false,
+            cancelColor: 'cancelColor',
+          })
+        },
+      });
+    },
+  
+    submit() {
+  
+    },
+  },
+  options: {
+    addGlobalClass: true
+  }
+})
+
+
+
+
   NameChange(event) {
     this.setData({
       name: event.detail.value,
@@ -412,5 +565,6 @@ Component({
   onShareAppMessage() {
 
   }
+
 })
 
