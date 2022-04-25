@@ -42,7 +42,7 @@ App({
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         if (res.code) {
           wx.request({
-            url: 'todo',
+            url: getApp().globalData.baseUrl + '/api/auth/',
             method: 'POST',
             data: {
               code: res.code
@@ -61,7 +61,7 @@ App({
                   self.loginedCallback(getApp().globalData.logined);
                 }
                 wx.request({
-                  url: 'https://114.116.215.100/api/users/profile/',
+                  url: getApp().globalData.baseUrl + '/api/users/profile/',
                   method: 'GET',
                   header: that.getHeaderWithToken(),
                   success(res) {
@@ -179,7 +179,7 @@ App({
     if (that.globalData.authenticate == true) {
       const token = that.globalData.token
       that.globalData['socketTask'] = wx.connectSocket({
-        url: 'wss://114.116.215.100/talk_message/' + token + '/',
+        url: 'ws://114.116.215.100/talk_message/' + token + '/',
         header:{
           'content-type': 'application/json'
         },
@@ -263,7 +263,7 @@ App({
     const header = this.getHeaderWithToken()
     const that = this
     wx.request({
-      url: 'https://114.116.215.100/api/mymessage/',
+      url: getApp().globalData.baseUrl + '/api/mymessage/',
       method: 'GET',
       header: header,
       success: function(res) {
@@ -374,7 +374,7 @@ App({
         'Authorization': `Token` + ' ' + `${getApp().globalData.token}`
       }
       wx.request({
-        url: 'https://114.116.215.100/api/users/profile/',
+        url: getApp().globalData.baseUrl + '/api/users/profile/',
         method: 'GET',
         header: header,
         success(res) {
@@ -392,7 +392,7 @@ App({
   },
 
   globalData: {
-    baseUrl: 'https://114.116.215.100',
+    baseUrl: 'http://114.116.215.100',
 
     userInfo: null,
     token: null,

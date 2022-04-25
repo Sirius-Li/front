@@ -57,7 +57,7 @@ Page({
     }
     
     wx.request({
-      url: 'https://se.alangy.net/api/condition/activities/',
+      url: getApp().globalData.baseUrl + '/api/condition/activities/',
       method: 'POST',
       header: headers,
       data: {

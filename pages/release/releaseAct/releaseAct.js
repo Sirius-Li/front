@@ -157,7 +157,7 @@ Component({
         }
       }
       wx.request({
-        url: 'https://se.alangy.net/api/activity_types/',
+        url: getApp().globalData.baseUrl + '/api/activity_types/',
         method: 'GET',
         data: {
   
@@ -430,7 +430,7 @@ Component({
     release(self){
       wx.uploadFile({    
         header: self.data.head,
-        url: 'https://se.alangy.net/api/activities/', //接口名称
+        url: getApp().globalData.baseUrl + '/api/activities/', //接口名称
         filePath: self.data.imgList[0],
         name:'photo',   
         // header: self.data.head,

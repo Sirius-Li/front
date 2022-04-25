@@ -1,5 +1,5 @@
 const util = require('../../../utils/util')
-const BASE_URL = 'https://se.alangy.net'
+const BASE_URL = getApp().globalData.baseUrl
 Page({
   data: {
     show: {
@@ -112,7 +112,7 @@ Page({
       return
     }
     wx.request({
-      url: 'https://se.alangy.net/api/users/post_partial_update/',
+      url: getApp().globalData.baseUrl + '/api/users/post_partial_update/',
       method: 'POST',
       data: {
         nickName: that.data.username,
