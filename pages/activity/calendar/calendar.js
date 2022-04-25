@@ -15,6 +15,22 @@ Page({
     ],
     weekArr: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
     dateList: [],
+    commissionList: [
+      {
+        commissionId: 111,
+        commissionName: "取快递",
+        commissionLocation: "学院路",
+        commissionTime: "now",
+        date: "2022/4/25"
+      },
+      {
+        commissionId: 112,
+        commissionName: "取外卖",
+        commissionLocation: "学院路",
+        commissionTime: "14:00",
+        date: "2022/4/24"
+      }
+    ],
   },
 
   getDateList: function (y, mon) {
@@ -39,6 +55,10 @@ Page({
     for (var i = 1; i <= vm.data.daysCountArr[mon]; i++) {
       activityList[i] = []
     }
+    var commissionyList = {}
+    for (var i = 1; i <= vm.data.daysCountArr[mon]; i++) {
+      commissionyList[i] = []
+    }
     var that = this
     var headers = {}
     if (getApp().globalData.token != null) {
@@ -56,6 +76,43 @@ Page({
       end: y + '/' + (parseInt(mon) + 1) + '/' + vm.data.daysCountArr[mon] + ' 23:59'  
     }
     
+    wx.request({
+      url: getApp().globalData.baseUrl + '/api/commission/applied/',
+      method: 'POST',
+      header: headers,
+      data: {
+        user_attend: true,
+        timerange: timerange,
+        audit_status: [3],
+      },
+      success (res) {
+        
+        for (var i = 0; i < res.data.length; i++) {
+          var m = res.data[i]
+          var start = parseInt(m.start_time.split(' ')[0].split('/')[2])
+          var end = parseInt(m.end_time.split(' ')[0].split('/')[2])
+          
+          for (var d = start; d <= end; d++) {
+            commissionList[d].push({
+              commissionId: m.id,
+              commissionName: m.name,
+              commissionTime: m.start_time + ' - ' + m.ent_time,
+              commissionRealTime: m.real_time
+            })
+          }
+        }
+      },
+      fail(res){
+        getApp().globalData.util.netErrorToast()
+      },
+      complete () {
+        vm.setData({
+          //commissionList: commissionyList[vm.data.selectDay] || []
+        });
+        // console.log(vm.data.dateList)
+      }
+    })
+
     wx.request({
       url: 'https://se.alangy.net/api/condition/activities/',
       method: 'POST',
@@ -124,6 +181,7 @@ Page({
   },
   selectDate: function (e) {
     var vm = this;
+    console.log(this.data.selectedDate)
     // 
     vm.setData({
       selectedDate: e.currentTarget.dataset.date.value,
@@ -192,6 +250,12 @@ Page({
     })
   },
 
+  routeCommissionDescription: function (event) {
+    wx.navigateTo({
+      url: '../../commission/commission?id=' + event.currentTarget.dataset.commissionid,
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -222,7 +286,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.getTabBar().init();
+    //this.getTabBar().init();
     getApp().getNotificationCount()
     if(getApp().globalData.user_status == 2){
       wx.redirectTo({

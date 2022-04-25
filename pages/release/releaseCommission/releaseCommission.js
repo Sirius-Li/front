@@ -217,10 +217,7 @@ Component({
   },
   options: {
     addGlobalClass: true
-  }
-})
-
-
+  },
 
   NameChange(event) {
     this.setData({

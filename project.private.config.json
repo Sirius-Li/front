@@ -15,6 +15,20 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/activity/calendar/calendar",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/activity/home/home",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
