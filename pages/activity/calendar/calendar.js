@@ -222,7 +222,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.getTabBar().init();
     getApp().getNotificationCount()
     if(getApp().globalData.user_status == 2){
       wx.redirectTo({

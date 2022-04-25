@@ -9,66 +9,34 @@ Page({
     CustomBar: app.globalData.CustomBar,
     list:[
       {
-        type: "wt",
-        name:"first man",
-        photo:"",
-        content: {
-          description: "取快递",
-          realTime: "否",
-          fee: 2
-        }
-      },{
-        type: "wt",
-        name:"second man",
-        photo:"https://ossweb-img.qq.com/images/lol/web201310/skin/big10005.jpg",
-        content: {
-          description: "取外卖",
-          realTime: "是",
-          fee: 3
-        }
-      },{
-        type: "wt",
-        name:"third man",
-        content: {
-          description: "取外卖",
-          realTime: "是",
-          fee: 3
-        }
-      },
-      {
-        type: "activity",
-        name:"张2",
-        photo:"https://ossweb-img.qq.com/images/lol/web201310/skin/big10005.jpg",
-        "normal_activity": {
-          "id": 1,
-          "start_at": "2021/05/02 08:00",
-          "end_at": "2021/05/03 11:55",
-          "description": "this is a sports",
-          "allow_total": 211,
-          "activity": 1
+        "type": "wt",
+        "id": 101,
+        "commission_type":{
+            "id": 101,
+            "name": "commission_101"
         },
-        "create_user": 4,
-        "attend_users": 3,
-        "location": 2,
-        "position": "adddd"
-      },
-      {
-        type: "activity",
-        name:"张3",
-        photo:"https://ossweb-img.qq.com/images/lol/web201310/skin/big10004.jpg",
-        "normal_activity": {
-          "id": 1,
-          "start_at": "2021/05/02 08:00",
-          "end_at": "2021/05/03 11:55",
-          "description": "this is a sports",
-          "allow_total": 211,
-          "activity": 1
+        "name": "text",
+        "start_time": "str",
+        "end_time": "str",
+        "create_at": "str",
+        "updated_at": "str",
+        "real_time": 1,
+        "user": {
+            "id": 1,
+            "nickName": "str",
+            "avatarUrl": "str",
+            "email": "str",
+            "age": "int",
+            "gender": "int",
+            "audit_status": "int",
+            "is_staff": "int",
         },
-        "create_user": 4,
-        "attend_users": 3,
-        "location": 3,
-        "position": "adddd"
-      }
+        "location": 1,
+        "status": 1,
+        "description": "text",
+        "audit": 1,
+        "fee": 1,
+    }
     ],
     //包括关键字
     keywords: '',

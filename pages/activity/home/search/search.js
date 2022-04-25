@@ -393,7 +393,7 @@ onSearch(event){
     }else{
       
     wx.navigateTo({
-      url: '../../../actList/actList?keywords='+ event.detail
+      url: '../../../htList/htList?keywords='+ event.detail
     })
     }
   },

@@ -4,7 +4,14 @@
       "list": [
         {
           "name": "",
-          "pathName": "pages/commission/commission",
+          "pathName": "pages/wtList/wtList",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/activity/home/search/search",
           "query": "",
           "launchMode": "default",
           "scene": null
