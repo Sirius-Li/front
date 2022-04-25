@@ -43,7 +43,7 @@ Page({
     //id
     id: '',
     //type
-    type: 1,
+    type: 0,
     //
     locList:['','学院路', '沙河', '校外']
   },
@@ -64,18 +64,19 @@ Page({
     }
     if(this.data.type == 1){
       wx.request({    
-        url: getApp().globalData.baseUrl + '/api/search/', //接口名称   
+        url: getApp().globalData.baseUrl + '/api/commission/search/all/', //接口名称   
         header: head,
         method:"GET",  //请求方式    
         //data: app.globalData.zdxx,  //用于存放post请求的参数  
         data: {
-          'keyword': this.data.keywords
+          // 'keyword': this.data.keywords
         }, 
         success(res) {   
+          console.log(res.data)
           self.setData({
             list: res.data
           })
-          
+          console.log(self.data.list)
         },
         fail(res){
           getApp().globalData.util.netErrorToast()

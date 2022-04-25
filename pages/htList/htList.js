@@ -85,11 +85,44 @@ Page({
         }
         if (this.data.type == 1) {
             wx.request({
-                url:'todo',
+                url: getApp().globalData.baseUrl + '/todo/',
                 header: head,
-                method:"GET",   //todo
+                method:"GET", 
                 data: {
-                    // todo
+                    'keyword': this.data.keywords
+                },
+                success(res) {
+                    self.setData({
+                        list: res.data
+                    })
+                },
+                fail(res) {
+                    getApp().globalData.util.netErrorToast()
+                }
+            })
+        } else if (this.data.type == 2) {
+            wx.request({
+                url: getApp().globalData.baseUrl + '/todo/',
+                header: head,
+                method:"GET", 
+                data: {
+                    'sort': this.data.sort
+                },
+                success(res) {
+                    self.setData({
+                        list: res.data
+                    })
+                },
+                fail(res) {
+                    getApp().globalData.util.netErrorToast()
+                }
+            })
+        } else if (this.data.type == 5) {
+            wx.request({
+                url: getApp().globalData.baseUrl + '/todo/',
+                header: head,
+                method:"GET", 
+                data: {
                 },
                 success(res) {
                     self.setData({
@@ -107,7 +140,7 @@ Page({
     jumpToSonPages:function(event) {
         let id = event.currentTarget.dataset.id
         wx.navigateTo({
-          url: '../actList/activity/activity?id=' + id,
+          url: '../htdetail/htdetail?id=' + id,
         })
     },
 

@@ -343,7 +343,7 @@ Page({
       const url = `../wtList/wtList`
       wx.navigateTo({url})
     } else if (type === 3) {
-      const url = `../htList/htList`
+      const url = `../htList/htList?type=5`
       wx.navigateTo({url})
     }
   },
