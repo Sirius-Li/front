@@ -64,7 +64,7 @@ Page({
     }
     if(this.data.type == 1){
       wx.request({    
-        url: 'https://se.alangy.net/api/search/', //接口名称   
+        url: getApp().globalData.baseUrl + '/api/search/', //接口名称   
         header: head,
         method:"GET",  //请求方式    
         //data: app.globalData.zdxx,  //用于存放post请求的参数  
@@ -86,7 +86,7 @@ Page({
       var value = []
       value.push(this.data.id)
       wx.request({    
-        url: 'https://se.alangy.net/api/condition/activities/', //接口名称   
+        url: getApp().globalData.baseUrl + '/api/condition/activities/', //接口名称   
         header: head,
         method:"POST",  //请求方式    
         //data: app.globalData.zdxx,  //用于存放post请求的参数  
@@ -109,7 +109,7 @@ Page({
     }
     else if(this.data.type >= 2 && this.data.type <= 4){
       wx.request({    
-        url: 'https://se.alangy.net/api/condition/activities/', //接口名称   
+        url: getApp().globalData.baseUrl + '/api/condition/activities/', //接口名称   
         header: head,
         method:"POST",  //请求方式    
         //data: app.globalData.zdxx,  //用于存放post请求的参数  
@@ -130,7 +130,7 @@ Page({
     }
     else if(this.data.type == 5){
       wx.request({    
-        url: 'https://se.alangy.net/api/condition/activities/', //接口名称   
+        url: getApp().globalData.baseUrl + '/api/condition/activities/', //接口名称   
         header: head,
         method:"POST",  //请求方式    
         //data: app.globalData.zdxx,  //用于存放post请求的参数  
@@ -158,7 +158,7 @@ Page({
       console.log(nowTime.toLocaleDateString())
       console.log(preTime.toLocaleDateString())*/
       wx.request({
-        url: 'https://se.alangy.net/api/activities_trend/',
+        url: getApp().globalData.baseUrl + '/api/activities_trend/',
         method: 'POST',
         data: {
   
@@ -180,7 +180,7 @@ Page({
       //let nowDateStr = nowDate.toLocaleDateString() + ' ' + nowDate.getHours() + ':' + nowDate.getMinutes() 
       //console.log(nowDateStr)
       wx.request({
-        url: 'https://se.alangy.net/api/condition/activities/',
+        url: getApp().globalData.baseUrl + '/api/condition/activities/',
         method: 'POST',
         data: {
           'types': {

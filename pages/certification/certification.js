@@ -106,7 +106,7 @@ Page({
         duration: 0
       });
       wx.request({
-        url: 'https://se.alangy.net/api/users/get_email_verification/',
+        url: getApp().globalData.baseUrl + '/api/users/get_email_verification/',
         method: 'POST',
         data: {
           'email': this.data.input1
@@ -256,7 +256,7 @@ Page({
             let userInfo = self.data.userInfo
             if(self.data.radio == '1'){
               wx.request({
-                url: 'https://se.alangy.net/api/users/register/',
+                url: getApp().globalData.baseUrl + '/api/users/register/',
                 method: 'POST',
                 data: {
                   'code': code,
@@ -298,7 +298,7 @@ Page({
               })
             }else if(self.data.radio == '2' && self.data.fileList.length > 0){
               wx.uploadFile({
-                url: 'https://se.alangy.net/api/users/register/',
+                url: getApp().globalData.baseUrl + '/api/users/register/',
                 filePath: self.data.fileList[0],
                 name: 'credential',
                 formData: { 

@@ -94,7 +94,7 @@ Page({
     // }
     
     wx.request({
-      url: 'https://se.alangy.net/api/notifications/my/',
+      url: getApp().globalData.baseUrl + '/api/notifications/my/',
       method: 'GET',
       header: headers,
       success (res) {
@@ -181,7 +181,7 @@ Page({
       }
     }
     wx.request({
-      url: `https://se.alangy.net/api/notifications/${messageId}/read_notification/`,
+      url: getApp().globalData.baseUrl + `/api/notifications/${messageId}/read_notification/`,
       header: headers,
       method: 'GET'
     })
@@ -205,7 +205,7 @@ Page({
       message: '是否要删除这条系统消息',
     }).then(() => {
       wx.request({
-        url: 'https://se.alangy.net/api/notifications/' + deleteId + '/user_delete/',
+        url: getApp().globalData.baseUrl + '/api/notifications/' + deleteId + '/user_delete/',
         method: 'POST',
         header: headers,
         success (res) {
@@ -234,7 +234,7 @@ Page({
       message: message
     }).then(() => {
       wx.request({
-        url: 'https://se.alangy.net/api/notifications/user_deleteall/',
+        url: getApp().globalData.baseUrl + '/api/notifications/user_deleteall/',
         method: 'GET',
         header: headers,
         success (res) {
@@ -263,7 +263,7 @@ Page({
       message: message
     }).then(() => {
       wx.request({
-        url: 'https://se.alangy.net/api/notifications/read/',
+        url: getApp().globalData.baseUrl + '/api/notifications/read/',
         method: 'GET',
         header: headers,
         success (res) {
