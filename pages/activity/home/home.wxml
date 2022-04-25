@@ -34,7 +34,7 @@ bind:focus="focus"
   icon="award"
   text="委托"
   link-type="navigateTo"
-  url="../../wtList/wtList"/>
+  url="../../wtList/wtList?type=1"/>
   <van-grid-item
   icon="icon iconfont icon-boya" 
   text="活动"

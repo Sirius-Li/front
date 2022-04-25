@@ -128,7 +128,7 @@ Page({
         duration: 0
       });
       wx.request({
-        url: 'https://se.alangy.net/api/update_user_bykc',
+        url: getApp().globalData.baseUrl + '/api/update_user_bykc',
         method: 'POST',
         header: header,
         data: {
@@ -148,7 +148,7 @@ Page({
               title: '开启成功'
             })
             wx.request({
-              url: 'https://se.alangy.net/api/update_bykc',
+              url: getApp().globalData.baseUrl + '/api/update_bykc',
               method: 'POST',
               header: header,
               data: {
@@ -209,7 +209,7 @@ Page({
     }
     let self = this
     wx.request({
-      url: 'https://se.alangy.net/api/update_user_bykc',
+      url: getApp().globalData.baseUrl + '/api/update_user_bykc',
       method: 'POST',
       header: header,
       data: {
@@ -343,7 +343,7 @@ Page({
       const url = `../wtList/wtList`
       wx.navigateTo({url})
     } else if (type === 3) {
-      const url = `../htList/htList`
+      const url = `../htList/htList?type=5`
       wx.navigateTo({url})
     }
   },
@@ -460,7 +460,7 @@ Page({
 
 
     wx.request({
-      url: 'https://se.alangy.net/api/users/profile/',
+      url: getApp().globalData.baseUrl + '/api/users/profile/',
       method: 'GET',
       header: header,
       success(res) {

@@ -175,7 +175,7 @@ Page({
     if(type == '综合'){
       let self = this
       wx.request({
-        url: 'https://se.alangy.net/api/recommend/activities/',
+        url: getApp().globalData.baseUrl + '/api/recommend/activities/',
         method: 'POST',
         data: {
   
@@ -193,7 +193,7 @@ Page({
       })
     } else{
       wx.request({    
-        url: 'https://se.alangy.net/api/condition/activities/', //接口名称   
+        url: getApp().globalData.baseUrl + '/api/condition/activities/', //接口名称   
         header: this.data.head,
         method:"POST",  //请求方式 
         data: {
@@ -239,7 +239,7 @@ Page({
     }
     let self = this
     wx.request({
-      url: 'https://se.alangy.net/api/recommend/activities/',
+      url: getApp().globalData.baseUrl + '/api/recommend/activities/',
       method: 'POST',
       data: {
 
@@ -274,7 +274,7 @@ Page({
       }
     }
     wx.request({
-      url: 'https://se.alangy.net/api/activity_types_user_list/',
+      url: getApp().globalData.baseUrl + '/api/activity_types_user_list/',
       method: 'GET',
       header: headers,
       success (res) {

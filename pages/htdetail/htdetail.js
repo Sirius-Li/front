@@ -85,7 +85,7 @@ Page({
     }
     let self = this
     wx.request({    
-      url: 'https://se.alangy.net/api/condition/activities/', //接口名称 todo   
+      url: getApp().globalData.baseUrl + '/api/condition/activities/', //接口名称 todo   
       header: head,
       method:"POST",  //请求方式    
       //data: app.globalData.zdxx,  //用于存放post请求的参数  
@@ -98,7 +98,7 @@ Page({
           temp_list_attend.push(res.data[i].id)
         }
         wx.request({    
-          url: 'https://se.alangy.net/api/condition/activities/', //接口名称   
+          url: getApp().globalData.baseUrl + '/api/condition/activities/', //接口名称   
           header: head,
           method:"POST",  //请求方式    
           //data: app.globalData.zdxx,  //用于存放post请求的参数  
@@ -111,7 +111,7 @@ Page({
               temp_list_create.push(res.data[i].id)
             }
             wx.request({    
-              url: `https://se.alangy.net/api/activities/${self.data.id}/`, //接口名称   
+              url: getApp().globalData.baseUrl + `/api/activities/${self.data.id}/`, //接口名称   
               header: head,
               method:"GET",  //请求方式    
               //data: app.globalData.zdxx,  //用于存放post请求的参数   
@@ -147,7 +147,7 @@ Page({
                   }
                   self.setData({
                     activity: res.data,
-                    'swiperList[0].url': res.data.photo == ''?'../../../static/img/nophoto.jpg':'https://se.alangy.net/' + res.data.photo,
+                    'swiperList[0].url': res.data.photo == ''?'../../../static/img/nophoto.jpg':getApp().globalData.baseUrl + '/' + res.data.photo,
                     rate: res.data.remark
                   })
                   //评论弹窗控制 初始化commentShow
@@ -341,7 +341,7 @@ Page({
       }
       //if () {
         wx.request({    
-          url: 'https://se.alangy.net/api/select_activity', //接口名称   
+          url: getApp().globalData.baseUrl + '/api/select_activity', //接口名称   
           header: head,
           method:"POST",  //请求方式    
           data: {
@@ -424,7 +424,7 @@ Page({
         });
       }
       wx.request({    
-        url: 'https://se.alangy.net/api/cancel_activity', //接口名称   
+        url: getApp().globalData.baseUrl + '/api/cancel_activity', //接口名称   
         header: head,
         method:"POST",  //请求方式    
         data: {
@@ -513,7 +513,7 @@ Page({
         }
         self = this
         wx.request({    
-          url: 'https://se.alangy.net/api/remark_activity', //接口名称   
+          url: getApp().globalData.baseUrl + '/api/remark_activity', //接口名称   
           header: head,
           method:"POST",  //请求方式    
           data: {
@@ -582,7 +582,7 @@ Page({
       } else {
         self = this
       wx.request({    
-        url: 'https://se.alangy.net/api/comment/', //接口名称   
+        url: getApp().globalData.baseUrl + '/api/comment/', //接口名称   
         header: head,
         method:"POST",  //请求方式    
         data: {
@@ -642,7 +642,7 @@ Page({
         })
       } else {
         wx.request({    
-          url: 'https://se.alangy.net/api/comment/', //接口名称   
+          url: getApp().globalData.baseUrl + '/api/comment/', //接口名称   
           header: head,
           method:"POST",  //请求方式    
           data: {
@@ -744,7 +744,7 @@ Page({
       .then(() => {
         // on confirm
         wx.request({    
-          url: `https://se.alangy.net/api/activities/${this.data.activity.id}/`, //接口名称   
+          url: getApp().globalData.baseUrl + `/api/activities/${this.data.activity.id}/`, //接口名称   
           header: getApp().getHeaderWithToken(),
           method:"DELETE",  //请求方式    
           data: {
@@ -800,7 +800,7 @@ Page({
         message: '您是否要删除这条评论？'
       }).then(() => {
         wx.request({
-          url: `https://se.alangy.net/api/comment/${commentId}/`,
+          url: getApp().globalData.baseUrl + `/api/comment/${commentId}/`,
           method: 'DELETE',
           header: getApp().getHeaderWithToken(),
           success (res) {
