@@ -1,60 +1,71 @@
 const app = getApp();
 const chooseLocation = requirePlugin('chooseLocation');
+const wojujue= new Date();
 Page({
   data: {
     head : {},
-    active_id: null,
-    stime: '2021/1/1 10:00',
-    rtime: '2021/3/1 10:00',
+    stime: null,
+    rtime: null,
     act_name: null,
-    act_number: 0,
-    getActive: [],
-    position: '',
-    signDate: '',
-    stopDate: '',
+    act_number: null,
+    location:'选择运动类活动地点',
+    longitude:null,
+    latitude:null,
+    acttags:'',
+    choosePlace: false,
     list :{
+      'longitude':null,
+      'latitude':null,
       "start_at": '', //1
       "end_at": '', //1 
       "description": '', //1
       "allow_total": 0, // 1
+      "photo": '', //1
       "name":'?', //1
       "activity_type": 'name', //1
       "start_enrollment_at":'', //1
       "end_enrollment_at":'', //1
       "location":1,
       "position":'',
+      "tags":'' 
     },
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
+    position:null,
     index: null,
     typeStr: null,
-    typetemp: null,
     picker: ['学院路', '沙河', '校外'],
     type: [],
-    start_time: '7:00',
-    end_time: '23:59',
+    start_time: '12:00',
+    end_time: '12:00',
     signUp_stime: null,
     signDown_rtime: null,
-    date: '2018-12-25',
-    region: ['广东省', '广州市', '海珠区'],
+    date: wojujue.getFullYear() + '-' + (wojujue.getMonth()+1<10?'0' + (wojujue.getMonth()+1):(wojujue.getMonth()+1)) 
+    + '-' + (wojujue.getDate()<10?'0' + wojujue.getDate():wojujue.getDate()),
+    signDate: wojujue.getFullYear() + '-' + (wojujue.getMonth()+1<10?'0' + (wojujue.getMonth()+1):(wojujue.getMonth()+1)) 
+    + '-' + (wojujue.getDate()<10?'0' + wojujue.getDate():wojujue.getDate()),
+    stopDate: wojujue.getFullYear() + '-' + (wojujue.getMonth()+1<10?'0' + (wojujue.getMonth()+1):(wojujue.getMonth()+1)) 
+    + '-' + (wojujue.getDate()<10?'0' + wojujue.getDate():wojujue.getDate()),
     imgList: [],
+    haveimg: null,
     modalName: null,
     textareaValue: '',
-    //是否选择了地图地点
-    choosePlace: false,
-    //当前选择的地图地点
-    location: '选择运动类活动地点',
-    //经纬度
-    longitude:null,
-    latitude:null,
-    //地图选点按钮禁用
-    mapDisabled: true,
-    //存档标记
-    got: false
+    mapDisabled: true
   },
   PickerChange(e) {
     this.setData({
-      index: e.detail.value
+      index: e.detail.value,
+      'list.location': parseInt(e.detail.value) + 1
+    })
+  },
+  acttagsChange(e) {
+    this.setData({
+      acttags: e.detail.value
+    })
+  },
+  actPositionChange(e) {
+    this.setData({
+      position: e.detail.value
     })
   },
   actrTimeChange(e) {
@@ -67,11 +78,6 @@ Page({
       signUp_stime: e.detail.value
     })
   },
-  actPositionChange(e) {
-    this.setData({
-      position: e.detail.value
-    })
-  },
   NameChange(e) {
     this.setData({
       act_name: e.detail.value,
@@ -79,7 +85,8 @@ Page({
   },
   NumberChange(e) {
     this.setData({
-      act_number: e.detail.value
+      act_number: e.detail.value,
+      'list.allow_total': e.detail.value
     })
   },
   TypeChange(e) {
@@ -111,14 +118,14 @@ Page({
       date: e.detail.value
     })
   },
-  stopDateChange(e) {
-    this.setData({
-      stopDate: e.detail.value
-    })
-  },
   signDateChange(e) {
     this.setData({
       signDate: e.detail.value
+    })
+  },
+  stopDateChange(e) {
+    this.setData({
+      stopDate: e.detail.value
     })
   },
   getAlltype(){
@@ -144,51 +151,19 @@ Page({
       },
       header: this.data.head,
       success (res) {
-        
         temp= res.data.filter(x=> x.name!='博雅')
-      
         for(let i=0;i<temp.length;i++){
           t.push(temp[i].name)
         }
         self.setData({
           type: t
         })
-        self.getChange()
       },
       fail(res){
         getApp().globalData.util.netErrorToast()
       }
     })
   },
-  
-  textareaAInput(e) {
-    this.setData({
-      textareaValue: e.detail.value
-    })
-  },
-
-  //修改经纬度
-  onClick: function () {
-    const key = '6QIBZ-MEA63-GAZ3S-3AHGH-MJPXJ-3FB5S'; //使用在腾讯位置服务申请的key
-    const referer = 'asr-fri-1'; //调用插件的app的名称
-    let location = JSON.stringify({
-      latitude: 39.89631551,
-      longitude: 116.323459711
-    });
-    if(this.data.longitude != null && this.data.latitude != null){
-      location = JSON.stringify({
-        latitude: this.data.latitude,
-        longitude: this.data.longitude
-      });
-    }
-    this.setData({
-      choosePlace: true
-    })
-    wx.navigateTo({
-      url: `plugin://chooseLocation/index?key=${key}&referer=${referer}&location=${location}`
-    });
-  },
-
   ChooseImage() {
     wx.chooseImage({
       count: 1, //默认9
@@ -202,7 +177,8 @@ Page({
           })
         } else {
           this.setData({
-            imgList: res.tempFilePaths
+            imgList: res.tempFilePaths,
+            haveimg: 1
           })
         }
       }
@@ -214,132 +190,24 @@ Page({
       current: e.currentTarget.dataset.url
     });
   },
-
   DelImg(e) {
     wx.showModal({
       title: '亲爱的用户',
-      content: '确定要删除这张介绍图吗吗？',
+      content: '确定要删除这张介绍图吗？',
       cancelText: '取消',
       confirmText: '确定',
       success: res => {
         if (res.confirm) {
           this.data.imgList.splice(e.currentTarget.dataset.index, 1);
           this.setData({
-            imgList: this.data.imgList
+            imgList: this.data.imgList,
+            haveimg: null
           })
         }
       }
     })
   },
-  copymessage:function() {
-    let start = this.data.getActive.normal_activity.start_at
-    let end = this.data.getActive.normal_activity.end_at
-    let dd, stdd, rtdd
-    if(start == undefined && end == undefined){
-      dd = this.data.date
-      stdd = this.data.start_time
-      rtdd = this.data.end_time
-    }else if(start == undefined && end != undefined){
-      dd = end.split(' ')[0].replace(/\//g, "-")
-      stdd = this.data.start_time
-      rtdd = end.split(' ')[1]
-    }else if(start != undefined && end == undefined){
-      dd = start.split(' ')[0].replace(/\//g, "-")
-      stdd = start.split(' ')[1]
-      rtdd = this.data.end_time
-    }else{
-      dd = start.split(' ')[0].replace(/\//g, "-")
-      stdd = start.split(' ')[1]
-      rtdd = end.split(' ')[1]
-    }
-    /*let ddd = this.data.getActive.normal_activity.start_at.split(' ')
-    let fff = this.data.getActive.normal_activity.end_at.split(' ')
-    let dd = ddd[0].replace(/\//g, "-")
-    let stdd = ddd[1]
-    let rtdd = fff[1]*/
-    //console.log(this.data.getActive.activity_type.name)
-    //console.log(this.data.getActive.longitude)
-    this.setData({
-      act_name: this.data.getActive.name,
-      signUp_stime: this.data.getActive.start_enrollment_at,
-      signDown_rtime: this.data.getActive.end_enrollment_at,
-      signDate: this.data.getActive.start_enrollment_at.split(' ')[0].replace(/\//g, '-'),
-      stopDate: this.data.getActive.end_enrollment_at.split(' ')[0].replace(/\//g, '-'),
-      typetemp: this.data.getActive.activity_type.name,
-      imgList: this.data.getActive.photo,
-      date: dd,
-      start_time: stdd,
-      end_time: rtdd,
-      index: this.data.getActive.location - 1,
-      textareaValue: this.data.getActive.normal_activity.description,
-      act_number: this.data.getActive.normal_activity.allow_total,
-      position: this.data.getActive.position,
-      longitude: this.data.getActive.longitude,
-      latitude: this.data.getActive.latitude
-    })
-    for(let i=0;i<this.data.type.length;i++){
-      if (this.data.type[i]==this.data.typetemp){
-        this.setData({
-          typeStr: i
-        })
-      }
-    }
-    if(this.data.type[this.data.typeStr] == '体育'){
-      this.setData({
-        mapDisabled: false
-      })
-    }else{
-      this.setData({
-        mapDisabled: true
-      })
-    }
-    let self = this
-    if(this.data.longitude != null && this.data.latitude != null){
-      wx.request({
-        url: 'https://apis.map.qq.com/ws/geocoder/v1/',
-        method: 'GET',
-        data: {
-          'location': self.data.latitude + ',' + self.data.longitude,
-          'key': 'SVYBZ-IMUKD-23D4M-PU46M-WMXIQ-MPFRZ',
-        },
-        success(res){
-          if(res.statusCode == 200){
-            //console.log(res)
-            self.setData({
-              location: res.data.result.address,
-            })
-          }else{
-            wx.showToast({
-              title: '位置获取失败',
-              icon: 'error'
-            })
-          }
-          self.setData({
-            got: true
-          })
-          if (self.gotCallback){
-            self.gotCallback(self.data.got);
-          }
-        },
-        fail(res){
-          getApp().globalData.util.netErrorToast()
-          self.setData({
-            got: true
-          })
-          if (self.gotCallback){
-            self.gotCallback(self.data.got);
-          }
-        }
-      })
-    }else{
-      self.setData({
-        got: true
-      })
-      if (self.gotCallback){
-        self.gotCallback(self.data.got);
-      }
-    }
-  },
+  
   // 提交信息
   submit: function() {
     let app = getApp()
@@ -376,21 +244,30 @@ Page({
       wx.showModal({
         title: '提示',
         content: '活动开始报名时间不能晚于活动结束报名时间',
+        showCancel: false
       })
     } else if (dateStop >= dateStart) {
       wx.showModal({
         title: '提示',
-        content: '活动开始时间不能早于结束报名时间',
+        content: '活动开始时间必须晚于结束报名时间',
+        showCancel: false
       })
     } else if (actE <= actS) {
       wx.showModal({
         title: '提示',
-        content: '活动开始时间不能晚于活动结束时间',
+        content: '活动开始时间必须早于活动结束时间',
+        showCancel: false
       })
-    } else if (this.data.act_name.length == 0) {
+    } else if (this.data.act_name == null || this.data.act_name.length == 0) {
       wx.showModal({
         title: '提示',
         content: '没有设置活动名称',
+        showCancel: false
+      })
+    }  else if (this.data.index == null) {
+      wx.showModal({
+        title: '提示',
+        content: '没有选择校区',
         showCancel: false
       })
     } else if (this.data.act_number == null || this.data.act_number.length == 0) {
@@ -399,11 +276,11 @@ Page({
         content: '请设置活动人数限制',
         showCancel: false
       })
-    } else if (this.data.act_number <= 0) {
+    }else if (this.data.act_number <= 0) {
       wx.showModal({
         title: '提示',
         content: '活动人数需为大于0的正整数',
-        showCancel: false
+        showCancel: falsez
       })
     }  else if (this.data.act_number >= 2001) {
       wx.showModal({
@@ -415,6 +292,18 @@ Page({
       wx.showModal({
         title: '提示',
         content: '请设置活动具体地点',
+        showCancel: false
+      })
+    } else if (this.data.typeStr == null) {
+      wx.showModal({
+        title: '提示',
+        content: '请设置活动类别',
+        showCancel: false
+      })
+    } else if (this.data.haveimg == null) {
+      wx.showModal({
+        title: '提示',
+        content: '请上传活动照片',
         showCancel: false
       })
     } else if (this.data.textareaValue.length == 0) {
@@ -435,8 +324,10 @@ Page({
         content: '运动类活动请进行选点',
         showCancel: false
       })
-    } else {
+    } else if (this.data.longitude == null || this.data.latitude == null) {
       this.setData({
+        'list.longitude': '',
+        'list.latitude': '',
         'list.name': this.data.act_name,
         'list.start_enrollment_at': Sdate + ' 0:00',
         'list.end_enrollment_at': Rdate + ' 23:59',
@@ -444,97 +335,131 @@ Page({
         'list.photo': this.data.imgList,
         'list.start_at': Mydate + ' ' + this.data.start_time,
         'list.end_at': Mydate + ' ' + this.data.end_time,
-        'list.location': parseInt(this.data.index) + 1,
-        'list.description': this.data.textareaValue,
-        'list.allow_total': this.data.act_number,
-        'list.position':this.data.position,
+        'list.position': this.data.position,
+        'list.tags': this.data.acttags
       })
-      if(this.data.type[this.data.typeStr] == '体育'){
-        this.setData({
-          'list.longitude': this.data.longitude,
-          'list.latitude': this.data.latitude
-        })
-      }
       if (app.globalData.token == null) {
         this.data.head = {      
           'content-type': 'application/json'
-        }
+         }
       } else {
         this.data.head = {      
           'content-type': 'application/json',
           'Authorization': 'Token ' + app.globalData.token
-        }
+         }
       }
       let self = this
-      console.log(self.data.list)
-      //console.log(self.data.list.activity_type)
-      wx.request({    
-        header: this.data.head,
-        url: getApp().globalData.baseUrl + `/api/activities/${this.data.active_id}/`, //接口名称
-        method: "PUT",
-        //filePath: this.data.imgList[0],
-        //name:'photo',   
-        // header: this.data.head,
-        data: this.data.list, 
-        success(res) {     
-          if(res.statusCode == 201){
-            wx.redirectTo({
-              url: '../../../actList/actList?type=5',
+      wx.getSetting({
+        withSubscriptions: true,
+        success(res) {
+          if(res.subscriptionsSetting.mainSwitch){
+            wx.requestSubscribeMessage({
+              tmplIds: [
+                'mEFV6psbMGpP9i8CU8NXTJ27dOoppg8FZsYQmN9lHcs',
+                'C4V9ycGzS0BGvjVsmcondcBwFMOvLFQ3sE8j0KKTF0g',
+                'N0g3qePR6hz8Fn79lM_5sIT9jhUTKEYQW5Y_VObffZ0'],
+              success (res) {
+                self.release(self)
+              }
             })
-            wx.showToast({
-              title: '活动修改成功',
-            })
-            self.getChange()
-          }else if(res.statusCode == 400){
-            if(res.data === ''){
-              wx.showToast({
-                title: '活动修改失败',
-                icon: 'error'
-              })
-            }else{
-              wx.showModal({
-                content: res.data,
-                showCancel: false
-              })
-            }
           }else{
-              wx.showToast({
-                title: '活动修改失败',
-              })
+            self.release(self)
           }
         },
-        fail(res){
-          getApp().globalData.util.netErrorToast()
-        }
       })
+    } else {
+      this.setData({
+        'list.longitude': this.data.longitude,
+        'list.latitude': this.data.latitude,
+        'list.name': this.data.act_name,
+        'list.start_enrollment_at': Sdate + ' 0:00',
+        'list.end_enrollment_at': Rdate + ' 23:59',
+        'list.activity_type': this.data.type[this.data.typeStr],
+        'list.photo': this.data.imgList,
+        'list.start_at': Mydate + ' ' + this.data.start_time,
+        'list.end_at': Mydate + ' ' + this.data.end_time,
+        'list.position': this.data.position,
+        'list.tags': this.data.acttags
+      })
+      if (app.globalData.token == null) {
+        this.data.head = {      
+          'content-type': 'application/json'
+         }
+      } else {
+        this.data.head = {      
+          'content-type': 'application/json',
+          'Authorization': 'Token ' + app.globalData.token
+         }
+      }
+      let self = this
+      wx.getSetting({
+        withSubscriptions: true,
+        success(res) {
+          if(res.subscriptionsSetting.mainSwitch){
+            wx.requestSubscribeMessage({
+              tmplIds: [
+                'mEFV6psbMGpP9i8CU8NXTJ27dOoppg8FZsYQmN9lHcs',
+                'C4V9ycGzS0BGvjVsmcondcBwFMOvLFQ3sE8j0KKTF0g',
+                'N0g3qePR6hz8Fn79lM_5sIT9jhUTKEYQW5Y_VObffZ0'],
+              success (res) {
+                self.release(self)
+              }
+            })
+          }else{
+            self.release(self)
+          }
+        },
+      })
+      
     }
   },
-  getChange: function() {
-    let app = getApp()
-    let head = {}
-    if (app.globalData.token == null) {
-      head = {      
-        'content-type': 'application/json'
-       }
-    } else {
-      head = {      
-        'content-type': 'application/json',
-        'Authorization': 'Token ' + app.globalData.token
-       }
-    }
-    let self = this
-    wx.request({    
-      url: getApp().globalData.baseUrl + `/api/activities/${self.data.active_id}/`,
-      header: head,
-      method:"GET",  //请求方式   
-      success(res) {     
-        console.log(res.data)
-        self.data.getActive = res.data 
-        self.copymessage()
+
+  release(self){
+    wx.uploadFile({    
+      header: self.data.head,
+      url: getApp().globalData.baseUrl + '/api/activities/', //接口名称
+      filePath: self.data.imgList[0],
+      name:'photo',   
+      // header: self.data.head,
+      formData: self.data.list, 
+       success(res) {     
+         if(res.statusCode == 201){
+           wx.navigateTo({
+             url: '../../actList/actList?type=5',
+           })
+            wx.showToast({
+              title: '活动发布成功',
+            })
+           self.reset()  
+         }else if(res.statusCode == 400){
+           if(res.data === ''){
+            wx.showToast({
+              title: '活动发布失败',
+              icon: 'error'
+            })
+           }else{
+            wx.showModal({
+              content: res.data,
+              showCancel: false
+            })
+           }
+         }else{
+            wx.showToast({
+              title: '活动发布失败',
+              icon: 'error'
+            })
+         }
       },
       fail(res){
         getApp().globalData.util.netErrorToast()
       }
+    })
+  },
+
+  textareaAInput(e) {
+    this.setData({
+      textareaValue: e.detail.value,
+      'list.description': e.detail.value
     })
   },
 
@@ -543,10 +468,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({
-      active_id: options.id
-    })
-    
   },
 
   /**
@@ -560,42 +481,91 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.tabBar();
-    if(!this.data.got){
-      this.getAlltype()
-    }
-    if (this.data.got == false) {
-      //callback
-      this.gotCallback = (got) => {
-        if (got) {
-          this.locationUpdate()
-        }
-      }
-    } else {
-      this.locationUpdate()
-    }
-  },
-
-  //位置更新
-  locationUpdate(){
-    let self = this
+    //this.tabBar();
+    //console.log("call onshow()")
+    //console.log(this.data.choosePlace)
+    this.getAlltype()
+    this.getTabBar().init();
+    getApp().getNotificationCount()
     const location1 = chooseLocation.getLocation();
-    //根据是否获取到了地图地点首先更新choosePlace
-    if (location1 && self.data.choosePlace) {
-      self.setData({
+    if (location1 && this.data.choosePlace) {
+      this.setData({
         location: location1.address,
         latitude: location1.latitude,
         longitude: location1.longitude
       })
     }
+    if(getApp().globalData.user_status == 2){
+      wx.redirectTo({
+        url: '../../certification/certification',
+      })
+    }else if(getApp().globalData.user_status == 1){
+      wx.switchTab({
+        url: '../home/home',
+        success(res){
+          wx.showToast({
+            title: '用户还在认证中',
+            icon: 'error'
+          })
+        }
+      })
+    }
+  },
+  reset:function() {
+    let nowTime = new Date()
+    this.setData({
+      longitude: null,
+      latitude: null,
+      stime: null,
+      rtime: null,
+      act_name: null,
+      act_number: null,
+      choosePlace: false,
+      acttags: '',
+      date: nowTime.getFullYear() + '-' + (nowTime.getMonth()+1<10?'0' + (nowTime.getMonth()+1):(nowTime.getMonth()+1)) 
+      + '-' + (nowTime.getDate()<10?'0' + nowTime.getDate():nowTime.getDate()),
+      signDate: nowTime.getFullYear() + '-' + (nowTime.getMonth()+1<10?'0' + (nowTime.getMonth()+1):(nowTime.getMonth()+1)) 
+      + '-' + (nowTime.getDate()<10?'0' + nowTime.getDate():nowTime.getDate()),
+      stopDate: nowTime.getFullYear() + '-' + (nowTime.getMonth()+1<10?'0' + (nowTime.getMonth()+1):(nowTime.getMonth()+1)) 
+      + '-' + (nowTime.getDate()<10?'0' + nowTime.getDate():nowTime.getDate()),
+      
+      location:'选择运动类活动地点',
+      index: null,
+      typeStr: null,
+      start_time: '12:00',
+      end_time: '12:00',
+      signUp_stime: null,
+      signDown_rtime: null,
+      imgList: [],
+      haveimg: null,
+      modalName: null,
+      textareaValue: '',
+      position: null
+    })
+    
   },
 
-  tabBar(){
+  /*tabBar(){
     if(typeof this.getTabBar === 'function' && this.getTabBar()){
       this.getTabBar().setData({
         selected:2
       })
     }
+  },*/
+  
+  onClick: function () {
+    const key = '6QIBZ-MEA63-GAZ3S-3AHGH-MJPXJ-3FB5S'; //使用在腾讯位置服务申请的key
+    const referer = 'asr-fri-1'; //调用插件的app的名称
+    const location = JSON.stringify({
+      latitude: 39.89631551,
+      longitude: 116.323459711
+    });
+    this.setData({
+      choosePlace: true
+    })
+    wx.navigateTo({
+      url: `plugin://chooseLocation/index?key=${key}&referer=${referer}&location=${location}`
+    });
   },
 
   /**
