@@ -35,7 +35,7 @@ Component({
         "text": "分类"
       },
       {
-        "url": "/pages/activity/releasing/releasing",
+        "url": "/pages/release/release",
         "icon": "add-o",
         "info": '',
         "text": "发布"
@@ -61,6 +61,7 @@ Component({
   methods: {
 
     onChange(e) {
+      console.log(e)
       this.setData({
         active: e.detail
       });

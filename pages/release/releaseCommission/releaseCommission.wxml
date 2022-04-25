@@ -1,10 +1,8 @@
-<!--pages/activity/releaseCommission/rerleaseCommission.wxml-->
-<!-- <text>pages/activity/releaseCommission/rerleaseCommission.wxml</text> -->
-<cu-custom bgColor="bg-gradual-blue" isBack="{{false}}">
-	<view slot="backText">返回</view>
-	<view slot="content">委托发布</view>
-</cu-custom>   
 
+<!--pages/release/releaseCommission/releaseConnission.wxml-->
+
+
+<!--pages/release/releaseCommission/releaseConnission.wxml-->
 <view style= "margin-bottom:100px">
 	<form>
 	<!--name-->

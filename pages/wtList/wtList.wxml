@@ -19,26 +19,27 @@
             </view>
           </view> -->
           <van-card>
-            <view slot="thumb" bindtap="gotoUserPage" data-userid="{{item.content.create_user.id}}">
+            <view slot="thumb" bindtap="gotoUserPage" data-userid="{{item.user.id}}">
               <view class="cu-avatar round lg" 
-              style="background-image:url({{item.content.create_user.avatarUrl == ''?'../../img/default_avatar.png':item.content.create_user.avatarUrl}});"></view>
+                style="background-image:url({{item.photo == null ? '../../img/default_avatar.png' : (item.photo == '' ? '../../img/default_avatar.png' : item.photo)}})">
+              </view>
             </view>
             <view slot="title" class="text-black text-df">
-              {{item.content.description}}
+              {{item.description}}
             </view>
             <view slot="desc" bindtap="jumpToSonPages" data-id="{{item.id}}">
             <!-- 以上绑定点击事件 -->
               <view>
-                <van-icon name="user-o"/><text class="field-name text-blue" >发起人：</text>{{item.name}}
+                <van-icon name="user-o"/><text class="field-name text-blue" >发起人：</text>{{item.user.nickName}}
               </view>
               <view>
-                <van-icon name="clock-o"/><text class="field-name text-blue" >委托内容:</text>{{item.content.description}}
+                <van-icon name="clock-o"/><text class="field-name text-blue" >委托内容:</text>{{item.description}}
               </view>
               <view>
-                <van-icon name="clock"/><text class="field-name text-blue">是否实时:</text>{{item.content.realTime}}
+                <van-icon name="clock"/><text class="field-name text-blue">是否实时:</text>{{item.real_time}}
               </view>
               <view>
-                <van-icon name="location-o"/><text class="field-name text-blue">金额:</text>{{item.content.fee}}元
+                <van-icon name="location-o"/><text class="field-name text-blue">金额:</text>{{item.fee}}元
               </view>
             </view>
           </van-card>
