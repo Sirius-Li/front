@@ -281,7 +281,7 @@ Page({
                       num: 3
                     })
                   }else{
-                    //console.log(res)
+                    console.log(res)
                     wx.showToast({
                       title: '身份认证失败',
                       icon: 'error'
