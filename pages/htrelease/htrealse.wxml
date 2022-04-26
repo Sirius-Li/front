@@ -8,7 +8,7 @@
 	<form>
 	<view class="cu-form-group margin-top">
 		<view class="title">标题</view>
-		<input placeholder="请输入话题标题" value="{{act_name}}" bindinput="NameChange" maxlength="{{30}}"></input>
+		<input placeholder="请输入话题标题" value="{{topic_name}}" bindinput="NameChange" maxlength="{{30}}"></input>
 	</view>
 
   <view class="cu-form-group margin-top">

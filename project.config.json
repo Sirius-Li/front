@@ -44,7 +44,7 @@
   "compileType": "miniprogram",
   "libVersion": "2.16.1",
   "appid": "wx8eb8498db3736995",
-  "projectname": "weapp-vant-project-master-6827b395e37bc830c310db72c0373caff01c2976",
+  "projectname": "front",
   "debugOptions": {
     "hidedInDevtools": []
   },
