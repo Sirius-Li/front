@@ -1,4 +1,5 @@
 
+
 // pages/release/releaseCommission/releaseConnission.js
 Component({
   /**
@@ -366,5 +367,4 @@ Component({
 
 
 
-  
-  
+
