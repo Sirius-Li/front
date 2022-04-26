@@ -101,7 +101,6 @@ Page({
                 }
             })
         } else if (this.data.type == 2) {
-            console.log(self.data.sort)
             wx.request({
                 url: getApp().globalData.baseUrl + '/api/condition/topics/',
                 header: head,
@@ -113,7 +112,6 @@ Page({
                     }
                 },
                 success(res) {
-                    console.log(res.data)
                     self.setData({
                         list: res.data
                     })
@@ -159,7 +157,6 @@ Page({
 
     changeTab:function(event) {
         let activeID = event.detail.index
-        console.log(activeID)
         let app = getApp()
         let head
         let self = this
@@ -175,7 +172,7 @@ Page({
         }
         if (activeID === 0) {
             wx.request({
-                url:getApp().globalData.baseUrl + '/api/topic/',
+                url:getApp().globalData.baseUrl + '/api/user_create_topic/' + getApp().globalData.myUserId,
                 header: head,
                 method:"GET",   
                 data: {
@@ -192,7 +189,7 @@ Page({
             })
         } else if (activeID === 1) {
             wx.request({
-                url:getApp().globalData.baseUrl + '/api/topic/',
+                url:getApp().globalData.baseUrl + '/api/topic_follow_users_self/',
                 header: head,
                 method:"GET",   
                 data: {
@@ -228,7 +225,7 @@ Page({
         Dialog.confirm({
             message: '您是否要删除该话题？'
           }).then(() => {wx.request({    
-            url: getApp().globalData.baseUrl + '/api/topic/', //接口名称   
+            url: getApp().globalData.baseUrl + '/api/topic/' + id + '/', //接口名称   
             header: head,
             method:"DELETE",  //请求方式    
             data: {
@@ -264,7 +261,7 @@ Page({
         Dialog.confirm({
             message: '您是否决定不再关注该话题？'
           }).then(() => {wx.request({    
-            url: getApp().globalData.baseUrl + '/api/topic_follows/', //接口名称   
+            url: getApp().globalData.baseUrl + '/api/topic_follows/' + id + '/', //接口名称   
             header: head,
             method:"DELETE",  //请求方式    
             data: {
@@ -308,7 +305,40 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-        this.getDetail()
+        if (this.data.type == 5) {
+            let app = getApp()
+            let head
+            let self = this
+            if (app.globalData.token == null) {
+                head = {      
+                'content-type': 'application/json'
+                }
+            } else {
+                head = {      
+                'content-type': 'application/json',
+                'Authorization': 'Token ' + app.globalData.token
+                }
+            }
+            wx.request({
+                url:getApp().globalData.baseUrl + '/api/user_create_topic/' + getApp().globalData.myUserId,
+                header: head,
+                method:"GET",   
+                data: {
+                    
+                },
+                success(res) {
+                    self.setData({
+                        list: res.data
+                    })
+                },
+                fail(res) {
+                    getApp().globalData.util.netErrorToast()
+                }
+            })
+        } else {
+            this.getDetail()
+        }
+        
     },
 
     /**

@@ -64,7 +64,8 @@ Page({
     //type
     type: 1,
     //
-    locList:['','学院路', '沙河', '校外']
+    locList:['','学院路', '沙河', '校外'],
+    activename:'0'
   },
 
   getDetail: function() {
@@ -243,6 +244,14 @@ Page({
     }
   },
 
+  changeTab:function (event) {
+    let activeID = event.detail.index + 2
+    let self = this
+    self.setData({
+      type: activeID
+    })
+    this.getDetail()
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
