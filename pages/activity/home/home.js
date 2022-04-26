@@ -173,8 +173,8 @@ Page({
     if(type == '热门话题'){
       let self = this
       wx.request({
-        url: getApp().globalData.baseUrl + '/api/topic/',
-        method: 'GET',
+        url: getApp().globalData.baseUrl + '/api/topic_search_trend/',
+        method: 'POST',
         data: {
   
         },
@@ -210,9 +210,9 @@ Page({
       })
     } else{
       wx.request({    
-        url: getApp().globalData.baseUrl + '/api/activities/', //接口名称   
+        url: getApp().globalData.baseUrl + '/api/recommend/activities/', //接口名称   
         header: this.data.head,
-        method:"GET",  //请求方式 
+        method:"POST",  //请求方式 
         data: {
           // "types": {
           //   "method": "name",
@@ -256,8 +256,8 @@ Page({
     }
     let self = this
     wx.request({
-      url: getApp().globalData.baseUrl + '/api/topic/',
-      method: 'GET',
+      url: getApp().globalData.baseUrl + '/api/topic_search_trend/',
+      method: 'POST',
       data: {
 
       },

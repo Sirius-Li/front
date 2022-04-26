@@ -101,14 +101,19 @@ Page({
                 }
             })
         } else if (this.data.type == 2) {
+            console.log(self.data.sort)
             wx.request({
-                url: getApp().globalData.baseUrl + '/api/topic/',
+                url: getApp().globalData.baseUrl + '/api/condition/topics/',
                 header: head,
-                method:"GET", 
+                method:"POST", 
                 data: {
-                    
+                    types : {
+                        method : "id",
+		                value : self.data.sort
+                    }
                 },
                 success(res) {
+                    console.log(res.data)
                     self.setData({
                         list: res.data
                     })
@@ -170,7 +175,7 @@ Page({
         }
         if (activeID === 0) {
             wx.request({
-                url:getApp().globalData.baseUrl + '/api/options/',
+                url:getApp().globalData.baseUrl + '/api/topic/',
                 header: head,
                 method:"GET",   
                 data: {
@@ -287,7 +292,7 @@ Page({
         if (this.data.keywords == undefined) {
             this.setData({
                 type: options.type,
-                sort:options.sort
+                sort: options.sort
             })
         }
     },

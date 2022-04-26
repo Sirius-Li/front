@@ -7,7 +7,7 @@ Page({
    */
   data: {
     categories: [],
-    categories0: [
+    /*categories0: [
       {
         id:0,
         name:"博雅",
@@ -62,7 +62,7 @@ Page({
         content:"交友",
         icon: "../../../img/profile3.jpg"
       }
-    ],
+    ],*/
     menu:[
       {
         id:0,
@@ -236,7 +236,6 @@ Page({
         method:'GET',
         header:headers,
         success(res) {
-          console.log(res)
           that.setData({
             categories: res.data
           })
@@ -271,10 +270,9 @@ Page({
 
   jumpToList(event) {
     let id = event.currentTarget.dataset.id
-    console.log(id)
     if (this.data.activeID === 0) {
       wx.navigateTo({
-        url: '../../actList/actList?id=' + id + '&type=2',
+        url: '../../actList/actList?id=' + id + '&type=6',
       })
     } else if (this.data.activeID === 1) {
       wx.navigateTo({
