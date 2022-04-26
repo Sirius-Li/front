@@ -22,14 +22,14 @@
 		<view class="title">类型选择</view>
 		<picker bindchange="TypeChange" value="{{commission_type_id}}" range="{{type_list}}">
 			<view class="picker">
-				{{(commission_type_id>-1)?type_list[commission_type_id]:'活动类型'}}
+				{{(commission_type_id>-1)?type_list[commission_type_id]:'委托类型'}}
 			</view>
 		</picker>
 	</view>
 	<!--location position-->
 	<view class="cu-form-group">
 		<view class="title">活动所在校区</view>
-		<picker bindchange="PickerChange" value="{{location}}" range="{{location_list}}">
+		<picker bindchange="LocationChange" value="{{location}}" range="{{location_list}}">
 			<view class="picker">
 				{{(location>-1)?location_list[location]:'选择校区'}}
 			</view>
