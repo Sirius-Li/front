@@ -274,7 +274,7 @@ Component({
            }
         }
         let self = this
-        self.release(self)
+        this.release(self)
         // wx.getSetting({
         //   withSubscriptions: true,
         //   success(res) {
@@ -298,6 +298,9 @@ Component({
     
     
     release(self){
+      let s_time = this.data.date.toString().replace(/-/g, '/') + ' ' + this.data.start_time
+      let e_time = this.data.date.toString().replace(/-/g, '/') + ' ' + this.data.end_time
+      let r_time = this.data.real_time.toString().replace(/-/g, '/')
     // wx.uploadFile({    
     wx.request({
       header: this.data.head,
@@ -306,16 +309,18 @@ Component({
       // filePath: self.data.imgList[0],
       // name:'photo',   
       // header: self.data.head,
+      
+
       data: {
         "commission_type_id": this.data.commission_type_id,
         "name": this.data.name,
-        "start_time": this.data.date + '/' + this.data.start_time,
-        "end_time": this.data.date + '/' + this.data.end_time,
-        "real_time": this.data.real_time,
+        "start_time": s_time,
+        "end_time": e_time,
+        "real_time": r_time,
         "location": this.data.location,
         "description": this.data.description,
         "fee": this.data.fee,
-        "tags": ['新主楼'],
+        "tags": [{name: '新主楼'},],
       }, 
        success(res) {     
          if(res.statusCode == 201){
