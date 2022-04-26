@@ -45,7 +45,7 @@
         <view class="text-xsl padding">
           <text class=" cuIcon-emojifill text-blue"></text>
         </view>
-        <view class="padding">暂时没有活动哦~</view>
+        <view class="padding">暂时没有委托哦~</view>
       </view>
     </view>
   </view>
