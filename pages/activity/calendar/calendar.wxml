@@ -50,6 +50,19 @@
         </view>
       </van-cell>
     </van-cell-group>
+    <van-cell-group style="border-radius:20px;padding:30px">
+      <van-cell wx:for="{{commissionList}}" wx:key="key" use-label-slot="{{true}}" bindtap="routeCommissionDescription" data-activityid="{{item.commissionId}}">
+        <!-- <view  wx:if="{{selectDate==item.date}}"> -->
+        <view slot="title">
+          <text dot>{{item.commissionName}}</text>
+        </view>
+        <view slot="label">
+          <text>{{item.commissionLocation}}</text>
+          <text style="display:flex;flex-direction:row-reverse">{{item.commissionTime}}</text>
+        </view>
+        <!-- </view> -->
+      </van-cell>
+    </van-cell-group>
   </view>
 </view>
 
