@@ -85,6 +85,7 @@ App({
               //getApp().globalData.user_status = 2
             },
             fail (res) {
+              console.log(res)
               self.reLogin.reset().start()
             }
           })

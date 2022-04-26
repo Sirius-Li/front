@@ -24,12 +24,12 @@ bind:focus="focus"
   icon="hot"
   text="实时委托"
   link-type="navigateTo"
-  url="../../wtList/wtList"/>
+  url="../../wtList/wtList?type=5"/>
   <van-grid-item 
   icon="chat" 
   text="话题"
   link-type="navigateTo"
-  url="../../htList/htList?type=2"/>
+  url="../../htList/htList?type=1"/>
   <van-grid-item 
   icon="award"
   text="委托"
@@ -39,7 +39,7 @@ bind:focus="focus"
   icon="icon iconfont icon-boya" 
   text="活动"
   link-type="navigateTo"
-  url="../../actList/actList?type=6"/>
+  url="../../actList/actList?type=1"/>
 </van-grid>
 
 <view class='margin-xs bg-white padding-sm radius shadow-lg'>
@@ -55,6 +55,74 @@ bind:focus="focus"
             </view>
           </view>
         </block>
+        <block wx:elif="{{type == '热门话题'}}">
+          <view class="bg-white" wx:if="{{activityList.length == 0}}">
+              <view class="padding-xs flex align-center">
+                <view class="flex-sub text-center">
+                  <view class="text-xsl padding">
+                    <text class=" cuIcon-emojifill text-blue"></text>
+                  </view>
+                  <view class="padding">暂时没有相关推荐哦~</view>
+                </view>
+              </view>
+            </view>
+          
+          <view class='margin-xs bg-white radius shadow-lg' wx:for="{{activityList}}" wx:key="id">
+            <van-card
+              tag="佣金：{{item.fee}}元"
+              title="{{item.name}}"
+              bindtap="jumpToHt"
+              data-id="{{item.id}}"
+              thumb="{{ 1 ? '../../../../img/real-time.jpg' : '../../../../img/no-real-time.jpg'}}"
+             >
+            <view slot="desc">
+              <van-tag wx:for="{{item.tags}}" wx:for-item="tag" wx:key="id" round type="primary">{{tag.name}}</van-tag>
+              <view><van-icon name="user-o"/><text class="field-name text-blue" >发起人：</text>{{item.user.nickName}}</view>
+              <view><van-icon name="clock-o"/><text class="field-name text-blue" >开始时间:</text>{{item.start_time}}</view>
+              <view><van-icon name="clock"/><text class="field-name text-blue">结束时间:</text>{{item.end_time}}</view>
+              <view> {{item.description}} </view>
+              </view>
+              <view slot="bottom">
+              </view>
+            </van-card>
+          </view>
+        </block>
+        <block wx:elif="{{type == '委托推荐'}}">
+          <view class="bg-white" wx:if="{{activityList.length == 0}}">
+            <view class="padding-xs flex align-center">
+              <view class="flex-sub text-center">
+                <view class="text-xsl padding">
+                  <text class=" cuIcon-emojifill text-blue"></text>
+                </view>
+                <view class="padding">暂时没有相关推荐哦~</view>
+              </view>
+            </view>
+          </view>
+          
+          <view class='margin-xs bg-white radius shadow-lg' wx:for="{{activityList}}" wx:key="id">
+            <van-card
+              tag="佣金：{{item.fee}}元"
+              title="{{item.name}}"
+              bindtap="jumpToWt"
+              data-id="{{item.id}}"
+              thumb="{{item.real_time == 1 ? '../../../../img/real-time.jpg' : '../../../../img/no-real-time.jpg'}}"
+             >
+            <view slot="desc">
+              <van-tag wx:for="{{item.tags}}" wx:for-item="tag" wx:key="id" round type="primary">{{tag.name}}</van-tag>
+              <view><van-icon name="user-o"/><text class="field-name text-blue" >发起人：</text>{{item.user.nickName}}</view>
+              <view><van-icon name="clock-o"/><text class="field-name text-blue" >开始时间:</text>{{item.start_time}}</view>
+              <view><van-icon name="clock"/><text class="field-name text-blue">结束时间:</text>{{item.end_time}}</view>
+              <view> {{item.description}} </view>
+              </view>
+              <view slot="bottom">
+                <!--卡片大小可能不一致，需要改进-->
+                <!--暂时统一不要简介-->
+                <!--<text class="field-name text-blue" >简介:</text>{{item.normal_activity.description}}-->
+              </view>
+            </van-card>
+          </view>
+        </block>
+
         <block wx:else>
           <view class="bg-white" wx:if="{{activityList.length == 0}}">
             <view class="padding-xs flex align-center">
@@ -62,7 +130,7 @@ bind:focus="focus"
                 <view class="text-xsl padding">
                   <text class=" cuIcon-emojifill text-blue"></text>
                 </view>
-                <view class="padding">暂时没有活动哦~</view>
+                <view class="padding">暂时没有相关推荐哦~</view>
               </view>
             </view>
           </view>
@@ -73,7 +141,7 @@ bind:focus="focus"
               title="{{item.name}}"
               bindtap="jumpToSonPages"
               data-id="{{item.id}}"
-              thumb="https://se.alangy.net/{{item.photo}}"
+              thumb="http://114.116.215.100/{{item.photo}}"
              >
             <view slot="desc">
               <van-tag wx:for="{{item.tags}}" wx:for-item="tag" wx:key="id" round type="primary">{{tag.name}}</van-tag>
@@ -92,15 +160,13 @@ bind:focus="focus"
           </view>
         </block>
         <tui-fab left="{{0}}" right="{{20}}" bottom="{{320}}" bind:click="onClick" custom="{{true}}" btnList="{{shortcutList}}">
-          <!--<view slot="default"><text class="icon iconfont icon-robot"/></view>-->
-          <!--<text class="icon iconfont icon-robot" slot="default"/>-->
-          <!--暂时不知道这个slot怎么用-->
         </tui-fab>
-      <!--</scroll-view>-->
     </van-tab>
   </van-tabs>
 </view>
+
 <tui-scroll-top scrollTop="{{scrollTop}}" topIcon="../../../img/up_arrow.png" top="0" right="37"></tui-scroll-top>
+
 <view class='placeholder-view'>
   <view wx:if="{{activityList.length != 0}}">
     <view class="flex align-center">

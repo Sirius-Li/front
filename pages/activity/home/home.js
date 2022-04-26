@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    typeList:['综合', '体育', '讲座'],
+    typeList:['热门话题', '委托推荐', '热门活动'],
     //获取到的订阅类别
     categories:[],
 
@@ -152,10 +152,8 @@ Page({
   getActivityList:function(event){
     //type为活动类型
     let type = event.detail.title
+    // console.log(type)
     let self = this
-    /*wx.showToast({
-      title: type,
-    })*/
     this.setData({
       type: type,
       activityList: [],
@@ -172,11 +170,30 @@ Page({
         'Authorization': 'Token ' + app.globalData.token
        }
     }
-    if(type == '综合'){
+    if(type == '热门话题'){
       let self = this
       wx.request({
-        url: getApp().globalData.baseUrl + '/api/recommend/activities/',
-        method: 'POST',
+        url: getApp().globalData.baseUrl + '/api/topic/',
+        method: 'GET',
+        data: {
+  
+        },
+        header: this.data.head,
+        success (res) {
+          self.setData({
+            activityList: self.unique(res.data),
+            loading: false
+          })
+        },
+        fail(res){
+          getApp().globalData.util.netErrorToast()
+        }
+      })
+    } else if (type == '委托推荐') {
+      let self = this
+      wx.request({
+        url: getApp().globalData.baseUrl + '/api/commission/search/all/',
+        method: 'GET',
         data: {
   
         },
@@ -193,15 +210,15 @@ Page({
       })
     } else{
       wx.request({    
-        url: getApp().globalData.baseUrl + '/api/condition/activities/', //接口名称   
+        url: getApp().globalData.baseUrl + '/api/activities/', //接口名称   
         header: this.data.head,
-        method:"POST",  //请求方式 
+        method:"GET",  //请求方式 
         data: {
-          "types": {
-            "method": "name",
-            "value": [type],
-          },
-          'audit_status': [3]
+          // "types": {
+          //   "method": "name",
+          //   "value": [type],
+          // },
+          // 'audit_status': [3]
         }, 
         success(res) { 
           if(res.statusCode == 200){
@@ -224,7 +241,7 @@ Page({
   //加载页面时获取综合推荐的活动信息
   getCompoActivityList:function(){
     this.setData({
-      type: '综合'
+      type: '热门话题'
     })
     let app = getApp()
     if (app.globalData.token == null) {
@@ -239,8 +256,8 @@ Page({
     }
     let self = this
     wx.request({
-      url: getApp().globalData.baseUrl + '/api/recommend/activities/',
-      method: 'POST',
+      url: getApp().globalData.baseUrl + '/api/topic/',
+      method: 'GET',
       data: {
 
       },
@@ -282,7 +299,7 @@ Page({
           that.setData({
             categories: res.data
           })
-          let tempTypeList = ['综合', '体育', '讲座']
+          let tempTypeList = ['热门话题', '委托推荐', '热门活动']
           for(let i = 0; i < that.data.categories.length; i++){
             if(that.data.categories[i].id != 1 && that.data.categories[i].id != 5 && that.data.categories[i].id != 9
               && that.data.categories[i].is_subscribe == true){
@@ -308,6 +325,20 @@ Page({
     let id = event.currentTarget.dataset.id
     wx.navigateTo({
       url: '../../actList/activity/activity?id='+id,
+    })
+  },
+
+  jumpToWt : function(event) {
+    let id = event.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '../../commission/commission?id='+id,
+    })
+  },
+
+  jumpToHt : function(event) {
+    let id = event.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '../../htdetail/htdetail/?id='+id,
     })
   },
 

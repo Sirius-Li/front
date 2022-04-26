@@ -72,11 +72,9 @@ Page({
           // 'keyword': this.data.keywords
         }, 
         success(res) {   
-          console.log(res.data)
           self.setData({
             list: res.data
           })
-          console.log(self.data.list)
         },
         fail(res){
           getApp().globalData.util.netErrorToast()
@@ -292,7 +290,7 @@ Page({
   jumpToSonPages : function(event) {
     let id = event.currentTarget.dataset.id
     wx.navigateTo({
-      url: '../commission/commission',
+      url: '../commission/commission?id=' + id,
     })
   },
 

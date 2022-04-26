@@ -12,7 +12,7 @@ Page({
         CustomBar: app.globalData.CustomBar,
         */
         list: [
-            {
+           /* {
                 "id": 1,
                 "topic_type": {
                   "id": 2,
@@ -58,7 +58,7 @@ Page({
                   "audit_status": 3,
                   "is_staff": true
                 }
-            },  
+            },  */
         ],
         type: 1,
         keywords: '',
@@ -85,7 +85,7 @@ Page({
         }
         if (this.data.type == 1) {
             wx.request({
-                url: getApp().globalData.baseUrl + '/todo/',
+                url: getApp().globalData.baseUrl + '/api/topic/',
                 header: head,
                 method:"GET", 
                 data: {
@@ -102,11 +102,11 @@ Page({
             })
         } else if (this.data.type == 2) {
             wx.request({
-                url: getApp().globalData.baseUrl + '/todo/',
+                url: getApp().globalData.baseUrl + '/api/topic/',
                 header: head,
                 method:"GET", 
                 data: {
-                    'sort': this.data.sort
+                    
                 },
                 success(res) {
                     self.setData({
@@ -119,7 +119,7 @@ Page({
             })
         } else if (this.data.type == 5) {
             wx.request({
-                url: getApp().globalData.baseUrl + '/todo/',
+                url: getApp().globalData.baseUrl + '/api/topic/',
                 header: head,
                 method:"GET", 
                 data: {
@@ -170,11 +170,11 @@ Page({
         }
         if (activeID === 0) {
             wx.request({
-                url:'todo',
+                url:getApp().globalData.baseUrl + '/api/options/',
                 header: head,
-                method:"GET",   //todo
+                method:"GET",   
                 data: {
-                    // todo
+                    
                 },
                 success(res) {
                     self.setData({
@@ -187,11 +187,11 @@ Page({
             })
         } else if (activeID === 1) {
             wx.request({
-                url:'todo',
+                url:getApp().globalData.baseUrl + '/api/topic/',
                 header: head,
-                method:"GET",   //todo
+                method:"GET",   
                 data: {
-                    // todo
+                    
                 },
                 success(res) {
                     self.setData({

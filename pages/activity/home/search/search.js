@@ -338,20 +338,20 @@ Page({
     })
   },
 
-//将关键词传值到活动列表
-onSearch(event){
-  //空输入报错
-  if(event.detail == ''){
-    this.setData({
-      searchError: true
+  //将关键词传值到活动列表
+  onSearch(event){
+    //空输入报错
+    if(event.detail == ''){
+      this.setData({
+        searchError: true
+      })
+    }else{
+      
+    wx.navigateTo({
+      url: '../../../actList/actList?keywords='+ event.detail
     })
-  }else{
-    
-  wx.navigateTo({
-    url: '../../../actList/actList?keywords='+ event.detail
-  })
-  }
-},
+    }
+  },
 
   //将关键词传值到活动列表
   onSearchActivity(event){
@@ -479,9 +479,9 @@ onSearch(event){
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.getHotSearchList()
-    this.getCategorySearchList()
-    this.getHistorySearchList()
+    // this.getHotSearchList()
+    // this.getCategorySearchList()
+    // this.getHistorySearchList()
   },
 
   /**
