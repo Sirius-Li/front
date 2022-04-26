@@ -52,7 +52,6 @@ Page({
             }
           })
         } else {
-          
           wx.showToast({title: '请重试！'})
         }
       },

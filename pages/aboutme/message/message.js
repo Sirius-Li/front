@@ -354,6 +354,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    this.getTabBar().init();
     getApp().watch('new_message_func', 'message', this.watchBack)
     this.getMessage()
     this.getSecretMsg()

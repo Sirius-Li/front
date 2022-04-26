@@ -9,22 +9,34 @@ Page({
     CustomBar: app.globalData.CustomBar,
     list:[
       {
-        name:"张1",
-        photo:"https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg",
-        "normal_activity": {
-          "id": 1,
-          "start_at": "2021/05/02 08:00",
-          "end_at": "2021/05/03 11:55",
-          "description": "this is a sports",
-          "allow_total": 211,
-          "activity": 1
-        },
-        "create_user": 4,
-        "attend_users": 3,
-        "location": 1,
-        "position": "adddd"
+        type: "wt",
+        name:"first man",
+        photo:"",
+        content: {
+          description: "取快递",
+          realTime: "否",
+          fee: 2
+        }
+      },{
+        type: "wt",
+        name:"second man",
+        photo:"https://ossweb-img.qq.com/images/lol/web201310/skin/big10005.jpg",
+        content: {
+          description: "取外卖",
+          realTime: "是",
+          fee: 3
+        }
+      },{
+        type: "wt",
+        name:"third man",
+        content: {
+          description: "取外卖",
+          realTime: "是",
+          fee: 3
+        }
       },
       {
+        type: "activity",
         name:"张2",
         photo:"https://ossweb-img.qq.com/images/lol/web201310/skin/big10005.jpg",
         "normal_activity": {
@@ -41,6 +53,7 @@ Page({
         "position": "adddd"
       },
       {
+        type: "activity",
         name:"张3",
         photo:"https://ossweb-img.qq.com/images/lol/web201310/skin/big10004.jpg",
         "normal_activity": {
@@ -310,7 +323,7 @@ Page({
   jumpToSonPages : function(event) {
     let id = event.currentTarget.dataset.id
     wx.navigateTo({
-      url: './activity/activity?id='+id+'&type='+this.data.type,
+      url: '../commission/commission',
     })
   },
 

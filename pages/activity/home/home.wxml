@@ -19,28 +19,29 @@ bind:focus="focus"
     </swiper-item>
   </swiper>
 </view>
-<van-grid gutter="{{ 5 }}">
+<van-grid gutter="{{ 5 }}"> <!--通过gutter属性设置格子之间的距离-->
   <van-grid-item
-  icon="icon iconfont icon-rank"
-  text="热门活动"
+  icon="hot"
+  text="实时委托"
   link-type="navigateTo"
-  url="../../actList/actList?type=7"/>
+  url="../../wtList/wtList"/>
   <van-grid-item 
+  icon="chat" 
+  text="话题"
+  link-type="navigateTo"
+  url="../../htList/htList?type=2"/>
+  <van-grid-item 
+  icon="award"
+  text="委托"
+  link-type="navigateTo"
+  url="../../wtList/wtList"/>
+  <van-grid-item
   icon="icon iconfont icon-boya" 
-  text="博雅选课"
+  text="活动"
   link-type="navigateTo"
-  url="../../actList/actList?type=8"/>
-  <van-grid-item 
-  icon="icon iconfont icon-zhiyuan"
-  text="志愿服务"
-  link-type="navigateTo"
-  url="../../actList/actList?type=6&id=10"/>
-  <van-grid-item
-  icon="icon iconfont icon-sport" 
-  text="体育运动"
-  link-type="navigateTo"
-  url="../../actList/actList?type=6&id=1"/>
+  url="../../actList/actList?type=6"/>
 </van-grid>
+
 <view class='margin-xs bg-white padding-sm radius shadow-lg'>
   <van-tabs swipeable color="lightblue" bind:change="getActivityList" active="{{ active }}">
     <van-tab wx:for="{{typeList}}" wx:for-item="type" wx:key="*this" title="{{type}}">
@@ -65,61 +66,30 @@ bind:focus="focus"
               </view>
             </view>
           </view>
-          <!--<block wx:if="{{type == '综合'}}">-->
-            <view class='margin-xs bg-white radius shadow-lg' wx:for="{{activityList}}" wx:key="id">
-              <van-card
+          
+          <view class='margin-xs bg-white radius shadow-lg' wx:for="{{activityList}}" wx:key="id">
+            <van-card
               tag="{{item.activity_type.name}}"
               title="{{item.name}}"
               bindtap="jumpToSonPages"
               data-id="{{item.id}}"
               thumb="https://se.alangy.net/{{item.photo}}"
-              >
-                <!--<view slot="thumb">
-                  <block wx:if="{{item.photo == ''}}">
-                    <image src="../../../static/img/nophoto.jpg" mode="widthFix"/>
-                  </block>
-                  <block wx:else>
-                    <image src="https://se.alangy.net/{{item.photo}}" mode="widthFix"/>
-                  </block>
-                </view>-->
-                <view slot="desc">
-                  <van-tag wx:for="{{item.tags}}" wx:for-item="tag" wx:key="id" round type="primary">{{tag.name}}</van-tag>
-                  <view><van-icon name="user-o"/><text class="field-name text-blue" >发起人：</text>{{item.create_user.nickName}}</view>
-                  <view><van-icon name="clock-o"/><text class="field-name text-blue" >报名时间:</text>{{item.start_enrollment_at}}-{{item.end_enrollment_at}}</view>
-                  <view><van-icon name="clock"/><text class="field-name text-blue">活动时间:</text>{{item.normal_activity.start_at}}-{{item.normal_activity.end_at}}</view>
-                  <view><van-icon name="location-o"/><text class="field-name text-blue">活动地点:</text>{{locList[item.location]}}</view>
-                  <view><van-icon name="friends-o"/><text class="field-name text-blue">已选人数/总人数:</text>{{item.attend_user_num}}/{{item.normal_activity.allow_total}}</view>
-                </view>
-                <view slot="bottom">
+             >
+            <view slot="desc">
+              <van-tag wx:for="{{item.tags}}" wx:for-item="tag" wx:key="id" round type="primary">{{tag.name}}</van-tag>
+              <view><van-icon name="user-o"/><text class="field-name text-blue" >发起人：</text>{{item.create_user.nickName}}</view>
+              <view><van-icon name="clock-o"/><text class="field-name text-blue" >报名时间:</text>{{item.start_enrollment_at}}-{{item.end_enrollment_at}}</view>
+              <view><van-icon name="clock"/><text class="field-name text-blue">活动时间:</text>{{item.normal_activity.start_at}}-{{item.normal_activity.end_at}}</view>
+              <view><van-icon name="location-o"/><text class="field-name text-blue">活动地点:</text>{{locList[item.location]}}</view>
+              <view><van-icon name="friends-o"/><text class="field-name text-blue">已选人数/总人数:</text>{{item.attend_user_num}}/{{item.normal_activity.allow_total}}</view>
+              </view>
+              <view slot="bottom">
                 <!--卡片大小可能不一致，需要改进-->
                 <!--暂时统一不要简介-->
-                  <!--<text class="field-name text-blue" >简介:</text>{{item.normal_activity.description}}-->
-                </view>
-              </van-card>
-            </view>
-          <!--</block>-->
-          <!--<block wx:else>
-            <view class='margin-xs bg-white radius shadow-lg' wx:for="{{activityList}}" wx:key="id">
-              <van-card
-              thumb="https://se.alangy.net/{{item.content.photo}}"
-              tag="{{item.content.activity_type.name}}"
-              title="{{item.content.name}}"
-              bindtap="jumpToSonPages"
-              data-id="{{item.content.id}}"
-              >
-                <view slot="desc">
-                  <van-tag wx:for="{{item.content.tags}}" wx:for-item="tag" wx:key="id" round type="primary">{{tag.name}}</van-tag>
-                  <view><van-icon name="user-o"/><text class="field-name text-blue" >发起人：</text>{{item.content.create_user.nickName}}</view>
-                  <view><van-icon name="clock-o"/><text class="field-name text-blue" >报名时间:</text>{{item.content.start_enrollment_at}}-{{item.content.end_enrollment_at}}</view>
-                  <view><van-icon name="clock"/><text class="field-name text-blue">活动时间:</text>{{item.content.normal_activity.start_at}}-{{item.content.normal_activity.end_at}}</view>
-                  <view><van-icon name="location-o"/><text class="field-name text-blue">活动地点:</text>{{locList[item.content.location]}}</view>
-                  <view><van-icon name="friends-o"/><text class="field-name text-blue">已选人数/总人数:</text>{{item.content.attend_users.length}}/{{item.content.normal_activity.allow_total}}</view>
-                </view>
-                <view slot="bottom">
-                </view>
-              </van-card>
-            </view>
-          </block>-->
+                <!--<text class="field-name text-blue" >简介:</text>{{item.normal_activity.description}}-->
+              </view>
+            </van-card>
+          </view>
         </block>
         <tui-fab left="{{0}}" right="{{20}}" bottom="{{320}}" bind:click="onClick" custom="{{true}}" btnList="{{shortcutList}}">
           <!--<view slot="default"><text class="icon iconfont icon-robot"/></view>-->

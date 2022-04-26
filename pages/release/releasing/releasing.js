@@ -280,7 +280,7 @@ Page({
       wx.showModal({
         title: '提示',
         content: '活动人数需为大于0的正整数',
-        showCancel: false
+        showCancel: falsez
       })
     }  else if (this.data.act_number >= 2001) {
       wx.showModal({
