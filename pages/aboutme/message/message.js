@@ -83,22 +83,26 @@ Page({
     var headers = {}
     var app = getApp()
     var that = this
-    if (app.globalData.token != null) {
-      // headers = {
-      //   Authorization: 'Token ' + app.globalData.token
-      // }
-      headers['Authorization'] = 'Token ' + app.globalData.token
+    if (app.globalData.token == null) {
+      headers = {      
+        'content-type': 'application/json'
+       }
+    } else {
+      headers = {      
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + app.globalData.token
+       }
     }
-    //  else {
-    //   headers = {}
-    // }
     
     wx.request({
       url: getApp().globalData.baseUrl + '/api/notifications/my/',
       method: 'GET',
       header: headers,
+      data: {
+
+      },
       success (res) {
-        
+        console.log(res)
         for (var i = 0; i < res.data.length; i++) {
           var m = res.data[i]
           var dis = {

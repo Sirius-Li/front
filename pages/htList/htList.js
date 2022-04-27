@@ -172,7 +172,7 @@ Page({
         }
         if (activeID === 0) {
             wx.request({
-                url:getApp().globalData.baseUrl + '/api/user_create_topic/' + getApp().globalData.myUserId,
+                url:getApp().globalData.baseUrl + '/api/user_create_topic/' + getApp().globalData.myUserId + '/',
                 header: head,
                 method:"GET",   
                 data: {
@@ -188,17 +188,37 @@ Page({
                 }
             })
         } else if (activeID === 1) {
+            console.log(111)
             wx.request({
                 url:getApp().globalData.baseUrl + '/api/topic_follow_users_self/',
                 header: head,
                 method:"GET",   
                 data: {
-                    
                 },
                 success(res) {
+                    console.log(getApp().globalData.myUserId)
+                    console.log(res)
+                    /*let tmpList = []
+                    let itemList = []
+                    for(let i = 0; i < res.data.length; i++){
+                        tmpList.push(res.data[i].id)
+                    }
+                    for (let i = 0; i < tmpList.length; i++) {
+                        wx.request({
+                          url: getApp().globalData.baseUrl + '/api/topic/' + tmpList[i] + '/',
+                          header: head,
+                          method:"GET",   
+                          data: {
+                          }, success(res) {
+                            itemList.push(res.data)
+                          }, fail(res) {
+                            getApp().globalData.util.netErrorToast()
+                          } 
+                        })
+                    }
                     self.setData({
-                        list: res.data
-                    })
+                        list : itemList
+                    })*/
                 },
                 fail(res) {
                     getApp().globalData.util.netErrorToast()
@@ -232,7 +252,21 @@ Page({
               'id': id
             }, 
             success(res) {   
-                that.getDetail()
+                wx.request({
+                    url:getApp().globalData.baseUrl + '/api/user_create_topic/' + getApp().globalData.myUserId + '/',
+                    header: head,
+                    method:"GET",   
+                    data: {
+                    },
+                    success(res) {
+                        that.setData({
+                            list: res.data
+                        })
+                    },
+                    fail(res) {
+                        getApp().globalData.util.netErrorToast()
+                    }
+                })
                 wx.showToast({
                   title: '删除成功',
                 })
@@ -248,6 +282,7 @@ Page({
         let id = event.currentTarget.dataset.id
         let app = getApp()
         let head
+        let that = this
         if (app.globalData.token == null) {
             head = {      
                 'content-type': 'application/json'
@@ -268,7 +303,22 @@ Page({
               'id': id
             }, 
             success(res) {   
-                that.getDetail()
+                wx.request({
+                    url:getApp().globalData.baseUrl + '/api/topic_follow_users_self/',
+                    header: head,
+                    method:"GET",   
+                    data: {
+                        
+                    },
+                    success(res) {
+                        that.setData({
+                            list: res.data
+                        })
+                    },
+                    fail(res) {
+                        getApp().globalData.util.netErrorToast()
+                    }
+                })
                 wx.showToast({
                   title: '取消关注成功',
                 })
@@ -283,11 +333,12 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        this.setData({
+        var that = this
+        that.setData({
             keywords:options.keywords
         })
-        if (this.data.keywords == undefined) {
-            this.setData({
+        if (that.data.keywords == undefined) {
+            that.setData({
                 type: options.type,
                 sort: options.sort
             })
@@ -320,7 +371,7 @@ Page({
                 }
             }
             wx.request({
-                url:getApp().globalData.baseUrl + '/api/user_create_topic/' + getApp().globalData.myUserId,
+                url:getApp().globalData.baseUrl + '/api/user_create_topic/' + getApp().globalData.myUserId + '/',
                 header: head,
                 method:"GET",   
                 data: {
