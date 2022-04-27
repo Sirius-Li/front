@@ -33,11 +33,77 @@ Page({
         },
         "location": 1,
         "status": 1,
-        "description": "text",
+        "description": "这是一条委托",
         "audit": 1,
         "fee": 1,
     }
     ],
+
+
+    releasedWtList: [
+      {
+        "type": "wt",
+        "id": 101,
+        "commission_type":{
+            "id": 101,
+            "name": "commission_101"
+        },
+        "name": "text",
+        "start_time": "str",
+        "end_time": "str",
+        "create_at": "str",
+        "updated_at": "str",
+        "real_time": 1,
+        "user": {
+            "id": 1,
+            "nickName": "str",
+            "avatarUrl": "str",
+            "email": "str",
+            "age": "int",
+            "gender": "int",
+            "audit_status": "int",
+            "is_staff": "int",
+        },
+        "location": 1,
+        "status": 1,
+        "description": "这是一条你发布的委托",
+        "audit": 1,
+        "fee": 1,
+    }
+    ],
+    appliedWtList: [
+      {
+        "type": "wt",
+        "id": 101,
+        "commission_type":{
+            "id": 101,
+            "name": "commission_101"
+        },
+        "name": "text",
+        "start_time": "str",
+        "end_time": "str",
+        "create_at": "str",
+        "updated_at": "str",
+        "real_time": 1,
+        "user": {
+            "id": 1,
+            "nickName": "str",
+            "avatarUrl": "str",
+            "email": "str",
+            "age": "int",
+            "gender": "int",
+            "audit_status": "int",
+            "is_staff": "int",
+        },
+        "location": 1,
+        "status": 1,
+        "description": "这是一条你申请的委托",
+        "audit": 1,
+        "fee": 1,
+    }
+    ],
+
+
     //包括关键字 搜索栏输入关键字
     keywords: '',
     //id
@@ -162,7 +228,7 @@ Page({
         success(res) {   
           console.log(res.data)
           self.setData({
-            list: res.data
+            appliedWtList: res.data
           })
           console.log(self.data.list)
         },
@@ -183,7 +249,9 @@ Page({
         success(res) {   
           console.log(res.data)
           self.setData({
-            list: res.data
+
+            releasedWtList: res.data
+
           })
           console.log(self.data.list)
         },
