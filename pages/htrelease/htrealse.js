@@ -96,7 +96,7 @@ Page({
       }
     }
     wx.request({  //todo get topic type
-      url: 'http://114.116.215.100/api/topic_types_simple/',
+      url: 'http://114.116.215.100:443/api/topic_types_simple/',
       method: 'GET',
       data: {
 
