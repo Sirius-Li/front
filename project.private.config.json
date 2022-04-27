@@ -61,6 +61,20 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/release/releaseHt/releaseHt",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/release/release",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
