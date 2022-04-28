@@ -15,26 +15,29 @@ Page({
     ],
     weekArr: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
     dateList: [],
-    commissionList: [
-      {
-        commissionId: 111,
-        commissionName: "取快递",
-        commissionLocation: "学院路",
-        commissionTime: "14:00",
-        date: "2022/4/25"
-      },
-      {
-        commissionId: 112,
-        commissionName: "取外卖",
-        commissionLocation: "学院路",
-        commissionTime: "13:00",
-        date: "2022/4/24"
-      }
+    commissionList: [ // commissionList[i]表示当前月份第i天的所有委托
+      [],[
+        {
+          commissionId: 111,
+          commissionName: "取快递",
+          commissionLocation: "学院路",
+          commissionTime: "14:00", // 对应接口的start_time
+          date: "2022/4/1"
+        }
+      ],
+      [
+        {
+          commissionId: 112,
+          commissionName: "取外卖",
+          commissionLocation: "学院路",
+          commissionTime: "13:00", // 对应接口的start_time
+          date: "2022/4/2"
+        }
+      ],
     ],
   },
 
   getDateList: function (y, mon) {
-    
     var vm = this;
     var today = new Date();//当前时间  
     //如果是否闰年，则2月是29日
@@ -55,10 +58,18 @@ Page({
     for (var i = 1; i <= vm.data.daysCountArr[mon]; i++) {
       activityList[i] = []
     }
-    var commissionyList = {}
+    
+    // 初始化commissionList
+    var commissionList = {}
     for (var i = 1; i <= vm.data.daysCountArr[mon]; i++) {
-      commissionyList[i] = []
+      // commissionList[i] = []
+      // 前端测试用
+      commissionList[i] = this.data.commissionList[i] || []
+      console.log(commissionList[i])
     }
+    //var commissionList = this.data.commissionList
+    
+    
     var that = this
     var headers = {}
     if (getApp().globalData.token != null) {
@@ -75,11 +86,12 @@ Page({
       start: y + '/' + (parseInt(mon) + 1) + '/1 00:00',
       end: y + '/' + (parseInt(mon) + 1) + '/' + vm.data.daysCountArr[mon] + ' 23:59'  
     }
+    // {start: "2022/4/1 00:00", end: "2022/4/30 23:59"}
+    // console.log(timerange)
     
     wx.request({
-
       url: getApp().globalData.baseUrl + '/api/commission/applied/',
-      method: 'POST',
+      method: 'GET',
       header: headers,
       data: {
         user_attend: true,
@@ -87,12 +99,10 @@ Page({
         audit_status: [3],
       },
       success (res) {
-        
         for (var i = 0; i < res.data.length; i++) {
           var m = res.data[i]
           var start = parseInt(m.start_time.split(' ')[0].split('/')[2])
           var end = parseInt(m.end_time.split(' ')[0].split('/')[2])
-          
           for (var d = start; d <= end; d++) {
             commissionList[d].push({
               commissionId: m.id,
@@ -108,9 +118,9 @@ Page({
       },
       complete () {
         vm.setData({
-          //commissionList: commissionyList[vm.data.selectDay] || []
+          commissionList: commissionList,
+          commissionTodoList: commissionList[vm.data.selectDay] || []
         });
-        // console.log(vm.data.dateList)
       }
     })
 
@@ -160,6 +170,7 @@ Page({
               date: i + 1,
               week: week,
               activitiesCnt: activityList[i + 1].length,
+              commissionsCnt: commissionList[i + 1].length,
             });
           } else {
             dateList[weekIndex].push({
@@ -167,6 +178,7 @@ Page({
               date: i + 1,
               week: week,
               activitiesCnt: activityList[i + 1].length,
+              commissionsCnt: commissionList[i + 1].length,
             });
           }
         }
@@ -181,18 +193,20 @@ Page({
       }
     })
   },
+
   selectDate: function (e) {
     var vm = this;
-    console.log(this.data.selectedDate)
-    // 
     vm.setData({
       selectedDate: e.currentTarget.dataset.date.value,
       selectedWeek: vm.data.weekArr[e.currentTarget.dataset.date.week],
       selectDay: e.currentTarget.dataset.date.date,
-      todoList: vm.data.activityList[e.currentTarget.dataset.date.date]
+      todoList: vm.data.activityList[e.currentTarget.dataset.date.date],
+      commissionTodoList: vm.data.commissionList[e.currentTarget.dataset.date.date],
     });
-    
+    console.log(this.data.selectedDate)
+    console.log(this.data.commissionList)
   },
+
   preMonth: function () {
     // 上个月
     var vm = this;
@@ -206,11 +220,13 @@ Page({
       curMonth: curMonth,
       selectDay: 0,
       selectedDate: '',
-      todoList: []
+      todoList: [],
+      commissionTodoList: [],
     });
 
     vm.getDateList(curYear, curMonth - 1);
   },
+
   nextMonth: function () {
     // 下个月
     var vm = this;
@@ -224,7 +240,8 @@ Page({
       curMonth: curMonth,
       selectDay: 0,
       selectedDate: '',
-      todoList: []
+      todoList: [],
+      commissionTodoList: [],
     });
 
     vm.getDateList(curYear, curMonth - 1);
