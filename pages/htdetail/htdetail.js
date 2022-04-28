@@ -9,37 +9,56 @@ Page({
     hide: 1,
     str: '',
     list: [],
+    is_like:true,
+    user_status: null,
+    commentShow:[],
     ht:{
       id: 1111,
       ht_type_name: "选课",
+      topic_type:{
+        id:1,
+        name:"课程"
+      },
       name: "学院路计院大三选课",
       created_at: "2022/04/11 08:42",
-      updated_at: "2022/04/12 08:42",
-      user_id: 22222,
-      user_name:"ccc",
+      create_user:{
+        id:"1",
+        nickName:"ccc",
+        avatarUrl:""
+      },
       description: "6系大三下有什么好课可以选呢？",
-      photos: "",		// 图片文件夹URL   
+      photo: "",		// 图片文件夹URL   
       like: 100,				// 点赞数
       follow: 100,				// 关注数
     },
-    comments: [
+    comment: [
     	{
-        user_name: "aaa",
-        user_id:1111,
-        user_profile: "",
-        content: "软工这门课真是太好了！",
-        like: 10,
-        reference_id: 0,		// user_id
-        reference_name:""
+        user:{
+          id:2,
+          nickName:"aaa",
+          avatarUrl:"",
+        },
+        comment_content: "软工这门课真是太好了！",
+        comment_time:"2022/04/27 15:47",
+        to_user:{
+          id:0,
+          nickName:""
+        },
+        like: 10
       },
       {
-        user_name: "bbb",
-        user_id:1112,
-        user_profile: "",
-        content: "你说得对",
-        like: 9,
-        reference_id: 1111,		// user_id
-        reference_name:"aaa"
+        user:{
+          id:3,
+          nickName:"bbb",
+          avatarUrl:"",
+        },
+        comment_content: "软工这门课真是太好了！",
+        comment_time:"2022/04/27 15:50",
+        to_user:{
+          id:2,
+          nickName:"aaa"
+        },
+        like: 9
       }
     ],
     //myUserId: getApp().globalData.myUserId
@@ -147,7 +166,7 @@ Page({
                   }
                   self.setData({
                     activity: res.data,
-                    'swiperList[0].url': res.data.photo == ''?'../../../static/img/nophoto.jpg':getApp().globalData.baseUrl + '/' + res.data.photo,
+                    'swiperList[0].url': res.data.photo == ''?'../../../static/img/nophoto.jpg':getApp().globalData.baseUrl + res.data.photo,
                     rate: res.data.remark
                   })
                   //评论弹窗控制 初始化commentShow
@@ -308,176 +327,6 @@ Page({
     })
   },
   
-  attActivity: function() {
-    if(getApp().globalData.user_status == 2){
-      wx.navigateTo({
-        url: '../../certification/certification',
-      })
-    }else if(getApp().globalData.user_status == 1){
-      wx.showToast({
-        title: '用户还在认证中',
-        icon: 'error'
-      })
-    }else{
-      let app = getApp()
-      let head = {}
-      if (app.globalData.token == null) {
-        head = {      
-          'content-type': 'application/json'
-        }
-      } else {
-        head = {      
-          'content-type': 'application/json',
-          'Authorization': 'Token ' + app.globalData.token
-        }
-      }
-      let self = this
-      if(this.data.activity.activity_type.name === '博雅'){
-        Toast.loading({
-          message: '正在加入...',
-          forbidClick: true,
-          duration: 0
-        });
-      }
-      //if () {
-        wx.request({    
-          url: getApp().globalData.baseUrl + '/api/select_activity', //接口名称   
-          header: head,
-          method:"POST",  //请求方式    
-          data: {
-            activity_id: this.data.activity.id
-          }, 
-          success(res) {     
-            if(res.statusCode == 201){
-              self.data.list = res.data 
-              self.getDetail()
-              Toast.clear()
-              wx.showToast({
-                title: '报名成功',
-              })
-              /*self.setData({
-                choosed: true
-              })
-              let now_time = new Date()
-              let start_enrollment_time = new Date(self.data.activity.start_enrollment_at.replace(/\//g, '-') + ':00')
-              let end_enrollment_time = new Date(self.data.activity.end_enrollment_at.replace(/\//g, '-') + ':00')
-              self.setData({
-                chooseable: (now_time >= start_enrollment_time && now_time <= end_enrollment_time)?true:false
-              })*/
-            }else if(res.statusCode == 400){
-              Toast.clear()
-              if(self.data.activity.activity_type.name === '博雅'){
-                let gotoMe = (res.data.detail === '您没有开启博雅功能，请在设置页面开启'?true:false)
-                wx.showModal({
-                  content: res.data.detail,
-                  confirmText: gotoMe?'现在前往':'确认',
-                  success (res) {
-                    if (res.confirm && gotoMe == true) {
-                      wx.switchTab({
-                        url: '../../aboutme/aboutme',
-                      })
-                    }
-                  }
-                })
-              }else{
-                wx.showModal({
-                  content: '报名失败，可能是报名人数已满',
-                  showCancel: false,
-                })
-              }
-            }else{
-              Toast.clear()
-              wx.showToast({
-                icon: 'error',
-                title: '报名失败',
-              })
-            }
-          },
-          fail(res){
-            Toast.clear()
-            getApp().globalData.util.netErrorToast()
-          } 
-        })
-    }
-    //}
-  },
-  outActivity: function() {
-    let app = getApp()
-    let head = {}
-    if (app.globalData.token == null) {
-      head = {      
-        'content-type': 'application/json'
-       }
-    } else {
-      head = {      
-        'content-type': 'application/json',
-        'Authorization': 'Token ' + app.globalData.token
-       }
-    }
-    //if () {
-      let self = this
-      if(this.data.activity.activity_type.name == '博雅'){
-        Toast.loading({
-          message: '正在退出...',
-          forbidClick: true,
-          duration: 0
-        });
-      }
-      wx.request({    
-        url: getApp().globalData.baseUrl + '/api/cancel_activity', //接口名称   
-        header: head,
-        method:"POST",  //请求方式    
-        data: {
-          activity_id: this.data.activity.id
-        }, 
-         success(res) {     
-           if(res.statusCode == 204){
-              self.data.list = res.data 
-              self.getDetail()
-              Toast.clear()
-              wx.showToast({
-                title: '退出活动成功',
-              })
-              /*self.setData({
-                choosed: false
-              })
-              let now_time = new Date()
-              let start_enrollment_time = new Date(self.data.activity.start_enrollment_at.replace(/\//g, '-') + ':00')
-              let end_enrollment_time = new Date(self.data.activity.end_enrollment_at.replace(/\//g, '-') + ':00')
-              self.setData({
-                chooseable: (now_time >= start_enrollment_time && now_time <= end_enrollment_time)?true:false
-              })*/
-           }else{
-              Toast.clear()
-              if(self.data.activity.activity_type.name === '博雅'){
-                let gotoMe = (res.data.detail === '您没有开启博雅功能，请在设置页面开启'?true:false)
-                wx.showModal({
-                  content: res.data.detail,
-                  showCancel: false,
-                  confirmText: gotoMe?'现在前往':'确认',
-                  success (res) {
-                    if (res.confirm && gotoMe == true) {
-                      wx.switchTab({
-                        url: '../../aboutme/aboutme',
-                      })
-                    }
-                  }
-                })
-              }else{
-                wx.showToast({
-                  title: '退出活动失败',
-                  icon: 'error'
-                })
-              }
-           }
-        },
-        fail(res){
-          Toast.clear()
-          getApp().globalData.util.netErrorToast()
-        }
-      })
-    //}
-  },
 
   // 储存评论
   setValue: function(e) {
@@ -486,63 +335,6 @@ Page({
     })
   },
 
-  // 提交评分
-  submitStar: function() {
-    if(getApp().globalData.user_status == 2){
-      wx.navigateTo({
-        url: '../../certification/certification',
-      })
-    }else if(getApp().globalData.user_status == 1){
-      wx.showToast({
-        title: '用户还在认证中',
-        icon: 'error'
-      })
-    }else{
-      let app = getApp()
-      let head = {}
-      if (this.data.rate) {
-        if (app.globalData.token == null) {
-          head = {      
-            'content-type': 'application/json'
-          }
-        } else {
-          head = {      
-            'content-type': 'application/json',
-            'Authorization': 'Token ' + app.globalData.token
-          }
-        }
-        self = this
-        wx.request({    
-          url: getApp().globalData.baseUrl + '/api/remark_activity', //接口名称   
-          header: head,
-          method:"POST",  //请求方式    
-          data: {
-            activity_id: this.data.activity.id,
-            remark: this.data.rate
-          }, 
-          success(res) {   
-            
-            self.data.list = res.data 
-            wx.showToast({
-              title: '评分成功',
-            })
-            self.getDetail()
-            self.setData({
-              hide: 1
-            })
-          },
-          fail(res){
-            getApp().globalData.util.netErrorToast()
-          }
-        })
-      } else {
-        wx.showModal({
-          content: '请选择评分后再提交',
-          showCancel: false
-        })
-      }
-    }
-  },
   reset: function() {
       this.setData({
         str: null
@@ -670,27 +462,36 @@ Page({
     
   },
   showModal(e) {
-    if(getApp().globalData.user_status == 2){
-      wx.navigateTo({
-        url: '../../certification/certification',
-      })
-    }else if(getApp().globalData.user_status == 1){
-      wx.showToast({
-        title: '用户还在认证中',
-        icon: 'error'
-      })
-    }else{
-      let index =  e.currentTarget.dataset.index
-      let tempList = []
-      for(let i = 0; i<= this.data.commentShow.length; i++){
-        tempList.push(false)
-      }
-      tempList[index + 1] = true
-      this.setData({
-        commentShow: tempList
-      })
+    // if(getApp().globalData.user_status == 2){
+    //   wx.navigateTo({
+    //     url: '../certification/certification',
+    //   })
+    // }else if(getApp().globalData.user_status == 1){
+    //   wx.showToast({
+    //     title: '用户还在认证中',
+    //     icon: 'error'
+    //   })
+    // }else{
+    //   let index =  e.currentTarget.dataset.index
+    //   let tempList = []
+    //   for(let i = 0; i<= this.data.commentShow.length; i++){
+    //     tempList.push(false)
+    //   }
+    //   tempList[index + 1] = true
+    //   this.setData({
+    //     commentShow: tempList
+    //   })
+    // }
+    let index = e.currentTarget.dataset.index
+    let tempList = []
+    for(let i = 0; i <= this.data.commentShow.length; i++){
+      tempList.push(false)
     }
-    
+    tempList[index+1] = true
+
+    this.setData({
+      commentShow: tempList
+    })
   },
   hideModal(e) {
     let index =  e.currentTarget.dataset.index
@@ -724,64 +525,6 @@ Page({
     })
   },
 
-  gotoAttended(){
-    //console.log(this.data.type)
-    if(this.data.type == 5 && getApp().globalData.user_status == 0){
-      
-      getApp().globalData.attend_users = this.data.activity.attend_users
-      
-      wx.navigateTo({
-        url: './attendList/attendList',
-      })
-    }
-  },
-
-  //删除未通过审核的活动
-  deleteActivity(){
-    Dialog.confirm({
-      message: '确定要删除该活动吗？',
-    })
-      .then(() => {
-        // on confirm
-        wx.request({    
-          url: getApp().globalData.baseUrl + `/api/activities/${this.data.activity.id}/`, //接口名称   
-          header: getApp().getHeaderWithToken(),
-          method:"DELETE",  //请求方式    
-          data: {
-            id: this.data.activity.id
-          }, 
-          success(res) {     
-            if(res.statusCode == 204){
-              wx.navigateBack()
-              wx.showToast({
-                title: '删除成功',
-              })
-            }else if(res.statusCode == 400){
-              wx.showModal({
-                content: res.data,
-                showCancel: false
-              })
-            }else if(res.statusCode == 404){
-              wx.showToast({
-                title: '用户不存在',
-                icon: 'error'
-              })
-            }else{
-              wx.showToast({
-                title: '删除失败',
-                icon: 'error'
-              })
-            }
-          },
-          fail(res){
-            getApp().globalData.util.netErrorToast()
-          }
-        })
-      })
-      .catch(() => {
-        // on cancel
-      }); 
-  },
 
   view(event){
     let url = event.currentTarget.dataset.url
@@ -800,7 +543,7 @@ Page({
         message: '您是否要删除这条评论？'
       }).then(() => {
         wx.request({
-          url: getApp().globalData.baseUrl + `/api/comment/${commentId}/`,
+          url: getApp().globalData.baseUrl +  `/api/comment/${commentId}/`,
           method: 'DELETE',
           header: getApp().getHeaderWithToken(),
           success (res) {

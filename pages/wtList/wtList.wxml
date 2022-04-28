@@ -12,7 +12,7 @@
           <van-card>
             <view slot="thumb" bindtap="gotoUserPage" data-userid="{{item.user.id}}">
               <view class="cu-avatar round lg" 
-                style="background-image:url({{item.user.avatarUrl == null ? '../../img/default_avatar.png' : (item.user.avatarUrl == '' ? '../../img/default_avatar.png' : item.photo)}})">
+                style="background-image:url({{item.user.avatarUrl == '' ? '../../img/default_avatar.png' : item.user.avatarUrl}});">
               </view>
             </view>
             <view slot="title" class="text-black text-df">
@@ -50,7 +50,7 @@
               <van-card>
                 <view slot="thumb" bindtap="gotoUserPage" data-userid="{{item.user.id}}">
                   <view class="cu-avatar round lg" 
-                    style="background-image:url({{item.user.avatarUrl == null ? '../../img/default_avatar.png' : (item.user.avatarUrl == '' ? '../../img/default_avatar.png' : item.photo)}})">
+                    style="background-image:url({{item.user.avatarUrl == '' ? '../../img/default_avatar.png' : item.user.avatarUrl}});">
                   </view>
                 </view>
                 <view slot="title" class="text-black text-df">
@@ -86,7 +86,7 @@
               <van-card>
                 <view slot="thumb" bindtap="gotoUserPage" data-userid="{{item.user.id}}">
                   <view class="cu-avatar round lg" 
-                    style="background-image:url({{item.user.avatarUrl == null ? '../../img/default_avatar.png' : (item.user.avatarUrl == '' ? '../../img/default_avatar.png' : item.photo)}})">
+                    style="background-image:url({{item.user.avatarUrl == '' ? '../../img/default_avatar.png' : item.user.avatarUrl}});">
                   </view>
                 </view>
                 <view slot="title" class="text-black text-df">
