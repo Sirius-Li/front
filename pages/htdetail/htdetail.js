@@ -166,7 +166,7 @@ Page({
                   }
                   self.setData({
                     activity: res.data,
-                    'swiperList[0].url': res.data.photo == ''?'../../../static/img/nophoto.jpg':'https://se.alangy.net/' + res.data.photo,
+                    'swiperList[0].url': res.data.photo == ''?'../../../static/img/nophoto.jpg':getApp().globalData.baseUrl + res.data.photo,
                     rate: res.data.remark
                   })
                   //评论弹窗控制 初始化commentShow
@@ -543,7 +543,7 @@ Page({
         message: '您是否要删除这条评论？'
       }).then(() => {
         wx.request({
-          url: `https://se.alangy.net/api/comment/${commentId}/`,
+          url: getApp().globalData.baseUrl +  `/api/comment/${commentId}/`,
           method: 'DELETE',
           header: getApp().getHeaderWithToken(),
           success (res) {
