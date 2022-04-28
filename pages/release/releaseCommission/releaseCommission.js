@@ -286,7 +286,7 @@ Component({
       url: getApp().globalData.baseUrl + '/api/commission/publish/', //接口名称
       method: 'POST', 
       data: {
-        "commission_type": this.data.commission_type_id,
+        "commission_type": this.data.commission_type_id + 1,
         "name": this.data.name,
         "start_time": s_time,
         "end_time": e_time,
