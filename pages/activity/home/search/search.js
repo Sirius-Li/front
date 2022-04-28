@@ -712,6 +712,90 @@ Page({
     })
   },
 
+  getHistorySearchCommissionList(){
+    //初始化cancelable
+    let tempList = []
+    for(let i = 0; i< 20; i++){
+      tempList.push(false)
+    }
+    this.setData({
+      cancelable: tempList
+    })
+    let app = getApp()
+    if (app.globalData.token == null) {
+      this.data.head = {      
+        'content-type': 'application/json'
+       }
+    } else {
+      this.data.head = {      
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + app.globalData.token
+       }
+    }
+    let self = this
+    wx.request({
+      url: getApp().globalData.baseUrl + '/api/commission/search/history/',
+      method: 'GET',
+      data: {
+
+      },
+      header: this.data.head,
+      success (res) {
+        if(res.statusCode == 200){
+          self.setData({
+            historySearchCommissionList: res.data.reverse().filter(x => !util.strIsEmpty(x.keyword)).slice(0, 20),
+            //historySearchCommissionListAll: res.data
+          })
+        }
+      },
+      fail(res){
+        getApp().globalData.util.netErrorToast()
+      }
+    })
+  },
+
+  getHistorySearchHtList(){
+    //初始化cancelable
+    let tempList = []
+    for(let i = 0; i< 20; i++){
+      tempList.push(false)
+    }
+    this.setData({
+      cancelable: tempList
+    })
+    let app = getApp()
+    if (app.globalData.token == null) {
+      this.data.head = {      
+        'content-type': 'application/json'
+       }
+    } else {
+      this.data.head = {      
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + app.globalData.token
+       }
+    }
+    let self = this
+    wx.request({
+      url: getApp().globalData.baseUrl + '/api/ht/search/history/',
+      method: 'GET',
+      data: {
+        user_id: this.data.user_id
+      },
+      header: this.data.head,
+      success (res) {
+        if(res.statusCode == 200){
+          self.setData({
+            historySearchHtList: res.data.reverse().filter(x => !util.strIsEmpty(x.keyword)).slice(0, 20),
+            //historySearchHtListAll: res.data
+          })
+        }
+      },
+      fail(res){
+        getApp().globalData.util.netErrorToast()
+      }
+    })
+  },
+
 //将关键词传值到活动列表
 onSearch(event){
   //空输入报错
