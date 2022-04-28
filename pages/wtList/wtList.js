@@ -97,6 +97,7 @@ Page({
 }
     ],
 
+
     releasedWtList: [
       {
         "type": "wt",
@@ -159,6 +160,7 @@ Page({
         "fee": 1,
     }
     ],
+
 
     //包括关键字 搜索栏输入关键字
     keywords: '',
@@ -305,7 +307,9 @@ Page({
         success(res) {   
           console.log(res.data)
           self.setData({
+
             releasedWtList: res.data
+
           })
           console.log(self.data.list)
         },
