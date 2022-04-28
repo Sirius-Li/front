@@ -271,12 +271,14 @@ Component({
            }
         }
         let self = this
+
         this.release(self)
       }
     },
     
     
     release(self){
+
       let s_time = this.data.date.toString().replace(/-/g, '/') + ' ' + this.data.start_time
       let e_time = this.data.date.toString().replace(/-/g, '/') + ' ' + this.data.end_time
       let r_time = this.data.real_time.toString().replace(/-/g, '/')
@@ -302,6 +304,7 @@ Component({
         "description": this.data.description,
         "fee": this.data.fee,
         "tags": [{name: '新主楼'},],
+
       }, 
        success(res) {    
          if(res.statusCode == 201){

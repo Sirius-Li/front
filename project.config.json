@@ -4,6 +4,7 @@
         "ignore": [],
         "include": []
     },
+
     "setting": {
         "urlCheck": false,
         "es6": false,
