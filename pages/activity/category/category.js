@@ -7,20 +7,20 @@ Page({
    */
   data: {
     categories: [],
-    categories0: [
+    /*categories0: [
       {
         id:0,
-        content:"博雅",
+        name:"博雅",
         icon: "../../../img/profile2.jpg"
       },
       {
         id:1,
-        content:"运动",
+        name:"运动",
         icon: "../../../img/profile2.jpg"
       },
       {
         id:2,
-        content:"讲座",
+        name:"讲座",
         icon: "../../../img/profile2.jpg"
       }
     ],
@@ -62,7 +62,7 @@ Page({
         content:"交友",
         icon: "../../../img/profile3.jpg"
       }
-    ],
+    ],*/
     menu:[
       {
         id:0,
@@ -218,7 +218,7 @@ Page({
       })
     } else if (this.data.activeID === 1) {
       wx.request({
-        url: 'todo',
+        url:  getApp().globalData.baseUrl + '/api/commission/sort/',
         method:'GET',
         header:headers,
         success(res) {
@@ -232,7 +232,7 @@ Page({
       })
     } else if (this.data.activeID === 2) {
       wx.request({
-        url: 'todo',
+        url:  getApp().globalData.baseUrl + '/api/topic_types/',
         method:'GET',
         header:headers,
         success(res) {
@@ -252,32 +252,31 @@ Page({
     that.setData({
       activeID: event.detail
     })
-    //this.getCateList()
-    if (this.data.activeID === 0) {
-      that.setData({
-        categories: this.data.categories0
-      })
-    } else if (this.data.activeID === 1) {
-      that.setData({
-        categories: this.data.categories1
-      })
-    } else if (this.data.activeID === 2){
-      that.setData({
-        categories: this.data.categories2
-      })
-    }
+    this.getCateList()
+    // if (this.data.activeID === 0) {
+    //   that.setData({
+    //     categories: this.data.categories0
+    //   })
+    // } else if (this.data.activeID === 1) {
+    //   that.setData({
+    //     categories: this.data.categories1
+    //   })
+    // } else if (this.data.activeID === 2){
+    //   that.setData({
+    //     categories: this.data.categories2
+    //   })
+    // }
   },
 
   jumpToList(event) {
     let id = event.currentTarget.dataset.id
-    console.log(id)
     if (this.data.activeID === 0) {
       wx.navigateTo({
-        url: '../../actList/actList?id=' + id + '&type=2',
+        url: '../../actList/actList?id=' + id + '&type=6',
       })
     } else if (this.data.activeID === 1) {
       wx.navigateTo({
-        url: '../../wtList/wtList',
+        url: '../../wtList/wtList?sort=' + id + '&type=3',
       })
     } else if (this.data.activeID === 2){
       wx.navigateTo({
@@ -309,7 +308,7 @@ Page({
     this.setData({
       categories: this.data.categories0
     })
-    // this.getCateList()
+    this.getCateList()
   },
 
   /**

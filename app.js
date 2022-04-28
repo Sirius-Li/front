@@ -85,6 +85,7 @@ App({
               //getApp().globalData.user_status = 2
             },
             fail (res) {
+              console.log(res)
               self.reLogin.reset().start()
             }
           })
@@ -179,7 +180,7 @@ App({
     if (that.globalData.authenticate == true) {
       const token = that.globalData.token
       that.globalData['socketTask'] = wx.connectSocket({
-        url: 'ws://114.116.215.100/talk_message/' + token + '/',
+        url: 'ws://114.116.215.100:443/talk_message/' + token + '/',
         header:{
           'content-type': 'application/json'
         },
@@ -393,7 +394,6 @@ App({
 
   globalData: {
     baseUrl: 'http://114.116.215.100:443',
-
     userInfo: null,
     token: null,
     authenticate: false,

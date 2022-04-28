@@ -48,4 +48,3 @@
 		<button class="cu-btn bg-blue lg" bindtap="submit">发布话题</button>
 	</view>
 </view>
-
