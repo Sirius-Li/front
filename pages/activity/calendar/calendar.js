@@ -20,14 +20,14 @@ Page({
         commissionId: 111,
         commissionName: "取快递",
         commissionLocation: "学院路",
-        commissionTime: "now",
+        commissionTime: "14:00",
         date: "2022/4/25"
       },
       {
         commissionId: 112,
         commissionName: "取外卖",
         commissionLocation: "学院路",
-        commissionTime: "14:00",
+        commissionTime: "13:00",
         date: "2022/4/24"
       }
     ],

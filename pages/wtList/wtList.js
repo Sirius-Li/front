@@ -15,7 +15,7 @@ Page({
             "id": 101,
             "name": "commission_101"
         },
-        "name": "text",
+        "name": "跑腿",
         "start_time": "str",
         "end_time": "str",
         "create_at": "str",
@@ -23,8 +23,8 @@ Page({
         "real_time": 1,
         "user": {
             "id": 1,
-            "nickName": "str",
-            "avatarUrl": "str",
+            "nickName": "小明",
+            "avatarUrl": "",
             "email": "str",
             "age": "int",
             "gender": "int",
@@ -33,12 +33,69 @@ Page({
         },
         "location": 1,
         "status": 1,
-        "description": "这是一条委托",
+        "description": "代取外卖",
         "audit": 1,
-        "fee": 1,
-    }
+        "fee": 5,
+    },
+    {
+      "type": "wt",
+      "id": 102,
+      "commission_type":{
+          "id": 101,
+          "name": "commission_101"
+      },
+      "name": "跑腿",
+      "start_time": "str",
+      "end_time": "str",
+      "create_at": "str",
+      "updated_at": "str",
+      "real_time": 1,
+      "user": {
+          "id": 1,
+          "nickName": "小黑",
+          "avatarUrl": "",
+          "email": "str",
+          "age": "int",
+          "gender": "int",
+          "audit_status": "int",
+          "is_staff": "int",
+      },
+      "location": 1,
+      "status": 1,
+      "description": "代取外卖",
+      "audit": 1,
+      "fee": 5,
+  },
+  {
+    "type": "wt",
+    "id": 103,
+    "commission_type":{
+        "id": 101,
+        "name": "commission_101"
+    },
+    "name": "跑腿",
+    "start_time": "str",
+    "end_time": "str",
+    "create_at": "str",
+    "updated_at": "str",
+    "real_time": 2,
+    "user": {
+        "id": 1,
+        "nickName": "小红",
+        "avatarUrl": "",
+        "email": "str",
+        "age": "int",
+        "gender": "int",
+        "audit_status": "int",
+        "is_staff": "int",
+    },
+    "location": 1,
+    "status": 1,
+    "description": "代取快递",
+    "audit": 1,
+    "fee": 5,
+}
     ],
-
 
 
     releasedWtList: [
@@ -72,6 +129,7 @@ Page({
         "fee": 1,
     }
     ],
+
     appliedWtList: [
       {
         "type": "wt",

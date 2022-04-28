@@ -45,6 +45,7 @@
   "compileType": "miniprogram",
   "libVersion": "2.16.1",
   "appid": "wx9f6970d0a04d5232",
+
   "projectname": "weapp",
   "cloudfunctionTemplateRoot": "",
   "watchOptions": {
