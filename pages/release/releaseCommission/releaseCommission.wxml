@@ -10,15 +10,20 @@
 	<!-- <view class="padding flex flex-direction">
 		<button class="cu-btn bg-blue lg" bindtap="onClick" >{{location}}</button>
 	</view> -->
-	<view class="cu-form-group margin-top">
+  <view class="cu-form-group margin-top">
+    <view class="title">实时委托</view>
+    <switch bindchange="RealTimeChange" value="{{real_time}}" checked="{{real_time==1?true:false}}">
+    </switch>
+  </view>
+  <view class="cu-form-group">
 		<view class="title">fee</view>
 		<input placeholder="请输入委托报酬" value="{{fee}}" bindinput="FeeChange" maxlength="{{5}}"></input>
 	</view>
   <view class="cu-form-group">
 		<view class="title">类型选择</view>
-		<picker bindchange="TypeChange" value="{{commission_type_id}}" range="{{type_list}}">
+		<picker bindchange="TypeChange" value="{{commission_type_id}}" range="{{commission_type_name_list}}">
 			<view class="picker">
-				{{(commission_type_id>-1)?type_list[commission_type_id]:'委托类型'}}
+				{{(commission_type_id>-1)?commission_type_name_list[commission_type_id]:'委托类型'}}
 			</view>
 		</picker>
 	</view>
@@ -81,14 +86,14 @@
 				{{stopDate}}
 			</view>
 		</picker>
-	</view>
-	<!--tags-->
-	<!-- <view class="cu-form-group">
+	</view>-->
+  <!-- tags  -->
+	<view class="cu-form-group">
 		<view class="title">自定义活动标签</view>
-		<input placeholder="请用空格隔开每个标签" bindchange="acttagsChange" value="{{acttags}}"></input>
-	</view> --> 
+		<input placeholder="请用空格隔开每个标签" bindchange="tagChange" value="{{tagStr}}"></input>
+	</view> 
 
-	<view class="cu-bar bg-white margin-top">
+	<!-- <view class="cu-bar bg-white margin-top">
 		<view class="action">
 			图片上传
 		</view>
@@ -108,7 +113,7 @@
 				<text class="cuIcon-cameraadd"></text>
 			</view>
 		</view>
-	</view>
+	</view> -->
 
 	<view class="cu-form-group margin-top">
 		<textarea maxlength="100" bindinput="DescriptionChange" placeholder="输入委托简介" value="{{description}}"></textarea>
