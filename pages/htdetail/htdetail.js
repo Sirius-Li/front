@@ -33,6 +33,7 @@ Page({
     },
     comment: [
     	{
+        id:1,
         user:{
           id:2,
           nickName:"aaa",
@@ -47,12 +48,13 @@ Page({
         like: 10
       },
       {
+        id:2,
         user:{
           id:3,
           nickName:"bbb",
           avatarUrl:"",
         },
-        comment_content: "软工这门课真是太好了！",
+        comment_content: "你说得对！",
         comment_time:"2022/04/27 15:50",
         to_user:{
           id:2,
@@ -61,13 +63,11 @@ Page({
         like: 9
       }
     ],
+    coment:[
+
+    ],
     //myUserId: getApp().globalData.myUserId
-    myUserId:1111
-  },
-  onChange(event) {
-    this.setData({
-      rate: event.detail,
-    });
+    myUserId:2
   },
   onLoad(options) {
     //this.towerSwiper('swiperList');
@@ -76,14 +76,6 @@ Page({
       //id: options.id,
       //type: options.type,
       myUserId: getApp().globalData.myUserId
-    })
-    
-    
-  },
-  
-  DotStyle(e) {
-    this.setData({
-      DotStyle: e.detail.value
     })
   },
   
@@ -257,11 +249,6 @@ Page({
     })
   },
 
-  gotoFix(){
-    wx.navigateTo({
-      url: '../../activity/releasing/changeAct/changeAct?id='+this.data.id,
-    })
-  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -314,18 +301,6 @@ Page({
 
   },
 
-  // 隐藏回复部分
-  cancelHide: function() {
-    this.setData({
-      hide:0
-    })
-  },
-
-  continueHide: function() {
-    this.setData({
-      hide:1
-    })
-  },
   
 
   // 储存评论
@@ -344,7 +319,7 @@ Page({
   submitCom: function() {
     if(getApp().globalData.user_status == 2){
       wx.navigateTo({
-        url: '../../certification/certification',
+        url: '../certification/certification',
       })
     }else if(getApp().globalData.user_status == 1){
       wx.showToast({
@@ -374,7 +349,7 @@ Page({
       } else {
         self = this
       wx.request({    
-        url: 'https://se.alangy.net/api/comment/', //接口名称   
+        url: '', //接口名称todo
         header: head,
         method:"POST",  //请求方式    
         data: {
@@ -461,37 +436,42 @@ Page({
     }
     
   },
-  showModal(e) {
-    // if(getApp().globalData.user_status == 2){
-    //   wx.navigateTo({
-    //     url: '../certification/certification',
-    //   })
-    // }else if(getApp().globalData.user_status == 1){
-    //   wx.showToast({
-    //     title: '用户还在认证中',
-    //     icon: 'error'
-    //   })
-    // }else{
-    //   let index =  e.currentTarget.dataset.index
-    //   let tempList = []
-    //   for(let i = 0; i<= this.data.commentShow.length; i++){
-    //     tempList.push(false)
-    //   }
-    //   tempList[index + 1] = true
-    //   this.setData({
-    //     commentShow: tempList
-    //   })
-    // }
-    let index = e.currentTarget.dataset.index
-    let tempList = []
-    for(let i = 0; i <= this.data.commentShow.length; i++){
-      tempList.push(false)
-    }
-    tempList[index+1] = true
+  followTopic(){
 
-    this.setData({
-      commentShow: tempList
-    })
+  },
+  unfollowTopic(){
+
+  },
+  likeTopic(){
+
+  },
+  unlikeTopic(){
+
+  },
+  likeComment(){
+
+  },
+  showModal(e) {
+    if(getApp().globalData.user_status == 2){
+      wx.navigateTo({
+        url: '../certification/certification',
+      })
+    }else if(getApp().globalData.user_status == 1){
+      wx.showToast({
+        title: '用户还在认证中',
+        icon: 'error'
+      })
+    }else{
+      let index =  e.currentTarget.dataset.index
+      let tempList = []
+      for(let i = 0; i<= this.data.commentShow.length; i++){
+        tempList.push(false)
+      }
+      tempList[index + 1] = true
+      this.setData({
+        commentShow: tempList
+      })
+    }
   },
   hideModal(e) {
     let index =  e.currentTarget.dataset.index
@@ -502,26 +482,13 @@ Page({
     })
     this.reset()
   },
-  ChooseCheckbox(e) {
-    let items = this.data.checkbox;
-    let values = e.currentTarget.dataset.value;
-    for (let i = 0, lenI = items.length; i < lenI; ++i) {
-      if (items[i].value == values) {
-        items[i].checked = !items[i].checked;
-        break
-      }
-    }
-    this.setData({
-      checkbox: items
-    })
-  },
 
   gotoUserPage(event){
     //跳转到个人主页
     let userid = event.currentTarget.dataset.userid
     
     wx.navigateTo({
-      url: '../../profile/profile?id=' + userid,
+      url: '../profile/profile?id=' + userid,
     })
   },
 

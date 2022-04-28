@@ -1,6 +1,60 @@
 const BASE_URL = 'https://se.alangy.net'
 Page({
   data: {
+    userAvatarUrl:"",
+    isMe:false,
+    liked:true,
+    username:"aaa",
+    phone:123456789,
+    studentId:19370000,
+    gender:1,
+    email:"19370000@buaa.edu.cn",
+    score_avg:4.3,
+    commission_score_avg:4.3,
+    releasedActivities:[
+      {
+        id:1,
+        name:"操场夜跑",
+        imageUrl:"../../img/profile3.jpg",
+        detail:"去操场跑两圈"
+      },
+      {
+        id:2,
+        name:"学术前沿讲座",
+        imageUrl:"../../img/profile3.jpg",
+        detail:"在新主楼开展学术前沿知识讲座"
+      }
+    ],
+    releasedCommissions:[
+      {
+        id:1,
+        name: "取快递",
+        realTime: "否",
+        description: "正值青春脑子灵，\n 哪有时间儿女情。\n 献身航空与航天，\n 单身十年笑盈盈。",
+        fee: 2
+      },
+      {
+        id:2,
+        name: "取外卖",
+        realTime: "是",
+        description: "正值青春脑子灵，\n 哪有时间儿女情。\n 献身航空与航天，\n 单身十年笑盈盈。",
+        fee: 3
+      }
+    ],
+    releasedTopics:[
+      {
+        id:1,
+        name:"学院路计院大三选课",
+        imageUrl:"../../img/profile3.jpg",
+        description:"核心专业和个人专业都拜托了"
+      },
+      {
+        id:2,
+        name:"求推荐学校周边餐馆",
+        imageUrl:"../../img/profile3.jpg",
+        description:"RT"
+      }
+    ]
   },
 
   onLoad(options) {
