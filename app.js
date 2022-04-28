@@ -392,7 +392,7 @@ App({
   },
 
   globalData: {
-    baseUrl: 'http://114.116.215.100',
+    baseUrl: 'http://114.116.215.100:443',
 
     userInfo: null,
     token: null,
