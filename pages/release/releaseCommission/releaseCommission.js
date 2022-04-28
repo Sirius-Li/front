@@ -1,3 +1,5 @@
+
+
 // pages/release/releaseCommission/releaseConnission.js
 Component({
   /**
@@ -18,7 +20,7 @@ Component({
     type_list: [],
     commission_type_name_list: [],
     //委托名称
-    name: '',
+    name: 'commissionname',
     start_time: '05:20',
     end_time: '05:21',
     real_time: 0,
@@ -33,7 +35,7 @@ Component({
     //状态
     status: '1',
     //详细描述
-    description: "",
+    description: "正值青春脑子灵，\n 哪有时间儿女情。\n 献身航空与航天，\n 单身十年笑盈盈。",
     //审核状态
     audit: '',
     //费用
@@ -41,6 +43,7 @@ Component({
     // 标签
     tag_list: [],
     tagStr: '',
+    
     //页面变量
     // 自动获取今天的日期
     date: '',
@@ -113,7 +116,7 @@ Component({
       });
     },
   
-    DescriptionChange(event) {
+    DiscriptionChange(event) {
       this.setData({
         'description': event.detail.value,
       });
@@ -272,7 +275,6 @@ Component({
            }
         }
         let self = this
-
         this.release(self)
         //TODO
         wx.getSetting({
@@ -298,7 +300,6 @@ Component({
     
     
     release(self){
-
       let s_time = this.data.date.toString().replace(/-/g, '/') + ' ' + this.data.start_time
       let e_time = this.data.date.toString().replace(/-/g, '/') + ' ' + this.data.end_time
       // let r_time = this.data.real_time.toString().replace(/-/g, '/')
@@ -483,8 +484,14 @@ Component({
       }
     })
   },
-  
+
+
+
   options: {
     addGlobalClass: true
   }
 })
+
+
+
+
