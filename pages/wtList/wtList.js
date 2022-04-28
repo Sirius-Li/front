@@ -129,6 +129,7 @@ Page({
         "fee": 1,
     }
     ],
+
     appliedWtList: [
       {
         "type": "wt",
@@ -307,9 +308,7 @@ Page({
         success(res) {   
           console.log(res.data)
           self.setData({
-
             releasedWtList: res.data
-
           })
           console.log(self.data.list)
         },

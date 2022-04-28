@@ -314,8 +314,8 @@ Component({
       // name:'photo',   
       // header: self.data.head,
 
-      
 
+      
       data: {
         "commission_type_id": this.data.commission_type_id,
         "name": this.data.name,
@@ -363,7 +363,6 @@ Component({
   },
   },
 
-  
 
   options: {
     addGlobalClass: true
