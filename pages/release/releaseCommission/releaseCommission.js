@@ -310,8 +310,8 @@ Component({
       // filePath: self.data.imgList[0],
       // name:'photo',   
       // header: self.data.head,
-      
 
+      
       data: {
         "commission_type": this.data.commission_type_id + 1,
         "name": this.data.name,
@@ -358,7 +358,6 @@ Component({
   },
   },
 
-  
 
   options: {
     addGlobalClass: true
