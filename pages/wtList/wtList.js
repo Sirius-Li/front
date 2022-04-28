@@ -124,12 +124,42 @@ Page({
         },
         "location": 1,
         "status": 1,
+        "description": "这是一条委托",
+        "audit": 1,
+        "fee": 1,
+    }
+    ],
+    releasedWtList: [
+      {
+        "type": "wt",
+        "id": 101,
+        "commission_type":{
+            "id": 101,
+            "name": "commission_101"
+        },
+        "name": "text",
+        "start_time": "str",
+        "end_time": "str",
+        "create_at": "str",
+        "updated_at": "str",
+        "real_time": 1,
+        "user": {
+            "id": 1,
+            "nickName": "str",
+            "avatarUrl": "str",
+            "email": "str",
+            "age": "int",
+            "gender": "int",
+            "audit_status": "int",
+            "is_staff": "int",
+        },
+        "location": 1,
+        "status": 1,
         "description": "这是一条你发布的委托",
         "audit": 1,
         "fee": 1,
     }
     ],
-
     appliedWtList: [
       {
         "type": "wt",
@@ -205,7 +235,6 @@ Page({
           self.setData({
             list: res.data
           })
-          console.log(self.data.list)
         },
         fail(res){
           getApp().globalData.util.netErrorToast()
@@ -222,7 +251,6 @@ Page({
           'keyword': this.data.keywords
         }, 
         success(res) {   
-          console.log(res.data)
           self.setData({
             list: res.data
           })
@@ -243,7 +271,6 @@ Page({
           // 'keyword': this.data.keywords
         }, 
         success(res) {   
-          console.log(res.data)
           self.setData({
             list: res.data
           })
@@ -264,7 +291,6 @@ Page({
           'keyword': this.data.keywords
         }, 
         success(res) {   
-          console.log(res.data)
           self.setData({
             list: res.data
           })
@@ -285,7 +311,6 @@ Page({
           //'keyword': this.data.keywords
         }, 
         success(res) {   
-          console.log(res.data)
           self.setData({
             appliedWtList: res.data
           })
@@ -306,11 +331,9 @@ Page({
           //'keyword': this.data.keywords
         }, 
         success(res) {   
-          console.log(res.data)
           self.setData({
-            releasedWtList: res.data
+          releasedWtList: res.data
           })
-          console.log(self.data.list)
         },
         fail(res){
           getApp().globalData.util.netErrorToast()
@@ -330,7 +353,8 @@ Page({
     if(this.data.keywords == undefined){
       this.setData({
         type: options.type,
-        id: options.id
+        id:options.id,
+        sort: options.sort
       })
     }
   },
@@ -402,7 +426,7 @@ Page({
   jumpToSonPages : function(event) {
     let id = event.currentTarget.dataset.id
     wx.navigateTo({
-      url: '../commission/commission',
+      url: '../commission/commission?id=' + id,
     })
   },
 
@@ -414,7 +438,4 @@ Page({
     })
   }
 })
-
-
-
 

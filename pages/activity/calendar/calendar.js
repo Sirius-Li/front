@@ -77,7 +77,6 @@ Page({
     }
     
     wx.request({
-
       url: getApp().globalData.baseUrl + '/api/commission/applied/',
       method: 'POST',
       header: headers,
@@ -116,7 +115,6 @@ Page({
 
     wx.request({
       url: 'https://se.alangy.net/api/condition/activities/',
-
       method: 'POST',
       header: headers,
       data: {

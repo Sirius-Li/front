@@ -53,6 +53,7 @@ Page({
     commentShow: [],
     commentStr: null,
     myUserId: 'id1'
+
   },
 
   catchCommmission() {
@@ -284,7 +285,7 @@ Page({
       //data: app.globalData.zdxx,  //用于存放post请求的参数  
       data: {
         //TODO
-        'commission_id': this.id,
+        'commission_id': self.data.id,
       }, 
       success(res) { 
         console.log(res.data)
@@ -292,7 +293,7 @@ Page({
           temp_list_attend.push(res.data[i].id)
         }
         wx.request({    
-          url: getApp().globalData.baseUrl + '/api/condition/activities/', //接口名称   
+          url: getApp().globalData.baseUrl + '/api/condition/commission/', //接口名称   
           header: head,
           method:"POST",  //请求方式    
           //data: app.globalData.zdxx,  //用于存放post请求的参数  
@@ -305,7 +306,7 @@ Page({
               temp_list_create.push(res.data[i].id)
             }
             wx.request({    
-              url: getApp().globalData.baseUrl + `/api/activities/${self.data.id}/`, //接口名称   
+              url: getApp().globalData.baseUrl + `/api/commission/${self.data.id}/`, //接口名称   
               header: head,
               method:"GET",  //请求方式    
               //data: app.globalData.zdxx,  //用于存放post请求的参数   
@@ -445,7 +446,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-
+    var that = this
+    that.setData({
+        id:options.id
+    })
   },
 
   /**
@@ -459,7 +463,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    this.getDetail()
   },
 
   /**
