@@ -1,5 +1,3 @@
-
-
 // pages/release/releaseCommission/releaseConnission.js
 Component({
   /**
@@ -17,7 +15,7 @@ Component({
     // 委托类型
     commission_type_id: 0,
     //委托名称
-    name: 'commissionname',
+    name: '',
     start_time: '05:20',
     end_time: '05:21',
     create_at: '2022-4-12',
@@ -31,12 +29,11 @@ Component({
     //状态
     status: '1',
     //详细描述
-    description: "正值青春脑子灵，\n 哪有时间儿女情。\n 献身航空与航天，\n 单身十年笑盈盈。",
+    description: "",
     //审核状态
     audit: '',
     //费用
-    fee: 110,
-    
+    fee: '',  
     //页面变量
     // 自动获取今天的日期
     date: '2022-10-13',
@@ -45,7 +42,6 @@ Component({
       "取件",
       "带饭",
       "二手",
-      "离谱",
     ],
     location_list: [
       "学院路",
@@ -103,7 +99,7 @@ Component({
       });
     },
   
-    DiscriptionChange(event) {
+    DescriptionChange(event) {
       this.setData({
         'description': event.detail.value,
       });
@@ -277,24 +273,6 @@ Component({
         let self = this
 
         this.release(self)
-        // wx.getSetting({
-        //   withSubscriptions: true,
-        //   success(res) {
-        //     if(res.subscriptionsSetting.mainSwitch){
-        //       wx.requestSubscribeMessage({
-        //         tmplIds: [
-        //           'mEFV6psbMGpP9i8CU8NXTJ27dOoppg8FZsYQmN9lHcs',
-        //           'C4V9ycGzS0BGvjVsmcondcBwFMOvLFQ3sE8j0KKTF0g',
-        //           'N0g3qePR6hz8Fn79lM_5sIT9jhUTKEYQW5Y_VObffZ0'],
-        //         success (res) {
-        //           self.release(self)
-        //         }
-        //       })
-        //     }else{
-        //       self.release(self)
-        //     }
-        //   },
-        // })
       }
     },
     
@@ -328,19 +306,19 @@ Component({
         "tags": [{name: '新主楼'},],
 
       }, 
-       success(res) {     
+       success(res) {    
          if(res.statusCode == 201){
            wx.navigateTo({
              url: '../../wtList/wtList?type=5',
            })
             wx.showToast({
-              title: '活动发布成功',
+              title: '委托发布成功',
             })
            self.reset()  
          }else if(res.statusCode == 400){
            if(res.data === ''){
             wx.showToast({
-              title: '活动发布失败',
+              title: '委托发布失败',
               icon: 'error'
             })
            }else{
@@ -351,7 +329,7 @@ Component({
            }
          }else{
             wx.showToast({
-              title: '活动发布失败',
+              title: '委托发布失败',
               icon: 'error'
             })
          }
@@ -362,13 +340,7 @@ Component({
     })
   },
   },
-
-
   options: {
     addGlobalClass: true
   }
 })
-
-
-
-

@@ -97,7 +97,6 @@ Page({
 }
     ],
 
-
     releasedWtList: [
       {
         "type": "wt",
@@ -205,7 +204,6 @@ Page({
           self.setData({
             list: res.data
           })
-          console.log(self.data.list)
         },
         fail(res){
           getApp().globalData.util.netErrorToast()
@@ -222,7 +220,6 @@ Page({
           'keyword': this.data.keywords
         }, 
         success(res) {   
-          console.log(res.data)
           self.setData({
             list: res.data
           })
@@ -243,7 +240,6 @@ Page({
           // 'keyword': this.data.keywords
         }, 
         success(res) {   
-          console.log(res.data)
           self.setData({
             list: res.data
           })
@@ -264,7 +260,6 @@ Page({
           'keyword': this.data.keywords
         }, 
         success(res) {   
-          console.log(res.data)
           self.setData({
             list: res.data
           })
@@ -285,7 +280,6 @@ Page({
           //'keyword': this.data.keywords
         }, 
         success(res) {   
-          console.log(res.data)
           self.setData({
             appliedWtList: res.data
           })
@@ -306,11 +300,9 @@ Page({
           //'keyword': this.data.keywords
         }, 
         success(res) {   
-          console.log(res.data)
           self.setData({
-            releasedWtList: res.data
+          releasedWtList: res.data
           })
-          console.log(self.data.list)
         },
         fail(res){
           getApp().globalData.util.netErrorToast()
@@ -330,7 +322,8 @@ Page({
     if(this.data.keywords == undefined){
       this.setData({
         type: options.type,
-        id: options.id
+        id:options.id,
+        sort: options.sort
       })
     }
   },
@@ -402,7 +395,7 @@ Page({
   jumpToSonPages : function(event) {
     let id = event.currentTarget.dataset.id
     wx.navigateTo({
-      url: '../commission/commission',
+      url: '../commission/commission?id=' + id,
     })
   },
 
@@ -414,7 +407,4 @@ Page({
     })
   }
 })
-
-
-
 
