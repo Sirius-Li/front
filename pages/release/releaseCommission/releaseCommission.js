@@ -313,7 +313,7 @@ Component({
       
 
       data: {
-        "commission_type_id": this.data.commission_type_id,
+        "commission_type": this.data.commission_type_id + 1,
         "name": this.data.name,
         "start_time": s_time,
         "end_time": e_time,
