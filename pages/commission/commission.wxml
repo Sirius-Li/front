@@ -6,60 +6,92 @@
 </cu-custom>
 
 <view style="display:flex; flex-direction:column; height: 100%; padding: 10px; margin-bottom: 10px;">
-  <!-- head -->
-  <view style="flex: 1">
-    <view class="flex items-center h-auto px-2 mb-4 w-full">
-      <image style="width: 85rpx; height: 61rpx; display: block; box-sizing: border-box; left: 0rpx; top: 0rpx"  mode="aspectFit" class="flex-none w-4 h-4 rounded-full shadow-md"
-             src="{{ userAvatarUrl===''?'../../img/default_avatar.png':userAvatarUrl }}" bindtap="onTapUserName"/>
-      <view class="w-auto ml-4 text-base leading-6 text-gray-700 flex-row flex-initial" style="width: 181rpx; height: -36rpx; display: block; box-sizing: border-box">
-        <view class="flex-1 text-2xl" bindtap="onTapUserName" style="width: 188rpx; height: 38rpx; display: block; box-sizing: border-box; "> {{ username }} </view>
-        <view class="flex-1 mt-3" bindtap="onTapUserName"> {{ updated_at }} </view>
+  <block>
+    <!-- head -->
+    <!-- <view style="flex: 1"> -->
+      <view class="flex items-center h-auto px-2 mb-4 w-full">
+        <image style="width: 85rpx; height: 61rpx; display: block; box-sizing: border-box; left: 0rpx; top: 0rpx"  mode="aspectFit" class="flex-none w-4 h-4 rounded-full shadow-md"
+              src="{{ user.avatarUrl===''?'../../img/default_avatar.png':user.avatarUrl }}" bindtap="onTapUserName"/>
+        <view class="w-auto ml-4 text-base leading-6 text-gray-700 flex-row flex-initial" style="width: 181rpx; height: -36rpx; display: block; box-sizing: border-box">
+          <view class="flex-1 text-2xl" bindtap="onTapUserName" style="width: 188rpx; height: 38rpx; display: block; box-sizing: border-box; "> {{ user.nickName }} </view>
+          <view class="flex-1 mt-3" bindtap="onTapUserName"> {{ updated_at }} </view>
+        </view>
+        
+       <view style="flex: 1; text-align: right;" wx:if="{{user.id === myUserId && status === 2}}">
+        <van-icon  bindtap="DelCommissiion" name="delete-o" />
       </view>
-    </view>
-  </view>
-  <!-- bottom -->
-  <view class="content" style="background-color: white; margin-top: 10px">
-    <view><text class="cuIcon-title text-blue">委托名称：{{name}}</text> </view>
-    <view class="text-gray text-content test-df font-break">委托状态：
-      <text wx:if="{{status==1}}">已发布</text>
-      <text wx:if="{{status==2}}">已申请</text>
-      <text wx:if="{{status==3}}">已完成</text>
+      </view>
+     
+    <!-- </view> -->
+    <!-- bottom -->
+    <view class="content" style="background-color: white; margin-top: 10px">
+      <view><text class="cuIcon-title text-blue">委托名称：{{name}}</text> </view>
+      <view class="text-gray text-content test-df font-break">委托状态：
+        <text wx:if="{{status==1}}">已发布</text>
+        <text wx:if="{{status==2}}">已申请</text>
+        <text wx:if="{{status==3}}">已完成</text>
+      </view>
+
+      <!-- TODO -->
+      <view class="text-gray text-content text-df font-break">委托类型：
+        <text>{{commission_type.name}}{{(real_time === 1)?'(实时)':'(非实时)'}}</text> 
+      </view>
+      <view class="text-gray text-content text-df font-break">开始时间：{{start_time}}</view>
+      <view class="text-gray text-content text-df font-break">结束时间：{{end_time}}</view>
+      <view class="text-gray text-content text-df font-break">地点：
+        <text wx:if="{{location==1}}">学院路</text> 
+        <text wx:if="{{location==2}}">沙河</text>
+      </view>
+      <view class="text-gray text-content text-df font-break">委托报酬：￥{{fee}}</view>
+      <view class="text-gray text-content text-df font-break">委托描述：{{description}}</view>
+    
     </view>
 
     <!-- TODO -->
-    <view class="text-gray text-content text-df font-break">委托类型：
-      <text wx:if="{{commission_type_id==1}}">类型一</text>
-      <text wx:if="{{commission_type_id==2}}">类型二</text>
-      <text wx:if="{{commission_type_id==3}}">类型三</text>
+    <!-- 判断是申请者还是发布者 -->
+    <view wx:if="{{user.id === myUserId}}">
+      <!-- 发表委托的用户 -->
+      <view wx:if="{{status === 1}}" class="margin-top">
+        <button class="bg-grey bg" bindtap="ChangeCommission" >修改委托</button>
+      </view>
+      <view wx:if="{{status === 2}}" class="margin-top">
+        <button class="bg-grey bg" bindtap="FinishCommission">终止委托</button>
+      </view>
+      <view wx:if="{{status === 3 && score === 0}}" class="margin-top">
+        <button class="bg-grey bg" bindtap="Evaluate">发表评价</button>
+      </view>
     </view>
-    <view class="text-gray text-content text-df font-break">开始时间：{{start_time}}</view>
-    <view class="text-gray text-content text-df font-break">结束时间：{{end_time}}</view>
-    <view class="text-gray text-content text-df font-break">地点：
-      <text wx:if="{{location==1}}">学院路</text> 
-      <text wx:if="{{location==2}}">沙河</text>
+    <view wx:if="{{accepted_user.id === myUserId}}" >
+      <!-- 接取委托的用户 -->
+      <view class="margin-top">
+        <button class="bg-grey bg" bindtap="GiveUpCommission">放弃委托</button>
+      </view>
     </view>
-    <view class="text-gray text-content text-df font-break">软妹币：￥{{fee}}</view>
-    <view class="text-gray text-content text-df font-break">委托描述：{{description}}</view>
-   
-  </view>
+    <view wx:if="{{!(user.id == myUserId) && !(accepted_user.id === myUserId)}}">
+      <!-- 其他用户 -->
+      <view class="margin-top">
+        <button class="bg-grey bg" bindtap="CatchCommmission" >接取委托</button>
+      </view>
+    </view>
 
-  <!-- TODO -->
-  <!-- 判断是申请者还是发布者 -->
-  <view wx:if="{{user_id != myUserId && status == 1}}">
-    <button class="bg-gradual-blue" bindtap="catchCommmission" >接取委托</button>
-  </view>
-  <view wx:if="{{user_id == myUserId}}">
-    <button class="bg-gradual-blue" bindtap="changeCommission" >修改委托</button>
-  </view>
-  <!-- TODO -->
-  <!-- 接取委托的用户id？？？？？？ 接取用户id==myUserId -->
-  <!-- <view wx:if="{{user_id != myUserId &&  status==3}}">
-    <button class="bg-gradual-blue" bindtap="Evaluate">发表评价</button>
-  </view> -->
-  <!-- <view>
-    <button class="bg-gradual-blue">删除</button>
-  </view> -->
+    <view class="cu-modal {{evaluateShow==true?'show':''}}">
+      <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+          <view class="content">评论本次委托</view>
+          <view class="action" bindtap="hideEvaluate" data-index="{{-1}}">
+            <text class="cuIcon-close text-red"></text>
+          </view>
+        </view>
+        <view class="padding-xl">
+          <!-- <input placeholder="请输入评论" value="{{str}}" bindinput="setValue"></input> -->
+          <slider bindchange="ScoreChange" value="{{score}}" min="1" max="5" show-value/>
+          <button class="cu-btn bg-grey sm" bindtap="SubEvaluate">提交委托</button>
+        </view>
+      </view>
+    </view>
 
+
+  </block>
   <!-- 发表评论 -->
   <view >
     <view class="cu-bar bg-white margin-top">
@@ -76,23 +108,24 @@
           </view>
         </view>
         <view class="padding-xl">
-          <input placeholder="请输入评论" value="{{str}}" bindinput="setValue"></input>
+          <input placeholder="请输入评论" value="{{commentStr}}" bindinput="setValue"></input>
           <button class="cu-btn bg-grey sm" bindtap="submitCom">提交评论</button>
         </view>
       </view>
     </view>
   </view>
 
-  <block wx:for="{{comments}}" data-item="item" wx:for-index="idx" wx:key="this">
+  <block wx:for="{{comment}}" data-item="item" wx:for-index="idx" wx:key="this">
     <view class="cu-list menu-avatar comment solids-top">
       <view class="cu-item">
         <view class="cu-avatar round"
-          bindtap="gotoUserPage" data-userid="{{item.user.user_id}}"></view>
+          style="background-image:url({{item.user.avatarUrl===''?'../img/default_avatar.png':item.user.avatarUrl}});"
+          bindtap="gotoUserPage" data-userid="{{item.user.id}}"></view>
         <view class="content" style="position: relative; left: 3rpx; top: 0rpx">
-          <view class="text-grey">{{item.user.name}}  {{item.comment_time}}</view>
+          <view class="text-grey">{{item.user.nickName}}  {{item.comment_time}}</view>
           <block wx:if="{{item.to_user != null}}">
             <view>
-              @{{item.to_user.name}}
+              @{{item.to_user.nickName}}
             </view>
           </block>
           <view class="text-gray text-content text-df">
@@ -107,19 +140,19 @@
                 <button class="cu-btn bg-grey bg" bindtap="showModal" data-index="{{idx}}">评论</button>
               </view>
               <!-- TODO   -->
-              <van-icon bindtap="deleteComment" data-commentid="{{item.id}}" data-userid="{{item.user.user_id}}" wx:if="{{item.user.user_id === myUserId}}" name="delete-o" />
+              <van-icon bindtap="deleteComment" data-commentid="{{item.id}}" wx:if="{{item.user.id === myUserId}}" name="delete-o" />
             </view>
             <view class="cu-modal {{commentShow[idx + 1]==true?'show':''}}">
               <view class="cu-dialog">
                 <view class="cu-bar bg-white justify-end">
-                  <view class="content">回复{{item.user.name}}</view>
+                  <view class="content">回复{{item.user.nickame}}</view>
                   <view class="action" bindtap="hideModal" data-index="{{idx}}">
                     <text class="cuIcon-close text-red"></text>
                   </view>
                 </view>
                 <view class="padding-xl">
-                  <input placeholder="请输入回复" value="{{str}}" bindinput="setValue"></input>
-                  <button class="cu-btn bg-grey sm" bindtap="resubmitCom" data-userid="{{item.user.user_id}}">提交回复</button>
+                  <input placeholder="请输入回复" value="{{commentStr}}" bindinput="setValue"></input>
+                  <button class="cu-btn bg-grey sm" bindtap="resubmitCom" data-idx="{{idx}}" data-userid="{{item.user.id}}">提交回复</button>
                 </view>
               </view>
             </view>
