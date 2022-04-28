@@ -1,6 +1,7 @@
 // pages/release/releaseCommission/releaseConnission.js
 Component({
   /**
+
    * 组件的初始数据
    */
   data: {
@@ -32,8 +33,7 @@ Component({
     //审核状态
     audit: '',
     //费用
-    fee: '',
-    
+    fee: '',  
     //页面变量
     // 自动获取今天的日期
     date: '2022-10-13',
@@ -280,17 +280,24 @@ Component({
       let s_time = this.data.date.toString().replace(/-/g, '/') + ' ' + this.data.start_time
       let e_time = this.data.date.toString().replace(/-/g, '/') + ' ' + this.data.end_time
       let r_time = this.data.real_time.toString().replace(/-/g, '/')
-    // wx.uploadFile({ 
+
+    // wx.uploadFile({    
     wx.request({
       header: this.data.head,
       url: getApp().globalData.baseUrl + '/api/commission/publish/', //接口名称
-      method: 'POST', 
+      method: 'post',
+      // filePath: self.data.imgList[0],
+      // name:'photo',   
+      // header: self.data.head,
+
+
+      
       data: {
-        "commission_type": this.data.commission_type_id + 1,
+        "commission_type_id": this.data.commission_type_id,
         "name": this.data.name,
         "start_time": s_time,
         "end_time": e_time,
-        "real_time": 1,
+        "real_time": r_time,
         "location": this.data.location,
         "description": this.data.description,
         "fee": this.data.fee,
@@ -330,9 +337,6 @@ Component({
     })
   },
   },
-
-  
-
   options: {
     addGlobalClass: true
   }

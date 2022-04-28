@@ -53,6 +53,7 @@ Page({
     commentShow: [],
     commentStr: null,
     myUserId: 'id1'
+
   },
 
   catchCommmission() {
