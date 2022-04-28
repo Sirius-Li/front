@@ -1,5 +1,5 @@
 // pages/message/message.js
-//import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog'
+import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog'
 const util = require('../../../utils/util.js')
 Page({
 
@@ -13,7 +13,8 @@ Page({
       "3": "活动推荐",
       "4": "订阅提醒",
       "2": "系统通知",
-      "5": "评论回复"
+      "5": "评论回复",
+      "6": "委托评分"
     },
 
     secretMsg: [],
@@ -102,7 +103,6 @@ Page({
 
       },
       success (res) {
-        console.log(res)
         for (var i = 0; i < res.data.length; i++) {
           var m = res.data[i]
           var dis = {
@@ -178,6 +178,7 @@ Page({
   routeActivityDescription: function (event) {
     let activityId = event.currentTarget.dataset.activityid
     let messageId = event.currentTarget.dataset.messageid
+    let detailType = event.currentTarget.dataset.detailtype
     var headers = {}
     if (getApp().globalData.token != null) {
       headers = {
@@ -190,9 +191,19 @@ Page({
       method: 'GET'
     })
     if (activityId) {
-      wx.navigateTo({
-        url: '../../actList/activity/activity?id=' + activityId,
-      })
+      if (detailType == "活动") {
+        wx.navigateTo({
+          url: '../../actList/activity/activity?id=' + activityId,
+        })
+      } else if (detailType == "委托") {
+        wx.navigateTo({
+          url: '../../commission/commission?id=' + activityId,
+        }) 
+      } else if (detailType == "话题") {
+        wx.navigateTo({
+          url: '../../htdetail/htdetail?id=' + activityId,
+        })
+      }  
     }
   },
 

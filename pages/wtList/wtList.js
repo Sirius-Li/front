@@ -33,21 +33,91 @@ Page({
         },
         "location": 1,
         "status": 1,
-        "description": "text",
+        "description": "这是一条委托",
         "audit": 1,
         "fee": 1,
     }
     ],
-    //包括关键字
+
+
+    releasedWtList: [
+      {
+        "type": "wt",
+        "id": 101,
+        "commission_type":{
+            "id": 101,
+            "name": "commission_101"
+        },
+        "name": "text",
+        "start_time": "str",
+        "end_time": "str",
+        "create_at": "str",
+        "updated_at": "str",
+        "real_time": 1,
+        "user": {
+            "id": 1,
+            "nickName": "str",
+            "avatarUrl": "str",
+            "email": "str",
+            "age": "int",
+            "gender": "int",
+            "audit_status": "int",
+            "is_staff": "int",
+        },
+        "location": 1,
+        "status": 1,
+        "description": "这是一条你发布的委托",
+        "audit": 1,
+        "fee": 1,
+    }
+    ],
+    appliedWtList: [
+      {
+        "type": "wt",
+        "id": 101,
+        "commission_type":{
+            "id": 101,
+            "name": "commission_101"
+        },
+        "name": "text",
+        "start_time": "str",
+        "end_time": "str",
+        "create_at": "str",
+        "updated_at": "str",
+        "real_time": 1,
+        "user": {
+            "id": 1,
+            "nickName": "str",
+            "avatarUrl": "str",
+            "email": "str",
+            "age": "int",
+            "gender": "int",
+            "audit_status": "int",
+            "is_staff": "int",
+        },
+        "location": 1,
+        "status": 1,
+        "description": "这是一条你申请的委托",
+        "audit": 1,
+        "fee": 1,
+    }
+    ],
+
+
+    //包括关键字 搜索栏输入关键字
     keywords: '',
     //id
     id: '',
-    //type
-    type: 0,
+    //type 不同界面进入标识符
+    type: 1,
     //
-    locList:['','学院路', '沙河', '校外']
+    sort: '',
+    status: '',
   },
 
+  /*
+  * 获取list数据
+  */
   getDetail: function() {
     let app = getApp()
     let head
@@ -62,7 +132,7 @@ Page({
         'Authorization': 'Token ' + app.globalData.token
        }
     }
-    if(this.data.type == 1){
+    if(this.data.type == 1){ // 所有类别所有委托
       wx.request({    
         url: getApp().globalData.baseUrl + '/api/commission/search/all/', //接口名称   
         header: head,
@@ -81,91 +151,17 @@ Page({
         }
       })
     }
-    else if(this.data.type == 6){
-      var value = []
-      value.push(this.data.id)
-      wx.request({    
-        url: getApp().globalData.baseUrl + '/api/condition/activities/', //接口名称   
-        header: head,
-        method:"POST",  //请求方式    
-        //data: app.globalData.zdxx,  //用于存放post请求的参数  
-        data: {
-          "types": {
-            "method": "id",
-            "value": value,
-          },
-          'audit_status': [3]
-        }, 
-        success(res) { 
-          self.setData({
-            list: res.data
-          })
-        },
-        fail(res){
-          getApp().globalData.util.netErrorToast()
-        } 
-      })
-    }
-    else if(this.data.type >= 2 && this.data.type <= 4){
-      wx.request({    
-        url: getApp().globalData.baseUrl + '/api/condition/activities/', //接口名称   
-        header: head,
-        method:"POST",  //请求方式    
-        //data: app.globalData.zdxx,  //用于存放post请求的参数  
-        data: {
-          'user_attend':true,
-          'audit_status': [3],
-          "activity_status": this.data.type - 1
-        }, 
-        success(res) { 
-          self.setData({
-            list: res.data
-          })
-        },
-        fail(res){
-          getApp().globalData.util.netErrorToast()
-        } 
-      })
-    }
-    else if(this.data.type == 5){
-      wx.request({    
-        url: getApp().globalData.baseUrl + '/api/condition/activities/', //接口名称   
-        header: head,
-        method:"POST",  //请求方式    
-        //data: app.globalData.zdxx,  //用于存放post请求的参数  
-        data: {
-          'user_create':true,
-        }, 
-        success(res) { 
-          // console.log(res)
-          self.setData({
-            list: res.data
-          })
-        },
-        fail(res){
-          getApp().globalData.util.netErrorToast()
-        } 
-      })
-    }
-    //type == 7 热门活动
-    else if(this.data.type == 7){
-      let self = this
-      //后端默认取前十天，这里暂不处理
-      /*let nowTime = new Date()
-      let preTime = new Date()
-      preTime.setDate(nowTime.getDate() - 10)
-      console.log(nowTime.toLocaleDateString())
-      console.log(preTime.toLocaleDateString())*/
+    else if(this.data.type == 2){ // 所有类别指定info委托
       wx.request({
-        url: getApp().globalData.baseUrl + '/api/activities_trend/',
-        method: 'POST',
+        url: getApp().globalData.baseUrl + '/api/commission/search/all/', //接口名称   
+        header: head,
+        method:"POST",  //请求方式    
+        //data: app.globalData.zdxx,  //用于存放post请求的参数  
         data: {
-  
-        },
-        header: head,/*{
-          'name-type': 'application/json' // 默认值
-        },*/
-        success (res) {
+          'keyword': this.data.keywords
+        }, 
+        success(res) {   
+          
           self.setData({
             list: res.data
           })
@@ -174,37 +170,85 @@ Page({
           getApp().globalData.util.netErrorToast()
         }
       })
-    }else{
-      //let nowDate = new Date()
-      //let nowDateStr = nowDate.toLocaleDateString() + ' ' + nowDate.getHours() + ':' + nowDate.getMinutes() 
-      //console.log(nowDateStr)
+    }
+    else if (this.data.type == 3) { // 指定类别所有委托
       wx.request({
-        url: getApp().globalData.baseUrl + '/api/condition/activities/',
-        method: 'POST',
-        data: {
-          'types': {
-            'method':'name',
-            'value': ['博雅']
-          },
-          'audit_status': [3],
-          'activity_status': 4
-        },
+        url: getApp().globalData.baseUrl + '/api/commission/search/specific/' + this.data.sort, //接口名称   
         header: head,
-        success (res) {
-          if(res.statusCode == 200){
-            self.setData({
-              list: res.data
-            })
-          }else{
-            //console.log('用户不存在')
-          }
+        method:"GET",  //请求方式    
+        //data: app.globalData.zdxx,  //用于存放post请求的参数  
+        data: {
+          // 'keyword': this.data.keywords
+        }, 
+        success(res) {   
+          self.setData({
+            list: res.data
+          })
         },
         fail(res){
           getApp().globalData.util.netErrorToast()
         }
       })
     }
-   
+    else if (this.data.type == 4) { // 指定类别指定“info”委托
+      wx.request({
+        url: getApp().globalData.baseUrl + '/api/commission/search/specific/' + this.data.sort, //接口名称   
+        header: head,
+        method:"POST",  //请求方式    
+        //data: app.globalData.zdxx,  //用于存放post请求的参数  
+        data: {
+          'keyword': this.data.keywords
+        }, 
+        success(res) {   
+          self.setData({
+            list: res.data
+          })
+        },
+        fail(res){
+          getApp().globalData.util.netErrorToast()
+        }
+      })
+    }
+    else if (this.data.type == 5) { // 查看已申请的委托
+      wx.request({
+        url: getApp().globalData.baseUrl + '/api/commission/applied/' + this.data.status, //接口名称   
+        header: head,
+        method:"GET",  //请求方式    
+        //data: app.globalData.zdxx,  //用于存放post请求的参数  
+        data: {
+          //'keyword': this.data.keywords
+        }, 
+        success(res) {   
+          self.setData({
+            appliedWtList: res.data
+          })
+        },
+        fail(res){
+          getApp().globalData.util.netErrorToast()
+        }
+      })
+    }
+    else if (this.data.type == 6) { // 查看已发布的委托
+      wx.request({
+        url: getApp().globalData.baseUrl + '/api/commission/check/', //接口名称   
+        header: head,
+        method:"GET",  //请求方式    
+        //data: app.globalData.zdxx,  //用于存放post请求的参数  
+        data: {
+          //'keyword': this.data.keywords
+        }, 
+        success(res) {   
+          self.setData({
+
+            releasedWtList: res.data
+
+          })
+        },
+        fail(res){
+          getApp().globalData.util.netErrorToast()
+        }
+      })
+    }
   },
   
 
@@ -218,7 +262,8 @@ Page({
     if(this.data.keywords == undefined){
       this.setData({
         type: options.type,
-        id: options.id
+        id:options.id,
+        sort: options.sort
       })
     }
   },
@@ -302,7 +347,4 @@ Page({
     })
   }
 })
-
-
-
 

@@ -83,7 +83,7 @@ Page({
               'Authorization': 'Token ' + app.globalData.token
             }
         }
-        if (this.data.type == 1) {
+        if (this.data.type == 1) {     //所有委托
             wx.request({
                 url: getApp().globalData.baseUrl + '/api/topic/',
                 header: head,
@@ -100,7 +100,7 @@ Page({
                     getApp().globalData.util.netErrorToast()
                 }
             })
-        } else if (this.data.type == 2) {
+        } else if (this.data.type == 2) {   //分类搜索
             wx.request({
                 url: getApp().globalData.baseUrl + '/api/condition/topics/',
                 header: head,
@@ -109,6 +109,25 @@ Page({
                     types : {
                         method : "id",
 		                value : self.data.sort
+                    }
+                },
+                success(res) {
+                    self.setData({
+                        list: res.data
+                    })
+                },
+                fail(res) {
+                    getApp().globalData.util.netErrorToast()
+                }
+            })
+        } else if (this.data.type == 3) {   //指定info
+            wx.request({
+                url: getApp().globalData.baseUrl + '/api/topic_search/',
+                header: head,
+                method:"POST", 
+                data: {
+                    types : {
+		                keyword : self.data.keywords
                     }
                 },
                 success(res) {
@@ -188,7 +207,6 @@ Page({
                 }
             })
         } else if (activeID === 1) {
-            console.log(111)
             wx.request({
                 url:getApp().globalData.baseUrl + '/api/topic_follow_users_self/',
                 header: head,
@@ -196,9 +214,7 @@ Page({
                 data: {
                 },
                 success(res) {
-                    console.log(getApp().globalData.myUserId)
-                    console.log(res)
-                    /*let tmpList = []
+                    let tmpList = []
                     let itemList = []
                     for(let i = 0; i < res.data.length; i++){
                         tmpList.push(res.data[i].id)
@@ -218,7 +234,7 @@ Page({
                     }
                     self.setData({
                         list : itemList
-                    })*/
+                    })
                 },
                 fail(res) {
                     getApp().globalData.util.netErrorToast()

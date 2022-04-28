@@ -276,7 +276,7 @@ Page({
       })
     } else if (this.data.activeID === 1) {
       wx.navigateTo({
-        url: '../../wtList/wtList?id=' + id + '&type=2',
+        url: '../../wtList/wtList?sort=' + id + '&type=3',
       })
     } else if (this.data.activeID === 2){
       wx.navigateTo({
