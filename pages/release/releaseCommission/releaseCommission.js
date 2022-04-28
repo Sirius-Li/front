@@ -275,7 +275,6 @@ Component({
            }
         }
         let self = this
-
         this.release(self)
         // wx.getSetting({
         //   withSubscriptions: true,
@@ -300,11 +299,9 @@ Component({
     
     
     release(self){
-
       let s_time = this.data.date.toString().replace(/-/g, '/') + ' ' + this.data.start_time
       let e_time = this.data.date.toString().replace(/-/g, '/') + ' ' + this.data.end_time
       let r_time = this.data.real_time.toString().replace(/-/g, '/')
-
     // wx.uploadFile({    
     wx.request({
       header: this.data.head,
@@ -315,7 +312,6 @@ Component({
       // header: self.data.head,
 
       
-
       data: {
         "commission_type_id": this.data.commission_type_id,
         "name": this.data.name,
@@ -326,7 +322,6 @@ Component({
         "description": this.data.description,
         "fee": this.data.fee,
         "tags": [{name: '新主楼'},],
-
       }, 
        success(res) {     
          if(res.statusCode == 201){
@@ -363,7 +358,6 @@ Component({
   },
   },
 
-  
 
   options: {
     addGlobalClass: true
