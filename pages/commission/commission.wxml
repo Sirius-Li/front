@@ -20,30 +20,36 @@
        <view style="flex: 1; text-align: right;" wx:if="{{user.id === myUserId && status === 2}}">
         <van-icon  bindtap="DelCommissiion" name="delete-o" />
       </view>
-      </view>
+    </view>
      
     <!-- </view> -->
     <!-- bottom -->
-    <view class="content" style="background-color: white; margin-top: 10px">
-      <view><text class="cuIcon-title text-blue">委托名称：{{name}}</text> </view>
-      <view class="text-gray text-content test-df font-break">委托状态：
+    <view >
+      <view class="cu-form-group margin-top"><text class="cuIcon-title text-blue">委托名称：{{name}}</text> </view>
+      <view class="cu-form-group">委托状态：
         <text wx:if="{{status==1}}">已发布</text>
         <text wx:if="{{status==2}}">已申请</text>
         <text wx:if="{{status==3}}">已完成</text>
       </view>
 
       <!-- TODO -->
-      <view class="text-gray text-content text-df font-break">委托类型：
+      <view class="cu-form-group">委托类型：
         <text>{{commission_type.name}}{{(real_time === 1)?'(实时)':'(非实时)'}}</text> 
       </view>
-      <view class="text-gray text-content text-df font-break">开始时间：{{start_time}}</view>
-      <view class="text-gray text-content text-df font-break">结束时间：{{end_time}}</view>
-      <view class="text-gray text-content text-df font-break">地点：
+      <view class="cu-form-group">开始时间：
+        <text>{{start_time}}</text>
+      </view>
+      <view class="cu-form-group">结束时间：
+        <text>{{end_time}}</text>
+      </view>
+      <view class="cu-form-group">地点：
         <text wx:if="{{location==1}}">学院路</text> 
         <text wx:if="{{location==2}}">沙河</text>
       </view>
-      <view class="text-gray text-content text-df font-break">委托报酬：￥{{fee}}</view>
-      <view class="text-gray text-content text-df font-break">委托描述：{{description}}</view>
+      <view class="cu-form-group">委托报酬：
+        <text>￥{{fee}}</text>
+      </view>
+      <view class="cu-form-group">委托描述：{{description}}</view>
     
     </view>
 
@@ -145,7 +151,7 @@
             <view class="cu-modal {{commentShow[idx + 1]==true?'show':''}}">
               <view class="cu-dialog">
                 <view class="cu-bar bg-white justify-end">
-                  <view class="content">回复{{item.user.nickame}}</view>
+                  <view class="content">回复{{item.user.nickName}}</view>
                   <view class="action" bindtap="hideModal" data-index="{{idx}}">
                     <text class="cuIcon-close text-red"></text>
                   </view>
@@ -161,7 +167,6 @@
       </view>
     </view>
   </block>
-  
 </view>
             
 

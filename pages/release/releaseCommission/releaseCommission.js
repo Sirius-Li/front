@@ -417,7 +417,6 @@ Component({
   },
 
   attached() {
-    // 第二种方式通过组件的生命周期函数执行代码
     console.log("发起请求获取数据")
     let head;
     let app = getApp()
@@ -479,7 +478,7 @@ Component({
           commission_type_name_list: temp_list
         })
       },
-      fail(res) {
+      fail:(res) => {
           getApp().globalData.util.netErrorToast()
       }
     })

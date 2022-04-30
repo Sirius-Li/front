@@ -1,6 +1,5 @@
 // pages/commission/commission.js
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -10,7 +9,7 @@ Page({
     // 委托id
     id: '',
     // 委托类型
-    commission_type_id: '',
+    commission_type: '',
     //委托名称
     name: 'commissionname',
     start_time: '2022-4-12',
@@ -76,7 +75,7 @@ Page({
     wx.showModal({
       title: '确认',
       content: '确认接取委托',
-      success (res) {
+      success: (res) => {
         if (res.confirm) {
           wx.request({
             url: getApp().globalData.baseUrl + '/api/commission/apply/',
@@ -149,7 +148,7 @@ Page({
     //修改委托
     // 跳转到发布的子组件？？
     wx.navigateTo({
-      url: '',
+      url: 'changeCommission/changeCommission?id=' + this.data.id,
     })
   },
 
@@ -560,7 +559,7 @@ Page({
           "start_time": res.data.start_time,
           "end_time": res.data.end_time,
           "create_at": res.data.create_at,
-          "real_time": res.data.real_time,
+          "real_time": res.data.real_time - 1, 
           "user": res.data.user,
           "accepted_user": res.data.accepted_user,
           "location": res.data.location,
