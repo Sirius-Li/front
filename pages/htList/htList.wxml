@@ -73,7 +73,7 @@
   <block wx:for="{{list}}" wx:for-item="item" wx:for-index="idx" wx:key="id">
     <view class="cu-card case":class="isCard?'no-card':''">
       <view class="cu-item shadow">
-          <van-card bindtap="jumpToSonPages">
+          <van-card>
               <view slot="thumb" bindtap="goToUserPage" data-userid="{{item.user_id}}">
                 <view class="cu-avatar round lg" 
                 style="background-image:url({{item.create_user.avatarUrl === ''?'../../img/default_avatar.png':item.create_user.avatarUrl}});"></view>

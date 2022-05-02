@@ -56,7 +56,7 @@ Page({
   FeeChange(event) { 
     this.setData({
       'fee': event.detail.value,
-      'list.fee': event.datail.value,
+      'list.fee': event.detail.value,
     });
   },
 
