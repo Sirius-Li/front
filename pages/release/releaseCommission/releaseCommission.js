@@ -9,29 +9,29 @@ Component({
   data: {
     list: {},
     //用户姓名
-    username: 'username',
+    username: '',
     //用户图片
     userAvatarUrl: '',
     // 委托id
     id: '',
     // 委托类型
-    commission_type_id: 0,
+    commission_type_id: -1,
     //委托类别
     type_list: [],
     commission_type_name_list: [],
     //委托名称
-    name: 'commissionname',
-    start_time: '05:20',
-    end_time: '05:21',
+    name: '',
+    start_time: '',
+    end_time: '',
     real_time: 0,
-    create_at: '2022-4-12',
-    updated_at: '2022-4-12',
+    create_at: '',
+    updated_at: '',
     //实时性
     real_time: 0,
     // 用户id
     user_id: '',
     //位置
-    location: 1,
+    location: 0,
     //状态
     status: '1',
     //详细描述
@@ -39,7 +39,7 @@ Component({
     //审核状态
     audit: '',
     //费用
-    fee: 110,
+    fee: null,
     // 标签
     tag_list: [],
     tagStr: '',
@@ -364,6 +364,10 @@ Component({
     },
 
     reset() {
+      let nowTime = new Date()
+      let today = nowTime.getFullYear() + '/' + (nowTime.getMonth()+1<10?'0' + (nowTime.getMonth()+1):(nowTime.getMonth()+1)) 
+            + '/' + (nowTime.getDate()<10?'0' + nowTime.getDate():nowTime.getDate())
+      let now = ((nowTime.getHours())<10 ? '0'+(nowTime.getHours()) : (nowTime.getHours())) + ':' + ((nowTime.getMinutes())<10? '0'+(nowTime.getMinutes()) : (nowTime.getMinutes()))
       this.setData({
         list: {},
         //用户姓名
@@ -380,8 +384,8 @@ Component({
         // commission_type_name_list: [],
         //委托名称
         name: '',
-        // start_time: '',
-        // end_time: '',
+        start_time: now.toString(),
+        end_time: now.toString(),
         create_at: '',
         updated_at: '',
         //实时性
@@ -404,7 +408,7 @@ Component({
         
         //页面变量
         // 自动获取今天的日期
-        // date: '',
+        date: now.toString(),
         
         location_list: [
           "学院路",
