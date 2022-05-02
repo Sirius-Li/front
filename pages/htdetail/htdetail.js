@@ -143,7 +143,7 @@ Page({
   submitCom: function () {
     if (getApp().globalData.user_status == 2) {
       wx.navigateTo({
-        url: '../../certification/certification',
+        url: '../certification/certification',
       })
     } else if (getApp().globalData.user_status == 1) {
       wx.showToast({
@@ -173,24 +173,20 @@ Page({
       } else {
         self = this
         wx.request({
-          url: 'https://se.alangy.net/api/comment/', //接口名称   
+          url: app.globalData.baseUrl + "/api/topic_comment/", //接口名称   
           header: head,
           method: "POST",  //请求方式    
           data: {
-            activity_id: this.data.activity.id,
-            at_user_id: 1,
-            comment: self.data.str
+            //to_user_id:null,
+            topic_id: this.data.id,
+            comment_content: self.data.str
           },
           success(res) {
-            self.data.list = res.data
             wx.showToast({
-              title: '评论成功',
+              title: '评论成功'
             })
             self.reset()
             self.getDetail()
-            self.setData({
-              hide: 1
-            })
           },
           fail(res) {
             getApp().globalData.util.netErrorToast()
@@ -203,7 +199,7 @@ Page({
     let userid = event.currentTarget.dataset.userid
     if (getApp().globalData.user_status == 2) {
       wx.navigateTo({
-        url: '../../certification/certification',
+        url: '../certification/certification',
       })
     } else if (getApp().globalData.user_status == 1) {
       wx.showToast({
@@ -233,24 +229,20 @@ Page({
         })
       } else {
         wx.request({
-          url: 'https://se.alangy.net/api/comment/', //接口名称   
+          url: getApp().globalData.baseUrl+"/topic_comment/", //接口名称   
           header: head,
           method: "POST",  //请求方式    
           data: {
-            activity_id: this.data.activity.id,
-            at_user_id: userid,
-            comment: this.data.str
+            to_user_id:userid,
+            topic_id: this.data.id,
+            comment_content: self.data.str
           },
           success(res) {
-            self.data.list = res.data
             wx.showToast({
               title: '回复成功',
             })
             self.reset()
             self.getDetail()
-            self.setData({
-              hide: 1
-            })
           },
           fail(res) {
             getApp().globalData.util.netErrorToast()
@@ -299,7 +291,7 @@ Page({
     let userid = event.currentTarget.dataset.userid
 
     wx.navigateTo({
-      url: '../../profile/profile?id=' + userid,
+      url: '../profile/profile?id=' + userid,
     })
   },
 
@@ -321,7 +313,7 @@ Page({
         message: '您是否要删除这条评论？'
       }).then(() => {
         wx.request({
-          url: getApp().globalData.baseUrl + `/api/comment/${commentId}/`,
+          url: getApp().globalData.baseUrl + `/api/topic_comment/${commentId}/`,
           method: 'DELETE',
           header: getApp().getHeaderWithToken(),
           success(res) {

@@ -110,3 +110,5 @@
     </view>
   </block>
 </view>
+
+<van-dialog id="van-dialog" />
