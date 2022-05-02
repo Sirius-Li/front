@@ -25,8 +25,6 @@ Page({
   getDetail: function () {
     let app = getApp()
     let head = {}
-    let temp_list_attend = []
-    let temp_list_create = []
     if (app.globalData.token == null) {
       head = {
         'content-type': 'application/json'
@@ -65,7 +63,7 @@ Page({
           success(res) {
             let llike = false
             for (let i = 0; i < res.data.length; i++) {
-              if (this.data.id == res.data[i].id) {
+              if (self.data.id == res.data[i].topic.id) {
                 llike = true
               }
             }
@@ -92,7 +90,8 @@ Page({
           success(res) {
             let ffollow = false
             for (let i = 0; i < res.data.length; i++) {
-              if (this.data.id == res.data[i].id) {
+              //console.log(res.data[i].id)
+              if (self.data.id == res.data[i].topic.id) {
                 ffollow = true
               }
             }
@@ -105,6 +104,7 @@ Page({
                 is_follow: false
               })
             }
+            //console.log("isfollow:"+self.data.is_follow)
           },
           fail(res) {
             getApp().globalData.util.netErrorToast()
@@ -112,6 +112,211 @@ Page({
         })
       },
       fail(res) {
+        getApp().globalData.util.netErrorToast()
+      }
+    })
+  },
+
+  followTopic: function(){
+    let app = getApp()
+    let head = {}
+    let self = this
+    if (app.globalData.token == null) {
+      head = {
+        'content-type': 'application/json'
+      }
+    } else {
+      head = {
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + app.globalData.token
+      }
+    }
+    wx.request({
+      url: app.globalData.baseUrl + "/api/topic_follow/",
+      header:head,
+      method: "POST",
+      data:{
+        topic_id:self.data.id
+      },
+      success(res){
+        self.setData({
+          is_follow:true
+        })
+        wx.showToast({
+          title: '关注成功'
+        })
+        self.getDetail()
+      },
+      fail(res){
+        getApp().globalData.util.netErrorToast()
+      }
+    })
+  },
+  unfollowTopic: function(){
+    let app = getApp()
+    let head = {}
+    let self = this
+    if (app.globalData.token == null) {
+      head = {
+        'content-type': 'application/json'
+      }
+    } else {
+      head = {
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + app.globalData.token
+      }
+    }
+    console.log(head)
+    wx.request({
+      url: app.globalData.baseUrl + "/api/topic_follows/"+self.data.id+"/",
+      header:head,
+      method: "DELETE",
+      data:{
+      },
+      success(res){
+        self.setData({
+          is_follow:false
+        })
+        wx.showToast({
+          title: '取消关注成功'
+        })
+        self.getDetail()
+      },
+      fail(res){
+        getApp().globalData.util.netErrorToast()
+      }
+    })
+  },
+  likeTopic:function(){
+    let app = getApp()
+    let head = {}
+    let self = this
+    if (app.globalData.token == null) {
+      head = {
+        'content-type': 'application/json'
+      }
+    } else {
+      head = {
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + app.globalData.token
+      }
+    }
+    wx.request({
+      url: app.globalData.baseUrl + "/api/topic_like/",
+      header:head,
+      method: "POST",
+      data:{
+        topic_id:self.data.id
+      },
+      success(res){
+        self.setData({
+          is_like:true
+        })
+        wx.showToast({
+          title: '点赞成功'
+        })
+        self.getDetail()
+      },
+      fail(res){
+        getApp().globalData.util.netErrorToast()
+      }
+    })
+  },
+  unlikeTopic:function(){
+    let app = getApp()
+    let head = {}
+    let self = this
+    if (app.globalData.token == null) {
+      head = {
+        'content-type': 'application/json'
+      }
+    } else {
+      head = {
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + app.globalData.token
+      }
+    }
+    wx.request({
+      url: app.globalData.baseUrl + "/api/topic_like/"+self.data.id+"/",
+      header:head,
+      method: "DELETE",
+      success(res){
+        self.setData({
+          is_like:false
+        })
+        self.getDetail()
+        wx.showToast({
+          title: '取消点赞成功'
+        })
+      },
+      fail(res){
+        getApp().globalData.util.netErrorToast()
+      }
+    })
+  },
+  likeComment(event){
+    let commentId = event.currentTarget.dataset.commentid
+    let app = getApp()
+    let head = {}
+    let self = this
+    if (app.globalData.token == null) {
+      head = {
+        'content-type': 'application/json'
+      }
+    } else {
+      head = {
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + app.globalData.token
+      }
+    }
+    wx.request({
+      url: app.globalData.baseUrl + "/api/topic_comment_like/",
+      header:head,
+      method: "POST",
+      data:{
+        topic_id:self.data.id
+      },
+      success(res){
+        self.setData({
+          is_like:true
+        })
+        self.getDetail()
+      },
+      fail(res){
+        getApp().globalData.util.netErrorToast()
+      }
+    })
+  },
+
+  unlikeComment: function(event){
+    let commentId = event.currentTarget.dataset.commentid
+    let app = getApp()
+    let head = {}
+    let self = this
+    if (app.globalData.token == null) {
+      head = {
+        'content-type': 'application/json'
+      }
+    } else {
+      head = {
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + app.globalData.token
+      }
+    }
+    wx.request({
+      url: app.globalData.baseUrl + "/api/topic_like/",
+      header:head,
+      method: "POST",
+      data:{
+        topic_id:self.data.id
+      },
+      success(res){
+        self.setData({
+          is_like:true
+        })
+        self.getDetail()
+      },
+      fail(res){
         getApp().globalData.util.netErrorToast()
       }
     })
@@ -228,13 +433,15 @@ Page({
           showCancel: false
         })
       } else {
+        console.log(userid)
+        console.log(self.data.id)
         wx.request({
-          url: getApp().globalData.baseUrl+"/topic_comment/", //接口名称   
+          url: getApp().globalData.baseUrl+"/api/topic_comment/", //接口名称   
           header: head,
           method: "POST",  //请求方式    
           data: {
             to_user_id:userid,
-            topic_id: this.data.id,
+            topic_id: self.data.id,
             comment_content: self.data.str
           },
           success(res) {
@@ -250,8 +457,10 @@ Page({
         })
       }
     }
-
   },
+
+
+  
   showModal(e) {
     if (getApp().globalData.user_status == 2) {
       wx.navigateTo({
@@ -272,7 +481,6 @@ Page({
       this.setData({
         commentShow: tempList
       })
-      console.log(this.data.commentShow)
     }
   },
   hideModal(e) {

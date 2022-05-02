@@ -52,6 +52,13 @@
           "name": "",
           "pathName": "pages/activity/category/category",
           "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/release/release",
+          "query": "",
           "scene": null,
           "launchMode": "default"
         }
