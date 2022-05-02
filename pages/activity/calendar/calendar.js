@@ -62,10 +62,10 @@ Page({
     // 初始化commissionList
     var commissionList = {}
     for (var i = 1; i <= vm.data.daysCountArr[mon]; i++) {
-      // commissionList[i] = []
+      commissionList[i] = []
       // 前端测试用
-      commissionList[i] = this.data.commissionList[i] || []
-      console.log(commissionList[i])
+      // commissionList[i] = this.data.commissionList[i] || []
+      // console.log(commissionList[i])
     }
     //var commissionList = this.data.commissionList
     
@@ -89,29 +89,43 @@ Page({
     // {start: "2022/4/1 00:00", end: "2022/4/30 23:59"}
     // console.log(timerange)
     
+    // console.log("before")
+    // console.log(commissionList)
+
     wx.request({
-      url: getApp().globalData.baseUrl + '/api/commission/applied/',
-      method: 'GET',
+      url: getApp().globalData.baseUrl + '/api/condition/commissions/',
+      method: 'POST',
+      // url: getApp().globalData.baseUrl + '/api/commission/applied/',
+      // method: 'GET',
       header: headers,
       data: {
-        user_attend: true,
-        timerange: timerange,
-        audit_status: [3],
       },
       success (res) {
+        console.log(res)
         for (var i = 0; i < res.data.length; i++) {
           var m = res.data[i]
           var start = parseInt(m.start_time.split(' ')[0].split('/')[2])
           var end = parseInt(m.end_time.split(' ')[0].split('/')[2])
-          for (var d = start; d <= end; d++) {
-            commissionList[d].push({
-              commissionId: m.id,
-              commissionName: m.name,
-              commissionTime: m.start_time + ' - ' + m.ent_time,
-              commissionRealTime: m.real_time
-            })
+          var start_month = parseInt(m.start_time.split(' ')[0].split('/')[1])
+          var end_month = parseInt(m.end_time.split(' ')[0].split('/')[1])
+          // console.log("start_time: " + m.start_time)
+          // console.log("end_time: " + m.end_time)
+          // console.log(that.data.curMonth)
+          // console.log("start " + start)
+          // console.log("end " + end)
+          if (start_month <= that.data.curMonth && that.data.curMonth <= end_month) {
+            for (var d = start; d <= end; d++) {
+              commissionList[d].push({
+                commissionId: m.id,
+                commissionName: m.name,
+                commissionTime: m.start_time + ' - ' + m.ent_time,
+                commissionRealTime: m.real_time
+              })
+            } 
           }
         }
+        console.log("in wx.request   ")
+        console.log(commissionList)
       },
       fail(res){
         getApp().globalData.util.netErrorToast()
@@ -121,74 +135,75 @@ Page({
           commissionList: commissionList,
           commissionTodoList: commissionList[vm.data.selectDay] || []
         });
-      }
-    })
-
-    wx.request({
-      url: getApp().globalData.baseUrl + '/api/condition/activities/',
-      method: 'POST',
-      header: headers,
-      data: {
-        user_attend: true,
-        timerange: timerange,
-        audit_status: [3],
-      },
-      success (res) {
-        
-        for (var i = 0; i < res.data.length; i++) {
-          var m = res.data[i]
-          var start = parseInt(m.normal_activity.start_at.split(' ')[0].split('/')[2])
-          var end = parseInt(m.normal_activity.end_at.split(' ')[0].split('/')[2])
-          
-          
-          for (var d = start; d <= end; d++) {
-            activityList[d].push({
-              activityId: m.id,
-              activityName: m.name,
-              activityTime: m.normal_activity.start_at + ' - ' + m.normal_activity.end_at,
-              activityLocation: m.position
-            })
-          }
-        }
-      },
-      fail(res){
-        getApp().globalData.util.netErrorToast()
-      },
-      complete () {
-        for (var i = 0; i < vm.data.daysCountArr[mon]; i++) {
-          var week = new Date(y, mon, (i + 1)).getDay();
-          // 如果是新的一周，则新增一周
-          if (week === 1 && i !== 0) {
-            weekIndex++;
-            dateList[weekIndex] = [];
-          }
-          // 如果是第一行，则将该行日期倒序，以便配合样式居右显示
-          if (weekIndex == 0) {
-            dateList[weekIndex].unshift({
-              value: y + '/' + (mon + 1) + '/' + (i + 1),
-              date: i + 1,
-              week: week,
-              activitiesCnt: activityList[i + 1].length,
-              commissionsCnt: commissionList[i + 1].length,
+        wx.request({
+          url: getApp().globalData.baseUrl + '/api/condition/activities/',
+          method: 'POST',
+          header: headers,
+          data: {
+            user_attend: true,
+            timerange: timerange,
+            audit_status: [3],
+          },
+          success (res) {
+            
+            for (var i = 0; i < res.data.length; i++) {
+              var m = res.data[i]
+              var start = parseInt(m.normal_activity.start_at.split(' ')[0].split('/')[2])
+              var end = parseInt(m.normal_activity.end_at.split(' ')[0].split('/')[2])
+              
+              
+              for (var d = start; d <= end; d++) {
+                activityList[d].push({
+                  activityId: m.id,
+                  activityName: m.name,
+                  activityTime: m.normal_activity.start_at + ' - ' + m.normal_activity.end_at,
+                  activityLocation: m.position
+                })
+              }
+            }
+          },
+          fail(res){
+            getApp().globalData.util.netErrorToast()
+          },
+          complete () {
+            console.log("=========================")
+            console.log(commissionList)
+            for (var i = 0; i < vm.data.daysCountArr[mon]; i++) {
+              var week = new Date(y, mon, (i + 1)).getDay();
+              // 如果是新的一周，则新增一周
+              if (week === 1 && i !== 0) {
+                weekIndex++;
+                dateList[weekIndex] = [];
+              }
+              // 如果是第一行，则将该行日期倒序，以便配合样式居右显示
+              if (weekIndex == 0) {
+                dateList[weekIndex].unshift({
+                  value: y + '/' + (mon + 1) + '/' + (i + 1),
+                  date: i + 1,
+                  week: week,
+                  activitiesCnt: activityList[i + 1].length,
+                  commissionsCnt: commissionList[i + 1].length,
+                });
+              } else {
+                dateList[weekIndex].push({
+                  value: y + '/' + (mon + 1) + '/' + (i + 1),
+                  date: i + 1,
+                  week: week,
+                  activitiesCnt: activityList[i + 1].length,
+                  commissionsCnt: commissionList[i + 1].length,
+                });
+              }
+            }
+            // 
+            
+            vm.setData({
+              dateList: dateList,
+              activityList: activityList,
+              todoList: activityList[vm.data.selectDay] || []
             });
-          } else {
-            dateList[weekIndex].push({
-              value: y + '/' + (mon + 1) + '/' + (i + 1),
-              date: i + 1,
-              week: week,
-              activitiesCnt: activityList[i + 1].length,
-              commissionsCnt: commissionList[i + 1].length,
-            });
+            // console.log(vm.data.dateList)
           }
-        }
-        // 
-        
-        vm.setData({
-          dateList: dateList,
-          activityList: activityList,
-          todoList: activityList[vm.data.selectDay] || []
-        });
-        // console.log(vm.data.dateList)
+        })
       }
     })
   },
@@ -202,8 +217,8 @@ Page({
       todoList: vm.data.activityList[e.currentTarget.dataset.date.date],
       commissionTodoList: vm.data.commissionList[e.currentTarget.dataset.date.date],
     });
-    console.log(this.data.selectedDate)
-    console.log(this.data.commissionList)
+    // console.log(this.data.selectedDate)
+    // console.log(this.data.commissionList)
   },
 
   preMonth: function () {
