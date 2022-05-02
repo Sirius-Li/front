@@ -65,7 +65,6 @@ Page({
       // commissionList[i] = []
       // 前端测试用
       commissionList[i] = this.data.commissionList[i] || []
-      console.log(commissionList[i])
     }
     //var commissionList = this.data.commissionList
     
@@ -86,8 +85,6 @@ Page({
       start: y + '/' + (parseInt(mon) + 1) + '/1 00:00',
       end: y + '/' + (parseInt(mon) + 1) + '/' + vm.data.daysCountArr[mon] + ' 23:59'  
     }
-    // {start: "2022/4/1 00:00", end: "2022/4/30 23:59"}
-    // console.log(timerange)
     
     wx.request({
       url: getApp().globalData.baseUrl + '/api/commission/applied/',
@@ -125,7 +122,7 @@ Page({
     })
 
     wx.request({
-      url: 'https://se.alangy.net/api/condition/activities/',
+      url: getApp().globalData.baseUrl + '/api/condition/activities/',
       method: 'POST',
       header: headers,
       data: {
@@ -188,7 +185,6 @@ Page({
           activityList: activityList,
           todoList: activityList[vm.data.selectDay] || []
         });
-        // console.log(vm.data.dateList)
       }
     })
   },
@@ -202,8 +198,6 @@ Page({
       todoList: vm.data.activityList[e.currentTarget.dataset.date.date],
       commissionTodoList: vm.data.commissionList[e.currentTarget.dataset.date.date],
     });
-    console.log(this.data.selectedDate)
-    console.log(this.data.commissionList)
   },
 
   preMonth: function () {
