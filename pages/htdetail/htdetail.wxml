@@ -22,7 +22,7 @@
       <view class="cu-avatar round" style="background-image:url({{ht.create_user.avatarUrl==='' ? '../../img/default_avatar.png':ht.create_user.avatarUrl}})" bindtap="gotoUserPage" data-userid="{{ht.create_user.id}}">
       </view>
       <view class="content">
-        <view class="text-grey">{{ht.create_user.nickName}} 发布于{{ht.created_at}}</view>
+        <view class="text-grey">{{ht.create_user.nickName}} 发布于{{ht.create_at}}</view>
         <view class="text-black text-content text-df font-break">
           {{ht.description}}
         </view>
@@ -48,7 +48,7 @@
         <button wx:else class="cu-btn bg-blue bg" bindtap="showModal" data-index="{{-1}}">已点赞({{ht.follow}})</button>
       </view>
     </view>
-    <view class="cu-modal">
+    <view class="cu-modal {{commentShow[0]==true?'show':''}}">
       <view class="cu-dialog">
         <view class="cu-bar bg-white justify-end">
           <view class="content">评论话题：{{ht.name}}</view>
@@ -64,11 +64,12 @@
     </view>
   </view>
 
-  <view class="text-gray text-df margin-top">查看全部评论({{comment.length}})</view>
-  <block wx:for="{{comment}}" data-item="item" wx:for-index="idx" wx:key="this">
+  <view class="text-gray text-df margin-top text-center" wx:if="{{ht.comment.length==0}}">暂时没有评论！</view>
+  <view class="text-gray text-df margin-top" wx:else>查看全部评论({{ht.comment.length}})</view>
+  <block wx:for="{{ht.comment}}" data-item="item" wx:for-index="idx" wx:key="this">
     <view class="cu-list menu-avatar comment solids-top">
       <view class="cu-item">
-        <view class="cu-avatar round" style="background-image:url({{item.user.avatarUrl===''?'../../../img/default_avatar.png':item.user.avatarUrl}});" bindtap="gotoUserPage" data-userid="{{item.user.id}}"></view>
+        <view class="cu-avatar round" style="background-image:url({{item.user.avatarUrl===''?'../../img/default_avatar.png':item.user.avatarUrl}});" bindtap="gotoUserPage" data-userid="{{item.user.id}}"></view>
         <view class="content">
           <view class="text-grey">{{item.user.nickName}} 发表于{{item.comment_time}}</view>
           <block wx:if="{{item.to_user.id > 1}}">
@@ -89,7 +90,7 @@
               </view>
               <van-icon bindtap="deleteComment" data-commentid="{{item.user.id}}" data-userid="{{item.user.id}}" wx:if="{{item.user.id === myUserId}}" name="delete-o" />
             </view>
-            <view class="cu-modal">
+            <view class="cu-modal {{commentShow[idx+1]==true?'show':''}}">
               <view class="cu-dialog">
                 <view class="cu-bar bg-white justify-end">
                   <view class="content">回复{{item.user.nickName}}</view>

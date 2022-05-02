@@ -161,6 +161,9 @@ Page({
 
     jumpToSonPages:function(event) {
         let id = event.currentTarget.dataset.id
+        console.log(id)
+        console.log("--------")
+
         wx.navigateTo({
           url: '../htdetail/htdetail?id=' + id,
         })
