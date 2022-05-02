@@ -337,10 +337,10 @@ Page({
       const url = `../activity/calendar/calendar`
       wx.navigateTo({url})
     } else if (type === 1) {
-      const url = `../actList/actList?type=${type}`
+      const url = `../actList/actList?type=2`
       wx.navigateTo({url})
     } else if (type === 2) {
-      const url = `../wtList/wtList`
+      const url = `../wtList/wtList?type=5`
       wx.navigateTo({url})
     } else if (type === 3) {
       const url = `../htList/htList?type=5`
