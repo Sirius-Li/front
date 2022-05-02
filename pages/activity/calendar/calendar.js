@@ -5,6 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    id: '',
     selectedDate: '',//选中的几月几号
     selectedWeek: '',//选中的星期几
     selectDay: '',
@@ -92,16 +93,17 @@ Page({
     // console.log("before")
     // console.log(commissionList)
 
+    console.log(headers)
     wx.request({
-      url: getApp().globalData.baseUrl + '/api/condition/commissions/',
-      method: 'POST',
-      // url: getApp().globalData.baseUrl + '/api/commission/applied/',
-      // method: 'GET',
+      // url: getApp().globalData.baseUrl + '/api/condition/commissions/',
+      // method: 'POST',
+      url: getApp().globalData.baseUrl + '/api/commission/applied/2/', // 查看自己申请的委托
+      method: 'GET',
       header: headers,
       data: {
       },
       success (res) {
-        console.log(res)
+        // console.log(res)
         for (var i = 0; i < res.data.length; i++) {
           var m = res.data[i]
           var start = parseInt(m.start_time.split(' ')[0].split('/')[2])
@@ -112,7 +114,8 @@ Page({
           // console.log("end_time: " + m.end_time)
           // console.log(that.data.curMonth)
           // console.log("start " + start)
-          // console.log("end " + end)
+          // console.log("end " + end) 
+          var user_id = m.user.id
           if (start_month <= that.data.curMonth && that.data.curMonth <= end_month) {
             for (var d = start; d <= end; d++) {
               commissionList[d].push({
@@ -121,11 +124,11 @@ Page({
                 commissionTime: m.start_time + ' - ' + m.ent_time,
                 commissionRealTime: m.real_time
               })
-            } 
+            }
           }
         }
-        console.log("in wx.request   ")
-        console.log(commissionList)
+        // console.log("in wx.request   ")
+        // console.log(commissionList)
       },
       fail(res){
         getApp().globalData.util.netErrorToast()
@@ -144,14 +147,14 @@ Page({
             timerange: timerange,
             audit_status: [3],
           },
-          success (res) {
-            
+          success (res) {  
+            console.log(res)
+            console.log(timerange)
+            // 读出res数据
             for (var i = 0; i < res.data.length; i++) {
               var m = res.data[i]
               var start = parseInt(m.normal_activity.start_at.split(' ')[0].split('/')[2])
               var end = parseInt(m.normal_activity.end_at.split(' ')[0].split('/')[2])
-              
-              
               for (var d = start; d <= end; d++) {
                 activityList[d].push({
                   activityId: m.id,
@@ -167,7 +170,7 @@ Page({
           },
           complete () {
             console.log("=========================")
-            console.log(commissionList)
+            // console.log(commissionList)
             for (var i = 0; i < vm.data.daysCountArr[mon]; i++) {
               var week = new Date(y, mon, (i + 1)).getDay();
               // 如果是新的一周，则新增一周
@@ -194,7 +197,6 @@ Page({
                 });
               }
             }
-            // 
             
             vm.setData({
               dateList: dateList,
