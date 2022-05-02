@@ -17,7 +17,7 @@
   </view>
   <view class="cu-form-group">
 		<view class="title">fee</view>
-		<input placeholder="请输入委托报酬" value="{{fee}}" bindinput="FeeChange" maxlength="{{5}}"></input>
+		<input placeholder="请输入委托报酬" type="number" value="{{fee}}" bindinput="FeeChange" maxlength="{{5}}"></input>
 	</view>
   <view class="cu-form-group">
 		<view class="title">类型选择</view>
@@ -57,63 +57,17 @@
 	</view>
 	<view class="cu-form-group">
 		<view class="title">委托结束时间</view>
-		<picker mode="time" value="{{end_time}}" start="09:00" end="23:59" bindchange="EndTimeChange">
+		<picker mode="time" value="{{end_time}}" start="00:01" end="23:59" bindchange="EndTimeChange">
 			<view class="picker">
 				{{end_time}}
 			</view>
 		</picker>
 	</view>
-	
-	
-	<!-- 地点？ -->
-	<!-- <view class="bg-white shadow" wx:if="{{!mapDisabled}}">
-		<view class="flex padding justify-center">
-			<button class="cu-btn bg-blue lg shadow" bindtap="onClick">{{location}}</button>
-		</view>
-	</view>
-	<view class="cu-form-group">
-		<view class="title">报名开始日期</view>
-		<picker mode="date" value="{{signDate}}" start="2015-09-01" end="2050-09-01" bindchange="signDateChange">
-			<view class="picker">
-				{{signDate}}
-			</view>
-		</picker>
-	</view>
-	<view class="cu-form-group">
-		<view class="title">报名结束日期</view>
-		<picker mode="date" value="{{stopDate}}" start="2015-09-01" end="2050-09-01" bindchange="stopDateChange">
-			<view class="picker">
-				{{stopDate}}
-			</view>
-		</picker>
-	</view>-->
   <!-- tags  -->
 	<view class="cu-form-group">
 		<view class="title">自定义活动标签</view>
 		<input placeholder="请用空格隔开每个标签" bindchange="tagChange" value="{{tagStr}}"></input>
 	</view> 
-
-	<!-- <view class="cu-bar bg-white margin-top">
-		<view class="action">
-			图片上传
-		</view>
-		<view class="action">
-			{{imgList.length}}/1
-		</view>
-	</view>
-	<view class="cu-form-group">
-		<view class="grid col-4 grid-square flex-sub">
-			<view class="bg-img" wx:for="{{imgList}}" wx:key="this" bindtap="ViewImg" data-url="{{item}}">
-				<image src='{{item}}' mode='aspectFill'></image>
-				<view class="cu-tag bg-red" catchtap="DelImg" data-index="{{index}}">
-					<text class="cuIcon-close"></text>
-				</view>
-			</view>
-			<view class="solids" bindtap="ChooseImage" wx:if="{{imgList.length<1}}">
-				<text class="cuIcon-cameraadd"></text>
-			</view>
-		</view>
-	</view> -->
 
 	<view class="cu-form-group margin-top">
 		<textarea maxlength="100" bindinput="DescriptionChange" placeholder="输入委托简介" value="{{description}}"></textarea>

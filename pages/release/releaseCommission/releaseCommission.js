@@ -377,11 +377,11 @@ Component({
         commission_type_id: -1,
         //委托类别
         type_list: [],
-        commission_type_name_list: [],
+        // commission_type_name_list: [],
         //委托名称
         name: '',
-        start_time: '',
-        end_time: '',
+        // start_time: '',
+        // end_time: '',
         create_at: '',
         updated_at: '',
         //实时性
@@ -404,7 +404,7 @@ Component({
         
         //页面变量
         // 自动获取今天的日期
-        date: '',
+        // date: '',
         
         location_list: [
           "学院路",

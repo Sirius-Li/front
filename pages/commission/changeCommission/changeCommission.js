@@ -70,10 +70,6 @@ Page({
   TypeChange(event) {
     this.setData({
       'commission_type_id': event.detail.value,
-      'list.commission_type_id': {
-        'id': event.detail.value+1,
-        'name': this.data.commission_type_name_list[event.detail.value],
-      }
     });
   },
 
@@ -211,8 +207,12 @@ Page({
   release(self){
     let s_time = this.data.date.toString().replace(/-/g, '/') + ' ' + this.data.start_time
     let e_time = this.data.date.toString().replace(/-/g, '/') + ' ' + this.data.end_time
-    this.data.list.start_time = s_time
-    this.data.list.end_time = e_time
+    this.setData({
+      'list.start_time' : s_time,
+      'list.end_time' : e_time,
+      'list.commission_type' : this.data.commission_type_id + 1
+    })
+    
   
     wx.request({
       header: this.data.head,
@@ -222,14 +222,14 @@ Page({
       // name:'photo',   
       // header: self.data.head,
       data: this.data.list, 
-      success(res) {     
+      success:(res) => {     
         if(res.statusCode == 201){
           wx.navigateTo({
-            url: '../wtList/wtList?type=5',
+            url: '../commission?id=' + this.data.id,
           })
-            wx.showToast({
-              title: '委托修改成功',
-            })
+          wx.showToast({
+            title: '委托修改成功',
+          })
           self.reset()  
         }else if(res.statusCode == 400){
           if(res.data === ''){
