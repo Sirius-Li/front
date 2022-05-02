@@ -1,4 +1,6 @@
 // pages/release/releasing/releaseAct.js
+const chooseLocation = requirePlugin('chooseLocation');
+
 Component({
   /**
    * 组件的属性列表
@@ -48,12 +50,9 @@ Component({
     end_time: '12:00',
     signUp_stime: null,
     signDown_rtime: null,
-    // date: wojujue.getFullYear() + '-' + (wojujue.getMonth()+1<10?'0' + (wojujue.getMonth()+1):(wojujue.getMonth()+1)) 
-    // + '-' + (wojujue.getDate()<10?'0' + wojujue.getDate():wojujue.getDate()),
-    // signDate: wojujue.getFullYear() + '-' + (wojujue.getMonth()+1<10?'0' + (wojujue.getMonth()+1):(wojujue.getMonth()+1)) 
-    // + '-' + (wojujue.getDate()<10?'0' + wojujue.getDate():wojujue.getDate()),
-    // stopDate: wojujue.getFullYear() + '-' + (wojujue.getMonth()+1<10?'0' + (wojujue.getMonth()+1):(wojujue.getMonth()+1)) 
-    // + '-' + (wojujue.getDate()<10?'0' + wojujue.getDate():wojujue.getDate()),
+    date: '',
+    signDate: '',
+    stopDate:'',
     imgList: [],
     haveimg: null,
     modalName: null,
@@ -366,6 +365,8 @@ Component({
           withSubscriptions: true,
           success(res) {
             if(res.subscriptionsSetting.mainSwitch){
+              //TODO
+              self.release(self)
               wx.requestSubscribeMessage({
                 tmplIds: [
                   'mEFV6psbMGpP9i8CU8NXTJ27dOoppg8FZsYQmN9lHcs',
@@ -409,6 +410,8 @@ Component({
           withSubscriptions: true,
           success(res) {
             if(res.subscriptionsSetting.mainSwitch){
+              //TODO
+              self.release(self)
               wx.requestSubscribeMessage({
                 tmplIds: [
                   'mEFV6psbMGpP9i8CU8NXTJ27dOoppg8FZsYQmN9lHcs',
@@ -438,7 +441,7 @@ Component({
          success(res) {     
            if(res.statusCode == 201){
              wx.navigateTo({
-               url: '../../actList/actList?type=5',
+               url: '../actList/actList?type=5',
              })
               wx.showToast({
                 title: '活动发布成功',
@@ -475,6 +478,97 @@ Component({
         'list.description': e.detail.value
       })
     },
+
+    onClick: function () {
+      const key = '6QIBZ-MEA63-GAZ3S-3AHGH-MJPXJ-3FB5S'; //使用在腾讯位置服务申请的key
+      const referer = 'asr-fri-1'; //调用插件的app的名称
+      const location = JSON.stringify({
+        latitude: 39.89631551,
+        longitude: 116.323459711
+      });
+      this.setData({
+        choosePlace: true
+      })
+      wx.navigateTo({
+        url: `plugin://chooseLocation/index?key=${key}&referer=${referer}&location=${location}`
+      });
+    },
+
+    reset() {
+      let nowTime = new Date()
+      this.setData({
+        longitude: null,
+        latitude: null,
+        stime: null,
+        rtime: null,
+        act_name: null,
+        act_number: null,
+        choosePlace: false,
+        acttags: '',
+        date: nowTime.getFullYear() + '-' + (nowTime.getMonth()+1<10?'0' + (nowTime.getMonth()+1):(nowTime.getMonth()+1)) 
+        + '-' + (nowTime.getDate()<10?'0' + nowTime.getDate():nowTime.getDate()),
+        signDate: nowTime.getFullYear() + '-' + (nowTime.getMonth()+1<10?'0' + (nowTime.getMonth()+1):(nowTime.getMonth()+1)) 
+        + '-' + (nowTime.getDate()<10?'0' + nowTime.getDate():nowTime.getDate()),
+        stopDate: nowTime.getFullYear() + '-' + (nowTime.getMonth()+1<10?'0' + (nowTime.getMonth()+1):(nowTime.getMonth()+1)) 
+        + '-' + (nowTime.getDate()<10?'0' + nowTime.getDate():nowTime.getDate()),
+        
+        location:'选择运动类活动地点',
+        index: null,
+        typeStr: null,
+        start_time: '12:00',
+        end_time: '12:00',
+        signUp_stime: null,
+        signDown_rtime: null,
+        imgList: [],
+        haveimg: null,
+        modalName: null,
+        textareaValue: '',
+        position: null
+      })
+    },
+
+    
+  },
+
+  attached() {
+    //this.tabBar();
+    //console.log("call onshow()")
+    //console.log(this.data.choosePlace)
+    this.getAlltype()
+    getApp().getNotificationCount()
+    const location1 = chooseLocation.getLocation();
+    let nowTime = new Date()
+    let nowDate = nowTime.getFullYear() + '-' + (nowTime.getMonth()+1<10?'0' + (nowTime.getMonth()+1):(nowTime.getMonth()+1)) + '-' + (nowTime.getDate()<10?'0' + nowTime.getDate():nowTime.getDate())
+    let nowSign = nowTime.getFullYear() + '-' + (nowTime.getMonth()+1<10?'0' + (nowTime.getMonth()+1):(nowTime.getMonth()+1)) + '-' + (nowTime.getDate()<10?'0' + nowTime.getDate():nowTime.getDate())
+    let nowStop = nowTime.getFullYear() + '-' + (nowTime.getMonth()+1<10?'0' + (nowTime.getMonth()+1):(nowTime.getMonth()+1)) + '-' + (nowTime.getDate()<10?'0' + nowTime.getDate():nowTime.getDate())
+    this.setData({
+      date: nowDate,
+      signDate: nowSign,
+      stopDate: nowStop,
+    })
+    console.log(this.data.date)
+    if (location1 && this.data.choosePlace) {
+      this.setData({
+        location: location1.address,
+        latitude: location1.latitude,
+        longitude: location1.longitude,
+      })
+    }
+    if(getApp().globalData.user_status == 2){
+      wx.redirectTo({
+        url: '../../certification/certification',
+      })
+    }else if(getApp().globalData.user_status == 1){
+      wx.switchTab({
+        url: '../home/home',
+        success(res){
+          wx.showToast({
+            title: '用户还在认证中',
+            icon: 'error'
+          })
+        }
+      })
+    }
   },
 
   options: {

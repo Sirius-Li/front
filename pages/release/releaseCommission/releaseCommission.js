@@ -418,6 +418,7 @@ Component({
         head: null,
       })
     },
+    
   },
 
   attached() {
@@ -452,7 +453,7 @@ Component({
 
     let nowTime = new Date()
     let today = nowTime.getFullYear() + '/' + (nowTime.getMonth()+1<10?'0' + (nowTime.getMonth()+1):(nowTime.getMonth()+1)) 
-           + '/' + (nowTime.getDate()<10?'0' + nowTime.getDate():nowTime.getDate())
+          + '/' + (nowTime.getDate()<10?'0' + nowTime.getDate():nowTime.getDate())
     let now = ((nowTime.getHours())<10 ? '0'+(nowTime.getHours()) : (nowTime.getHours())) + ':' + ((nowTime.getMinutes())<10? '0'+(nowTime.getMinutes()) : (nowTime.getMinutes()))
     this.setData({
       'date': today,
