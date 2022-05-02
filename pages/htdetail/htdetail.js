@@ -104,7 +104,7 @@ Page({
     }
     let self = this
     wx.request({    
-      url: getApp().globalData.baseUrl + '/api/condition/activities/', //接口名称 todo   
+      url: 'https://se.alangy.net/api/condition/activities/', //接口名称 todo   
       header: head,
       method:"POST",  //请求方式    
       //data: app.globalData.zdxx,  //用于存放post请求的参数  
@@ -117,7 +117,7 @@ Page({
           temp_list_attend.push(res.data[i].id)
         }
         wx.request({    
-          url: getApp().globalData.baseUrl + '/api/condition/activities/', //接口名称   
+          url: 'https://se.alangy.net/api/condition/activities/', //接口名称   
           header: head,
           method:"POST",  //请求方式    
           //data: app.globalData.zdxx,  //用于存放post请求的参数  
@@ -130,7 +130,7 @@ Page({
               temp_list_create.push(res.data[i].id)
             }
             wx.request({    
-              url: getApp().globalData.baseUrl + `/api/activities/${self.data.id}/`, //接口名称   
+              url: `https://se.alangy.net/api/activities/${self.data.id}/`, //接口名称   
               header: head,
               method:"GET",  //请求方式    
               //data: app.globalData.zdxx,  //用于存放post请求的参数   
@@ -374,7 +374,7 @@ Page({
       } else {
         self = this
       wx.request({    
-        url: getApp().globalData.baseUrl + '/api/comment/', //接口名称   
+        url: 'https://se.alangy.net/api/comment/', //接口名称   
         header: head,
         method:"POST",  //请求方式    
         data: {
@@ -434,7 +434,7 @@ Page({
         })
       } else {
         wx.request({    
-          url: getApp().globalData.baseUrl + '/api/comment/', //接口名称   
+          url: 'https://se.alangy.net/api/comment/', //接口名称   
           header: head,
           method:"POST",  //请求方式    
           data: {

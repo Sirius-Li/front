@@ -27,7 +27,8 @@
     "pages/commission/commission",
     "pages/wtList/wtList",
     "pages/release/release",
-    "pages/htdetail/htdetail"
+    "pages/htdetail/htdetail",
+    "pages/commission/changeCommission/changeCommission"
   ],
   "window": {
     "backgroundTextStyle": "light",
