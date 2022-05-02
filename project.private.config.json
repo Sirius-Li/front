@@ -27,7 +27,16 @@
         },
         {
           "name": "",
-          "pathName": "pages/activity/calendar/calendar",
+
+          "pathName": "pages/commission/commission",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/commission/changeCommission/changeCommission",
+
           "query": "",
           "launchMode": "default",
           "scene": null

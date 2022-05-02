@@ -63,10 +63,12 @@ Page({
     // 初始化commissionList
     var commissionList = {}
     for (var i = 1; i <= vm.data.daysCountArr[mon]; i++) {
+
       commissionList[i] = []
       // 前端测试用
       // commissionList[i] = this.data.commissionList[i] || []
       // console.log(commissionList[i])
+
     }
     //var commissionList = this.data.commissionList
     
@@ -108,6 +110,7 @@ Page({
           var m = res.data[i]
           var start = parseInt(m.start_time.split(' ')[0].split('/')[2])
           var end = parseInt(m.end_time.split(' ')[0].split('/')[2])
+
           var start_month = parseInt(m.start_time.split(' ')[0].split('/')[1])
           var end_month = parseInt(m.end_time.split(' ')[0].split('/')[1])
           // console.log("start_time: " + m.start_time)
@@ -202,6 +205,7 @@ Page({
               dateList: dateList,
               activityList: activityList,
               todoList: activityList[vm.data.selectDay] || []
+
             });
             // console.log(vm.data.dateList)
           }
