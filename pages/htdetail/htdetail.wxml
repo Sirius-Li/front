@@ -9,7 +9,7 @@
     <view class="action font-break">
       <text class="cuIcon-title text-blue">{{ht.name}}</text>
     </view>
-    <view class="text-gray text-sm padding" bindtap="gotoAttended">
+    <view class="text-gray text-sm padding">
       <text class="margin-lr-xs"></text>
       {{ht.topic_type.name}}
     </view>
@@ -28,7 +28,7 @@
     </view>
   </view>
 
-  <view class="margin-sm margin-top" wx:if="{{ht.photo!=''}}">
+  <view class="margin-sm margin-top" bindtap="view" data-url="{{ht.photo}}" wx:if="{{ht.photo!=''}}">
     <image src="{{ht.photo}}" mode="aspectFit"></image>
   </view>
 
