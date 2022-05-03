@@ -8,93 +8,93 @@ Page({
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
     list:[
-      {
-        "type": "wt",
-        "id": 101,
-        "commission_type":{
-            "id": 101,
-            "name": "commission_101"
-        },
-        "name": "跑腿",
-        "start_time": "str",
-        "end_time": "str",
-        "create_at": "str",
-        "updated_at": "str",
-        "real_time": 1,
-        "user": {
-            "id": 1,
-            "nickName": "小明",
-            "avatarUrl": "",
-            "email": "str",
-            "age": "int",
-            "gender": "int",
-            "audit_status": "int",
-            "is_staff": "int",
-        },
-        "location": 1,
-        "status": 1,
-        "description": "代取外卖",
-        "audit": 1,
-        "fee": 5,
-    },
-    {
-      "type": "wt",
-      "id": 102,
-      "commission_type":{
-          "id": 101,
-          "name": "commission_101"
-      },
-      "name": "跑腿",
-      "start_time": "str",
-      "end_time": "str",
-      "create_at": "str",
-      "updated_at": "str",
-      "real_time": 1,
-      "user": {
-          "id": 1,
-          "nickName": "小黑",
-          "avatarUrl": "",
-          "email": "str",
-          "age": "int",
-          "gender": "int",
-          "audit_status": "int",
-          "is_staff": "int",
-      },
-      "location": 1,
-      "status": 1,
-      "description": "代取外卖",
-      "audit": 1,
-      "fee": 5,
-  },
-  {
-    "type": "wt",
-    "id": 103,
-    "commission_type":{
-        "id": 101,
-        "name": "commission_101"
-    },
-    "name": "跑腿",
-    "start_time": "str",
-    "end_time": "str",
-    "create_at": "str",
-    "updated_at": "str",
-    "real_time": 2,
-    "user": {
-        "id": 1,
-        "nickName": "小红",
-        "avatarUrl": "",
-        "email": "str",
-        "age": "int",
-        "gender": "int",
-        "audit_status": "int",
-        "is_staff": "int",
-    },
-    "location": 1,
-    "status": 1,
-    "description": "代取快递",
-    "audit": 1,
-    "fee": 5,
-}
+//       {
+//         "type": "wt",
+//         "id": 101,
+//         "commission_type":{
+//             "id": 101,
+//             "name": "commission_101"
+//         },
+//         "name": "跑腿",
+//         "start_time": "str",
+//         "end_time": "str",
+//         "create_at": "str",
+//         "updated_at": "str",
+//         "real_time": 1,
+//         "user": {
+//             "id": 1,
+//             "nickName": "小明",
+//             "avatarUrl": "",
+//             "email": "str",
+//             "age": "int",
+//             "gender": "int",
+//             "audit_status": "int",
+//             "is_staff": "int",
+//         },
+//         "location": 1,
+//         "status": 1,
+//         "description": "代取外卖",
+//         "audit": 1,
+//         "fee": 5,
+//     },
+//     {
+//       "type": "wt",
+//       "id": 102,
+//       "commission_type":{
+//           "id": 101,
+//           "name": "commission_101"
+//       },
+//       "name": "跑腿",
+//       "start_time": "str",
+//       "end_time": "str",
+//       "create_at": "str",
+//       "updated_at": "str",
+//       "real_time": 1,
+//       "user": {
+//           "id": 1,
+//           "nickName": "小黑",
+//           "avatarUrl": "",
+//           "email": "str",
+//           "age": "int",
+//           "gender": "int",
+//           "audit_status": "int",
+//           "is_staff": "int",
+//       },
+//       "location": 1,
+//       "status": 1,
+//       "description": "代取外卖",
+//       "audit": 1,
+//       "fee": 5,
+//   },
+//   {
+//     "type": "wt",
+//     "id": 103,
+//     "commission_type":{
+//         "id": 101,
+//         "name": "commission_101"
+//     },
+//     "name": "跑腿",
+//     "start_time": "str",
+//     "end_time": "str",
+//     "create_at": "str",
+//     "updated_at": "str",
+//     "real_time": 2,
+//     "user": {
+//         "id": 1,
+//         "nickName": "小红",
+//         "avatarUrl": "",
+//         "email": "str",
+//         "age": "int",
+//         "gender": "int",
+//         "audit_status": "int",
+//         "is_staff": "int",
+//     },
+//     "location": 1,
+//     "status": 1,
+//     "description": "代取快递",
+//     "audit": 1,
+//     "fee": 5,
+// }
     ],
 
     releasedWtList: [
@@ -114,7 +114,7 @@ Page({
         "user": {
             "id": 1,
             "nickName": "str",
-            "avatarUrl": "str",
+            "avatarUrl": "",
             "email": "str",
             "age": "int",
             "gender": "int",
@@ -146,7 +146,7 @@ Page({
         "user": {
             "id": 1,
             "nickName": "str",
-            "avatarUrl": "str",
+            "avatarUrl": "",
             "email": "str",
             "age": "int",
             "gender": "int",
@@ -161,13 +161,44 @@ Page({
     }
     ],
 
+    finishedWtList: [
+      {
+        "type": "wt",
+        "id": 1011,
+        "commission_type":{
+            "id": 101,
+            "name": "commission_101"
+        },
+        "name": "text",
+        "start_time": "str",
+        "end_time": "str",
+        "create_at": "str",
+        "updated_at": "str",
+        "real_time": 1,
+        "user": {
+            "id": 1,
+            "nickName": "str",
+            "avatarUrl": "",
+            "email": "str",
+            "age": "int",
+            "gender": "int",
+            "audit_status": "int",
+            "is_staff": "int",
+        },
+        "location": 1,
+        "status": 1,
+        "description": "这是一条你完成的委托",
+        "audit": 1,
+        "fee": 1,
+    }
+    ],
 
     //包括关键字 搜索栏输入关键字
     keywords: '',
-    //id
+    //id 当前用户id
     id: '',
     //type 不同界面进入标识符
-    type: 1,
+    type: 5,
     //
     sort: '',
     status: '',
@@ -190,14 +221,15 @@ Page({
         'Authorization': 'Token ' + app.globalData.token
        }
     }
+    this.data.type = 5
+    console.log(this.data.type)
     if(this.data.type == 1){ // 所有类别所有委托
-      wx.request({    
+      wx.request({
         url: getApp().globalData.baseUrl + '/api/commission/search/all/', //接口名称   
         header: head,
         method:"GET",  //请求方式    
         //data: app.globalData.zdxx,  //用于存放post请求的参数  
         data: {
-          // 'keyword': this.data.keywords
         }, 
         success(res) {   
           console.log(res.data)
@@ -206,6 +238,7 @@ Page({
           })
         },
         fail(res){
+          console.log(res)
           getApp().globalData.util.netErrorToast()
         }
       })
@@ -217,9 +250,9 @@ Page({
         method:"POST",  //请求方式    
         //data: app.globalData.zdxx,  //用于存放post请求的参数  
         data: {
-          'keyword': this.data.keywords
-        }, 
-        success(res) {   
+          "info": this.data.keywords
+        },
+        success(res) {
           self.setData({
             list: res.data
           })
@@ -252,12 +285,12 @@ Page({
     }
     else if (this.data.type == 4) { // 指定类别指定“info”委托
       wx.request({
-        url: getApp().globalData.baseUrl + '/api/commission/search/specific/' + this.data.sort, //接口名称   
+        url: getApp().globalData.baseUrl + '/api/commission/search/specific/' + this.data.sort + '/', //接口名称   
         header: head,
         method:"POST",  //请求方式    
         //data: app.globalData.zdxx,  //用于存放post请求的参数  
         data: {
-          'keyword': this.data.keywords
+          "info": this.data.keywords
         }, 
         success(res) {   
           self.setData({
@@ -270,9 +303,10 @@ Page({
         }
       })
     }
-    else if (this.data.type == 5) { // 查看已申请的委托
+    else {
+       // 查看已申请的委托
       wx.request({
-        url: getApp().globalData.baseUrl + '/api/commission/applied/' + this.data.status, //接口名称   
+        url: getApp().globalData.baseUrl + '/api/commission/applied/2/', //接口名称   
         header: head,
         method:"GET",  //请求方式    
         //data: app.globalData.zdxx,  //用于存放post请求的参数  
@@ -280,19 +314,18 @@ Page({
           //'keyword': this.data.keywords
         }, 
         success(res) {   
-          self.setData({
+          self.setData({ 
             appliedWtList: res.data
           })
-          console.log(self.data.list)
+          console.log(res)
         },
         fail(res){
           getApp().globalData.util.netErrorToast()
         }
       })
-    }
-    else if (this.data.type == 6) { // 查看已发布的委托
-      wx.request({
-        url: getApp().globalData.baseUrl + '/api/commission/check/', //接口名称   
+       // 查看已完成的委托
+       wx.request({
+        url: getApp().globalData.baseUrl + '/api/commission/applied/3/', //接口名称   
         header: head,
         method:"GET",  //请求方式    
         //data: app.globalData.zdxx,  //用于存放post请求的参数  
@@ -300,8 +333,27 @@ Page({
           //'keyword': this.data.keywords
         }, 
         success(res) {   
+          self.setData({ 
+            finishedWtList: res.data
+          })
+          console.log(res)
+        },
+        fail(res){
+          getApp().globalData.util.netErrorToast()
+        }
+      })
+      // 查看已发布的委托
+      wx.request({
+        url: getApp().globalData.baseUrl + '/api/commission/check/1/', //接口名称   
+        header: head, 
+        method:"GET",  //请求方式    
+        //data: app.globalData.zdxx,  //用于存放post请求的参数  
+        data: {
+          //'keyword': this.data.keywords
+        }, 
+        success(res) {
           self.setData({
-          releasedWtList: res.data
+            releasedWtList: res.data 
           })
         },
         fail(res){
@@ -316,13 +368,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(options)
     this.setData({
       keywords: options.keywords
     })
     if(this.data.keywords == undefined){
       this.setData({
         type: options.type,
-        id:options.id,
+        id:options.id, // 当前用户id
         sort: options.sort
       })
     }
