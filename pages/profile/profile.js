@@ -3,6 +3,7 @@ Page({
   data: {
     userId: null,
     fromMsg: null,
+    liked: null,
     isMe: null,
     isVisitor: null,
     myId: null,
