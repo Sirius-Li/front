@@ -85,7 +85,11 @@
           <view>
             <view class="cu-bar bg-white margin-top">
               <van-icon bindtap="showModal" data-index="{{idx}}" name="comment-o" size="20"/>
-              <view>
+              <view wx:if="{{is_like_comment[idx] == true}}">
+                <van-icon bindtap="unlikeComment" name="like" size="20" data-commentid="{{item.id}}"></van-icon>
+                {{item.like}}
+              </view>
+              <view wx:else>
                 <van-icon bindtap="likeComment" name="like-o" size="20" data-commentid="{{item.id}}"></van-icon>
                 {{item.like}}
               </view>
