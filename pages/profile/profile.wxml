@@ -51,7 +51,7 @@
           <van-cell title="用户名" value="{{ username }}" class="break-all" />
           <van-cell title="性别" value="{{ gender === 0?'未知':gender === 1?'男':'女' }}" class="break-all" />
         </van-cell-group>
-        <van-tabs active="{{ 2 }}">
+        <van-tabs active="{{ 1 }}">
           <van-tab title="发布的活动" >
             <van-cell title="综合评分" value="{{ score_avg }}" class="break-all" />
             <view class="content">
@@ -73,7 +73,7 @@
           <van-tab title="发布的话题" >
             <view class="content">
               <view class="cu-card article" wx:for="{{ releasedTopics }}" wx:for-item="item" wx:for-index="idx" wx:key="id">
-                <view class="cu-item shadow" data-activityid="{{ item.id }}" bindtap="onTapActivity">
+                <view class="cu-item shadow" data-topicid="{{ item.id }}" bindtap="onTapTopic">
                   <view class="title">
                     <view class="text-cut">{{ item.name }}</view>
                   </view>

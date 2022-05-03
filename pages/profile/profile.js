@@ -15,50 +15,9 @@ Page({
     email: null,
     score_avg: null,
     commission_score_avg: null,
-    releasedActivities: [
-      {
-        id: 1,
-        name: "操场夜跑",
-        imageUrl: "../../img/profile3.jpg",
-        detail: "去操场跑两圈"
-      },
-      {
-        id: 2,
-        name: "学术前沿讲座",
-        imageUrl: "../../img/profile3.jpg",
-        detail: "在新主楼开展学术前沿知识讲座"
-      }
-    ],
-    releasedCommissions: [
-      {
-        id: 1,
-        name: "取快递",
-        realTime: "否",
-        description: "正值青春脑子灵，\n 哪有时间儿女情。\n 献身航空与航天，\n 单身十年笑盈盈。",
-        fee: 2
-      },
-      {
-        id: 2,
-        name: "取外卖",
-        realTime: "是",
-        description: "正值青春脑子灵，\n 哪有时间儿女情。\n 献身航空与航天，\n 单身十年笑盈盈。",
-        fee: 3
-      }
-    ],
-    releasedTopics: [
-      {
-        id: 1,
-        name: "学院路计院大三选课",
-        imageUrl: "../../img/profile3.jpg",
-        description: "核心专业和个人专业都拜托了"
-      },
-      {
-        id: 2,
-        name: "求推荐学校周边餐馆",
-        imageUrl: "../../img/profile3.jpg",
-        description: "RT"
-      }
-    ]
+    releasedActivities: null,
+    releasedCommissions: null,
+    releasedTopics: null
   },
 
   onLoad(options) {
@@ -121,6 +80,12 @@ Page({
     const id = e.currentTarget.dataset.activityid
     wx.navigateTo({
       url: `/pages/actList/activity/activity?id=${id}`,
+    })
+  },
+  onTapTopic(e){
+    const id = e.currentTarget.dataset.topicid
+    wx.navigateTo({
+      url: `/pages/htdetail/htdetail?id=${id}`,
     })
   },
 
@@ -224,6 +189,7 @@ Page({
       }
     })
   },
+
   getReleasedActivities() {
     const that = this
     const header = this.getHeaderWithToken()
@@ -251,17 +217,17 @@ Page({
     const that = this
     const header = this.getHeaderWithToken()
     wx.request({
-      url: `${BASE_URL}/api/user_create_activities/${that.data.userId}/`, //todo
+      url: `${BASE_URL}/api/user_create_commissions/${that.data.userId}/`, //todo
       method: 'GET',
       header,
       success(res) {
         if (res.statusCode === 200) {
           const data = res.data
+          console.log(data)
           that.setData({
             
           })
         } else {
-
         }
       },
       fail(res) {
@@ -280,7 +246,7 @@ Page({
       success(res) {
         if (res.statusCode === 200) {
           const data = res.data
-          console.log(data)
+          //console.log(data)
           that.setData({
             releasedTopics: that.parseReceivedReleasedTopics(data)
           })
@@ -312,7 +278,17 @@ Page({
   },
 
   parseReceivedReleasedTopics(data){
-    
+    let topics = []
+    console.log(data)
+    for(const item of data){
+      topics.push({
+        id:item.id,
+        name:item.name,
+        description:item.description,
+        imageUrl:item.photo ? `${BASE_URL}${item.photo}` : '/static/img/nophoto.jpg'
+      })
+    }
+    return topics
   },
 
   getHeaderWithToken() {
