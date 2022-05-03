@@ -220,24 +220,25 @@ Page({
                     let tmpList = []
                     let itemList = []
                     for(let i = 0; i < res.data.length; i++){
-                        tmpList.push(res.data[i].id)
+                        tmpList.push(res.data[i].topic.id)
                     }
+                    console.log(tmpList)
                     for (let i = 0; i < tmpList.length; i++) {
                         wx.request({
                           url: getApp().globalData.baseUrl + '/api/topic/' + tmpList[i] + '/',
                           header: head,
                           method:"GET",   
                           data: {
-                          }, success(res) {
-                            itemList.push(res.data)
-                          }, fail(res) {
+                          }, success(resu) {
+                            itemList.push(resu.data)
+                            self.setData({
+                                list : itemList
+                            })
+                          }, fail(resu) {
                             getApp().globalData.util.netErrorToast()
                           } 
                         })
-                    }
-                    self.setData({
-                        list : itemList
-                    })
+                    }     
                 },
                 fail(res) {
                     getApp().globalData.util.netErrorToast()
