@@ -2,7 +2,7 @@
   <block wx:for="{{list}}" wx:key="index">
   
     <van-tabbar-item 
-    wx:if="{{index == 4}}" 
+    wx:if="{{index == 3}}" 
     info="{{item.info}}" 
     icon="{{ item.icon }}" 
     dot="{{messageCount || notificationCount}}">{{

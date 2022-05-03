@@ -1,9 +1,5 @@
-<!--pages/publish/publish.wxml-->
-<cu-custom bgColor="bg-gradual-blue" isBack="{{false}}">
-	<view slot="backText">返回</view>
-	<view slot="content">发布</view>
-</cu-custom>
-
+<!--pages/release/releasing/releaseAct.wxml-->
+<!-- <text>pages/release/releasing/releaseAct.wxml</text> -->
 <view style= "margin-bottom:100px">
 	<form>
 	<!--name-->

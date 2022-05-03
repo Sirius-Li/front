@@ -28,26 +28,40 @@
         <view style="height:60rpx">
           <text class="{{item.value==nowDate?'today_date':''}}">{{item.date}}</text>
         </view>
-        <image wx:if="{{item.activitiesCnt==1}}" class="icon1" src="/static/img/one_event.png"></image>
+        <!-- <image wx:if="{{item.activitiesCnt==1}}" class="icon1" src="/static/img/one_event.png"></image>
         <image wx:elif="{{item.activitiesCnt==2}}" class="icon2" src="/static/img/two_events.png"></image>
-        <image wx:elif="{{item.activitiesCnt>=3}}" class="icon3" src="/static/img/more_events.png"></image>
+        <image wx:elif="{{item.activitiesCnt>=3}}" class="icon3" src="/static/img/more_events.png"></image> -->
+        <image wx:if="{{item.activitiesCnt > 0 || item.commissionsCnt > 0}}" class="icon1" src="/static/img/one_event.png"></image>
       </view>
     </view>
   </view>
-  <!-- <text>{{this.data.activityList[this.data.selectDay]}}</text> -->
+ <!-- <text>{{this.data.activityList[this.data.selectDay]}}</text> -->
   <view style="border-radius:20px">
     <van-cell-group style="border-radius:20px;padding:30px">
       <van-cell wx:for="{{todoList}}" wx:key="key" use-label-slot="{{true}}" bindtap="routeActivityDescription" data-activityid="{{item.activityId}}">
         <view slot="title">
-          <text dot>{{item.activityName}}</text>
+          <text dot>活动名称：{{item.activityName}}</text>
         </view>
         <view slot="label">
-          <text>{{item.activityLocation}}</text>
-          <text style="display:flex;flex-direction:row-reverse">{{item.activityTime}}</text>
+          <text>活动位置：{{item.activityLocation}}</text>
+          <text style="display:flex;flex-direction:row-reverse">活动时间：{{item.activityTime}}</text>
           <!-- <view style="display:flex;flex-direction:row-reverse">
             <text style="display:flex;flex-direction:row-reverse">{{item.activityTime}}</text>
           </view> -->
         </view>
+      </van-cell>
+    </van-cell-group>
+    <van-cell-group style="border-radius:20px;padding:30px">
+      <van-cell wx:for="{{commissionTodoList}}" wx:key="key" use-label-slot="{{true}}" bindtap="routeCommissionDescription" data-activityid="{{item.commissionId}}">
+        <!-- <view  wx:if="{{selectDate==item.date}}"> -->
+        <view slot="title">
+          <text dot>{{item.commissionName}}</text>
+        </view>
+        <view slot="label">
+          <text>{{item.commissionLocation}}</text>
+          <text style="display:flex;flex-direction:row-reverse">{{item.commissionTime}}</text>
+        </view>
+        <!-- </view> -->
       </van-cell>
     </van-cell-group>
   </view>

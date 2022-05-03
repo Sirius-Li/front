@@ -13,7 +13,8 @@ Page({
       "3": "活动推荐",
       "4": "订阅提醒",
       "2": "系统通知",
-      "5": "评论回复"
+      "5": "评论回复",
+      "6": "委托评分"
     },
 
     secretMsg: [],
@@ -83,22 +84,25 @@ Page({
     var headers = {}
     var app = getApp()
     var that = this
-    if (app.globalData.token != null) {
-      // headers = {
-      //   Authorization: 'Token ' + app.globalData.token
-      // }
-      headers['Authorization'] = 'Token ' + app.globalData.token
+    if (app.globalData.token == null) {
+      headers = {      
+        'content-type': 'application/json'
+       }
+    } else {
+      headers = {      
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + app.globalData.token
+       }
     }
-    //  else {
-    //   headers = {}
-    // }
     
     wx.request({
-      url: 'https://se.alangy.net/api/notifications/my/',
+      url: getApp().globalData.baseUrl + '/api/notifications/my/',
       method: 'GET',
       header: headers,
+      data: {
+
+      },
       success (res) {
-        
         for (var i = 0; i < res.data.length; i++) {
           var m = res.data[i]
           var dis = {
@@ -174,6 +178,7 @@ Page({
   routeActivityDescription: function (event) {
     let activityId = event.currentTarget.dataset.activityid
     let messageId = event.currentTarget.dataset.messageid
+    let detailType = event.currentTarget.dataset.detailtype
     var headers = {}
     if (getApp().globalData.token != null) {
       headers = {
@@ -181,14 +186,24 @@ Page({
       }
     }
     wx.request({
-      url: `https://se.alangy.net/api/notifications/${messageId}/read_notification/`,
+      url: getApp().globalData.baseUrl + `/api/notifications/${messageId}/read_notification/`,
       header: headers,
       method: 'GET'
     })
     if (activityId) {
-      wx.navigateTo({
-        url: '../../actList/activity/activity?id=' + activityId,
-      })
+      if (detailType == "活动") {
+        wx.navigateTo({
+          url: '../../actList/activity/activity?id=' + activityId,
+        })
+      } else if (detailType == "委托") {
+        wx.navigateTo({
+          url: '../../commission/commission?id=' + activityId,
+        }) 
+      } else if (detailType == "话题") {
+        wx.navigateTo({
+          url: '../../htdetail/htdetail?id=' + activityId,
+        })
+      }  
     }
   },
 
@@ -205,7 +220,7 @@ Page({
       message: '是否要删除这条系统消息',
     }).then(() => {
       wx.request({
-        url: 'https://se.alangy.net/api/notifications/' + deleteId + '/user_delete/',
+        url: getApp().globalData.baseUrl + '/api/notifications/' + deleteId + '/user_delete/',
         method: 'POST',
         header: headers,
         success (res) {
@@ -234,7 +249,7 @@ Page({
       message: message
     }).then(() => {
       wx.request({
-        url: 'https://se.alangy.net/api/notifications/user_deleteall/',
+        url: getApp().globalData.baseUrl + '/api/notifications/user_deleteall/',
         method: 'GET',
         header: headers,
         success (res) {
@@ -263,7 +278,7 @@ Page({
       message: message
     }).then(() => {
       wx.request({
-        url: 'https://se.alangy.net/api/notifications/read/',
+        url: getApp().globalData.baseUrl + '/api/notifications/read/',
         method: 'GET',
         header: headers,
         success (res) {

@@ -5,6 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    id: '',
     selectedDate: '',//选中的几月几号
     selectedWeek: '',//选中的星期几
     selectDay: '',
@@ -15,10 +16,29 @@ Page({
     ],
     weekArr: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
     dateList: [],
+    commissionList: [ // commissionList[i]表示当前月份第i天的所有委托
+      [],[
+        {
+          commissionId: 111,
+          commissionName: "取快递",
+          commissionLocation: "学院路",
+          commissionTime: "14:00", // 对应接口的start_time
+          date: "2022/4/1"
+        }
+      ],
+      [
+        {
+          commissionId: 112,
+          commissionName: "取外卖",
+          commissionLocation: "学院路",
+          commissionTime: "13:00", // 对应接口的start_time
+          date: "2022/4/2"
+        }
+      ],
+    ],
   },
 
   getDateList: function (y, mon) {
-    
     var vm = this;
     var today = new Date();//当前时间  
     //如果是否闰年，则2月是29日
@@ -39,6 +59,19 @@ Page({
     for (var i = 1; i <= vm.data.daysCountArr[mon]; i++) {
       activityList[i] = []
     }
+    
+    // 初始化commissionList
+    var commissionList = {}
+    for (var i = 1; i <= vm.data.daysCountArr[mon]; i++) {
+
+      commissionList[i] = []
+      // 前端测试用
+      // commissionList[i] = this.data.commissionList[i] || []
+      // console.log(commissionList[i])
+    }
+    //var commissionList = this.data.commissionList
+    
+    
     var that = this
     var headers = {}
     if (getApp().globalData.token != null) {
@@ -56,83 +89,137 @@ Page({
       end: y + '/' + (parseInt(mon) + 1) + '/' + vm.data.daysCountArr[mon] + ' 23:59'  
     }
     
+    // console.log("before")
+    // console.log(commissionList)
+
+    console.log(headers)
     wx.request({
-      url: 'https://se.alangy.net/api/condition/activities/',
-      method: 'POST',
+      // url: getApp().globalData.baseUrl + '/api/condition/commissions/',
+      // method: 'POST',
+      url: getApp().globalData.baseUrl + '/api/commission/applied/2/', // 查看自己申请的委托
+      method: 'GET',
       header: headers,
       data: {
-        user_attend: true,
-        timerange: timerange,
-        audit_status: [3],
       },
       success (res) {
-        
         for (var i = 0; i < res.data.length; i++) {
           var m = res.data[i]
-          var start = parseInt(m.normal_activity.start_at.split(' ')[0].split('/')[2])
-          var end = parseInt(m.normal_activity.end_at.split(' ')[0].split('/')[2])
-          
-          
-          for (var d = start; d <= end; d++) {
-            activityList[d].push({
-              activityId: m.id,
-              activityName: m.name,
-              activityTime: m.normal_activity.start_at + ' - ' + m.normal_activity.end_at,
-              activityLocation: m.position
-            })
+          var start = parseInt(m.start_time.split(' ')[0].split('/')[2])
+          var end = parseInt(m.end_time.split(' ')[0].split('/')[2])
+
+          var start_month = parseInt(m.start_time.split(' ')[0].split('/')[1])
+          var end_month = parseInt(m.end_time.split(' ')[0].split('/')[1])
+          // console.log("start_time: " + m.start_time)
+          // console.log("end_time: " + m.end_time)
+          // console.log(that.data.curMonth)
+          // console.log("start " + start)
+          // console.log("end " + end) 
+          if (start_month <= that.data.curMonth && that.data.curMonth <= end_month) {
+            for (var d = start; d <= end; d++) {
+              commissionList[d].push({
+                commissionId: m.id,
+                commissionName: m.name,
+                commissionTime: m.start_time + ' - ' + m.ent_time,
+                commissionRealTime: m.real_time
+              })
+            }
           }
         }
+        // console.log("in wx.request   ")
+        // console.log(commissionList)
       },
       fail(res){
         getApp().globalData.util.netErrorToast()
       },
       complete () {
-        for (var i = 0; i < vm.data.daysCountArr[mon]; i++) {
-          var week = new Date(y, mon, (i + 1)).getDay();
-          // 如果是新的一周，则新增一周
-          if (week === 1 && i !== 0) {
-            weekIndex++;
-            dateList[weekIndex] = [];
-          }
-          // 如果是第一行，则将该行日期倒序，以便配合样式居右显示
-          if (weekIndex == 0) {
-            dateList[weekIndex].unshift({
-              value: y + '/' + (mon + 1) + '/' + (i + 1),
-              date: i + 1,
-              week: week,
-              activitiesCnt: activityList[i + 1].length,
-            });
-          } else {
-            dateList[weekIndex].push({
-              value: y + '/' + (mon + 1) + '/' + (i + 1),
-              date: i + 1,
-              week: week,
-              activitiesCnt: activityList[i + 1].length,
-            });
-          }
-        }
-        // 
-        
         vm.setData({
-          dateList: dateList,
-          activityList: activityList,
-          todoList: activityList[vm.data.selectDay] || []
+          commissionList: commissionList,
+          commissionTodoList: commissionList[vm.data.selectDay] || []
         });
-        // console.log(vm.data.dateList)
+        wx.request({
+          url: getApp().globalData.baseUrl + '/api/condition/activities/',
+          method: 'POST',
+          header: headers,
+          data: {
+            user_attend: true,
+            timerange: timerange,
+            audit_status: [3],
+          },
+          success (res) {  
+            console.log(res)
+            console.log(timerange)
+            // 读出res数据
+            for (var i = 0; i < res.data.length; i++) {
+              var m = res.data[i]
+              var start = parseInt(m.normal_activity.start_at.split(' ')[0].split('/')[2])
+              var end = parseInt(m.normal_activity.end_at.split(' ')[0].split('/')[2])
+              for (var d = start; d <= end; d++) {
+                activityList[d].push({
+                  activityId: m.id,
+                  activityName: m.name,
+                  activityTime: m.normal_activity.start_at + ' - ' + m.normal_activity.end_at,
+                  activityLocation: m.position
+                })
+              }
+            }
+          },
+          fail(res){
+            getApp().globalData.util.netErrorToast()
+          },
+          complete () {
+            console.log("=========================")
+            // console.log(commissionList)
+            for (var i = 0; i < vm.data.daysCountArr[mon]; i++) {
+              var week = new Date(y, mon, (i + 1)).getDay();
+              // 如果是新的一周，则新增一周
+              if (week === 1 && i !== 0) {
+                weekIndex++;
+                dateList[weekIndex] = [];
+              }
+              // 如果是第一行，则将该行日期倒序，以便配合样式居右显示
+              if (weekIndex == 0) {
+                dateList[weekIndex].unshift({
+                  value: y + '/' + (mon + 1) + '/' + (i + 1),
+                  date: i + 1,
+                  week: week,
+                  activitiesCnt: activityList[i + 1].length,
+                  commissionsCnt: commissionList[i + 1].length,
+                });
+              } else {
+                dateList[weekIndex].push({
+                  value: y + '/' + (mon + 1) + '/' + (i + 1),
+                  date: i + 1,
+                  week: week,
+                  activitiesCnt: activityList[i + 1].length,
+                  commissionsCnt: commissionList[i + 1].length,
+                });
+              }
+            }
+            vm.setData({
+              dateList: dateList,
+              activityList: activityList,
+              todoList: activityList[vm.data.selectDay] || []
+            });
+            // console.log(vm.data.dateList)
+          }
+        })
       }
     })
   },
+
   selectDate: function (e) {
     var vm = this;
-    // 
     vm.setData({
       selectedDate: e.currentTarget.dataset.date.value,
       selectedWeek: vm.data.weekArr[e.currentTarget.dataset.date.week],
       selectDay: e.currentTarget.dataset.date.date,
-      todoList: vm.data.activityList[e.currentTarget.dataset.date.date]
+      todoList: vm.data.activityList[e.currentTarget.dataset.date.date],
+      commissionTodoList: vm.data.commissionList[e.currentTarget.dataset.date.date],
     });
-    
+    // console.log(this.data.selectedDate)
+    // console.log(this.data.commissionList)
   },
+
   preMonth: function () {
     // 上个月
     var vm = this;
@@ -146,11 +233,13 @@ Page({
       curMonth: curMonth,
       selectDay: 0,
       selectedDate: '',
-      todoList: []
+      todoList: [],
+      commissionTodoList: [],
     });
 
     vm.getDateList(curYear, curMonth - 1);
   },
+
   nextMonth: function () {
     // 下个月
     var vm = this;
@@ -164,7 +253,8 @@ Page({
       curMonth: curMonth,
       selectDay: 0,
       selectedDate: '',
-      todoList: []
+      todoList: [],
+      commissionTodoList: [],
     });
 
     vm.getDateList(curYear, curMonth - 1);
@@ -189,6 +279,12 @@ Page({
   routeActivityDescription: function (event) {
     wx.navigateTo({
       url: '../../actList/activity/activity?id=' + event.currentTarget.dataset.activityid,
+    })
+  },
+
+  routeCommissionDescription: function (event) {
+    wx.navigateTo({
+      url: '../../commission/commission?id=' + event.currentTarget.dataset.commissionid,
     })
   },
 
@@ -222,7 +318,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.getTabBar().init();
+    //this.getTabBar().init();
     getApp().getNotificationCount()
     if(getApp().globalData.user_status == 2){
       wx.redirectTo({

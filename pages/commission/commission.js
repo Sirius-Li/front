@@ -1,18 +1,15 @@
 // pages/commission/commission.js
 Page({
-
   /**
    * 页面的初始数据
    */
   data: {
-    //用户姓名
-    username: 'username',
-    //用户图片
-    userAvatarUrl: '',
+    //用户id
+    myUserId: 'id1',
     // 委托id
     id: '',
     // 委托类型
-    commission_type_id: '',
+    commission_type: '',
     //委托名称
     name: 'commissionname',
     start_time: '2022-4-12',
@@ -22,9 +19,13 @@ Page({
     //实时性
     real_time: '',
     // 用户id
-    user_id: '',
+    user_id: 'id1',
     //位置
     location: '1',
+    //发布用户
+    user: {},
+    //申请用户
+    accepted_user: {},
     //状态
     status: '3',
     //详细描述
@@ -33,47 +34,564 @@ Page({
     audit: '',
     //费用
     fee: '198',
+    
     //评论
-    comments: [
+    comment: [
       {
+        "id": 123,
         "user":{
-            "user_id":'int',
-            "name":'str'
+            "user_id":'id1',
+            "name":'name1'
         },
         "to_user":{
-            "user_id":'int',
-            "name":'str'
+            "user_id":'id2',
+            "name":'name2'
         },
         "content": 'text',
-        "comment_time":'str',
+        "comment_time":'2022-4-1',
       }
     ],
-
-    //一些控制变量
     
+    //一些控制变量
+    evaluateShow: false,
+    commentShow: [],
+    commentStr: null,
+  },
+
+  CatchCommmission() {
+    //TODO
+    //接取委托
+    let head
+    if (getApp().globalData.token == null) {
+      head = {      
+        'content-type': 'application/json'
+      }
+    } else {
+      head = {      
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + getApp().globalData.token
+      }
+    }
+    wx.showModal({
+      title: '确认',
+      content: '确认接取委托',
+      success: (res) => {
+        if (res.confirm) {
+          wx.request({
+            url: getApp().globalData.baseUrl + '/api/commission/apply/',
+            header: head,
+            method:"POST",  //请求方式    
+            data: {
+              commission_id: this.data.id,
+            }, 
+            success(res) {
+              wx.showToast({
+                title: '接取成功',
+              })
+            },
+            fail(res){
+              getApp().globalData.util.netErrorToast()
+            }
+          })
+        } else if (res.cancel) {
+          
+        }
+      }
+    })
+  },
+
+  DelCommissiion() {
+    //TODO
+    //删除委托
+    let commission_id = this.data.id
+    let head
+    if (getApp().globalData.token == null) {
+      head = {      
+        'content-type': 'application/json'
+      }
+    } else {
+      head = {      
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + getApp().globalData.token
+      }
+    }
+    wx.showModal({
+      title: '警告',
+      content: '确认终止委托',
+      success (res) {
+        if (res.confirm) {
+          wx.request({
+            url: getApp().globalData.baseUrl + '/api/commission/terminate/',
+            header: head,
+            method:"POST",  //请求方式    
+            data: {
+              'commission_id': commission_id,
+            }, 
+            success(res) {
+              wx.showToast({
+                title: '终止成功',
+              })
+            },
+            fail(res){
+              getApp().globalData.util.netErrorToast()
+            }
+          })
+        } else if (res.cancel) {
+          
+        }
+      }
+    })
+  },
+
+  ChangeCommission() {
+    //TODO
+    //修改委托
+    // 跳转到发布的子组件？？
+    wx.navigateTo({
+      url: 'changeCommission/changeCommission?id=' + this.data.id,
+    })
+  },
+
+  FinishCommission() {
+    let commission_id = this.data.id
+    let head
+    if (getApp().globalData.token == null) {
+      head = {      
+        'content-type': 'application/json'
+      }
+    } else {
+      head = {      
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + getApp().globalData.token
+      }
+    }
+    wx.showModal({
+      title: '确认',
+      content: '委托已完成',
+      success (res) {
+        if (res.confirm) {
+          wx.request({
+            url: getApp().globalData.baseUrl + '/api/commission/finish/',
+            header: head,
+            method:"POST",  //请求方式    
+            data: {
+              'commission_id': commission_id,
+            }, 
+            success:(res) => {
+              this.setData({
+                'status': 3
+              })
+              wx.showToast({
+                title: '提交成功',
+              })
+            },
+            fail(res){
+              getApp().globalData.util.netErrorToast()
+            }
+          })
+        } else if (res.cancel) {
+          
+        }
+      }
+    })
+  },
+
+  GiveUpCommission() {
+    let commission_id = this.data.id
+    let head
+    if (getApp().globalData.token == null) {
+      head = {      
+        'content-type': 'application/json'
+      }
+    } else {
+      head = {      
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + getApp().globalData.token
+      }
+    }
+    wx.showModal({
+      title: '警告',
+      content: '确认放弃委托',
+      success (res) {
+        if (res.confirm) {
+          wx.request({
+            url: getApp().globalData.baseUrl + '/api/commission/drop/',
+            header: head,
+            method:"POST",  //请求方式    
+            data: {
+              'commission_id': commission_id,
+            }, 
+            success(res) {
+              wx.showToast({
+                title: '放弃成功',
+              })
+            },
+            fail(res){
+              getApp().globalData.util.netErrorToast()
+            }
+          })
+        } else if (res.cancel) {
+          
+        }
+      }
+    })
   },
 
   Evaluate() {
-    wx.showModal({
-      title: "评价",
-      placeholderText: "请输入您的评价",
-      showCancel: true,
-      editable: true,
-      success: (res) => {
-        var evaluate = res.content;
-        if (res.confirm) {
-          //TODO
-          //提交到后端
-          console.log(evaluate);
-        }
+    this.setData({
+      evaluateShow: true
+    })
+    // wx.showModal({
+    //   title: "评价",
+    //   placeholderText: "请输入您的评价",
+    //   showCancel: true,
+    //   editable: true,
+    //   success: (res) => {
+    //     var evaluate = res.content;
+    //     if (res.confirm) {
+    //       //TODO
+    //       //提交到后端
+    //       console.log(evaluate);
+    //     }
+    //   },
+    // });
+  },
+
+  hideEvaluate() {
+    this.setData({
+      'evaluateShow': false
+    })
+  },
+
+  ScoreChange(event) {
+    this.setData({
+      'score': this.event.detail.value
+    })
+  },
+
+  subEvaluate() {
+    let commission_id = this.data.id
+    let score = this.data.score
+    let head
+    if (getApp().globalData.token == null) {
+      head = {      
+        'content-type': 'application/json'
+      }
+    } else {
+      head = {      
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + getApp().globalData.token
+      }
+    }
+    wx.request({
+      url: getApp().globalData.baseUrl + '/api/commission/score/',
+      header: head,
+      method:"POST",  //请求方式    
+      data: {
+        'commission_id': commission_id,
+        'score': score
+      }, 
+      success(res) {
+        wx.showToast({
+          title: '评分成功',
+        })
       },
+      fail(res){
+        getApp().globalData.util.netErrorToast()
+      }
+    })
+  },
+
+  showModal(event) {
+    if(getApp().globalData.user_status == 2){
+      wx.navigateTo({
+        url: '../../certification/certification',
+      })
+    }else if(getApp().globalData.user_status == 1){
+      wx.showToast({
+        title: '用户还在认证中',
+        icon: 'error'
+      })
+    }else{
+      let index =  event.currentTarget.dataset.index
+      let tempList = []
+      for(let i = 0; i<= this.data.commentShow.length; i++){
+        tempList.push(false)
+      }
+      tempList[index + 1] = true
+      this.setData({
+        commentShow: tempList
+      })
+    }
+  },
+
+  hideModal(event) {
+    let index =  event.currentTarget.dataset.index
+    let tempList = this.data.commentShow
+    tempList[index + 1] = false
+    this.setData({
+      commentShow: tempList
+    })
+    this.reset()
+  },
+
+  reset: function() {
+    this.setData({
+      commentStr: null
+    })
+  },
+
+  setValue(event) {
+    this.setData({
+      commentStr: event.detail.value
     });
   },
+
+  submitCom() {
+    //TODO
+    if(getApp().globalData.user_status == 2){
+      wx.navigateTo({
+        url: '../../certification/certification',
+      })
+    }else if(getApp().globalData.user_status == 1){
+      wx.showToast({
+        title: '用户还在认证中',
+        icon: 'error'
+      })
+    }else{
+      let app = getApp()
+      let head = {}
+      
+      if (app.globalData.token == null) {
+        head = {      
+          'content-type': 'application/json'
+        }
+      } else {
+        head = {      
+          'content-type': 'application/json',
+          'Authorization': 'Token ' + app.globalData.token
+        }
+      }
+      if (this.data.commentStr == null || this.data.commentStr.length == 0) {
+        wx.showModal({
+          title: '提示',
+          content: '评论不能为空',
+          showCancel: false
+        })
+      } else {
+        self = this
+        wx.request({    
+          url: getApp().globalData.baseUrl + '/api/commission/comment/', //接口名称   
+          header: head,
+          method:"POST",  //请求方式    
+          data: {
+            commission_id: this.data.id,
+            comment: this.data.commentStr
+          }, 
+          success:(res) => {   
+            self.data.list = res.data 
+            wx.showToast({
+              title: '评论成功',
+            })
+            this.reset()
+            this.getDetail()
+            let tempList = this.data.commentShow
+            tempList[0] = false
+            this.setData({
+              commentShow: tempList
+            })
+          },
+          fail(res){
+            getApp().globalData.util.netErrorToast()
+          }
+        })
+      }
+    }
+  },
+
+  resubmitCom(event) {
+    let to_user_id = event.currentTarget.dataset.userid
+    let comment = this.data.commentStr
+    let idx = event.currentTarget.dataset.idx
+    if(getApp().globalData.user_status == 2){
+      wx.navigateTo({
+        url: '../../certification/certification',
+      })
+    }else if(getApp().globalData.user_status == 1){
+      wx.showToast({
+        title: '用户还在认证中',
+        icon: 'error'
+      })
+    }else{
+      let app = getApp()
+      let head = {}
+      
+      if (app.globalData.token == null) {
+        head = {      
+          'content-type': 'application/json'
+        }
+      } else {
+        head = {      
+          'content-type': 'application/json',
+          'Authorization': 'Token ' + app.globalData.token
+        }
+      }
+      if (this.data.commentStr == null || this.data.commentStr.length == 0) {
+        wx.showModal({
+          title: '提示',
+          content: '评论不能为空',
+          showCancel: false
+        })
+      } else {
+        self = this
+      wx.request({    
+        url: getApp().globalData.baseUrl + '/api/commission/comment/', //接口名称   
+        header: head,
+        method:"POST",  //请求方式    
+        data: {
+          commission_id: this.data.id,
+          to_user_id: to_user_id,
+          comment: comment,
+        }, 
+        success:(res) => {   
+          self.data.list = res.data 
+          wx.showToast({
+            title: '评论成功',
+          })
+          self.reset()
+          self.getDetail()
+          let temp_commentShow = this.data.commentShow
+          temp_commentShow[idx+1] = false
+          this.setData({
+            commentShow: temp_commentShow
+          })
+        },
+        fail(res){
+          getApp().globalData.util.netErrorToast()
+        }
+      })
+      }
+    }
+  },
+
+  deleteComment(event) {
+    let comment_id = event.currentTarget.dataset.commentid
+    let head
+    if (getApp().globalData.token == null) {
+      head = {      
+        'content-type': 'application/json'
+      }
+    } else {
+      head = {      
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + getApp().globalData.token
+      }
+    }
+    wx.showModal({
+      title: '警告',
+      content: '确认删除评论',
+      success (res) {
+        if (res.confirm) {
+          wx.request({
+            url: getApp().globalData.baseUrl + '/api/commission/comment/' + comment_id + '/',
+            header: head,
+            method:"DELETE",  //请求方式    
+            data: {
+              'id': comment_id,
+            }, 
+            success(res) {
+              wx.showToast({
+                title: '删除成功',
+              })
+            },
+            fail(res){
+              getApp().globalData.util.netErrorToast()
+            }
+          })
+        } else if (res.cancel) {
+          
+        }
+      }
+    })
+  },
+
+  onTapUserName() {
+    let userId = this.data.user.id
+    wx.navigateTo({
+      url: '../profile/profile?id=' + userId,
+    })
+  },
+
+  getDetail: function() {
+    let app = getApp()
+    let head = {}
+    this.setData({
+      'myUserId': app.globalData.myUserId,
+    })
+
+    if (app.globalData.token == null) {
+      head = {      
+        'content-type': 'application/json'
+       }
+    } else {
+      head = {      
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + app.globalData.token
+       }
+    }
+    let self = this
+    wx.request({    
+      url: getApp().globalData.baseUrl + '/api/commission/detail/', //接口名称   
+      header: head,
+      method:"POST",  //请求方式    
+      //data: app.globalData.zdxx,  //用于存放post请求的参数  
+      data: {
+        //TODO
+        'commission_id': self.data.id,
+      }, 
+      success: (res) => { 
+        console.log("this is wt detail")
+        console.log(res.data)
+        this.setData({
+          "id": res.data.id,
+          "commission_type": res.data.commission_type,
+          "name": res.data.name,
+          "start_time": res.data.start_time,
+          "end_time": res.data.end_time,
+          "create_at": res.data.create_at,
+          "real_time": res.data.real_time - 1, 
+          "user": res.data.user,
+          "accepted_user": res.data.accepted_user,
+          "location": res.data.location,
+          "status": res.data.status,
+          "description": res.data.description,
+          "fee": res.data.fee,
+          "comment": res.data.comment,
+          "score": res.data.score
+        });
+      },
+      fail(res){
+        getApp().globalData.util.netErrorToast()
+      }
+    })
+  },
+
+  gotoUserPage(event) {
+    //跳转到个人主页
+    let userid = event.currentTarget.dataset.userid
+    
+    wx.navigateTo({
+      url: '../profile/profile?id=' + userid,
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-
+    this.setData({
+        id: options.id
+    })
   },
 
   /**
@@ -87,7 +605,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    this.getDetail()
   },
 
   /**

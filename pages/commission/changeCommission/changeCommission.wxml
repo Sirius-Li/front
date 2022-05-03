@@ -1,5 +1,10 @@
-<!--pages/release/releaseCommission/releaseConnission.wxml-->
-<view style= "margin-bottom:100px">
+<!--pages/commission/changeCommission/changeCommission.wxml-->
+<!-- <text>pages/commission/changeCommission/changeCommission.wxml</text> -->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+	<view slot="content">修改委托</view>
+</cu-custom>  
+
+<view style= "margin-top:auto;">
 	<form>
 	<!--name-->
 	<view class="cu-form-group margin-top">
@@ -10,16 +15,17 @@
 	<!-- <view class="padding flex flex-direction">
 		<button class="cu-btn bg-blue lg" bindtap="onClick" >{{location}}</button>
 	</view> -->
-
-  <view class="cu-form-group margin-top">
+  
+  <view class="cu-form-group">
 		<view class="title">fee</view>
 		<input placeholder="请输入委托报酬" type="number" value="{{fee}}" bindinput="FeeChange" maxlength="{{5}}"></input>
 	</view>
-  <view class="cu-form-group">
+  <view class="cu-form-group margin-top">
     <view class="title">实时委托</view>
     <switch bindchange="RealTimeChange" value="{{real_time}}" checked="{{real_time==1?true:false}}">
     </switch>
   </view>
+  
   <view class="cu-form-group">
 		<view class="title">类型选择</view>
 		<picker bindchange="TypeChange" value="{{commission_type_id}}" range="{{commission_type_name_list}}">
@@ -58,16 +64,17 @@
 	</view>
 	<view class="cu-form-group">
 		<view class="title">委托结束时间</view>
-		<picker mode="time" value="{{end_time}}" start="00:01" end="23:59" bindchange="EndTimeChange">
+		<picker mode="time" value="{{end_time}}" start="09:00" end="23:59" bindchange="EndTimeChange">
 			<view class="picker">
 				{{end_time}}
 			</view>
 		</picker>
 	</view>
+	
   <!-- tags  -->
 	<view class="cu-form-group">
 		<view class="title">自定义活动标签</view>
-		<input placeholder="请用空格隔开每个标签" bindchange="tagChange" value="{{tagStr}}"></input>
+		<input placeholder="该状态下不能修改标签" bindchange="tagChange" value="{{tagStr}}" disabled="false"></input>
 	</view> 
 
 	<view class="cu-form-group margin-top">
@@ -76,11 +83,11 @@
 	</form>
 
 	<view class="padding flex flex-direction margin-bottom">
-		<button class="cu-btn bg-blue lg" bindtap="submit">发布委托</button>
+		<button class="cu-btn bg-blue lg" bindtap="submit">修改委托</button>
 	</view>
 	<view class="margin-sm">
 		<view class="flex padding justify-center">
-      <text class="text-sm text-gray">---委托发布后，需经过管理员审核方可被他人看到---</text>
+      <text class="text-sm text-gray">---修改发布后，需经过管理员审核方可被他人看到---</text>
     </view>
 	</view>
 </view>

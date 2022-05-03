@@ -4,31 +4,6 @@
     "ignore": [],
     "include": []
   },
-  "useIsolateContext": true,
-  "userConfirmedBundleSwitch": false,
-  "packNpmManually": false,
-  "packNpmRelationList": [],
-  "minifyWXSS": true,
-  "disableUseStrict": false,
-  "minifyWXML": true,
-  "showES6CompileOption": false,
-  "useCompilerPlugins": false,
-  "ignoreUploadUnusedFiles": true,
-  "compileType": "miniprogram",
-  "libVersion": "2.16.1",
-  "appid": "wx9f6970d0a04d5232",
-  "projectname": "front",
-  "debugOptions": {
-    "hidedInDevtools": []
-  },
-  "scripts": {},
-  "staticServerOptions": {
-    "baseURL": "",
-    "servePath": ""
-  },
-  "isGameTourist": false,
-  "simulatorType": "wechat",
-  "simulatorPluginLibVersion": {},
   "setting": {
     "urlCheck": false,
     "es6": false,
@@ -65,22 +40,20 @@
     "minifyWXML": true,
     "showES6CompileOption": false,
     "useCompilerPlugins": false,
-    "ignoreUploadUnusedFiles": true
+    "ignoreUploadUnusedFiles": true,
+    "useStaticServer": true
   },
-  "condition": {
-    "search": {
-      "list": []
-    },
-    "compileType": "miniprogram",
-    "libVersion": "2.16.1",
-    "projectname": "weapp",
-    "simulatorType": "wechat",
-    "simulatorPluginLibVersion": {},
-    "appid": "wx3a8a4d6b7c9995b0",
-    "editorSetting": {
-      "tabIndent": "insertSpaces",
-      "tabSize": 2
-    },
-    "condition": {}
-  }
+  "compileType": "miniprogram",
+  "libVersion": "2.16.1",
+  "projectname": "weapp",
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "appid": "wx9f6970d0a04d5232",
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+
+  },
+  "condition": {}
+
 }

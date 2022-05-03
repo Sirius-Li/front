@@ -1,4 +1,4 @@
-const BASE_URL = 'https://se.alangy.net'
+const BASE_URL = getApp().globalData.baseUrl
 Page({
   data: {
     content: ''
