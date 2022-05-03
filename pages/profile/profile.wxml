@@ -91,9 +91,9 @@
             <view class="content">
               <van-cell title="综合评分" value="暂无评分" class="break-all" />
               <view class="cu-card article" wx:for="{{ releasedCommissions }}" wx:for-item="item" wx:for-index="idx" wx:key="id">
-                <view class="cu-item shadow" data-activityid="{{ item.id }}" bindtap="onTapActivity">
+                <view class="cu-item shadow" data-activityid="{{ item.id }}" bindtap="onTapCommission">
                   <view class="title">
-                    <view class="text-cut">{{ item.name }}({{item.realTime==="是"?"实时":"非实时"}})</view>
+                    <view class="text-cut">{{ item.name }}({{item.realTime==1?"实时":"非实时"}})</view>
                   </view>
                   <view class="content">
                     <view class="desc w-2on3">

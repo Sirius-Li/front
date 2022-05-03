@@ -88,6 +88,12 @@ Page({
       url: `/pages/htdetail/htdetail?id=${id}`,
     })
   },
+  onTapCommission(e){
+    const id = e.currentTarget.dataset.commissionid
+    wx.navigateTo({
+      url: `/pages/commission/commission?id=${id}`,
+    })
+  },
 
   toggleLike() {
     const that = this
@@ -105,9 +111,7 @@ Page({
           that.setData({
             liked: !that.data.liked
           })
-
         } else {
-
         }
       },
       fail(res) {
@@ -125,7 +129,6 @@ Page({
       success(res) {
         if (res.statusCode === 200) {
           const data = res.data
-          //console.log(data)
           if (data.id === that.data.userId) {
             that.setData({
               isMe: true,
@@ -204,7 +207,6 @@ Page({
             releasedActivities: that.parseReceivedReleasedActivities(data)
           })
         } else {
-
         }
       },
       fail(res) {
@@ -217,7 +219,7 @@ Page({
     const that = this
     const header = this.getHeaderWithToken()
     wx.request({
-      url: `${BASE_URL}/api/user_create_commissions/${that.data.userId}/`, //todo
+      url: `${BASE_URL}/api/user_create_commissions/${that.data.userId}/`,
       method: 'GET',
       header,
       success(res) {
@@ -225,7 +227,7 @@ Page({
           const data = res.data
           console.log(data)
           that.setData({
-            
+            releasedCommissions: that.parseReceivedReleasedCommissions(data)
           })
         } else {
         }
@@ -274,12 +276,21 @@ Page({
   },
 
   parseReceivedReleasedCommissions(data){
-
+    let commissions = []
+    for(const item of data){
+      commissions.push({
+        id:item.id,
+        name: item.name,
+        realTime: item.real_time,
+        description: item.description
+      })
+    }
+    return commissions
   },
 
   parseReceivedReleasedTopics(data){
     let topics = []
-    console.log(data)
+    //console.log(data)
     for(const item of data){
       topics.push({
         id:item.id,
