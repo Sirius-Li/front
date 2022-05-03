@@ -542,6 +542,7 @@ Page({
         wx.showToast({
           title: '评价成功',
         })
+        this.hideEvaluate()
       },
       fail(res){
         getApp().globalData.util.netErrorToast()
