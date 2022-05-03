@@ -162,16 +162,13 @@ Page({
 
     jumpToSonPages:function(event) {
         let id = event.currentTarget.dataset.id
-        console.log(id)
-        console.log("--------")
-
         wx.navigateTo({
           url: '../htdetail/htdetail?id=' + id,
         })
     },
 
     goToUserPage:function(event) {
-        let user_id = event.currentTarget.dataset.user_id
+        let user_id = event.currentTarget.dataset.userid
         wx.navigateTo({
           url: '../profile/profile?id=' + user_id,
         })
@@ -226,7 +223,6 @@ Page({
                     for(let i = 0; i < res.data.length; i++){
                         tmpList.push(res.data[i].topic.id)
                     }
-                    console.log(tmpList)
                     for (let i = 0; i < tmpList.length; i++) {
                         wx.request({
                           url: getApp().globalData.baseUrl + '/api/topic/' + tmpList[i] + '/',
@@ -340,7 +336,6 @@ Page({
                     for(let i = 0; i < res.data.length; i++){
                         tmpList.push(res.data[i].topic.id)
                     }
-                    console.log(tmpList)
                     for (let i = 0; i < tmpList.length; i++) {
                         wx.request({
                           url: getApp().globalData.baseUrl + '/api/topic/' + tmpList[i] + '/',
@@ -442,7 +437,6 @@ Page({
                     for(let i = 0; i < res.data.length; i++){
                         tmpList.push(res.data[i].topic.id)
                     }
-                    console.log(tmpList)
                     for (let i = 0; i < tmpList.length; i++) {
                         wx.request({
                           url: getApp().globalData.baseUrl + '/api/topic/' + tmpList[i] + '/',
