@@ -214,8 +214,9 @@ Page({
             score_avg: data.average_rate.remark__avg || '暂无评分',
           })
           that.getReleasedActivities()
+          that.getReleasedCommissions()
+          that.getReleasedTopics()
         } else {
-
         }
       },
       fail(res) {
@@ -246,6 +247,52 @@ Page({
     })
   },
 
+  getReleasedCommissions(){
+    const that = this
+    const header = this.getHeaderWithToken()
+    wx.request({
+      url: `${BASE_URL}/api/user_create_activities/${that.data.userId}/`, //todo
+      method: 'GET',
+      header,
+      success(res) {
+        if (res.statusCode === 200) {
+          const data = res.data
+          that.setData({
+            
+          })
+        } else {
+
+        }
+      },
+      fail(res) {
+        getApp().globalData.util.netErrorToast()
+      }
+    })
+  },
+
+  getReleasedTopics(){
+    const that = this
+    const header = this.getHeaderWithToken()
+    wx.request({
+      url: `${BASE_URL}/api/user_create_topic/${that.data.userId}/`,
+      method: 'GET',
+      header,
+      success(res) {
+        if (res.statusCode === 200) {
+          const data = res.data
+          console.log(data)
+          that.setData({
+            releasedTopics: that.parseReceivedReleasedTopics(data)
+          })
+        } else {
+        }
+      },
+      fail(res) {
+        getApp().globalData.util.netErrorToast()
+      }
+    })
+  },
+
   parseReceivedReleasedActivities(data) {
     let activities = []
     for (const item of data) {
@@ -259,6 +306,15 @@ Page({
 
     return activities
   },
+
+  parseReceivedReleasedCommissions(data){
+
+  },
+
+  parseReceivedReleasedTopics(data){
+    
+  },
+
   getHeaderWithToken() {
     let header = {
       'content-type': 'application/json',
