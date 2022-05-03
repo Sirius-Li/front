@@ -7,191 +7,13 @@ Page({
   data: {
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
-    list:[
-//       {
-//         "type": "wt",
-//         "id": 101,
-//         "commission_type":{
-//             "id": 101,
-//             "name": "commission_101"
-//         },
-//         "name": "跑腿",
-//         "start_time": "str",
-//         "end_time": "str",
-//         "create_at": "str",
-//         "updated_at": "str",
-//         "real_time": 1,
-//         "user": {
-//             "id": 1,
-//             "nickName": "小明",
-//             "avatarUrl": "",
-//             "email": "str",
-//             "age": "int",
-//             "gender": "int",
-//             "audit_status": "int",
-//             "is_staff": "int",
-//         },
-//         "location": 1,
-//         "status": 1,
-//         "description": "代取外卖",
-//         "audit": 1,
-//         "fee": 5,
-//     },
-//     {
-//       "type": "wt",
-//       "id": 102,
-//       "commission_type":{
-//           "id": 101,
-//           "name": "commission_101"
-//       },
-//       "name": "跑腿",
-//       "start_time": "str",
-//       "end_time": "str",
-//       "create_at": "str",
-//       "updated_at": "str",
-//       "real_time": 1,
-//       "user": {
-//           "id": 1,
-//           "nickName": "小黑",
-//           "avatarUrl": "",
-//           "email": "str",
-//           "age": "int",
-//           "gender": "int",
-//           "audit_status": "int",
-//           "is_staff": "int",
-//       },
-//       "location": 1,
-//       "status": 1,
-//       "description": "代取外卖",
-//       "audit": 1,
-//       "fee": 5,
-//   },
-//   {
-//     "type": "wt",
-//     "id": 103,
-//     "commission_type":{
-//         "id": 101,
-//         "name": "commission_101"
-//     },
-//     "name": "跑腿",
-//     "start_time": "str",
-//     "end_time": "str",
-//     "create_at": "str",
-//     "updated_at": "str",
-//     "real_time": 2,
-//     "user": {
-//         "id": 1,
-//         "nickName": "小红",
-//         "avatarUrl": "",
-//         "email": "str",
-//         "age": "int",
-//         "gender": "int",
-//         "audit_status": "int",
-//         "is_staff": "int",
-//     },
-//     "location": 1,
-//     "status": 1,
-//     "description": "代取快递",
-//     "audit": 1,
-//     "fee": 5,
-// }
-    ],
+    list:[],
 
-    releasedWtList: [
-      {
-        "type": "wt",
-        "id": 101,
-        "commission_type":{
-            "id": 101,
-            "name": "commission_101"
-        },
-        "name": "text",
-        "start_time": "str",
-        "end_time": "str",
-        "create_at": "str",
-        "updated_at": "str",
-        "real_time": 1,
-        "user": {
-            "id": 1,
-            "nickName": "str",
-            "avatarUrl": "",
-            "email": "str",
-            "age": "int",
-            "gender": "int",
-            "audit_status": "int",
-            "is_staff": "int",
-        },
-        "location": 1,
-        "status": 1,
-        "description": "这是一条你发布的委托",
-        "audit": 1,
-        "fee": 1,
-    }
-    ],
+    releasedWtList: [],
 
-    appliedWtList: [
-      {
-        "type": "wt",
-        "id": 101,
-        "commission_type":{
-            "id": 101,
-            "name": "commission_101"
-        },
-        "name": "text",
-        "start_time": "str",
-        "end_time": "str",
-        "create_at": "str",
-        "updated_at": "str",
-        "real_time": 1,
-        "user": {
-            "id": 1,
-            "nickName": "str",
-            "avatarUrl": "",
-            "email": "str",
-            "age": "int",
-            "gender": "int",
-            "audit_status": "int",
-            "is_staff": "int",
-        },
-        "location": 1,
-        "status": 1,
-        "description": "这是一条你申请的委托",
-        "audit": 1,
-        "fee": 1,
-    }
-    ],
+    appliedWtList: [],
 
-    finishedWtList: [
-      {
-        "type": "wt",
-        "id": 1011,
-        "commission_type":{
-            "id": 101,
-            "name": "commission_101"
-        },
-        "name": "text",
-        "start_time": "str",
-        "end_time": "str",
-        "create_at": "str",
-        "updated_at": "str",
-        "real_time": 1,
-        "user": {
-            "id": 1,
-            "nickName": "str",
-            "avatarUrl": "",
-            "email": "str",
-            "age": "int",
-            "gender": "int",
-            "audit_status": "int",
-            "is_staff": "int",
-        },
-        "location": 1,
-        "status": 1,
-        "description": "这是一条你完成的委托",
-        "audit": 1,
-        "fee": 1,
-    }
-    ],
+    finishedWtList: [],
 
     //包括关键字 搜索栏输入关键字
     keywords: '',
@@ -315,10 +137,12 @@ Page({
           //'keyword': this.data.keywords
         }, 
         success(res) {   
+          console.log("查看已申请的委托")
+          console.log(res)
           self.setData({ 
             appliedWtList: res.data
           })
-          console.log(res)
+          console.log(self.data.appliedWtList)
         },
         fail(res){
           getApp().globalData.util.netErrorToast()
