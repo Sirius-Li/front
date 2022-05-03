@@ -9,6 +9,7 @@ Page({
     str: '',
     is_like: null,
     is_follow: null,
+    is_like_comment:[],
     user_status: null,
     commentShow: [],
     ht: null,
@@ -43,7 +44,7 @@ Page({
       data: {
       },
       success(res) {
-        console.log(res.data)
+        //console.log(res.data)
         self.setData({
           ht: res.data
         })
@@ -54,6 +55,38 @@ Page({
         self.setData({
           commentShow: tempList
         })
+        let templst = []
+        let tmplst = []
+        wx.request({
+          url: app.globalData.baseUrl + "/api/topic_comment_like_users_self/",
+          header: head,
+          method: "GET",
+          data:{
+          },
+          success(res){
+            //console.log(res.data[0].topic_comment.id)
+            for(let i=0;i<res.data.length;i++){
+              templst.push(res.data[i].topic_comment.id)
+            }
+            //console.log(templst)
+            for(let i=0;i<self.data.ht.comment.length;i++){
+              //console.log(self.data.ht.comment[i].id)
+              if(templst.includes(self.data.ht.comment[i].id)){
+                tmplst.push(true)
+              }else{
+                tmplst.push(false)
+              }
+            }
+            //console.log(tmplst)
+            self.setData({
+              is_like_comment:tmplst
+            })
+          },
+          fail(res){
+            getApp().globalData.util.netErrorToast()
+          }
+        })
+        //console.log(self.data.is_like_comment)
         wx.request({
           url: app.globalData.baseUrl + "/api/topic_like_users_self/",
           header: head,
@@ -274,11 +307,11 @@ Page({
       header:head,
       method: "POST",
       data:{
-        topic_id:self.data.id
+        topic_comment_id:commentId
       },
       success(res){
-        self.setData({
-          is_like:true
+        wx.showToast({
+          title: '点赞评论成功'
         })
         self.getDetail()
       },
@@ -304,17 +337,16 @@ Page({
       }
     }
     wx.request({
-      url: app.globalData.baseUrl + "/api/topic_like/",
+      url: app.globalData.baseUrl + "/api/topic_comment_like/" + commentId + "/",
       header:head,
-      method: "POST",
+      method: "DELETE",
       data:{
-        topic_id:self.data.id
       },
       success(res){
-        self.setData({
-          is_like:true
-        })
         self.getDetail()
+        wx.showToast({
+          title: '取消点赞成功'
+        })
       },
       fail(res){
         getApp().globalData.util.netErrorToast()

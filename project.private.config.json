@@ -27,6 +27,7 @@
         },
         {
           "name": "",
+
           "pathName": "pages/commission/commission",
           "query": "",
           "launchMode": "default",
@@ -35,6 +36,35 @@
         {
           "name": "",
           "pathName": "pages/commission/changeCommission/changeCommission",
+
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/wtList/wtList",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/activity/home/search/search",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/profile/profile",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/aboutme/aboutme",
           "query": "",
           "launchMode": "default",
           "scene": null

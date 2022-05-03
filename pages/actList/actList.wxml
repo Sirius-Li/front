@@ -11,7 +11,7 @@
         <view class="cu-item shadow">
           <view class="image" bindtap="jumpToSonPages" data-id="{{item.id}}">
             <block wx:if="{{item.content.photo != ''}}">
-              <image src="http://114.116.215.100/{{item.content.photo}}" mode="widthFix"/>
+              <image src="http://114.116.215.100:443/{{item.content.photo}}" mode="widthFix"/>
             </block>
             <block wx:else>
               <image src="../../static/img/nophoto.jpg" mode="widthFix"/>
@@ -56,7 +56,7 @@
         <view class="cu-item shadow">
           <view class="image" bindtap="jumpToSonPages" data-id="{{item.id}}">
             <block wx:if="{{item.photo != ''}}">
-              <image src="http://114.116.215.100/{{item.photo}}" mode="widthFix"/>
+              <image src="http://114.116.215.100:443/{{item.photo}}" mode="widthFix"/>
             </block>
             <block wx:else>
               <image src="../../static/img/nophoto.jpg" mode="widthFix"/>
@@ -95,7 +95,7 @@
         <view class="cu-item shadow">
           <view class="image" bindtap="jumpToSonPages" data-id="{{item.id}}">
             <block wx:if="{{item.photo != ''}}">
-              <image src="http://114.116.215.100/{{item.photo}}" mode="widthFix"/>
+              <image src="http://114.116.215.100:443/{{item.photo}}" mode="widthFix"/>
             </block>
             <block wx:else>
               <image src="../../static/img/nophoto.jpg" mode="widthFix"/>

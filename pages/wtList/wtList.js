@@ -221,7 +221,6 @@ Page({
         'Authorization': 'Token ' + app.globalData.token
        }
     }
-    // this.data.type = 5
     console.log(this.data.type)
     if(this.data.type == 1){ // 所有类别所有委托
       wx.request({
