@@ -22,8 +22,8 @@
 
               <view slot="desc" bindtap="jumpToSonPages" data-id="{{item.id}}">
                 <view><van-icon name="clock-o"/><text class="field-name text-blue" decode="true">发布时间:&nbsp;</text>{{item.create_at}}</view>
-                <view><van-icon name="good-job-o"/><text class="field-name text-blue" decode="true">点赞数:&nbsp;</text>{{item.follow}}</view>
-                <view><van-icon name="like-o"/><text class="field-name text-blue" decode="true">关注数:&nbsp;</text>{{item.like}}</view>
+                <view><van-icon name="good-job-o"/><text class="field-name text-blue" decode="true">关注数:&nbsp;</text>{{item.follow}}</view>
+                <view><van-icon name="like-o"/><text class="field-name text-blue" decode="true">点赞数:&nbsp;</text>{{item.like}}</view>
                 <view>{{item.description}}</view>
               </view>
                   
@@ -52,8 +52,8 @@
               <view slot="desc" bindtap="jumpToSonPages" data-id="{{item.id}}">
                 <view><van-icon name="user-o"/><text class="field-name text-blue" decode="true">发布者:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</text>{{item.create_user.nickName}}</view>
                 <view><van-icon name="clock-o"/><text class="field-name text-blue" decode="true">发布时间:&nbsp;</text>{{item.create_at}}</view>
-                <view><van-icon name="good-job-o"/><text class="field-name text-blue" decode="true">点赞数:&nbsp;</text>{{item.follow}}</view>
-                <view><van-icon name="like-o"/><text class="field-name text-blue" decode="true">关注数:&nbsp;</text>{{item.like}}</view>
+                <view><van-icon name="good-job-o"/><text class="field-name text-blue" decode="true">关注数:&nbsp;</text>{{item.follow}}</view>
+                <view><van-icon name="like-o"/><text class="field-name text-blue" decode="true">点赞数:&nbsp;</text>{{item.like}}</view>
                 <view>{{item.description}}</view>
               </view>
                   
