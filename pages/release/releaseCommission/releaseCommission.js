@@ -116,7 +116,7 @@ Component({
       });
     },
   
-    DiscriptionChange(event) {
+    DescriptionChange(event) {
       this.setData({
         'description': event.detail.value,
       });
@@ -215,7 +215,7 @@ Component({
           content: '委托开始时间不能晚于委托结束时间',
           showCancel: false
         })
-      } else if (now < this.data.start_time) {
+      } else if (now > this.data.start_time) {
         wx.showModal({
           title: '提示',
           content: '委托开始时间必须晚于现在',
@@ -309,7 +309,18 @@ Component({
           this.data.tag_list.push({"name": tag_temp[key]});
         }
       }
-
+      let datt = {
+        "commission_type": parseInt(this.data.commission_type_id) + 1,
+        "name": this.data.name,
+        "start_time": s_time,
+        "end_time": e_time,
+        "real_time": this.data.real_time + 1,
+        "location": this.data.location,
+        "description": this.data.description,
+        "fee": this.data.fee,
+        "tags": this.data.tag_list,
+      }
+      console.log(datt)
     // wx.uploadFile({    
       wx.request({
         header: this.data.head,

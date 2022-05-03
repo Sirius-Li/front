@@ -8,7 +8,7 @@ Page({
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
     list:[
-      {
+     /* {
         name:"张1",
         photo:"https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg",
         "normal_activity": {
@@ -55,7 +55,7 @@ Page({
         "attend_users": 3,
         "location": 3,
         "position": "adddd"
-      }
+      }*/
     ],
     //包括关键字
     keywords: '',
@@ -200,15 +200,9 @@ Page({
       //let nowDateStr = nowDate.toLocaleDateString() + ' ' + nowDate.getHours() + ':' + nowDate.getMinutes() 
       //console.log(nowDateStr)
       wx.request({
-        url: getApp().globalData.baseUrl + '/api/condition/activities/',
-        method: 'POST',
+        url: getApp().globalData.baseUrl + '/api/activities/',
+        method: 'GET',
         data: {
-          'types': {
-            'method':'name',
-            'value': ['博雅']
-          },
-          'audit_status': [3],
-          'activity_status': 4
         },
         header: head,
         success (res) {
@@ -217,7 +211,7 @@ Page({
               list: res.data
             })
           }else{
-            //console.log('用户不存在')
+            console.log('获取list数据失败')
           }
         },
         fail(res){

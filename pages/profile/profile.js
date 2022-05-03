@@ -1,9 +1,27 @@
 const BASE_URL = getApp().globalData.baseUrl
 Page({
   data: {
+    userId: null,
+    fromMsg: null,
+    liked: null,
+    isMe: null,
+    isVisitor: null,
+    myId: null,
+    username: null,
+    userAvatarUrl: null,
+    phone: null,
+    studentId: null,
+    gender: null,
+    email: null,
+    score_avg: null,
+    commission_score_avg: null,
+    releasedActivities: null,
+    releasedCommissions: null,
+    releasedTopics: null
   },
 
   onLoad(options) {
+    console.log(options)
     let fromMsg = options.fromMsg
     if (fromMsg === undefined) {
       fromMsg = false
@@ -17,11 +35,11 @@ Page({
     this.getInfo()
   },
   onTapLikeButton() {
-    if(getApp().globalData.user_status === 2){
+    if (getApp().globalData.user_status === 2) {
       wx.redirectTo({
         url: '../certification/certification',
       })
-    }else if(getApp().globalData.user_status === 1){
+    } else if (getApp().globalData.user_status === 1) {
       wx.showModal({
         title: '拒绝访问',
         content: '您的账号还在认证中，无权进行此操作'
@@ -31,11 +49,11 @@ Page({
     }
   },
   onTapMsgButton() {
-    if(getApp().globalData.user_status === 2) {
+    if (getApp().globalData.user_status === 2) {
       wx.redirectTo({
         url: '../certification/certification',
       })
-    } else if(getApp().globalData.user_status === 1) {
+    } else if (getApp().globalData.user_status === 1) {
       wx.showModal({
         title: '拒绝访问',
         content: '您的账号还在认证中，无权进行此操作'
@@ -64,6 +82,18 @@ Page({
       url: `/pages/actList/activity/activity?id=${id}`,
     })
   },
+  onTapTopic(e){
+    const id = e.currentTarget.dataset.topicid
+    wx.navigateTo({
+      url: `/pages/htdetail/htdetail?id=${id}`,
+    })
+  },
+  onTapCommission(e){
+    const id = e.currentTarget.dataset.commissionid
+    wx.navigateTo({
+      url: `/pages/commission/commission?id=${id}`,
+    })
+  },
 
   toggleLike() {
     const that = this
@@ -81,12 +111,10 @@ Page({
           that.setData({
             liked: !that.data.liked
           })
-
         } else {
-
         }
       },
-      fail(res){
+      fail(res) {
         getApp().globalData.util.netErrorToast()
       }
     })
@@ -130,7 +158,7 @@ Page({
           that.getAnotherInfo()
         }
       },
-      fail(res){
+      fail(res) {
         getApp().globalData.util.netErrorToast()
       }
     })
@@ -145,6 +173,7 @@ Page({
       success(res) {
         if (res.statusCode === 200) {
           const data = res.data
+          console.log(data)
           that.setData({
             username: data.nickName,
             userAvatarUrl: data.avatarUrl,
@@ -153,15 +182,17 @@ Page({
             score_avg: data.average_rate.remark__avg || '暂无评分',
           })
           that.getReleasedActivities()
+          that.getReleasedCommissions()
+          that.getReleasedTopics()
         } else {
-
         }
       },
-      fail(res){
+      fail(res) {
         getApp().globalData.util.netErrorToast()
       }
     })
   },
+
   getReleasedActivities() {
     const that = this
     const header = this.getHeaderWithToken()
@@ -176,10 +207,55 @@ Page({
             releasedActivities: that.parseReceivedReleasedActivities(data)
           })
         } else {
-
         }
       },
-      fail(res){
+      fail(res) {
+        getApp().globalData.util.netErrorToast()
+      }
+    })
+  },
+
+  getReleasedCommissions(){
+    const that = this
+    const header = this.getHeaderWithToken()
+    wx.request({
+      url: `${BASE_URL}/api/user_create_commissions/${that.data.userId}/`,
+      method: 'GET',
+      header,
+      success(res) {
+        if (res.statusCode === 200) {
+          const data = res.data
+          console.log(data)
+          that.setData({
+            releasedCommissions: that.parseReceivedReleasedCommissions(data)
+          })
+        } else {
+        }
+      },
+      fail(res) {
+        getApp().globalData.util.netErrorToast()
+      }
+    })
+  },
+
+  getReleasedTopics(){
+    const that = this
+    const header = this.getHeaderWithToken()
+    wx.request({
+      url: `${BASE_URL}/api/user_create_topic/${that.data.userId}/`,
+      method: 'GET',
+      header,
+      success(res) {
+        if (res.statusCode === 200) {
+          const data = res.data
+          //console.log(data)
+          that.setData({
+            releasedTopics: that.parseReceivedReleasedTopics(data)
+          })
+        } else {
+        }
+      },
+      fail(res) {
         getApp().globalData.util.netErrorToast()
       }
     })
@@ -198,6 +274,34 @@ Page({
 
     return activities
   },
+
+  parseReceivedReleasedCommissions(data){
+    let commissions = []
+    for(const item of data){
+      commissions.push({
+        id:item.id,
+        name: item.name,
+        realTime: item.real_time,
+        description: item.description
+      })
+    }
+    return commissions
+  },
+
+  parseReceivedReleasedTopics(data){
+    let topics = []
+    //console.log(data)
+    for(const item of data){
+      topics.push({
+        id:item.id,
+        name:item.name,
+        description:item.description,
+        imageUrl:item.photo ? `${BASE_URL}${item.photo}` : '/static/img/nophoto.jpg'
+      })
+    }
+    return topics
+  },
+
   getHeaderWithToken() {
     let header = {
       'content-type': 'application/json',

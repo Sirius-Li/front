@@ -39,7 +39,7 @@ bind:focus="focus"
   icon="icon iconfont icon-boya" 
   text="活动"
   link-type="navigateTo"
-  url="../../actList/actList?type=1"/>
+  url="../../actList/actList?type=10"/>
 </van-grid>
 
 <view class='margin-xs bg-white padding-sm radius shadow-lg'>

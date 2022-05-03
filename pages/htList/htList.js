@@ -63,7 +63,8 @@ Page({
         type: 1,
         keywords: '',
         sort: '',
-        activename:'0'
+        activename:'0',
+        activeId:0
     },
 
     /*
@@ -121,24 +122,26 @@ Page({
                 }
             })
         } else if (this.data.type == 3) {   //指定info
-            wx.request({
-                url: getApp().globalData.baseUrl + '/api/topic_search/',
-                header: head,
-                method:"POST", 
-                data: {
-                    types : {
-		                keyword : self.data.keywords
-                    }
-                },
-                success(res) {
-                    self.setData({
-                        list: res.data
-                    })
-                },
-                fail(res) {
-                    getApp().globalData.util.netErrorToast()
-                }
-            })
+           let tmpList = []
+                      wx.request({
+                          url: getApp().globalData.baseUrl + '/api/topic_search/',
+                          header: head,
+                          method:"POST", 
+                          data: {
+                                 keyword : self.data.keywords
+                          },
+                          success(res) {
+                              for (let i = 0; i < res.data.length; i++) {
+                                  tmpList.push(res.data[i].content)
+                              }
+                              self.setData({
+                                  list: tmpList
+                              })
+                          },
+                          fail(res) {
+                              getApp().globalData.util.netErrorToast()
+                          }
+                      })
         } else if (this.data.type == 5) {
             wx.request({
                 url: getApp().globalData.baseUrl + '/api/topic/',
@@ -167,7 +170,7 @@ Page({
     },
 
     goToUserPage:function(event) {
-        let user_id = event.currentTarget.dataset.user_id
+        let user_id = event.currentTarget.dataset.userid
         wx.navigateTo({
           url: '../profile/profile?id=' + user_id,
         })
@@ -179,6 +182,9 @@ Page({
         let app = getApp()
         let head
         let self = this
+        self.setData({
+            activeId :activeID
+        })
         if (app.globalData.token == null) {
             head = {      
               'content-type': 'application/json'
@@ -217,7 +223,7 @@ Page({
                     let tmpList = []
                     let itemList = []
                     for(let i = 0; i < res.data.length; i++){
-                        tmpList.push(res.data[i].id)
+                        tmpList.push(res.data[i].topic.id)
                     }
                     for (let i = 0; i < tmpList.length; i++) {
                         wx.request({
@@ -225,16 +231,16 @@ Page({
                           header: head,
                           method:"GET",   
                           data: {
-                          }, success(res) {
-                            itemList.push(res.data)
-                          }, fail(res) {
+                          }, success(resu) {
+                            itemList.push(resu.data)
+                            self.setData({
+                                list : itemList
+                            })
+                          }, fail(resu) {
                             getApp().globalData.util.netErrorToast()
                           } 
                         })
-                    }
-                    self.setData({
-                        list : itemList
-                    })
+                    }     
                 },
                 fail(res) {
                     getApp().globalData.util.netErrorToast()
@@ -276,7 +282,7 @@ Page({
                     },
                     success(res) {
                         that.setData({
-                            list: res.data
+                            list : res.data
                         })
                     },
                     fail(res) {
@@ -327,9 +333,27 @@ Page({
                         
                     },
                     success(res) {
-                        that.setData({
-                            list: res.data
+                        let tmpList = []
+                    let itemList = []
+                    for(let i = 0; i < res.data.length; i++){
+                        tmpList.push(res.data[i].topic.id)
+                    }
+                    for (let i = 0; i < tmpList.length; i++) {
+                        wx.request({
+                          url: getApp().globalData.baseUrl + '/api/topic/' + tmpList[i] + '/',
+                          header: head,
+                          method:"GET",   
+                          data: {
+                          }, success(resu) {
+                            itemList.push(resu.data)
+                            that.setData({
+                                list : itemList
+                            })
+                          }, fail(resu) {
+                            getApp().globalData.util.netErrorToast()
+                          } 
                         })
+                    }
                     },
                     fail(res) {
                         getApp().globalData.util.netErrorToast()
@@ -350,8 +374,10 @@ Page({
      */
     onLoad: function (options) {
         var that = this
+        console.log(options)
         that.setData({
-            keywords:options.keywords
+            keywords:options.keywords,
+            type: options.type,
         })
         if (that.data.keywords == undefined) {
             that.setData({
@@ -372,7 +398,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-        if (this.data.type == 5) {
+        if (this.data.type == 5 && this.data.activeId == 0) {
             let app = getApp()
             let head
             let self = this
@@ -395,8 +421,55 @@ Page({
                 },
                 success(res) {
                     self.setData({
-                        list: res.data
+                        list : res.data
                     })
+                },
+                fail(res) {
+                    getApp().globalData.util.netErrorToast()
+                }
+            })
+        } else if (this.data.type == 5 && this.data.activeId == 1) {
+            let app = getApp()
+            let head
+            let self = this
+            if (app.globalData.token == null) {
+                head = {      
+                'content-type': 'application/json'
+                }
+            } else {
+                head = {      
+                'content-type': 'application/json',
+                'Authorization': 'Token ' + app.globalData.token
+                }
+            }
+            wx.request({
+                url:getApp().globalData.baseUrl + '/api/topic_follow_users_self/',
+                header: head,
+                method:"GET",   
+                data: {
+                },
+                success(res) {
+                    let tmpList = []
+                    let itemList = []
+                    for(let i = 0; i < res.data.length; i++){
+                        tmpList.push(res.data[i].topic.id)
+                    }
+                    for (let i = 0; i < tmpList.length; i++) {
+                        wx.request({
+                          url: getApp().globalData.baseUrl + '/api/topic/' + tmpList[i] + '/',
+                          header: head,
+                          method:"GET",   
+                          data: {
+                          }, success(resu) {
+                            itemList.push(resu.data)
+                            self.setData({
+                                list : itemList
+                            })
+                          }, fail(resu) {
+                            getApp().globalData.util.netErrorToast()
+                          } 
+                        })
+                    }     
                 },
                 fail(res) {
                     getApp().globalData.util.netErrorToast()
