@@ -27,7 +27,6 @@
         },
         {
           "name": "",
-
           "pathName": "pages/commission/commission",
           "query": "",
           "launchMode": "default",
@@ -36,7 +35,6 @@
         {
           "name": "",
           "pathName": "pages/commission/changeCommission/changeCommission",
-
           "query": "",
           "launchMode": "default",
           "scene": null
