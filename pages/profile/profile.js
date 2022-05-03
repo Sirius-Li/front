@@ -1,6 +1,7 @@
 const BASE_URL = getApp().globalData.baseUrl
 Page({
   data: {
+    userId: null,
     userAvatarUrl:"",
     isMe:false,
     liked:true,
@@ -155,6 +156,7 @@ Page({
       success(res) {
         if (res.statusCode === 200) {
           const data = res.data
+          console.log(data)
           if (data.id === that.data.userId) {
             that.setData({
               isMe: true,
