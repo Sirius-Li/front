@@ -38,6 +38,18 @@
       </view>
     </view>
   </block>
+  <block wx:if="{{list.length == 0}}">
+        <view class="bg-white">
+          <view class="padding-xs flex align-center">
+            <view class="flex-sub text-center">
+              <view class="text-xsl padding">
+                <text class=" cuIcon-emojifill text-blue"></text>
+              </view>
+              <view class="padding">暂时没有委托哦~</view>
+            </view>
+          </view>
+        </view>
+      </block>
 </block>
 
 <block wx:else>
@@ -73,6 +85,18 @@
                   </view>
                 </view>
               </van-card>
+            </view>
+          </view>
+        </view>
+      </block>
+      <block wx:if="{{appliedWtList.length == 0}}">
+        <view class="bg-white">
+          <view class="padding-xs flex align-center">
+            <view class="flex-sub text-center">
+              <view class="text-xsl padding">
+                <text class=" cuIcon-emojifill text-blue"></text>
+              </view>
+              <view class="padding">暂时没有委托哦~</view>
             </view>
           </view>
         </view>
@@ -113,6 +137,18 @@
           </view>
         </view>
       </block>
+      <block wx:if="{{finishedWtList.length == 0}}">
+        <view class="bg-white">
+          <view class="padding-xs flex align-center">
+            <view class="flex-sub text-center">
+              <view class="text-xsl padding">
+                <text class=" cuIcon-emojifill text-blue"></text>
+              </view>
+              <view class="padding">暂时没有委托哦~</view>
+            </view>
+          </view>
+        </view>
+      </block>
     </van-tab>
 
     <van-tab title="我发布的">
@@ -149,20 +185,20 @@
           </view>
         </view>
       </block>
+      <block wx:if="{{releasedWtList.length == 0}}">
+        <view class="bg-white">
+          <view class="padding-xs flex align-center">
+            <view class="flex-sub text-center">
+              <view class="text-xsl padding">
+                <text class=" cuIcon-emojifill text-blue"></text>
+              </view>
+              <view class="padding">暂时没有委托哦~</view>
+            </view>
+          </view>
+        </view>
+      </block>
     </van-tab>
 
   </van-tabs>
 </block>
 
-<block wx:if="{{list.length == 0}}">
-  <view class="bg-white">
-    <view class="padding-xs flex align-center">
-      <view class="flex-sub text-center">
-        <view class="text-xsl padding">
-          <text class=" cuIcon-emojifill text-blue"></text>
-        </view>
-        <view class="padding">暂时没有委托哦~</view>
-      </view>
-    </view>
-  </view>
-</block>

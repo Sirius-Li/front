@@ -181,6 +181,8 @@ Page({
     head: null,
     //历史搜索是否显示取消按钮，初始全为false
     cancelable: [],
+    cancelableWt: [],
+    cancelableHt: [],
     //空搜索
     searchError: false,
     user_id: '',
@@ -344,34 +346,43 @@ Page({
   clearHistoryCommissionSearch(){
     let self = this
     let keywordList = []
+    console.log(this.data.historySearchCommissionList)
     for(let i = 0; i < this.data.historySearchCommissionList.length; i++){
       keywordList.push(this.data.historySearchCommissionList[i].id)
-    }
+    } 
     
     Dialog.confirm({
       message: '确定要清空历史记录吗？',
     })
       .then(() => {
         // on confirm
+        let idList = []
+        let keywordList = []
+        for(let i = 0; i < self.data.historySearchCommissionList.length; i++) {
+          idList.push(self.data.historySearchCommissionList[i].id)
+          keywordList.push(self.data.historySearchCommissionList[i].keyword)
+        }
         let app = getApp()
         if (app.globalData.token == null) {
           self.data.head = {      
             'content-type': 'application/json'
            }
         } else {
-          self.data.head = {      
+          self.data.head = {
             'content-type': 'application/json',
             'Authorization': 'Token ' + app.globalData.token
            }
         }
-        wx.request({ // 暂无相关接口
-          url: getApp().globalData.baseUrl + '/api/search/',
-          method: 'POST',
+        wx.request({
+          url: getApp().globalData.baseUrl + '/api/commission/search/history/',
+          method: 'DELETE',
           data: {
-            'id': keywordList,
+            'id': idList,
+            'keyword': keywordList
           },
           header: self.data.head,
           success (res) {
+            console.log("in clearHistoryCommissionSearch")
             if(res.statusCode == 204){
               self.getHistorySearchCommissionList()
             }else if(res.statusCode == 404){
@@ -397,17 +408,19 @@ Page({
   },
 
   clearHistoryHtSearch(){
+    console.log("into clearHistoryHtSearch")
     let self = this
-    let keywordList = []
-    for(let i = 0; i < this.data.historySearchHtListAll.length; i++){
-      keywordList.push(this.data.historySearchHtListAll[i].id)
-    }
-    
     Dialog.confirm({
       message: '确定要清空历史记录吗？',
     })
       .then(() => {
         // on confirm
+        let idList = []
+        let keywordList = []
+        for(let i = 0; i < self.data.historySearchHtList.length; i++) {
+          idList.push(self.data.historySearchHtList[i].id)
+          keywordList.push(self.data.historySearchHtList[i].keyword)
+        }
         let app = getApp()
         if (app.globalData.token == null) {
           self.data.head = {      
@@ -423,10 +436,13 @@ Page({
           url: getApp().globalData.baseUrl + '/api/topic_search_historydel/',
           method: 'POST',
           data: {
-            'id': keywordList
+            'id': idList,
+            'keyword': keywordList
           },
           header: self.data.head,
           success (res) {
+            console.log("in clearHistoryHtSearch")
+            console.log(res)
             if(res.statusCode == 204){
               self.getHistorySearchHtList()
             }else if(res.statusCode == 404){
@@ -461,6 +477,30 @@ Page({
     tempList[index] = true
     this.setData({
       cancelable: tempList
+    })
+  }, 
+
+  canCancelWt(event){
+    let index = event.currentTarget.dataset.index
+    let tempList = []
+    for(let i = 0; i< 20; i++){
+      tempList.push(false)
+    }
+    tempList[index] = true
+    this.setData({
+      cancelableWt: tempList
+    })
+  },
+
+  canCancelHt(event){
+    let index = event.currentTarget.dataset.index
+    let tempList = []
+    for(let i = 0; i< 20; i++){
+      tempList.push(false)
+    }
+    tempList[index] = true
+    this.setData({
+      cancelableHt: tempList
     })
   },
 
@@ -528,7 +568,11 @@ Page({
     })
       .then(() => {
         // on confirm
-        let id = event.currentTarget.dataset.id
+        let id = self.data.historySearchCommissionList[event.currentTarget.dataset.index].id
+        let keyword = self.data.historySearchCommissionList[event.currentTarget.dataset.index].keyword
+        console.log(event.currentTarget.dataset.index)
+        console.log(self.data.historySearchCommissionList)
+        console.log(id)
         let app = getApp()
         if (app.globalData.token == null) {
           self.data.head = {      
@@ -541,15 +585,18 @@ Page({
            }
         }
         wx.request({
-          url: getApp().globalData.baseUrl + '/api/search/',
-          method: 'POST',
+          url: getApp().globalData.baseUrl + '/api/commission/search/history/',
+          method: 'DELETE',
           data: {
-            'id': [id]
+            'id': [id],
+            'keyword': [keyword]
           },
           header: self.data.head,
           success (res) {
+            console.log("in deleteHistoryCommissionSearch")
+            console.log(res)
             if(res.statusCode == 204){
-              self.getHistorySearchList()
+              self.getHistorySearchCommissionList()
             }else if(res.statusCode == 404){
               wx.showToast({
                 title: '该用户不存在',
@@ -563,6 +610,10 @@ Page({
             }
           },
           fail(res){
+            console.log(id)
+            console.log(self.data.head)
+            console.log(res)
+            console.log("failed")
             getApp().globalData.util.netErrorToast()
           }
         })
@@ -570,22 +621,26 @@ Page({
       .catch(() => {
         // on cancel
         let index = event.currentTarget.dataset.index
-        let tempList = self.data.cancelable
+        let tempList = self.data.cancelableWt
         tempList[index] = false
         self.setData({
-          cancelable: tempList
+          cancelableWt: tempList
         })
       });
   },
 
   deleteHistoryHtSearch(event){
+    console.log("hehehehe")
     let self = this
     Dialog.confirm({
       message: '确定要删除这条历史搜索记录吗？',
     })
       .then(() => {
         // on confirm
-        let id = event.currentTarget.dataset.id
+        let id = self.data.historySearchHtList[event.currentTarget.dataset.index].id
+        let keyword = self.data.historySearchHtList[event.currentTarget.dataset.index].keyword
+        console.log(self.data.historySearchHtList)
+        console.log(id)
         let app = getApp()
         if (app.globalData.token == null) {
           self.data.head = {      
@@ -601,12 +656,16 @@ Page({
           url: getApp().globalData.baseUrl + '/api/topic_search_historydel/',
           method: 'POST',
           data: {
-            'name': [keyword]
+            'id': [id],
+            'keyword': [keyword]
           },
           header: self.data.head,
           success (res) {
+            console.log("in deleteHistoryHtSearch")
+            console.log(id)
+            console.log(res)
             if(res.statusCode == 204){
-              self.getHistorySearchList()
+              self.getHistorySearchHtList()
             }else if(res.statusCode == 404){
               wx.showToast({
                 title: '该用户不存在',
@@ -627,10 +686,10 @@ Page({
       .catch(() => {
         // on cancel
         let index = event.currentTarget.dataset.index
-        let tempList = self.data.cancelable
+        let tempList = self.data.cancelableHt
         tempList[index] = false
         self.setData({
-          cancelable: tempList
+          cancelableHt: tempList
         })
       });
   },
@@ -686,13 +745,13 @@ Page({
   },
 
   getHistorySearchCommissionList(){
-    //初始化cancelable
+    //初始化cancelableWt
     let tempList = []
     for(let i = 0; i< 20; i++){
       tempList.push(false)
     }
     this.setData({
-      cancelable: tempList
+      cancelableWt: tempList
     })
     let app = getApp()
     if (app.globalData.token == null) {
@@ -708,12 +767,13 @@ Page({
     let self = this
     wx.request({
       url: getApp().globalData.baseUrl + '/api/commission/search/history/',
-      method: 'GET',
+      method: 'POST',
       data: {
-
       },
       header: this.data.head,
       success (res) {
+        console.log("in getHistorySearchCommissionList")
+        console.log(res)
         if(res.statusCode == 200){
           self.setData({
             historySearchCommissionList: res.data.reverse().filter(x => !util.strIsEmpty(x.keyword)).slice(0, 20),
@@ -727,15 +787,14 @@ Page({
     })
   },
 
-  // TODO 话题无法获取历史搜索 
   getHistorySearchHtList(){
-    //初始化cancelable
+    //初始化cancelableHt
     let tempList = []
     for(let i = 0; i< 20; i++){
       tempList.push(false)
     }
     this.setData({
-      cancelable: tempList
+      cancelableHt: tempList
     })
     let app = getApp()
     if (app.globalData.token == null) {
@@ -753,7 +812,6 @@ Page({
       url: getApp().globalData.baseUrl + '/api/topic_search_history/',
       method: 'POST',
       data: {
-        // user_id: this.data.user_id
       },
       header: this.data.head,
       success (res) {
@@ -763,7 +821,7 @@ Page({
           self.setData({
             historySearchHtList: res.data.slice(0, 20),
             //historySearchHtListAll: res.data
-          })
+          }) 
         }
       },
       fail(res){
@@ -853,24 +911,24 @@ Page({
 
   tagCommissionSearch(event){
     let index = event.currentTarget.dataset.index
-    if(index != undefined && this.data.cancelable[index] == true){
-      this.deleteHistorySearch(event)
+    if(index != undefined && this.data.cancelableWt[index] == true){
+      this.deleteHistoryCommissionSearch(event)
     }else{
       //let keyword = event.currentTarget.dataset.keyword
       wx.navigateTo({
-        url: '../../../wtList/wtList?keywords='+ event.currentTarget.dataset.keyword
+        url: '../../../wtList/wtList?type=2&keywords='+ event.currentTarget.dataset.keyword
       })
     }
   },
 
   tagHtSearch(event){
     let index = event.currentTarget.dataset.index
-    if(index != undefined && this.data.cancelable[index] == true){
-      this.deleteHistorySearch(event)
+    if(index != undefined && this.data.cancelableHt[index] == true){
+      this.deleteHistoryHtSearch(event)
     }else{
       //let keyword = event.currentTarget.dataset.keyword
       wx.navigateTo({
-        url: '../../../htList/htList?keywords='+ event.currentTarget.dataset.keyword
+        url: '../../../htList/htList?type=3&keywords='+ event.currentTarget.dataset.keyword
       })
     }
   },
