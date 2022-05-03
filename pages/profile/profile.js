@@ -2,63 +2,66 @@ const BASE_URL = getApp().globalData.baseUrl
 Page({
   data: {
     userId: null,
-    userAvatarUrl:"",
-    isMe:false,
-    liked:true,
-    username:"aaa",
-    phone:123456789,
-    studentId:19370000,
-    gender:1,
-    email:"19370000@buaa.edu.cn",
-    score_avg:4.3,
-    commission_score_avg:4.3,
-    releasedActivities:[
+    fromMsg: null,
+    isMe: null,
+    isVisitor: null,
+    myId: null,
+    username: null,
+    userAvatarUrl: null,
+    phone: null,
+    studentId: null,
+    gender: null,
+    email: null,
+    score_avg: null,
+    commission_score_avg: null,
+    releasedActivities: [
       {
-        id:1,
-        name:"操场夜跑",
-        imageUrl:"../../img/profile3.jpg",
-        detail:"去操场跑两圈"
+        id: 1,
+        name: "操场夜跑",
+        imageUrl: "../../img/profile3.jpg",
+        detail: "去操场跑两圈"
       },
       {
-        id:2,
-        name:"学术前沿讲座",
-        imageUrl:"../../img/profile3.jpg",
-        detail:"在新主楼开展学术前沿知识讲座"
+        id: 2,
+        name: "学术前沿讲座",
+        imageUrl: "../../img/profile3.jpg",
+        detail: "在新主楼开展学术前沿知识讲座"
       }
     ],
-    releasedCommissions:[
+    releasedCommissions: [
       {
-        id:1,
+        id: 1,
         name: "取快递",
         realTime: "否",
         description: "正值青春脑子灵，\n 哪有时间儿女情。\n 献身航空与航天，\n 单身十年笑盈盈。",
         fee: 2
       },
       {
-        id:2,
+        id: 2,
         name: "取外卖",
         realTime: "是",
         description: "正值青春脑子灵，\n 哪有时间儿女情。\n 献身航空与航天，\n 单身十年笑盈盈。",
         fee: 3
       }
     ],
-    releasedTopics:[
+    releasedTopics: [
       {
-        id:1,
-        name:"学院路计院大三选课",
-        imageUrl:"../../img/profile3.jpg",
-        description:"核心专业和个人专业都拜托了"
+        id: 1,
+        name: "学院路计院大三选课",
+        imageUrl: "../../img/profile3.jpg",
+        description: "核心专业和个人专业都拜托了"
       },
       {
-        id:2,
-        name:"求推荐学校周边餐馆",
-        imageUrl:"../../img/profile3.jpg",
-        description:"RT"
+        id: 2,
+        name: "求推荐学校周边餐馆",
+        imageUrl: "../../img/profile3.jpg",
+        description: "RT"
       }
     ]
   },
 
   onLoad(options) {
+    console.log(options)
     let fromMsg = options.fromMsg
     if (fromMsg === undefined) {
       fromMsg = false
@@ -72,11 +75,11 @@ Page({
     this.getInfo()
   },
   onTapLikeButton() {
-    if(getApp().globalData.user_status === 2){
+    if (getApp().globalData.user_status === 2) {
       wx.redirectTo({
         url: '../certification/certification',
       })
-    }else if(getApp().globalData.user_status === 1){
+    } else if (getApp().globalData.user_status === 1) {
       wx.showModal({
         title: '拒绝访问',
         content: '您的账号还在认证中，无权进行此操作'
@@ -86,11 +89,11 @@ Page({
     }
   },
   onTapMsgButton() {
-    if(getApp().globalData.user_status === 2) {
+    if (getApp().globalData.user_status === 2) {
       wx.redirectTo({
         url: '../certification/certification',
       })
-    } else if(getApp().globalData.user_status === 1) {
+    } else if (getApp().globalData.user_status === 1) {
       wx.showModal({
         title: '拒绝访问',
         content: '您的账号还在认证中，无权进行此操作'
@@ -141,7 +144,7 @@ Page({
 
         }
       },
-      fail(res){
+      fail(res) {
         getApp().globalData.util.netErrorToast()
       }
     })
@@ -156,7 +159,7 @@ Page({
       success(res) {
         if (res.statusCode === 200) {
           const data = res.data
-          console.log(data)
+          //console.log(data)
           if (data.id === that.data.userId) {
             that.setData({
               isMe: true,
@@ -186,7 +189,7 @@ Page({
           that.getAnotherInfo()
         }
       },
-      fail(res){
+      fail(res) {
         getApp().globalData.util.netErrorToast()
       }
     })
@@ -201,6 +204,7 @@ Page({
       success(res) {
         if (res.statusCode === 200) {
           const data = res.data
+          console.log(data)
           that.setData({
             username: data.nickName,
             userAvatarUrl: data.avatarUrl,
@@ -213,7 +217,7 @@ Page({
 
         }
       },
-      fail(res){
+      fail(res) {
         getApp().globalData.util.netErrorToast()
       }
     })
@@ -235,7 +239,7 @@ Page({
 
         }
       },
-      fail(res){
+      fail(res) {
         getApp().globalData.util.netErrorToast()
       }
     })
