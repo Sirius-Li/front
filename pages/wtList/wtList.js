@@ -198,7 +198,7 @@ Page({
     //id 当前用户id
     id: '',
     //type 不同界面进入标识符
-    type: 5,
+    type: 2,
     //
     sort: '',
     status: '',
@@ -221,7 +221,7 @@ Page({
         'Authorization': 'Token ' + app.globalData.token
        }
     }
-    this.data.type = 5
+    // this.data.type = 5
     console.log(this.data.type)
     if(this.data.type == 1){ // 所有类别所有委托
       wx.request({
@@ -251,8 +251,10 @@ Page({
         //data: app.globalData.zdxx,  //用于存放post请求的参数  
         data: {
           "info": this.data.keywords
-        },
-        success(res) {
+        }, 
+        success(res) { 
+          console.log("in wtList type = 2")
+          console.log(res)
           self.setData({
             list: res.data
           })
@@ -276,7 +278,7 @@ Page({
           self.setData({
             list: res.data
           })
-          console.log(self.data.list)
+          console.log(res)
         },
         fail(res){
           getApp().globalData.util.netErrorToast()
@@ -351,7 +353,7 @@ Page({
         data: {
           //'keyword': this.data.keywords
         }, 
-        success(res) {
+        success(res) { 
           self.setData({
             releasedWtList: res.data 
           })
@@ -370,12 +372,13 @@ Page({
   onLoad: function (options) {
     console.log(options)
     this.setData({
-      keywords: options.keywords
+      keywords: options.keywords,
+        type: options.type
     })
     if(this.data.keywords == undefined){
       this.setData({
         type: options.type,
-        id:options.id, // 当前用户id
+        id: options.id, // 当前用户id
         sort: options.sort
       })
     }

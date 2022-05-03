@@ -116,7 +116,7 @@ Component({
       });
     },
   
-    DiscriptionChange(event) {
+    DescriptionChange(event) {
       this.setData({
         'description': event.detail.value,
       });

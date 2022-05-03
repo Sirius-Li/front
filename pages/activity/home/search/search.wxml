@@ -28,15 +28,22 @@
   
 <view class='bg-white padding-lg'>
   <text class="text-bold text-black">热搜</text>
-  <van-grid direction="horizontal" column-num="2" center="{{false}}" border="{{false}}" >
-    <van-grid-item wx:for="{{hotSearchActivityList}}" wx:key="id" bindtap="tagSearch" data-keyword="{{item.keyword}}">
-      <view slot="text">
-        <text>
-          <text class="{{index < 3?'text-red':''}} text-bold" decode="{{true}}">{{index + 1}}&nbsp; &nbsp; &nbsp; {{item.keyword}}</text>
-        </text>
-      </view>
-    </van-grid-item>
-  </van-grid>
+  <block wx:if="{{hotSearchActivityList.length>0}}">
+    <van-grid direction="horizontal" column-num="2" center="{{false}}" border="{{false}}" >
+      <van-grid-item wx:for="{{hotSearchActivityList}}" wx:key="id" bindtap="tagSearch" data-keyword="{{item.keyword}}">
+        <view slot="text">
+          <text>
+            <text class="{{index < 3?'text-red':''}} text-bold" decode="{{true}}">{{index + 1}}&nbsp; &nbsp; &nbsp; {{item.keyword}}</text>
+          </text>
+        </view>
+      </van-grid-item>
+    </van-grid>
+  </block>
+  <block wx:else>
+    <view class="flex padding">
+      <text class="text-sm text-gray">暂无相关活动热搜</text>
+    </view>
+  </block>
 </view>
 
 <view class='bg-white padding-lg'>
@@ -129,29 +136,35 @@
   </van-tab>
   <van-tab title="话题">
     <van-search
-  value="{{ value }}"
-  placeholder="请输入话题关键词"
-  show-action
-  bind:search="onSearchTopic"
-  bind:cancel="onCancel"
-  bind:change="hasKeyword"
-  error = "{{searchError}}"
-/>
+      value="{{ value }}"
+      placeholder="请输入话题关键词"
+      show-action
+      bind:search="onSearchTopic"
+      bind:cancel="onCancel"
+      bind:change="hasKeyword"
+      error = "{{searchError}}"
+    />
 
-<view class='bg-white padding-lg'>
-  <text class="text-bold text-black">热搜</text>
-  <van-grid direction="horizontal" column-num="2" center="{{false}}" border="{{false}}" >
-    <van-grid-item wx:for="{{hotSearchHtList}}" wx:key="id" bindtap="tagHtSearch" data-keyword="{{item.keyword}}">
-      <view slot="text">
-        <text>
-          <text class="{{index < 3?'text-red':''}} text-bold" decode="{{true}}">{{index + 1}}&nbsp; &nbsp; &nbsp; {{item.keyword}}</text>
+    <view class='bg-white padding-lg'>
+      <text class="text-bold text-black">热搜</text>
+      <block wx:if="{{hotSearchHtList.length>0}}">
+        <van-grid direction="horizontal" column-num="2" center="{{false}}" border="{{false}}" >
+          <van-grid-item wx:for="{{hotSearchHtList}}" wx:key="id" bindtap="tagHtSearch" data-keyword="{{item.keyword}}">
+            <view slot="text">
+              <text>
+                <text class="{{index < 3?'text-red':''}} text-bold" decode="{{true}}">{{index + 1}}&nbsp; &nbsp; &nbsp; {{item.keyword}}</text>
+              </text>
+            </view>
+          </van-grid-item>
+        </van-grid>
+      </block>
+      <block wx:else>
+        <view class="flex padding">
+          <text class="text-sm text-gray">暂无相关话题热搜</text>
+        </view>
+      </block>
+    </view>
 
-        </text>
-      </view>
-    </van-grid-item>
-  </van-grid>
-
-</view>
 <view class='bg-white padding-lg'>
   <text class="text-bold text-black">历史搜索</text>
   <van-dialog id="van-dialog"/>

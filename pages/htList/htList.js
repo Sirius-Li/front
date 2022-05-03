@@ -121,24 +121,28 @@ Page({
                 }
             })
         } else if (this.data.type == 3) {   //指定info
-            wx.request({
-                url: getApp().globalData.baseUrl + '/api/topic_search/',
-                header: head,
-                method:"POST", 
-                data: {
-                    types : {
-		                keyword : self.data.keywords
-                    }
-                },
-                success(res) {
-                    self.setData({
-                        list: res.data
-                    })
-                },
-                fail(res) {
-                    getApp().globalData.util.netErrorToast()
-                }
-            })
+           let tmpList = []
+                      wx.request({
+                          url: getApp().globalData.baseUrl + '/api/topic_search/',
+                          header: head,
+                          method:"POST", 
+                          data: {
+                              types : {
+                                  keyword : self.data.keywords
+                              }
+                          },
+                          success(res) {
+                              for (let i = 0; i < res.data.length; i++) {
+                                  tmpList.push(res.data[i].content)
+                              }
+                              self.setData({
+                                  list: tmpList
+                              })
+                          },
+                          fail(res) {
+                              getApp().globalData.util.netErrorToast()
+                          }
+                      })
         } else if (this.data.type == 5) {
             wx.request({
                 url: getApp().globalData.baseUrl + '/api/topic/',
@@ -350,8 +354,10 @@ Page({
      */
     onLoad: function (options) {
         var that = this
+        console.log(options)
         that.setData({
-            keywords:options.keywords
+            keywords:options.keywords,
+            type: options.type,
         })
         if (that.data.keywords == undefined) {
             that.setData({
