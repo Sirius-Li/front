@@ -128,9 +128,7 @@ Page({
                           header: head,
                           method:"POST", 
                           data: {
-                              types : {
-                                  keyword : self.data.keywords
-                              }
+                                 keyword : self.data.keywords
                           },
                           success(res) {
                               for (let i = 0; i < res.data.length; i++) {
