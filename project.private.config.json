@@ -27,7 +27,6 @@
         },
         {
           "name": "",
-
           "pathName": "pages/commission/commission",
           "query": "",
           "launchMode": "default",
@@ -36,7 +35,6 @@
         {
           "name": "",
           "pathName": "pages/commission/changeCommission/changeCommission",
-
           "query": "",
           "launchMode": "default",
           "scene": null
@@ -110,7 +108,6 @@
           "query": "",
           "launchMode": "default",
           "scene": null
-
         },
         {
           "name": "",
@@ -130,8 +127,8 @@
           "name": "",
           "pathName": "pages/htList/htList",
           "query": "",
-          "scene": null,
-          "launchMode": "default"
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
