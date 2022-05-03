@@ -73,7 +73,7 @@
         <button class="bg-grey bg" bindtap="GiveUpCommission">放弃委托</button>
       </view>
     </view>
-    <view wx:if="{{!(user.id == myUserId) && !(accepted_user.id === myUserId)}}">
+    <view wx:if="{{!(user.id == myUserId) && !(accepted_user.id === myUserId) && (status === 1)}}">
       <!-- 其他用户 -->
       <view class="margin-top">
         <button class="bg-grey bg" bindtap="CatchCommmission" >接取委托</button>
