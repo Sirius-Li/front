@@ -425,6 +425,19 @@ Page({
                 }
             })
         } else if (this.data.type == 5 && this.data.activeId == 1) {
+            let app = getApp()
+            let head
+            let self = this
+            if (app.globalData.token == null) {
+                head = {      
+                'content-type': 'application/json'
+                }
+            } else {
+                head = {      
+                'content-type': 'application/json',
+                'Authorization': 'Token ' + app.globalData.token
+                }
+            }
             wx.request({
                 url:getApp().globalData.baseUrl + '/api/topic_follow_users_self/',
                 header: head,
