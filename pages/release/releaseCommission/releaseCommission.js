@@ -309,7 +309,18 @@ Component({
           this.data.tag_list.push({"name": tag_temp[key]});
         }
       }
-
+      let datt = {
+        "commission_type": this.data.commission_type_id + 1,
+        "name": this.data.name,
+        "start_time": s_time,
+        "end_time": e_time,
+        "real_time": this.data.real_time + 1,
+        "location": this.data.location,
+        "description": this.data.description,
+        "fee": this.data.fee,
+        "tags": this.data.tag_list,
+      }
+      console.log(datt)
     // wx.uploadFile({    
       wx.request({
         header: this.data.head,
@@ -418,6 +429,7 @@ Component({
         head: null,
       })
     },
+    
   },
 
   attached() {
@@ -452,7 +464,7 @@ Component({
 
     let nowTime = new Date()
     let today = nowTime.getFullYear() + '/' + (nowTime.getMonth()+1<10?'0' + (nowTime.getMonth()+1):(nowTime.getMonth()+1)) 
-           + '/' + (nowTime.getDate()<10?'0' + nowTime.getDate():nowTime.getDate())
+          + '/' + (nowTime.getDate()<10?'0' + nowTime.getDate():nowTime.getDate())
     let now = ((nowTime.getHours())<10 ? '0'+(nowTime.getHours()) : (nowTime.getHours())) + ':' + ((nowTime.getMinutes())<10? '0'+(nowTime.getMinutes()) : (nowTime.getMinutes()))
     this.setData({
       'date': today,
