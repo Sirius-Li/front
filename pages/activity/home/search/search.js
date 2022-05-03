@@ -350,7 +350,6 @@ Page({
     for(let i = 0; i < this.data.historySearchCommissionList.length; i++){
       keywordList.push(this.data.historySearchCommissionList[i].id)
     } 
-    
     Dialog.confirm({
       message: '确定要清空历史记录吗？',
     })
@@ -479,7 +478,7 @@ Page({
       cancelable: tempList
     })
   }, 
-
+  
   canCancelWt(event){
     let index = event.currentTarget.dataset.index
     let tempList = []
@@ -570,9 +569,6 @@ Page({
         // on confirm
         let id = self.data.historySearchCommissionList[event.currentTarget.dataset.index].id
         let keyword = self.data.historySearchCommissionList[event.currentTarget.dataset.index].keyword
-        console.log(event.currentTarget.dataset.index)
-        console.log(self.data.historySearchCommissionList)
-        console.log(id)
         let app = getApp()
         if (app.globalData.token == null) {
           self.data.head = {      
@@ -637,10 +633,10 @@ Page({
     })
       .then(() => {
         // on confirm
+
         let id = self.data.historySearchHtList[event.currentTarget.dataset.index].id
         let keyword = self.data.historySearchHtList[event.currentTarget.dataset.index].keyword
-        console.log(self.data.historySearchHtList)
-        console.log(id)
+
         let app = getApp()
         if (app.globalData.token == null) {
           self.data.head = {      
@@ -787,6 +783,7 @@ Page({
     })
   },
 
+  // TODO 话题无法获取历史搜索 
   getHistorySearchHtList(){
     //初始化cancelableHt
     let tempList = []

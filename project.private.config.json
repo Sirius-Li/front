@@ -108,6 +108,28 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+
+        },
+        {
+          "name": "",
+          "pathName": "pages/profile/profile",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/wtList/wtList",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/htList/htList",
+          "query": "",
+          "scene": null,
+          "launchMode": "default"
         }
       ]
     }

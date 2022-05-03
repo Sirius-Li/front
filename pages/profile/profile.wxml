@@ -8,7 +8,7 @@
     <view class="text-xl ml-2 text-gray-700"> 个人主页 </view>
     <view class="overflow-hidden">
       <view class="flex mx-2 my-2 space-between justify-between text-center items-center">
-        <image mode="aspectFit" class="flex-0 w-20 h-20 rounded-full shadow-lg mb-4" src="{{ userAvatarUrl===''?'../../img/default_avatar.png':userAvatarUrl }}" />
+        <image mode="aspectFit" class="flex-0 w-20 h-20 rounded-full shadow-lg mb-4" src="{{userAvatarUrl===''?'../../img/profile3.jpg':userAvatarUrl}}" />
         <block wx:if="{{ !isMe }}">
           <view class="flex-row w-24">
             <view class="flex-initial flex items-center text-gray-800 m-1 px-2 pt-1.5 pb-1 rounded-full shadow-md justify-end border" bindtap="onTapLikeButton">
@@ -51,11 +51,10 @@
           <van-cell title="用户名" value="{{ username }}" class="break-all" />
           <van-cell title="性别" value="{{ gender === 0?'未知':gender === 1?'男':'女' }}" class="break-all" />
         </van-cell-group>
-        <van-tabs active="{{ 0 }}">
-          <van-tab title="该用户发布的活动" >
+        <van-tabs active="{{ 1 }}">
+          <van-tab title="发布的活动" >
             <van-cell title="综合评分" value="{{ score_avg }}" class="break-all" />
             <view class="content">
-
               <view class="cu-card article" wx:for="{{ releasedActivities }}" wx:for-item="item" wx:for-index="idx" wx:key="id">
                 <view class="cu-item shadow" data-activityid="{{ item.id }}" bindtap="onTapActivity">
                   <view class="title">
@@ -65,6 +64,40 @@
                     <image src="{{ item.imageUrl }}" mode="aspectFill" style="width: 33.333333%"></image>
                     <view class="desc w-2on3">
                       <view class="text-content">{{ item.detail }}</view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </van-tab>
+          <van-tab title="发布的话题" >
+            <view class="content">
+              <view class="cu-card article" wx:for="{{ releasedTopics }}" wx:for-item="item" wx:for-index="idx" wx:key="id">
+                <view class="cu-item shadow" data-topicid="{{ item.id }}" bindtap="onTapTopic">
+                  <view class="title">
+                    <view class="text-cut">{{ item.name }}</view>
+                  </view>
+                  <view class="content">
+                    <image src="{{ item.imageUrl }}" mode="aspectFill" style="width: 33.333333%"></image>
+                    <view class="desc w-2on3">
+                      <view class="text-content">{{ item.description }}</view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </van-tab>
+          <van-tab title="发布的委托" >
+            <view class="content">
+              <van-cell title="综合评分" value="暂无评分" class="break-all" />
+              <view class="cu-card article" wx:for="{{ releasedCommissions }}" wx:for-item="item" wx:for-index="idx" wx:key="id">
+                <view class="cu-item shadow" data-activityid="{{ item.id }}" bindtap="onTapCommission">
+                  <view class="title">
+                    <view class="text-cut">{{ item.name }}({{item.realTime==1?"实时":"非实时"}})</view>
+                  </view>
+                  <view class="content">
+                    <view class="desc w-2on3">
+                      <view class="text-content">{{ item.description }}</view>
                     </view>
                   </view>
                 </view>
