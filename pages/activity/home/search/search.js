@@ -8,115 +8,115 @@ Page({
    */
   data: {
     hotSearchActivityList:[
-    {
-      id: 0,
-      keyword: "热搜活动一"
-    }, {
-      id: 1,
-      keyword: "热搜活动二"
-    }, {
-      id: 2,
-      keyword: "热搜活动三"
-    }, {
-      id: 3,
-      keyword: "热搜活动四"
-    }, {
-      id: 4,
-      keyword: "热搜活动五"
-    }, {
-      id: 5,
-      keyword: "热搜活动六"
-    }
-  ],
+      // {
+      //   id: 0,
+      //   keyword: "热搜活动一"
+      // }, {
+      //   id: 1,
+      //   keyword: "热搜活动二"
+      // }, {
+      //   id: 2,
+      //   keyword: "热搜活动三"
+      // }, {
+      //   id: 3,
+      //   keyword: "热搜活动四"
+      // }, {
+      //   id: 4,
+      //   keyword: "热搜活动五"
+      // }, {
+      //   id: 5,
+      //   keyword: "热搜活动六"
+      // }
+    ],
 
-  hotSearchHtList:[
-    {
-      id: 0,
-      keyword: "热搜话题一"
-    }, {
-      id: 1,
-      keyword: "热搜话题二"
-    }, {
-      id: 2,
-      keyword: "热搜话题三"
-    }, {
-      id: 3,
-      keyword: "热搜话题四"
-    }, {
-      id: 4,
-      keyword: "热搜话题五"
-    }, {
-      id: 5,
-      keyword: "热搜话题六"
-    }
-  ],
+    hotSearchHtList:[
+      // {
+      //   id: 0,
+      //   keyword: "热搜话题一"
+      // }, {
+      //   id: 1,
+      //   keyword: "热搜话题二"
+      // }, {
+      //   id: 2,
+      //   keyword: "热搜话题三"
+      // }, {
+      //   id: 3,
+      //   keyword: "热搜话题四"
+      // }, {
+      //   id: 4,
+      //   keyword: "热搜话题五"
+      // }, {
+      //   id: 5,
+      //   keyword: "热搜话题六"
+      // }
+    ],
     
     //这个列表仅显示前20条历史记录
     historySearchActivityList:[
-    {
-      id: 0,
-      keyword: "历史搜索活动1"
-    }, {
-      id: 1,
-      keyword: "历史搜索活动2"
-    }, {
-      id: 2,
-      keyword: "历史搜索活动3"
-    }, {
-      id: 3,
-      keyword: "历史搜索活动4"
-    }, {
-      id: 4,
-      keyword: "历史搜索活动5"
-    }, {
-      id: 5,
-      keyword: "历史搜索活动6"
-    }
-  ],
+    // {
+    //   id: 0,
+    //   keyword: "历史搜索活动1"
+    // }, {
+    //   id: 1,
+    //   keyword: "历史搜索活动2"
+    // }, {
+    //   id: 2,
+    //   keyword: "历史搜索活动3"
+    // }, {
+    //   id: 3,
+    //   keyword: "历史搜索活动4"
+    // }, {
+    //   id: 4,
+    //   keyword: "历史搜索活动5"
+    // }, {
+    //   id: 5,
+    //   keyword: "历史搜索活动6"
+    // }
+    ],
 
-  historySearchHtList:[
-    {
-      id: 0,
-      keyword: "历史搜索话题1"
-    }, {
-      id: 1,
-      keyword: "历史搜索话题2"
-    }, {
-      id: 2,
-      keyword: "历史搜索话题3"
-    }, {
-      id: 3,
-      keyword: "历史搜索话题4"
-    }, {
-      id: 4,
-      keyword: "历史搜索话题5"
-    }, {
-      id: 5,
-      keyword: "历史搜索话题6"
-    }
-  ],
+    historySearchHtList:[
+      // {
+      //   id: 0,
+      //   keyword: "历史搜索话题1"
+      // }, {
+      //   id: 1,
+      //   keyword: "历史搜索话题2"
+      // }, {
+      //   id: 2,
+      //   keyword: "历史搜索话题3"
+      // }, {
+      //   id: 3,
+      //   keyword: "历史搜索话题4"
+      // }, {
+      //   id: 4,
+      //   keyword: "历史搜索话题5"
+      // }, {
+      //   id: 5,
+      //   keyword: "历史搜索话题6"
+      // }
+    ],
 
-  historySearchCommissionList:[
-    {
-      id: 0,
-      keyword: "历史搜索委托1"
-    }, {
-      id: 1,
-      keyword: "历史搜索委托2"
-    }, {
-      id: 2,
-      keyword: "历史搜索委托3"
-    }, {
-      id: 3,
-      keyword: "历史搜索委托4"
-    }, {
-      id: 4,
-      keyword: "历史搜索委托5"
-    }, {
-      id: 5,
-      keyword: "历史搜索委托6"
-    }
-  ],
+    historySearchCommissionList:[
+      // {
+      //   id: 0,
+      //   keyword: "历史搜索委托1"
+      // }, {
+      //   id: 1,
+      //   keyword: "历史搜索委托2"
+      // }, {
+      //   id: 2,
+      //   keyword: "历史搜索委托3"
+      // }, {
+      //   id: 3,
+      //   keyword: "历史搜索委托4"
+      // }, {
+      //   id: 4,
+      //   keyword: "历史搜索委托5"
+      // }, {
+      //   id: 5,
+      //   keyword: "历史搜索委托6"
+      // }
+    ],
 
     //这个列表用于保存完整的历史记录
     historySearchListAll:[],
@@ -175,7 +175,7 @@ Page({
           name: "其他"
         }]
       }
-  ],
+    ],
 
     //请求头
     head: null,
@@ -216,7 +216,8 @@ Page({
       },
       header: this.data.head,
       success (res) {
-        
+        console.log("in getHotSearchList")
+        console.log(res)
         /*self.setData({
           hotSearchList: res.data.slice(0, 6)
         })*/
@@ -225,49 +226,12 @@ Page({
         for(let i = 0; i< tmpList.length; i++){
           resList.push({id: i, keyword: tmpList[i].keyword})
         }
+        // self.setData({
+        //   hotSearchList: resList.filter(x => !util.strIsEmpty(x.keyword)).slice(0, 6)
+        // })
+        console.log(resList)
         self.setData({
-          hotSearchList: resList.filter(x => !util.strIsEmpty(x.keyword)).slice(0, 6)
-        })
-      },
-      fail(res){
-        getApp().globalData.util.netErrorToast()
-      }
-    })
-  },
-
-  getHotSearchCommissionList: function(){
-    //获取前六条
-    let self = this
-    let app = getApp()
-    if (app.globalData.token == null) {
-      self.data.head = {      
-        'content-type': 'application/json'
-      }
-    } else {
-      self.data.head = {      
-        'content-type': 'application/json',
-        'Authorization': 'Token ' + app.globalData.token
-      }
-    }
-    wx.request({
-      url: getApp().globalData.baseUrl + '/api/commission/search/history/',
-      method: 'GET',
-      data: {
-
-      },
-      header: this.data.head,
-      success (res) {
-        
-        /*self.setData({
-          hotSearchList: res.data.slice(0, 6)
-        })*/
-        let tmpList = res.data
-        let resList = []
-        for(let i = 0; i< tmpList.length; i++){
-          resList.push({id: i, keyword: tmpList[i].keyword})
-        }
-        self.setData({
-          hotSearchCommissionList: resList.filter(x => !util.strIsEmpty(x.keyword)).slice(0, 6)
+          hotSearchActivityList: resList.slice(0, 6)
         })
       },
       fail(res){
@@ -291,14 +255,15 @@ Page({
       }
     }
     wx.request({
-      url: getApp().globalData.baseUrl + '/api/ht/search/history/',
-      method: 'GET',
+      url: getApp().globalData.baseUrl + '/api/topic_search_trend/',
+      method: 'POST', 
       data: {
-        user_id: this.data.user_id
+        // user_id: this.data.user_id
       },
       header: this.data.head,
       success (res) {
-        
+        console.log("in getHotSearchHtList")
+        console.log(res)
         /*self.setData({
           hotSearchList: res.data.slice(0, 6)
         })*/
@@ -307,8 +272,11 @@ Page({
         for(let i = 0; i< tmpList.length; i++){
           resList.push({id: i, keyword: tmpList[i].keyword})
         }
+        // self.setData({
+        //   hotSearchHtList: resList.filter(x => !util.strIsEmpty(x.keyword)).slice(0, 6)
+        // })
         self.setData({
-          hotSearchList: resList.filter(x => !util.strIsEmpty(x.keyword)).slice(0, 6)
+          hotSearchHtList: resList.slice(0, 6)
         })
       },
       fail(res){
@@ -377,7 +345,7 @@ Page({
     let self = this
     let keywordList = []
     for(let i = 0; i < this.data.historySearchCommissionList.length; i++){
-      keywordList.push(this.data.historySearchCommissionList[i].keyword)
+      keywordList.push(this.data.historySearchCommissionList[i].id)
     }
     
     Dialog.confirm({
@@ -397,10 +365,10 @@ Page({
            }
         }
         wx.request({ // 暂无相关接口
-          url: getApp().globalData.baseUrl + '/api/commission/search/history/delete/',
+          url: getApp().globalData.baseUrl + '/api/search/',
           method: 'POST',
           data: {
-            'name': keywordList,
+            'id': keywordList,
           },
           header: self.data.head,
           success (res) {
@@ -432,7 +400,7 @@ Page({
     let self = this
     let keywordList = []
     for(let i = 0; i < this.data.historySearchHtListAll.length; i++){
-      keywordList.push(this.data.historySearchHtListAll[i].keyword)
+      keywordList.push(this.data.historySearchHtListAll[i].id)
     }
     
     Dialog.confirm({
@@ -452,10 +420,10 @@ Page({
            }
         }
         wx.request({
-          url: getApp().globalData.baseUrl + '/api/ht/search/history/delete/',
-          method: 'GET',
+          url: getApp().globalData.baseUrl + '/api/topic_search_historydel/',
+          method: 'POST',
           data: {
-            'user_id': this.data.user_id,
+            'id': keywordList
           },
           header: self.data.head,
           success (res) {
@@ -494,7 +462,6 @@ Page({
     this.setData({
       cancelable: tempList
     })
-    
   },
 
   deleteHistorySearch(event){
@@ -554,7 +521,6 @@ Page({
       });
   },
 
-  // 暂无相关接口
   deleteHistoryCommissionSearch(event){
     let self = this
     Dialog.confirm({
@@ -562,7 +528,7 @@ Page({
     })
       .then(() => {
         // on confirm
-        let keyword = event.currentTarget.dataset.keyword
+        let id = event.currentTarget.dataset.id
         let app = getApp()
         if (app.globalData.token == null) {
           self.data.head = {      
@@ -578,7 +544,7 @@ Page({
           url: getApp().globalData.baseUrl + '/api/search/',
           method: 'POST',
           data: {
-            'name': [keyword]
+            'id': [id]
           },
           header: self.data.head,
           success (res) {
@@ -619,7 +585,7 @@ Page({
     })
       .then(() => {
         // on confirm
-        let keyword = event.currentTarget.dataset.keyword
+        let id = event.currentTarget.dataset.id
         let app = getApp()
         if (app.globalData.token == null) {
           self.data.head = {      
@@ -632,7 +598,7 @@ Page({
            }
         }
         wx.request({
-          url: getApp().globalData.baseUrl + '/api/search/',
+          url: getApp().globalData.baseUrl + '/api/topic_search_historydel/',
           method: 'POST',
           data: {
             'name': [keyword]
@@ -699,9 +665,16 @@ Page({
       },
       header: this.data.head,
       success (res) {
+        console.log("in getHistorySearchList")
+        console.log(res)
         if(res.statusCode == 200){
+          // self.setData({
+          //   historySearchList: res.data.reverse().filter(x => !util.strIsEmpty(x.keyword)).slice(0, 20),
+          //   historySearchListAll: res.data
+          // })
           self.setData({
-            historySearchList: res.data.reverse().filter(x => !util.strIsEmpty(x.keyword)).slice(0, 20),
+            historySearchList: res.data.slice(0, 20),
+            historySearchActivityList: res.data.reverse().slice(0, 20),
             historySearchListAll: res.data
           })
         }
@@ -754,6 +727,7 @@ Page({
     })
   },
 
+  // TODO 话题无法获取历史搜索 
   getHistorySearchHtList(){
     //初始化cancelable
     let tempList = []
@@ -776,16 +750,18 @@ Page({
     }
     let self = this
     wx.request({
-      url: getApp().globalData.baseUrl + '/api/ht/search/history/',
-      method: 'GET',
+      url: getApp().globalData.baseUrl + '/api/topic_search_history/',
+      method: 'POST',
       data: {
-        user_id: this.data.user_id
+        // user_id: this.data.user_id
       },
       header: this.data.head,
       success (res) {
+        console.log("in getHistorySearchHtList")
+        console.log(res)
         if(res.statusCode == 200){
           self.setData({
-            historySearchHtList: res.data.reverse().filter(x => !util.strIsEmpty(x.keyword)).slice(0, 20),
+            historySearchHtList: res.data.slice(0, 20),
             //historySearchHtListAll: res.data
           })
         }
@@ -797,19 +773,19 @@ Page({
   },
 
 //将关键词传值到活动列表
-onSearch(event){
-  //空输入报错
-  if(event.detail == ''){
-    this.setData({
-      searchError: true
+  onSearch(event){
+    //空输入报错
+    if(event.detail == ''){
+      this.setData({
+        searchError: true
+      })
+    }else{
+      
+    wx.navigateTo({
+      url: '../../../actList/actList?keywords='+ event.detail
     })
-  }else{
-    
-  wx.navigateTo({
-    url: '../../../actList/actList?keywords='+ event.detail
-  })
-  }
-},
+    }
+  },
 
   //将关键词传值到活动列表
   onSearchActivity(event){
@@ -834,25 +810,23 @@ onSearch(event){
         searchError: true
       })
     }else{
-      
-    wx.navigateTo({
-      url: '../../../wtList/wtList?keywords='+ event.detail
-    })
+      wx.navigateTo({
+        url: '../../../wtList/wtList?type=2&keywords='+ event.detail
+      })
     }
   },
 
    //将关键词传值到话题列表
-   onSearchTopic(event){
+  onSearchTopic(event){
     //空输入报错
     if(event.detail == ''){
       this.setData({
         searchError: true
       })
     }else{
-      
-    wx.navigateTo({
-      url: '../../../htList/htList?keywords='+ event.detail
-    })
+      wx.navigateTo({
+        url: '../../../htList/htList?type=3&keywords='+ event.detail
+      })
     }
   },
 
@@ -879,7 +853,6 @@ onSearch(event){
 
   tagCommissionSearch(event){
     let index = event.currentTarget.dataset.index
-    
     if(index != undefined && this.data.cancelable[index] == true){
       this.deleteHistorySearch(event)
     }else{
@@ -892,7 +865,6 @@ onSearch(event){
 
   tagHtSearch(event){
     let index = event.currentTarget.dataset.index
-    
     if(index != undefined && this.data.cancelable[index] == true){
       this.deleteHistorySearch(event)
     }else{
@@ -964,7 +936,7 @@ onSearch(event){
    */
   onShow: function () {
     this.getHotSearchList()
-    this.getHotSearchCommissionList()
+    // this.getHotSearchCommissionList()
     this.getHotSearchHtList()
     this.getCategorySearchList()
     this.getHistorySearchList()
