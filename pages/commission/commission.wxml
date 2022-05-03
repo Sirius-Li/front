@@ -60,16 +60,16 @@
       <view wx:if="{{status === 1}}" class="margin-top">
         <button class="bg-grey bg" bindtap="ChangeCommission" >修改委托</button>
       </view>
-      <view wx:if="{{status === 2}}" class="margin-top">
-        <button class="bg-grey bg" bindtap="FinishCommission">终止委托</button>
-      </view>
       <view wx:if="{{status === 3 && score === 0}}" class="margin-top">
         <button class="bg-grey bg" bindtap="Evaluate">发表评价</button>
       </view>
     </view>
     <view wx:if="{{accepted_user.id === myUserId}}" >
       <!-- 接取委托的用户 -->
-      <view class="margin-top">
+      <view wx:if="{{status === 2}}" class="margin-top">
+        <button class="bg-grey bg" bindtap="FinishCommission">完成委托</button>
+      </view>
+      <view wx:if="{{status == 2}}" class="margin-top">
         <button class="bg-grey bg" bindtap="GiveUpCommission">放弃委托</button>
       </view>
     </view>
@@ -91,7 +91,7 @@
         <view class="padding-xl">
           <!-- <input placeholder="请输入评论" value="{{str}}" bindinput="setValue"></input> -->
           <slider bindchange="ScoreChange" value="{{score}}" min="1" max="5" show-value/>
-          <button class="cu-btn bg-grey sm" bindtap="SubEvaluate">提交委托</button>
+          <button class="cu-btn bg-grey sm" bindtap="SubEvaluate">提交评论</button>
         </view>
       </view>
     </view>
