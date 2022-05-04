@@ -120,7 +120,7 @@ Page({
         content: '委托开始时间不能晚于委托结束时间',
         showCancel: false
       })
-    } else if (now < this.data.start_time) {
+    } else if (now > this.data.start_time) {
       wx.showModal({
         title: '提示',
         content: '委托开始时间必须晚于现在',
