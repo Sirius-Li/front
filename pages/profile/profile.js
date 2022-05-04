@@ -90,6 +90,7 @@ Page({
   },
   onTapCommission(e){
     const id = e.currentTarget.dataset.commissionid
+    //console.log(id)
     wx.navigateTo({
       url: `/pages/commission/commission?id=${id}`,
     })
@@ -180,6 +181,7 @@ Page({
             gender: data.gender,
             liked: data.is_followed,
             score_avg: data.average_rate.remark__avg || '暂无评分',
+            commission_score_avg: data.average_rate.score__avg || '暂无评分'
           })
           that.getReleasedActivities()
           that.getReleasedCommissions()
