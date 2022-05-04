@@ -5,21 +5,21 @@ Page({
    */
   data: {
     //用户id
-    myUserId: 'id1',
+    myUserId: '',
     // 委托id
     id: '',
     // 委托类型
     commission_type: '',
     //委托名称
-    name: 'commissionname',
-    start_time: '2022-4-12',
-    end_time: '2022-4-12',
-    create_at: '2022-4-12',
-    updated_at: '2022-4-12',
+    name: '',
+    start_time: '',
+    end_time: '',
+    create_at: '',
+    updated_at: '',
     //实时性
     real_time: '',
     // 用户id
-    user_id: 'id1',
+    user_id: '',
     //位置
     location: '1',
     //发布用户
@@ -27,30 +27,16 @@ Page({
     //申请用户
     accepted_user: {},
     //状态
-    status: '3',
+    status: 0,
     //详细描述
-    description: "正值青春脑子灵，\n 哪有时间儿女情。\n 献身航空与航天，\n 单身十年笑盈盈。",
+    description: "",
     //审核状态
     audit: '',
     //费用
-    fee: '198',
+    fee: null,
     
     //评论
-    comment: [
-      {
-        "id": 123,
-        "user":{
-            "user_id":'id1',
-            "name":'name1'
-        },
-        "to_user":{
-            "user_id":'id2',
-            "name":'name2'
-        },
-        "content": 'text',
-        "comment_time":'2022-4-1',
-      }
-    ],
+    comment: [],
     
     //一些控制变量
     evaluateShow: false,
@@ -84,10 +70,11 @@ Page({
             data: {
               commission_id: this.data.id,
             }, 
-            success(res) {
+            success:(res) => {
               wx.showToast({
                 title: '接取成功',
               })
+              this.onShow()
             },
             fail(res){
               getApp().globalData.util.netErrorToast()
@@ -118,7 +105,7 @@ Page({
     wx.showModal({
       title: '警告',
       content: '确认终止委托',
-      success (res) {
+      success:(res) => {
         if (res.confirm) {
           wx.request({
             url: getApp().globalData.baseUrl + '/api/commission/terminate/',
@@ -127,10 +114,11 @@ Page({
             data: {
               'commission_id': commission_id,
             }, 
-            success(res) {
+            success:(res) => {
               wx.showToast({
                 title: '终止成功',
               })
+              this.onShow()
             },
             fail(res){
               getApp().globalData.util.netErrorToast()
@@ -168,7 +156,7 @@ Page({
     wx.showModal({
       title: '确认',
       content: '委托已完成',
-      success: (res) => {
+      success:(res) => {
         if (res.confirm) {
           wx.request({
             url: getApp().globalData.baseUrl + '/api/commission/finish/',
@@ -184,6 +172,7 @@ Page({
               wx.showToast({
                 title: '提交成功',
               })
+              this.onShow()
             },
             fail(res){
               getApp().globalData.util.netErrorToast()
@@ -212,7 +201,7 @@ Page({
     wx.showModal({
       title: '警告',
       content: '确认放弃委托',
-      success (res) {
+      success:(res) =>{
         if (res.confirm) {
           wx.request({
             url: getApp().globalData.baseUrl + '/api/commission/drop/',
@@ -221,10 +210,11 @@ Page({
             data: {
               'commission_id': commission_id,
             }, 
-            success(res) {
+            success:(res) => {
               wx.showToast({
                 title: '放弃成功',
               })
+              this.onShow()
             },
             fail(res){
               getApp().globalData.util.netErrorToast()
@@ -291,10 +281,11 @@ Page({
         'commission_id': commission_id,
         'score': score
       }, 
-      success(res) {
+      success:(res) =>{
         wx.showToast({
           title: '评分成功',
         })
+        this.onShow()
       },
       fail(res){
         getApp().globalData.util.netErrorToast()
@@ -393,8 +384,8 @@ Page({
             wx.showToast({
               title: '评论成功',
             })
-            this.reset()
-            this.getDetail()
+            // this.reset()
+            this.onShow()
             let tempList = this.data.commentShow
             tempList[0] = false
             this.setData({
@@ -458,8 +449,8 @@ Page({
           wx.showToast({
             title: '评论成功',
           })
-          self.reset()
-          self.getDetail()
+          // self.reset()
+          self.onShow()
           let temp_commentShow = this.data.commentShow
           temp_commentShow[idx+1] = false
           this.setData({
@@ -490,7 +481,7 @@ Page({
     wx.showModal({
       title: '警告',
       content: '确认删除评论',
-      success (res) {
+      success:(res) => {
         if (res.confirm) {
           wx.request({
             url: getApp().globalData.baseUrl + '/api/commission/comment/' + comment_id + '/',
@@ -499,10 +490,11 @@ Page({
             data: {
               'id': comment_id,
             }, 
-            success(res) {
+            success:(res) =>{
               wx.showToast({
                 title: '删除成功',
               })
+              this.onShow()
             },
             fail(res){
               getApp().globalData.util.netErrorToast()
@@ -543,6 +535,7 @@ Page({
           title: '评价成功',
         })
         this.hideEvaluate()
+        this.onShow()
       },
       fail(res){
         getApp().globalData.util.netErrorToast()
@@ -594,7 +587,7 @@ Page({
           "start_time": res.data.start_time,
           "end_time": res.data.end_time,
           "create_at": res.data.create_at,
-          "real_time": res.data.real_time - 1, 
+          "real_time": (res.data.real_time==1)?true:false, 
           "user": res.data.user,
           "accepted_user": res.data.accepted_user,
           "location": res.data.location,

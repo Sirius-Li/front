@@ -34,7 +34,7 @@
 
       <!-- TODO -->
       <view class="cu-form-group">委托类型：
-        <text>{{commission_type.name}}{{(real_time === 1)?'(实时)':'(非实时)'}}</text> 
+        <text>{{commission_type.name}}{{(real_time)?'(实时)':'(非实时)'}}</text> 
       </view>
       <view class="cu-form-group">开始时间：
         <text>{{start_time}}</text>

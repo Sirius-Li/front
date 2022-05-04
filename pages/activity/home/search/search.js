@@ -1,5 +1,4 @@
 // pages/activity/home/search/search.js
-import Dialog from '../../../../miniprogram_npm/@vant/weapp/dialog/dialog'
 const util = require('../../../../utils/util')
 Page({
 
@@ -7,116 +6,16 @@ Page({
    * 页面的初始数据
    */
   data: {
-    hotSearchActivityList:[
-      // {
-      //   id: 0,
-      //   keyword: "热搜活动一"
-      // }, {
-      //   id: 1,
-      //   keyword: "热搜活动二"
-      // }, {
-      //   id: 2,
-      //   keyword: "热搜活动三"
-      // }, {
-      //   id: 3,
-      //   keyword: "热搜活动四"
-      // }, {
-      //   id: 4,
-      //   keyword: "热搜活动五"
-      // }, {
-      //   id: 5,
-      //   keyword: "热搜活动六"
-      // }
-    ],
+    hotSearchActivityList:[],
 
-    hotSearchHtList:[
-      // {
-      //   id: 0,
-      //   keyword: "热搜话题一"
-      // }, {
-      //   id: 1,
-      //   keyword: "热搜话题二"
-      // }, {
-      //   id: 2,
-      //   keyword: "热搜话题三"
-      // }, {
-      //   id: 3,
-      //   keyword: "热搜话题四"
-      // }, {
-      //   id: 4,
-      //   keyword: "热搜话题五"
-      // }, {
-      //   id: 5,
-      //   keyword: "热搜话题六"
-      // }
-    ],
+    hotSearchHtList:[],
     
     //这个列表仅显示前20条历史记录
-    historySearchActivityList:[
-    // {
-    //   id: 0,
-    //   keyword: "历史搜索活动1"
-    // }, {
-    //   id: 1,
-    //   keyword: "历史搜索活动2"
-    // }, {
-    //   id: 2,
-    //   keyword: "历史搜索活动3"
-    // }, {
-    //   id: 3,
-    //   keyword: "历史搜索活动4"
-    // }, {
-    //   id: 4,
-    //   keyword: "历史搜索活动5"
-    // }, {
-    //   id: 5,
-    //   keyword: "历史搜索活动6"
-    // }
-    ],
+    historySearchActivityList:[],
 
-    historySearchHtList:[
-      // {
-      //   id: 0,
-      //   keyword: "历史搜索话题1"
-      // }, {
-      //   id: 1,
-      //   keyword: "历史搜索话题2"
-      // }, {
-      //   id: 2,
-      //   keyword: "历史搜索话题3"
-      // }, {
-      //   id: 3,
-      //   keyword: "历史搜索话题4"
-      // }, {
-      //   id: 4,
-      //   keyword: "历史搜索话题5"
-      // }, {
-      //   id: 5,
-      //   keyword: "历史搜索话题6"
-      // }
-    ],
+    historySearchHtList:[],
 
-    historySearchCommissionList:[
-      // {
-      //   id: 0,
-      //   keyword: "历史搜索委托1"
-      // }, {
-      //   id: 1,
-      //   keyword: "历史搜索委托2"
-      // }, {
-      //   id: 2,
-      //   keyword: "历史搜索委托3"
-      // }, {
-      //   id: 3,
-      //   keyword: "历史搜索委托4"
-      // }, {
-      //   id: 4,
-      //   keyword: "历史搜索委托5"
-      // }, {
-      //   id: 5,
-      //   keyword: "历史搜索委托6"
-      // }
-    ],
+    historySearchCommissionList:[],
 
     //这个列表用于保存完整的历史记录
     historySearchListAll:[],
@@ -294,11 +193,13 @@ Page({
     for(let i = 0; i < this.data.historySearchListAll.length; i++){
       keywordList.push(this.data.historySearchListAll[i].keyword)
     }
-    
-    Dialog.confirm({
-      message: '确定要清空历史记录吗？',
-    })
-      .then(() => {
+    wx.showModal({
+      title: '提示',
+      content: '确定要清空历史记录吗？',
+      success: function (res) {
+        if (res.confirm) {
+          console.log('确定')
+          
         // on confirm
         let app = getApp()
         if (app.globalData.token == null) {
@@ -337,10 +238,12 @@ Page({
             getApp().globalData.util.netErrorToast()
           }
         })
-      })
-      .catch(() => {
-        // on cancel
-      });
+      
+        } else {
+          console.log('取消')
+        }
+      }
+    })
   },
 
   clearHistoryCommissionSearch(){
@@ -350,10 +253,13 @@ Page({
     for(let i = 0; i < this.data.historySearchCommissionList.length; i++){
       keywordList.push(this.data.historySearchCommissionList[i].id)
     } 
-    Dialog.confirm({
-      message: '确定要清空历史记录吗？',
-    })
-      .then(() => {
+    wx.showModal({
+      title: '提示',
+      content: '确定要清空历史记录吗？',
+      success (res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+          
         // on confirm
         let idList = []
         let keywordList = []
@@ -400,19 +306,23 @@ Page({
             getApp().globalData.util.netErrorToast()
           }
         })
-      })
-      .catch(() => {
-        // on cancel
-      });
+      
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    });
   },
 
   clearHistoryHtSearch(){
     console.log("into clearHistoryHtSearch")
     let self = this
-    Dialog.confirm({
-      message: '确定要清空历史记录吗？',
-    })
-      .then(() => {
+    wx.showModal({
+      title: '提示',
+      content: '确定要清空历史记录吗？',
+      success: function (res) {
+        if (res.confirm) {
+          
         // on confirm
         let idList = []
         let keywordList = []
@@ -441,6 +351,8 @@ Page({
           header: self.data.head,
           success (res) {
             console.log("in clearHistoryHtSearch")
+            console.log(keywordList)
+            console.log(idList)
             console.log(res)
             if(res.statusCode == 204){
               self.getHistorySearchHtList()
@@ -460,10 +372,12 @@ Page({
             getApp().globalData.util.netErrorToast()
           }
         })
-      })
-      .catch(() => {
-        // on cancel
-      });
+      
+        } else {
+          console.log('取消')
+        }
+      }
+    })
   },
 
   //长按历史搜索标签可出现取消按钮
@@ -505,10 +419,13 @@ Page({
 
   deleteHistorySearch(event){
     let self = this
-    Dialog.confirm({
-      message: '确定要删除这条历史搜索记录吗？',
-    })
-      .then(() => {
+    wx.showModal({
+      title: '提示',
+      content: '确定要删除这条历史搜索记录吗？',
+      success: function (res) {
+        if (res.confirm) {
+          console.log('确定')
+          
         // on confirm
         let keyword = event.currentTarget.dataset.keyword
         let app = getApp()
@@ -548,8 +465,10 @@ Page({
             getApp().globalData.util.netErrorToast()
           }
         })
-      })
-      .catch(() => {
+      
+        } else {
+          console.log('取消')
+          
         // on cancel
         let index = event.currentTarget.dataset.index
         let tempList = self.data.cancelable
@@ -557,137 +476,152 @@ Page({
         self.setData({
           cancelable: tempList
         })
-      });
+      
+        }
+      }
+    })
   },
 
   deleteHistoryCommissionSearch(event){
     let self = this
-    Dialog.confirm({
-      message: '确定要删除这条历史搜索记录吗？',
-    })
-      .then(() => {
-        // on confirm
-        let id = self.data.historySearchCommissionList[event.currentTarget.dataset.index].id
-        let keyword = self.data.historySearchCommissionList[event.currentTarget.dataset.index].keyword
-        let app = getApp()
-        if (app.globalData.token == null) {
-          self.data.head = {      
-            'content-type': 'application/json'
-           }
-        } else {
-          self.data.head = {      
-            'content-type': 'application/json',
-            'Authorization': 'Token ' + app.globalData.token
-           }
-        }
-        wx.request({
-          url: getApp().globalData.baseUrl + '/api/commission/search/history/',
-          method: 'DELETE',
-          data: {
-            'id': [id],
-            'keyword': [keyword]
-          },
-          header: self.data.head,
-          success (res) {
-            console.log("in deleteHistoryCommissionSearch")
-            console.log(res)
-            if(res.statusCode == 204){
-              self.getHistorySearchCommissionList()
-            }else if(res.statusCode == 404){
-              wx.showToast({
-                title: '该用户不存在',
-                icon: 'error'
-              })
-            }else{
-              wx.showToast({
-                title: '操作失败',
-                icon: 'error'
-              })
-            }
-          },
-          fail(res){
-            console.log(id)
-            console.log(self.data.head)
-            console.log(res)
-            console.log("failed")
-            getApp().globalData.util.netErrorToast()
+    wx.showModal({
+      title: '提示',
+      content: '确定要删除这条历史搜索记录吗？',
+      success: function (res) {
+        if (res.confirm) {
+          console.log('确定')
+          // on confirm
+          let id = self.data.historySearchCommissionList[event.currentTarget.dataset.index].id
+          let keyword = self.data.historySearchCommissionList[event.currentTarget.dataset.index].keyword
+          let app = getApp()
+          if (app.globalData.token == null) {
+            self.data.head = {      
+              'content-type': 'application/json'
+             }
+          } else {
+            self.data.head = {      
+              'content-type': 'application/json',
+              'Authorization': 'Token ' + app.globalData.token
+             }
           }
-        })
-      })
-      .catch(() => {
-        // on cancel
-        let index = event.currentTarget.dataset.index
-        let tempList = self.data.cancelableWt
-        tempList[index] = false
-        self.setData({
-          cancelableWt: tempList
-        })
-      });
+          wx.request({
+            url: getApp().globalData.baseUrl + '/api/commission/search/history/',
+            method: 'DELETE',
+            data: {
+              'id': [id],
+              'keyword': [keyword]
+            },
+            header: self.data.head,
+            success (res) {
+              console.log("in deleteHistoryCommissionSearch")
+              console.log(res)
+              if(res.statusCode == 204){
+                self.getHistorySearchCommissionList()
+              }else if(res.statusCode == 404){
+                wx.showToast({
+                  title: '该用户不存在',
+                  icon: 'error'
+                })
+              }else{
+                wx.showToast({
+                  title: '操作失败',
+                  icon: 'error'
+                })
+              }
+            },
+            fail(res){
+              console.log(id)
+              console.log(self.data.head)
+              console.log(res)
+              console.log("failed")
+              getApp().globalData.util.netErrorToast()
+            }
+          })
+        
+        } else {
+          console.log('取消')
+          // on cancel
+          let index = event.currentTarget.dataset.index
+          let tempList = self.data.cancelableWt
+          tempList[index] = false
+          self.setData({
+            cancelableWt: tempList
+          })
+        
+        }
+      }
+    })
   },
 
   deleteHistoryHtSearch(event){
     console.log("hehehehe")
     let self = this
-    Dialog.confirm({
-      message: '确定要删除这条历史搜索记录吗？',
-    })
-      .then(() => {
-        // on confirm
-
-        let id = self.data.historySearchHtList[event.currentTarget.dataset.index].id
-        let keyword = self.data.historySearchHtList[event.currentTarget.dataset.index].keyword
-
-        let app = getApp()
-        if (app.globalData.token == null) {
-          self.data.head = {      
-            'content-type': 'application/json'
-           }
-        } else {
-          self.data.head = {      
-            'content-type': 'application/json',
-            'Authorization': 'Token ' + app.globalData.token
-           }
-        }
-        wx.request({
-          url: getApp().globalData.baseUrl + '/api/topic_search_historydel/',
-          method: 'POST',
-          data: {
-            'id': [id],
-            'keyword': [keyword]
-          },
-          header: self.data.head,
-          success (res) {
-            console.log("in deleteHistoryHtSearch")
-            console.log(id)
-            console.log(res)
-            if(res.statusCode == 204){
-              self.getHistorySearchHtList()
-            }else if(res.statusCode == 404){
-              wx.showToast({
-                title: '该用户不存在',
-                icon: 'error'
-              })
-            }else{
-              wx.showToast({
-                title: '操作失败',
-                icon: 'error'
-              })
-            }
-          },
-          fail(res){
-            getApp().globalData.util.netErrorToast()
+    wx.showModal({
+      title: '提示',
+      content: '确定要删除这条历史搜索记录吗？',
+      success: function (res) {
+        if (res.confirm) {
+          console.log('确定')
+          // on confirm
+  
+          let id = self.data.historySearchHtList[event.currentTarget.dataset.index].id
+          let keyword = self.data.historySearchHtList[event.currentTarget.dataset.index].keyword
+  
+          let app = getApp()
+          if (app.globalData.token == null) {
+            self.data.head = {      
+              'content-type': 'application/json'
+             }
+          } else {
+            self.data.head = {      
+              'content-type': 'application/json',
+              'Authorization': 'Token ' + app.globalData.token
+             }
           }
-        })
-      })
-      .catch(() => {
-        // on cancel
-        let index = event.currentTarget.dataset.index
-        let tempList = self.data.cancelableHt
-        tempList[index] = false
-        self.setData({
-          cancelableHt: tempList
-        })
-      });
+          wx.request({
+            url: getApp().globalData.baseUrl + '/api/topic_search_historydel/',
+            method: 'POST',
+            data: {
+              'id': [id],
+              'keyword': [keyword]
+            },
+            header: self.data.head,
+            success (res) {
+              console.log("in deleteHistoryHtSearch")
+              console.log(id)
+              console.log(res)
+              if(res.statusCode == 204){
+                self.getHistorySearchHtList()
+              }else if(res.statusCode == 404){
+                wx.showToast({
+                  title: '该用户不存在',
+                  icon: 'error'
+                })
+              }else{
+                wx.showToast({
+                  title: '操作失败',
+                  icon: 'error'
+                })
+              }
+            },
+            fail(res){
+              getApp().globalData.util.netErrorToast()
+            }
+          })
+        
+        } else {
+          console.log('取消')
+          // on cancel
+          let index = event.currentTarget.dataset.index
+          let tempList = self.data.cancelableHt
+          tempList[index] = false
+          self.setData({
+            cancelableHt: tempList
+          })
+        
+        }
+      }
+    })
   },
 
   //获取历史搜索列表

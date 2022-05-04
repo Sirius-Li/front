@@ -23,11 +23,10 @@ Component({
     name: '',
     start_time: '',
     end_time: '',
-    real_time: 0,
     create_at: '',
     updated_at: '',
     //实时性
-    real_time: 0,
+    real_time: false,
     // 用户id
     user_id: '',
     //位置
@@ -80,10 +79,11 @@ Component({
       });
     },
   
-    real_time(event) {
+    RealTimeChange(event) {
       this.setData({
-        'real_time': (event.datail.value)?1:0,
+        'real_time': event.detail.value,
       })
+      console.log(this.data.real_time)
     },
 
     TypeChange(event) {
@@ -127,78 +127,6 @@ Component({
         'tagStr': event.detail.value,
       })
     },
-  
-    // DelImg(event) {
-    //   console.log("del this img")
-    //   wx.showModal({
-    //     title: '亲爱的用户',
-    //     content: '确定要删除这张介绍图吗？',
-    //     cancelText: '取消',
-    //     confirmText: '确定',
-    //     success: res => {
-    //       if (res.confirm) {
-    //         this.data.imgList.splice(event.currentTarget.dataset.index, 1);
-    //         this.setData({
-    //           imgList: this.data.imgList,
-    //         });
-    //       }
-    //     }
-    //   })
-    // },
-  
-    // ChooseImage() {
-    //   wx.chooseMedia({
-    //     count: 1, //默认9
-    //     mediaType: ['image'], //默认['image', 'video']
-    //     sourceType: ['camera'], //默认二者皆有
-    //     camera: ['front'], //摄像头选择front | back
-    //     sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-    //     // success(res) {
-    //     success: (res) => {
-    //       // console.log(res.tempFiles[0].tempFilePath)
-    //       // console.log(this.data.imgList.length)
-    //       if (this.data.imgList.length != 0) {
-    //         this.setData({
-    //           imgList: this.data.imgList.concat(res.tempFiles[0].tempFilePath),
-    //           // 'list.photo': res.tempFiles[0].tempFilePath
-    //         })
-    //       } else {
-    //         this.setData({
-    //           imgList: this.data.imgList.concat(res.tempFiles[0].tempFilePath),
-    //         });
-    //         // console.log(this.data.imgList)
-    //       }
-    //     },
-    //     fail: (res) => {
-    //         wx.showModal({
-    //           title: "警告",
-    //           content: "打开相册失败",
-    //           showCancel: false,
-    //           cancelColor: 'cancelColor',
-    //         })
-    //     },
-    //   })
-    // },
-  
-    // ViewImg(event) {
-    //   // wx.previewImage({
-    //   //   urls: this.data.imgList,
-    //   //   current: e.currentTarget.dataset.url
-    //   // });
-    //   console.log(event.currentTarget.dataset.url)
-    //   wx.previewMedia({
-    //     sources: this.data.imgList,
-    //     current: event.currentTarget.dataset.url,
-    //     fail: (res) => {
-    //       wx.showModal({
-    //         title: "警告",
-    //         content: "打开图片失败",
-    //         showCancel: false,
-    //         cancelColor: 'cancelColor',
-    //       })
-    //     },
-    //   });
-    // },
   
     // 提交信息
     submit: function() {
@@ -309,19 +237,6 @@ Component({
           this.data.tag_list.push({"name": tag_temp[key]});
         }
       }
-      let datt = {
-        "commission_type": parseInt(this.data.commission_type_id) + 1,
-        "name": this.data.name,
-        "start_time": s_time,
-        "end_time": e_time,
-        "real_time": this.data.real_time + 1,
-        "location": this.data.location,
-        "description": this.data.description,
-        "fee": this.data.fee,
-        "tags": this.data.tag_list,
-      }
-      console.log(datt)
-    // wx.uploadFile({    
       wx.request({
         header: this.data.head,
         url: getApp().globalData.baseUrl + '/api/commission/publish/', //接口名称
@@ -329,13 +244,14 @@ Component({
         // filePath: self.data.imgList[0],
         // name:'photo',   
         // header: self.data.head,
+        
         data: {
-          "commission_type": this.data.commission_type_id + 1,
+          "commission_type": Number(this.data.commission_type_id) + 1,
           "name": this.data.name,
           "start_time": s_time,
           "end_time": e_time,
-          "real_time": this.data.real_time + 1,
-          "location": this.data.location,
+          "real_time": (this.data.real_time)?1:2,
+          "location": Number(this.data.location) + 1,
           "description": this.data.description,
           "fee": this.data.fee,
           "tags": this.data.tag_list,
@@ -400,7 +316,7 @@ Component({
         create_at: '',
         updated_at: '',
         //实时性
-        real_time: 0,
+        real_time: false,
         // 用户id
         user_id: '',
         //位置
