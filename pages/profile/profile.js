@@ -90,6 +90,7 @@ Page({
   },
   onTapCommission(e){
     const id = e.currentTarget.dataset.commissionid
+    //console.log(id)
     wx.navigateTo({
       url: `/pages/commission/commission?id=${id}`,
     })
