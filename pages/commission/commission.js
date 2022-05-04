@@ -168,7 +168,7 @@ Page({
     wx.showModal({
       title: '确认',
       content: '委托已完成',
-      success (res) {
+      success: (res) => {
         if (res.confirm) {
           wx.request({
             url: getApp().globalData.baseUrl + '/api/commission/finish/',
