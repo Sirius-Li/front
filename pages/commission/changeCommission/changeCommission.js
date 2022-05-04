@@ -24,7 +24,7 @@ Page({
     create_at: '',
     updated_at: '',
     //实时性
-    real_time: 0,
+    real_time: false,
     //位置
     location: 1,
     //详细描述
@@ -62,8 +62,8 @@ Page({
 
   real_time(event) {
     this.setData({
-      'real_time': (event.datail.value)?1:0,
-      'list.real_time': ((event.datail.value)?1:0) + 1,
+      'real_time': (event.datail.value),
+      'list.real_time': ((event.datail.value)?1:2),
     })
   },
 
@@ -210,7 +210,7 @@ Page({
     this.setData({
       'list.start_time' : s_time,
       'list.end_time' : e_time,
-      'list.commission_type' : this.data.commission_type_id + 1
+      'list.commission_type' : Number(this.data.commission_type_id) + 1
     })
     
   
@@ -278,7 +278,7 @@ Page({
       create_at: '',
       updated_at: '',
       //实时性
-      real_time: 0,
+      real_time: false,
       // 用户id
       user_id: '',
       //位置
@@ -380,13 +380,13 @@ Page({
         this.setData({
           "list": res.data,
           "id": res.data.id,
-          "commission_type_id": res.data.commission_type.id - 1,
+          "commission_type_id": Number(res.data.commission_type.id) - 1,
           "name": res.data.name,
           "date": res.data.start_time.split(' ')[0],
           "start_time": res.data.start_time.split(' ')[1],
           "end_time": res.data.end_time.split(' ')[1],
-          "real_time": res.data.real_time - 1,
-          "location": res.data.location,
+          "real_time": (res.data.real_time==1)?true:false,
+          "location": res.data.location - 1,
           "description": res.data.description,
           "fee": res.data.fee,
           "tags": res.data.tag_list==null?'':res.data.tag_list.join(''),

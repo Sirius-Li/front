@@ -22,7 +22,7 @@
 	</view>
   <view class="cu-form-group margin-top">
     <view class="title">实时委托</view>
-    <switch bindchange="RealTimeChange" value="{{real_time}}" checked="{{real_time==1?true:false}}">
+    <switch bindchange="RealTimeChange" value="{{real_time}}" checked="{{real_time}}">
     </switch>
   </view>
   
