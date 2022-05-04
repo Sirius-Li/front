@@ -480,8 +480,8 @@ Component({
     },
 
     onClick: function () {
-      const key = '6QIBZ-MEA63-GAZ3S-3AHGH-MJPXJ-3FB5S'; //使用在腾讯位置服务申请的key
-      const referer = 'asr-fri-1'; //调用插件的app的名称
+      const key = 'KZHBZ-ZDZCD-P5Z4T-HZJZ5-APMDK-GFFB5'; //使用在腾讯位置服务申请的key
+      const referer = 'mar_fri_1'; //调用插件的app的名称
       const location = JSON.stringify({
         latitude: 39.89631551,
         longitude: 116.323459711
