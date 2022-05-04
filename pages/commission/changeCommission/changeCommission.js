@@ -230,7 +230,7 @@ Page({
           wx.showToast({
             title: '委托修改成功',
           })
-          self.reset()  
+          self.onShow()  
         }else if(res.statusCode == 400){
           if(res.data === ''){
             wx.showToast({
