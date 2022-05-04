@@ -77,21 +77,22 @@ Page({
     }
     ],
 
-    shortcutList:[{
-        bgColor: "#16C2C2",
-        //图标/图片地址
-        imgUrl: "img/robot.png",
-        //图片高度 rpx
-        imgHeight: 64,
-        //图片宽度 rpx
-        imgWidth: 64,
-        //名称
-        text: "小助手",
-        //字体大小
-        fontSize: 34,
-        //字体颜色
-        color: "#fff"
-    }
+    shortcutList:[
+      // {
+      //   bgColor: "#16C2C2",
+      //   //图标/图片地址
+      //   imgUrl: "img/robot.png",
+      //   //图片高度 rpx
+      //   imgHeight: 64,
+      //   //图片宽度 rpx
+      //   imgWidth: 64,
+      //   //名称
+      //   text: "小助手",
+      //   //字体大小
+      //   fontSize: 34,
+      //   //字体颜色
+      //   color: "#fff"
+      // }
     ],
 
     height: null,
