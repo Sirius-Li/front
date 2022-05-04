@@ -170,7 +170,8 @@ Page({
               wx.showToast({
                 title: '删除成功',
               })
-              this.onShow()
+              // this.onShow()
+              wx.navigateBack()
             },
             fail(res){
               getApp().globalData.util.netErrorToast()
