@@ -3,54 +3,106 @@
 	<view slot="content">委托列表</view>
 </cu-custom>
 
-<block wx:if="{{type <= 4}}">
-<!-- 查看全局委托 -->
-  <block wx:for="{{list}}" wx:for-item="item" wx:for-index="idx" wx:key="id">
-    <view class="cu-card case {{isCard?'no-card':''}}">
+<block wx:if="{{type <= 4 || type == 10}}">
+  <block wx:if="{{type <= 4}}">
+  <!-- 查看全局委托 -->
+    <block wx:for="{{list}}" wx:for-item="item" wx:for-index="idx" wx:key="id">
       <view class="cu-card case {{isCard?'no-card':''}}">
-        <view class="cu-item shadow">
-          <van-card>
-            <view slot="thumb" bindtap="gotoUserPage" data-userid="{{item.user.id}}">
-              <view class="cu-avatar round lg" 
-                style="background-image:url({{item.user.avatarUrl == '' ? '../../img/default_avatar.png' : item.user.avatarUrl}});">
+        <view class="cu-card case {{isCard?'no-card':''}}">
+          <view class="cu-item shadow">
+            <van-card>
+              <view slot="thumb" bindtap="gotoUserPage" data-userid="{{item.user.id}}">
+                <view class="cu-avatar round lg" 
+                  style="background-image:url({{item.user.avatarUrl == '' ? '../../img/default_avatar.png' : item.user.avatarUrl}});">
+                </view>
               </view>
-            </view>
-            <view slot="title" class="text-black text-df">
-              {{item.name}}
-            </view>
-            <view slot="desc" bindtap="jumpToSonPages" data-id="{{item.id}}">
-            <!-- 以上绑定点击事件 -->
-              <view>
-                <van-icon name="user-o"/><text class="field-name text-blue" >发起人：</text>{{item.user.nickName}}
+              <view slot="title" class="text-black text-df">
+                {{item.name}}
               </view>
-              <view>
-                <van-icon name="clock-o"/><text class="field-name text-blue" >委托内容:</text>{{item.description}}
+              <view slot="desc" bindtap="jumpToSonPages" data-id="{{item.id}}">
+              <!-- 以上绑定点击事件 -->
+                <view>
+                  <van-icon name="user-o"/><text class="field-name text-blue" >发起人：</text>{{item.user.nickName}}
+                </view>
+                <view>
+                  <van-icon name="clock-o"/><text class="field-name text-blue" >委托内容:</text>{{item.description}}
+                </view>
+                <view>
+                  <van-icon name="clock"/><text class="field-name text-blue">是否实时:</text>{{item.real_time == 2 ? '否' : '是'}}
+                </view>
+                <view>
+                  <van-icon name="location-o"/><text class="field-name text-blue">金额:</text>{{item.fee}}元
+                </view>
               </view>
-              <view>
-                <van-icon name="clock"/><text class="field-name text-blue">是否实时:</text>{{item.real_time == 2 ? '否' : '是'}}
-              </view>
-              <view>
-                <van-icon name="location-o"/><text class="field-name text-blue">金额:</text>{{item.fee}}元
-              </view>
-            </view>
-          </van-card>
-        </view>
-      </view>
-    </view>
-  </block>
-  <block wx:if="{{list.length == 0}}">
-        <view class="bg-white">
-          <view class="padding-xs flex align-center">
-            <view class="flex-sub text-center">
-              <view class="text-xsl padding">
-                <text class=" cuIcon-emojifill text-blue"></text>
-              </view>
-              <view class="padding">暂时没有委托哦~</view>
-            </view>
+            </van-card>
           </view>
         </view>
-      </block>
+      </view>
+    </block>
+    <block wx:if="{{list.length == 0}}">
+          <view class="bg-white">
+            <view class="padding-xs flex align-center">
+              <view class="flex-sub text-center">
+                <view class="text-xsl padding">
+                  <text class=" cuIcon-emojifill text-blue"></text>
+                </view>
+                <view class="padding">暂时没有委托哦~</view>
+              </view>
+            </view>
+          </view>
+    </block>
+  </block>
+
+  <!-- 实时委托 -->
+  <block wx:else>
+    <block wx:for="{{realTimeList}}" wx:for-item="item" wx:for-index="idx" wx:key="id">
+      <view class="cu-card case {{isCard?'no-card':''}}">
+        <view class="cu-card case {{isCard?'no-card':''}}">
+          <view class="cu-item shadow">
+            <van-card>
+              <view slot="thumb" bindtap="gotoUserPage" data-userid="{{item.user.id}}">
+                <view class="cu-avatar round lg" 
+                  style="background-image:url({{item.user.avatarUrl == '' ? '../../img/default_avatar.png' : item.user.avatarUrl}});">
+                </view>
+              </view>
+              <view slot="title" class="text-black text-df">
+                {{item.name}}
+              </view>
+              <view slot="desc" bindtap="jumpToSonPages" data-id="{{item.id}}">
+              <!-- 以上绑定点击事件 -->
+                <view>
+                  <van-icon name="user-o"/><text class="field-name text-blue" >发起人：</text>{{item.user.nickName}}
+                </view>
+                <view>
+                  <van-icon name="clock-o"/><text class="field-name text-blue" >委托内容:</text>{{item.description}}
+                </view>
+                <view>
+                  <van-icon name="clock"/><text class="field-name text-blue">是否实时:</text>{{item.real_time == 2 ? '否' : '是'}}
+                </view>
+                <view>
+                  <van-icon name="location-o"/><text class="field-name text-blue">金额:</text>{{item.fee}}元
+                </view>
+              </view>
+            </van-card>
+          </view>
+        </view>
+      </view>
+    </block>
+    <block wx:if="{{realTimeList.length == 0}}">
+          <view class="bg-white">
+            <view class="padding-xs flex align-center">
+              <view class="flex-sub text-center">
+                <view class="text-xsl padding">
+                  <text class=" cuIcon-emojifill text-blue"></text>
+                </view>
+                <view class="padding">暂时没有委托哦~</view>
+              </view>
+            </view>
+          </view>
+    </block>
+  </block>
 </block>
+
 
 <block wx:else>
   <van-tabs v-model:active="default">
@@ -157,27 +209,27 @@
           <view class="cu-card case {{isCard?'no-card':''}}">
             <view class="cu-item shadow">
               <van-card>
-                <view slot="thumb" bindtap="gotoUserPage" data-userid="{{item.commission.user.id}}">
+                <view slot="thumb" bindtap="gotoUserPage" data-userid="{{item.user.id}}">
                   <view class="cu-avatar round lg" 
-                    style="background-image:url({{item.commission.user.avatarUrl == '' ? '../../img/default_avatar.png' : item.commission.user.avatarUrl}});">
+                    style="background-image:url({{item.user.avatarUrl == '' ? '../../img/default_avatar.png' : item.user.avatarUrl}});">
                   </view>
                 </view>
                 <view slot="title" class="text-black text-df">
-                  {{item.commission.name}}
+                  {{item.name}}
                 </view>
-                <view slot="desc" bindtap="jumpToSonPages" data-id="{{item.commission.id}}">
+                <view slot="desc" bindtap="jumpToSonPages" data-id="{{item.id}}">
                 <!-- 以上绑定点击事件 -->
                   <view>
-                    <van-icon name="user-o"/><text class="field-name text-blue" >发起人：</text>{{item.commission.user.nickName}}
+                    <van-icon name="user-o"/><text class="field-name text-blue" >发起人：</text>{{item.user.nickName}}
                   </view>
                   <view>
-                    <van-icon name="clock-o"/><text class="field-name text-blue" >委托内容:</text>{{item.commission.description}}
+                    <van-icon name="clock-o"/><text class="field-name text-blue" >委托内容:</text>{{item.description}}
                   </view>
                   <view>
                     <van-icon name="clock"/><text class="field-name text-blue">是否实时:</text>{{item.real_time == 2 ? '否' : '是'}}
                   </view>
                   <view>
-                    <van-icon name="location-o"/><text class="field-name text-blue">金额:</text>{{item.commission.fee}}元
+                    <van-icon name="location-o"/><text class="field-name text-blue">金额:</text>{{item.fee}}元
                   </view>
                 </view>
               </van-card>
