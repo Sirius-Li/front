@@ -60,6 +60,9 @@
       <view wx:if="{{status === 1}}" class="margin-top">
         <button class="bg-grey bg" bindtap="ChangeCommission" >修改委托</button>
       </view>
+      <view wx:if="{{status === 2}}" class="cu-form-group margin-top" bindtap="CatchCommmission">接取者姓名
+        <text>{{accepted_user.name}}</text>
+      </view>
       <view wx:if="{{status === 3 && score === 0}}" class="margin-top">
         <button class="bg-grey bg" bindtap="Evaluate">发表评价</button>
       </view>
