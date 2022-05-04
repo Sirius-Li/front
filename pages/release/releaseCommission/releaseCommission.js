@@ -255,7 +255,7 @@ Component({
           "fee": this.data.fee,
           "tags": this.data.tag_list,
         }, 
-        success(res) {     
+        success:(res) => {     
           if(res.statusCode == 201){
             wx.navigateTo({
               url: '../wtList/wtList?type=5',
@@ -263,7 +263,7 @@ Component({
               wx.showToast({
                 title: '委托发布成功',
               })
-            self.reset()  
+            this.reset()  
           }else if(res.statusCode == 400){
             if(res.data === ''){
               wx.showToast({
@@ -334,7 +334,7 @@ Component({
         
         //页面变量
         // 自动获取今天的日期
-        date: now.toString(),
+        date: today.toString(),
         
         location_list: [
           "学院路",

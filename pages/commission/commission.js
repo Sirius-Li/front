@@ -159,11 +159,12 @@ Page({
       success:(res) => {
         if (res.confirm) {
           wx.request({
-            url: getApp().globalData.baseUrl + '/api/commission/check/' + this.data.id + '/',
+            // url: getApp().globalData.baseUrl + '/api/commission/check/'+this.data.id+'/',
+            url: getApp().globalData.baseUrl + '/api/commission/check/',
             header: head,
             method:"DELETE",  //请求方式    
             data: {
-              // 'commission_id': commission_id,
+              'commission_id': this.data.id,
             }, 
             success:(res) => {
               wx.showToast({
@@ -638,7 +639,7 @@ Page({
           "start_time": res.data.start_time,
           "end_time": res.data.end_time,
           "create_time": res.data.create_time,
-          "real_time": (res.data.real_time==1)?true:false, 
+          "real_time": (res.data.real_time===1)?true:false, 
           "user": res.data.user,
           "accepted_user": res.data.accepted_user,
           "location": res.data.location,
