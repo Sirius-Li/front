@@ -340,7 +340,7 @@ Page({
   jumpToHt : function(event) {
     let id = event.currentTarget.dataset.id
     wx.navigateTo({
-      url: '../../htdetail/htdetail/?id='+id,
+      url: '../../htdetail/htdetail?id='+id,
     })
   },
 
