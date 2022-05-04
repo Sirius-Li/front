@@ -230,7 +230,7 @@ Page({
                   }
                   self.setData({
                     activity: res.data,
-                    'swiperList[0].url': res.data.photo == ''?'../../../static/img/nophoto.jpg':getApp().globalData.baseUrl + '/' + res.data.photo,
+                    'swiperList[0].url': res.data.photo == ''?'../../../static/img/nophoto.jpg':getApp().globalData.baseUrl + res.data.photo,
                     rate: res.data.remark
                   })
                   //评论弹窗控制 初始化commentShow
@@ -323,7 +323,8 @@ Page({
 
   gotoFix(){
     wx.navigateTo({
-      url: '../../activity/releasing/changeAct/changeAct?id='+this.data.id,
+      //url: '../../activity/releasing/changeAct/changeAct?id='+this.data.id,
+      url: '/pages/release/releaseAct/changeAct/changeAct?id=' + this.data.id
     })
   },
   /**

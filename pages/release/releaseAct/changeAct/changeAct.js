@@ -479,7 +479,8 @@ Page({
         success(res) {     
           if(res.statusCode == 201){
             wx.redirectTo({
-              url: '../../../actList/actList?type=5',
+              //url: '../../../actList/actList?type=5',
+              url: '/pages/actList/actList?type=5'
             })
             wx.showToast({
               title: '活动修改成功',
