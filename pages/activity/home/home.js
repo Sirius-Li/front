@@ -174,8 +174,8 @@ Page({
     if(type == '热门话题'){
       let self = this
       wx.request({
-        url: getApp().globalData.baseUrl + '/api/topic_search_trend/',
-        method: 'POST',
+        url: getApp().globalData.baseUrl + '/api/topic/',
+        method: 'GET',
         data: {
   
         },
@@ -241,9 +241,11 @@ Page({
 
   //加载页面时获取综合推荐的活动信息
   getCompoActivityList:function(){
-    this.setData({
-      type: '热门话题'
-    })
+    if (this.data.type == null) {
+        this.setData({
+        type: '热门话题'
+      })
+    }
     let app = getApp()
     if (app.globalData.token == null) {
       this.data.head = {      
@@ -256,25 +258,71 @@ Page({
        }
     }
     let self = this
-    wx.request({
-      url: getApp().globalData.baseUrl + '/api/topic/',
-      method: 'GET',
-      data: {
-
-      },
-      header: this.data.head,
-      success (res) {
-        console.log(res)
-        self.setData({
-          activityList: self.unique(res.data),
-          loading: false
-        })
-      },
-      fail(res){
-        getApp().globalData.util.netErrorToast()
-      }
-    })
-
+    let type = self.data.type
+    if(type == '热门话题'){
+      wx.request({
+        url: getApp().globalData.baseUrl + '/api/topic/',
+        method: 'GET',
+        data: {
+  
+        },
+        header: this.data.head,
+        success (res) {
+          self.setData({
+            activityList: self.unique(res.data),
+            loading: false
+          })
+        },
+        fail(res){
+          getApp().globalData.util.netErrorToast()
+        }
+      })
+    } else if (type == '委托推荐') {
+      wx.request({
+        url: getApp().globalData.baseUrl + '/api/commission/search/all/',
+        method: 'GET',
+        data: {
+  
+        },
+        header: this.data.head,
+        success (res) {
+          self.setData({
+            activityList: self.unique(res.data),
+            loading: false
+          })
+        },
+        fail(res){
+          getApp().globalData.util.netErrorToast()
+        }
+      })
+    } else{
+      wx.request({    
+        url: getApp().globalData.baseUrl + '/api/recommend/activities/', //接口名称   
+        header: this.data.head,
+        method:"POST",  //请求方式 
+        data: {
+          // "types": {
+          //   "method": "name",
+          //   "value": [type],
+          // },
+          // 'audit_status': [3]
+        }, 
+        success(res) { 
+          if(res.statusCode == 200){
+            self.setData({
+              activityList: res.data,
+              loading: false
+            })
+            
+          }else{
+            
+          }
+        },
+        fail(res){
+          getApp().globalData.util.netErrorToast()
+        }
+      })
+    }
   },
 
   //去除重复活动，这里后端回传会重复的活动，需要进行沟通一下，目前前端先解决
@@ -375,7 +423,6 @@ Page({
     this.getSwiperUrl()
     let app = getApp()
     if (app.globalData.logined == false) {
-      //callback
       app.loginedCallback = (logined) => {
         if (logined == true) {
           this.getTabs()

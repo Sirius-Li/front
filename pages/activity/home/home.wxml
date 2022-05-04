@@ -24,7 +24,7 @@ bind:focus="focus"
   icon="hot"
   text="实时委托"
   link-type="navigateTo"
-  url="../../wtList/wtList?type=5"/>
+  url="../../wtList/wtList?type=10"/>
   <van-grid-item 
   icon="chat" 
   text="话题"
@@ -103,7 +103,7 @@ bind:focus="focus"
               title="{{item.name}}"
               bindtap="jumpToWt"
               data-id="{{item.id}}"
-              thumb="{{item.real_time == 1 ? '../../../../img/real-time.jpg' : '../../../../img/no-real-time.jpg'}}"
+              thumb="{{item.real_time == 2 ? '../../../../img/real-time.jpg' : '../../../../img/no-real-time.jpg'}}"
              >
             <view slot="desc">
               <van-tag wx:for="{{item.tags}}" wx:for-item="tag" wx:key="id" round type="primary">{{tag.name}}</van-tag>
