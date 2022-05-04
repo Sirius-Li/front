@@ -143,13 +143,15 @@ Component({
           content: '委托开始时间不能晚于委托结束时间',
           showCancel: false
         })
-      } else if (now > this.data.start_time) {
-        wx.showModal({
-          title: '提示',
-          content: '委托开始时间必须晚于现在',
-          showCancel: false
-        })
-      } else if (Mydate < today) {
+      } 
+      // else if (now > this.data.start_time) {
+      //   wx.showModal({
+      //     title: '提示',
+      //     content: '委托开始时间必须晚于现在',
+      //     showCancel: false
+      //   })
+      // } 
+      else if (Mydate < today) {
         wx.showModal({
           title: '提示',
           content: '委托开始日期必须晚于今日',
@@ -241,10 +243,7 @@ Component({
         header: this.data.head,
         url: getApp().globalData.baseUrl + '/api/commission/publish/', //接口名称
         method: 'post',
-        // filePath: self.data.imgList[0],
-        // name:'photo',   
-        // header: self.data.head,
-        
+
         data: {
           "commission_type": Number(this.data.commission_type_id) + 1,
           "name": this.data.name,

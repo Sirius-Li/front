@@ -14,7 +14,7 @@ Page({
     name: '',
     start_time: '',
     end_time: '',
-    create_at: '',
+    create_time: '',
     updated_at: '',
     //实时性
     real_time: '',
@@ -87,7 +87,14 @@ Page({
     })
   },
 
-  DelCommissiion() {
+  JumpTpAcceptedUser() {
+    let userId = this.data.accepted_user.id
+    wx.navigateTo({
+      url: '../profile/profile?id=' + userId,
+    })
+  },
+
+  TerminateCommission() {
     //TODO
     //删除委托
     let commission_id = this.data.id
@@ -117,6 +124,50 @@ Page({
             success:(res) => {
               wx.showToast({
                 title: '终止成功',
+              })
+              this.onShow()
+            },
+            fail(res){
+              getApp().globalData.util.netErrorToast()
+            }
+          })
+        } else if (res.cancel) {
+          
+        }
+      }
+    })
+  },
+
+  DelCommissiion() {
+    //TODO
+    //删除委托
+    let commission_id = this.data.id
+    let head
+    if (getApp().globalData.token == null) {
+      head = {      
+        'content-type': 'application/json'
+      }
+    } else {
+      head = {      
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + getApp().globalData.token
+      }
+    }
+    wx.showModal({
+      title: '警告',
+      content: '确认删除委托',
+      success:(res) => {
+        if (res.confirm) {
+          wx.request({
+            url: getApp().globalData.baseUrl + '/api/commission/check/' + this.data.id + '/',
+            header: head,
+            method:"DELETE",  //请求方式    
+            data: {
+              // 'commission_id': commission_id,
+            }, 
+            success:(res) => {
+              wx.showToast({
+                title: '删除成功',
               })
               this.onShow()
             },
@@ -486,7 +537,7 @@ Page({
           wx.request({
             url: getApp().globalData.baseUrl + '/api/commission/comment/' + comment_id + '/',
             header: head,
-            method:"DELETE",  //请求方式    
+            method: 'delete',  //请求方式    
             data: {
               'id': comment_id,
             }, 
@@ -586,7 +637,7 @@ Page({
           "name": res.data.name,
           "start_time": res.data.start_time,
           "end_time": res.data.end_time,
-          "create_at": res.data.create_at,
+          "create_time": res.data.create_time,
           "real_time": (res.data.real_time==1)?true:false, 
           "user": res.data.user,
           "accepted_user": res.data.accepted_user,

@@ -120,13 +120,15 @@ Page({
         content: '委托开始时间不能晚于委托结束时间',
         showCancel: false
       })
-    } else if (now > this.data.start_time) {
-      wx.showModal({
-        title: '提示',
-        content: '委托开始时间必须晚于现在',
-        showCancel: false
-      })
-    } else if (Mydate < today) {
+    }
+    //  else if (now < this.data.start_time) {
+    //   wx.showModal({
+    //     title: '提示',
+    //     content: '委托开始时间必须晚于现在',
+    //     showCancel: false
+    //   })
+    // }
+     else if (Mydate < today) {
       wx.showModal({
         title: '提示',
         content: '委托开始日期必须晚于今日',
@@ -182,24 +184,24 @@ Page({
       let self = this
       this.release(self)
       //TODO
-      wx.getSetting({
-        withSubscriptions: true,
-        success(res) {
-          if(res.subscriptionsSetting.mainSwitch){
-            wx.requestSubscribeMessage({
-              tmplIds: [
-                'mEFV6psbMGpP9i8CU8NXTJ27dOoppg8FZsYQmN9lHcs',
-                'C4V9ycGzS0BGvjVsmcondcBwFMOvLFQ3sE8j0KKTF0g',
-                'N0g3qePR6hz8Fn79lM_5sIT9jhUTKEYQW5Y_VObffZ0'],
-              success (res) {
-                self.release(self)
-              }
-            })
-          }else{
-            self.release(self)
-          }
-        },
-      })
+      // wx.getSetting({
+      //   withSubscriptions: true,
+      //   success(res) {
+      //     if(res.subscriptionsSetting.mainSwitch){
+      //       wx.requestSubscribeMessage({
+      //         tmplIds: [
+      //           'mEFV6psbMGpP9i8CU8NXTJ27dOoppg8FZsYQmN9lHcs',
+      //           'C4V9ycGzS0BGvjVsmcondcBwFMOvLFQ3sE8j0KKTF0g',
+      //           'N0g3qePR6hz8Fn79lM_5sIT9jhUTKEYQW5Y_VObffZ0'],
+      //         success (res) {
+      //           self.release(self)
+      //         }
+      //       })
+      //     }else{
+      //       self.release(self)
+      //     }
+      //   },
+      // })
     }
   },
   
@@ -213,10 +215,9 @@ Page({
       'list.commission_type' : Number(this.data.commission_type_id) + 1
     })
     
-  
     wx.request({
       header: this.data.head,
-      url: getApp().globalData.baseUrl + '/api/commission/check/' + this.data.id +'/', //接口名称
+      url: getApp().globalData.baseUrl + '/api/commission/check/' + this.data.id + '/', //接口名称
       method: 'PUT',
       // filePath: self.data.imgList[0],
       // name:'photo',   
