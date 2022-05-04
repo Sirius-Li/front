@@ -45,7 +45,7 @@
   },
   "compileType": "miniprogram",
   "libVersion": "2.16.1",
-  "projectname": "weapp",
+  "projectname": "front",
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
   "appid": "wx9f6970d0a04d5232",

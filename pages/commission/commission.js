@@ -5,21 +5,21 @@ Page({
    */
   data: {
     //用户id
-    myUserId: 'id1',
+    myUserId: '',
     // 委托id
     id: '',
     // 委托类型
     commission_type: '',
     //委托名称
-    name: 'commissionname',
-    start_time: '2022-4-12',
-    end_time: '2022-4-12',
-    create_at: '2022-4-12',
-    updated_at: '2022-4-12',
+    name: '',
+    start_time: '',
+    end_time: '',
+    create_at: '',
+    updated_at: '',
     //实时性
     real_time: '',
     // 用户id
-    user_id: 'id1',
+    user_id: '',
     //位置
     location: '1',
     //发布用户
@@ -27,30 +27,16 @@ Page({
     //申请用户
     accepted_user: {},
     //状态
-    status: '3',
+    status: 0,
     //详细描述
-    description: "正值青春脑子灵，\n 哪有时间儿女情。\n 献身航空与航天，\n 单身十年笑盈盈。",
+    description: "",
     //审核状态
     audit: '',
     //费用
-    fee: '198',
+    fee: null,
     
     //评论
-    comment: [
-      {
-        "id": 123,
-        "user":{
-            "user_id":'id1',
-            "name":'name1'
-        },
-        "to_user":{
-            "user_id":'id2',
-            "name":'name2'
-        },
-        "content": 'text',
-        "comment_time":'2022-4-1',
-      }
-    ],
+    comment: [],
     
     //一些控制变量
     evaluateShow: false,
@@ -594,7 +580,7 @@ Page({
           "start_time": res.data.start_time,
           "end_time": res.data.end_time,
           "create_at": res.data.create_at,
-          "real_time": res.data.real_time - 1, 
+          "real_time": (res.data.real_time==1)?true:false, 
           "user": res.data.user,
           "accepted_user": res.data.accepted_user,
           "location": res.data.location,
