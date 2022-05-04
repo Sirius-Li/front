@@ -35,7 +35,7 @@ Component({
     //状态
     status: '1',
     //详细描述
-    description: "正值青春脑子灵，\n 哪有时间儿女情。\n 献身航空与航天，\n 单身十年笑盈盈。",
+    description: "",
     //审核状态
     audit: '',
     //费用
