@@ -214,10 +214,10 @@ Page({
       'list.end_time' : e_time,
       'list.commission_type' : Number(this.data.commission_type_id) + 1
     })
-    
+
     wx.request({
       header: this.data.head,
-      url: getApp().globalData.baseUrl + '/api/commission/check/' + this.data.id + '/', //接口名称
+      url: getApp().globalData.baseUrl + '/api/commission/check/'+this.data.id+'/', //接口名称
       method: 'PUT',
       // filePath: self.data.imgList[0],
       // name:'photo',   
