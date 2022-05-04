@@ -92,7 +92,7 @@
           </van-card>
           <block wx:if="{{item.photo != ''}}">
             <view class="image" bindtap="jumpToSonPages" data-id="{{item.id}}">
-                <image src= "{{item.photo}}" mode="widthFix"/>
+                <image src= "http://114.116.215.100:443{{item.photo}}" mode="widthFix"/>
                 <view class="cu-bar bg-shadeBottom">
                 </view>  
             </view>
