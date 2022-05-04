@@ -243,7 +243,6 @@ Component({
         header: this.data.head,
         url: getApp().globalData.baseUrl + '/api/commission/publish/', //接口名称
         method: 'post',
-
         data: {
           "commission_type": Number(this.data.commission_type_id) + 1,
           "name": this.data.name,
