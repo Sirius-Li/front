@@ -89,7 +89,7 @@
           </van-tab>
           <van-tab title="发布的委托" >
             <view class="content">
-              <van-cell title="综合评分" value="暂无评分" class="break-all" />
+              <van-cell title="综合评分" value="{{ commission_score_avg }}" class="break-all" />
               <view class="cu-card article" wx:for="{{ releasedCommissions }}" wx:for-item="item" wx:for-index="idx" wx:key="id">
                 <view class="cu-item shadow" data-commissionid="{{ item.id }}" bindtap="onTapCommission">
                   <view class="title">
