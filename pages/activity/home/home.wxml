@@ -24,7 +24,7 @@ bind:focus="focus"
   icon="hot"
   text="实时委托"
   link-type="navigateTo"
-  url="../../wtList/wtList?type=5"/>
+  url="../../wtList/wtList?type=10"/>
   <van-grid-item 
   icon="chat" 
   text="话题"

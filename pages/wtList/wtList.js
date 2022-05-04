@@ -14,6 +14,8 @@ Page({
     appliedWtList: [],
 
     finishedWtList: [],
+    
+    realTimeList: [],
 
     //包括关键字 搜索栏输入关键字
     keywords: '',
@@ -126,6 +128,32 @@ Page({
         }
       })
     }
+    else if (this.data.type == 10) { // 查看实时委托
+      wx.request({
+        url: getApp().globalData.baseUrl + '/api/commission/search/all/', //接口名称   
+        header: head,
+        method:"GET",  //请求方式    
+        //data: app.globalData.zdxx,  //用于存放post请求的参数  
+        data: {
+        }, 
+        success(res) {
+          let tempList = []
+          for (let i = 0; i < res.data.length; i++) {
+            if (res.data[i].real_time == 1) {
+              tempList.push(res.data[i])
+            }
+          }
+          self.setData({
+            realTimeList: tempList
+          })
+          console.log("查询实时委托")
+          console.log(self.data.realTimeList)
+        },
+        fail(res){
+          getApp().globalData.util.netErrorToast()
+        }
+      })
+    }
     else {
        // 查看已申请的委托
       wx.request({
@@ -176,7 +204,9 @@ Page({
         data: {
           //'keyword': this.data.keywords
         }, 
-        success(res) { 
+        success(res) {
+          console.log("查看我发布的委托")
+          console.log(res)
           self.setData({
             releasedWtList: res.data 
           })
