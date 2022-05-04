@@ -72,7 +72,7 @@ bind:focus="focus"
               title="{{item.name}}"
               bindtap="jumpToHt"
               data-id="{{item.id}}"
-              thumb="{{item.photo == '' ? '/static/img/nophoto.jpg' : 'http://114.116.215.100:443' +item.photo}}"
+              thumb="{{item.photo == '' ? '/static/img/nophoto.jpg' : 'http://114.116.215.100:443' + item.photo}}"
              >
             <view slot="desc">
               <view><van-icon name="user-o"/><text class="field-name text-blue" >发起人：</text>{{item.create_user.nickName}}</view>
