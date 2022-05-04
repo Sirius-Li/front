@@ -37,7 +37,6 @@
 
 <view class='bg-white padding-lg'>
   <text class="text-bold text-black">历史搜索</text>
-  <van-dialog id="van-dialog"/>
   <block wx:if="{{historySearchActivityList.length>0}}">
     <view class='padding-sm'>
       <van-row gutter="10">
@@ -80,7 +79,6 @@
 
     <view class='bg-white padding-lg'>
       <text class="text-bold text-black">历史搜索</text>
-      <van-dialog id="van-dialog"/>
       <block wx:if="{{historySearchCommissionList.length>0}}">
         <view class='padding-sm'>
           <van-row gutter="10">
@@ -143,7 +141,6 @@
 
     <view class='bg-white padding-lg'>
       <text class="text-bold text-black">历史搜索</text>
-      <van-dialog id="van-dialog"/>
       <block wx:if="{{historySearchHtList.length>0}}">
         <view class='padding-sm'>
           <van-row gutter="10">
