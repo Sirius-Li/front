@@ -227,6 +227,7 @@ Page({
       data: this.data.list, 
       success:(res) => {     
         if(res.statusCode == 201){
+          
           wx.navigateTo({
             url: '../commission?id=' + this.data.id,
           })
