@@ -265,7 +265,7 @@ Page({
 
   ScoreChange(event) {
     this.setData({
-      'score': this.event.detail.value
+      'score': event.detail.value
     })
   },
 
@@ -511,6 +511,41 @@ Page({
         } else if (res.cancel) {
           
         }
+      }
+    })
+  },
+
+  SubEvaluate() {
+    let head = null
+    let app = getApp()
+    if (app.globalData.token == null) {
+      head = {      
+        'content-type': 'application/json'
+       }
+    } else {
+      head = {      
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + app.globalData.token
+       }
+    }
+    wx.request({    
+      url: getApp().globalData.baseUrl + '/api/commission/score/', //接口名称   
+      header: head,
+      method:"POST",  //请求方式    
+      //data: app.globalData.zdxx,  //用于存放post请求的参数  
+      data: {
+        //TODO
+        'commission_id': this.data.id,
+        'score': this.data.score
+      }, 
+      success: (res) => { 
+        wx.showToast({
+          title: '评价成功',
+        })
+        this.hideEvaluate()
+      },
+      fail(res){
+        getApp().globalData.util.netErrorToast()
       }
     })
   },
