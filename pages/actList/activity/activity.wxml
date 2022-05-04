@@ -21,12 +21,15 @@
     </view>
   </view>
   </view> -->
-  <view class="margin-sm">
+  <!-- <view class="margin-sm">
     <swiper class="screen-swiper">
       <swiper-item wx:for="{{swiperList}}" wx:key="id" bindtap="view" data-url="{{item.url}}" style="position: absolute; left: 3rpx; top: 0rpx">
         <image src="{{item.url}}" mode="aspectFit"></image>
       </swiper-item>
     </swiper>
+  </view> -->
+  <view class="margin-sm" bindtap="view" data-url="{{photo}}">
+    <image src="{{photo}}" mode="aspectFit"></image>
   </view>
   <van-toast id="van-toast" />
   <block wx:if="{{activity.audit_status == 3}}">
