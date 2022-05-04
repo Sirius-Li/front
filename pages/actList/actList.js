@@ -199,6 +199,7 @@ Page({
       //let nowDate = new Date()
       //let nowDateStr = nowDate.toLocaleDateString() + ' ' + nowDate.getHours() + ':' + nowDate.getMinutes() 
       //console.log(nowDateStr)
+      console.log(111)
       wx.request({
         url: getApp().globalData.baseUrl + '/api/activities/',
         method: 'GET',

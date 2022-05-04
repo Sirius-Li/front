@@ -256,13 +256,14 @@ Page({
     }
     let self = this
     wx.request({
-      url: getApp().globalData.baseUrl + '/api/topic_search_trend/',
-      method: 'POST',
+      url: getApp().globalData.baseUrl + '/api/topic/',
+      method: 'GET',
       data: {
 
       },
       header: this.data.head,
       success (res) {
+        console.log(res)
         self.setData({
           activityList: self.unique(res.data),
           loading: false
