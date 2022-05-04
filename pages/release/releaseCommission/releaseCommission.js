@@ -237,7 +237,6 @@ Component({
           this.data.tag_list.push({"name": tag_temp[key]});
         }
       }
-
       wx.request({
         header: this.data.head,
         url: getApp().globalData.baseUrl + '/api/commission/publish/', //接口名称

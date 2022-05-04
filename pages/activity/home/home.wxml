@@ -24,7 +24,7 @@ bind:focus="focus"
   icon="hot"
   text="实时委托"
   link-type="navigateTo"
-  url="../../wtList/wtList?type=5"/>
+  url="../../wtList/wtList?type=10"/>
   <van-grid-item 
   icon="chat" 
   text="话题"
@@ -72,7 +72,7 @@ bind:focus="focus"
               title="{{item.name}}"
               bindtap="jumpToHt"
               data-id="{{item.id}}"
-              thumb="{{item.photo == '' ? '/static/img/nophoto.jpg' : item.photo}}"
+              thumb="{{item.photo == '' ? '/static/img/nophoto.jpg' : 'http://114.116.215.100:443' +item.photo}}"
              >
             <view slot="desc">
               <view><van-icon name="user-o"/><text class="field-name text-blue" >发起人：</text>{{item.create_user.nickName}}</view>
@@ -139,7 +139,7 @@ bind:focus="focus"
               title="{{item.name}}"
               bindtap="jumpToSonPages"
               data-id="{{item.id}}"
-              thumb="http://114.116.215.100/{{item.photo}}"
+              thumb="http://114.116.215.100:443{{item.photo}}"
              >
             <view slot="desc">
               <van-tag wx:for="{{item.tags}}" wx:for-item="tag" wx:key="id" round type="primary">{{tag.name}}</van-tag>
