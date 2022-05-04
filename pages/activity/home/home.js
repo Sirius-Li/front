@@ -77,21 +77,22 @@ Page({
     }
     ],
 
-    shortcutList:[{
-        bgColor: "#16C2C2",
-        //图标/图片地址
-        imgUrl: "img/robot.png",
-        //图片高度 rpx
-        imgHeight: 64,
-        //图片宽度 rpx
-        imgWidth: 64,
-        //名称
-        text: "小助手",
-        //字体大小
-        fontSize: 34,
-        //字体颜色
-        color: "#fff"
-    }
+    shortcutList:[
+      // {
+      //   bgColor: "#16C2C2",
+      //   //图标/图片地址
+      //   imgUrl: "img/robot.png",
+      //   //图片高度 rpx
+      //   imgHeight: 64,
+      //   //图片宽度 rpx
+      //   imgWidth: 64,
+      //   //名称
+      //   text: "小助手",
+      //   //字体大小
+      //   fontSize: 34,
+      //   //字体颜色
+      //   color: "#fff"
+      // }
     ],
 
     height: null,
@@ -256,13 +257,14 @@ Page({
     }
     let self = this
     wx.request({
-      url: getApp().globalData.baseUrl + '/api/topic_search_trend/',
-      method: 'POST',
+      url: getApp().globalData.baseUrl + '/api/topic/',
+      method: 'GET',
       data: {
 
       },
       header: this.data.head,
       success (res) {
+        console.log(res)
         self.setData({
           activityList: self.unique(res.data),
           loading: false
@@ -338,7 +340,7 @@ Page({
   jumpToHt : function(event) {
     let id = event.currentTarget.dataset.id
     wx.navigateTo({
-      url: '../../htdetail/htdetail/?id='+id,
+      url: '../../htdetail/htdetail?id='+id,
     })
   },
 

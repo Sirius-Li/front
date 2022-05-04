@@ -28,8 +28,8 @@
     </view>
   </view>
 
-  <view class="margin-sm margin-top" bindtap="view" data-url="{{ht.photo}}" wx:if="{{ht.photo!=''}}">
-    <image src="{{ht.photo}}" mode="aspectFit"></image>
+  <view class="margin-sm margin-top" bindtap="view" data-url="http://114.116.215.100:443{{ht.photo}}" wx:if="{{ht.photo!=''}}">
+    <image src="http://114.116.215.100:443{{ht.photo}}" mode="aspectFit"></image>
   </view>
 
   <view>
