@@ -257,13 +257,14 @@ Page({
     }
     let self = this
     wx.request({
-      url: getApp().globalData.baseUrl + '/api/topic_search_trend/',
-      method: 'POST',
+      url: getApp().globalData.baseUrl + '/api/topic/',
+      method: 'GET',
       data: {
 
       },
       header: this.data.head,
       success (res) {
+        console.log(res)
         self.setData({
           activityList: self.unique(res.data),
           loading: false
@@ -339,7 +340,7 @@ Page({
   jumpToHt : function(event) {
     let id = event.currentTarget.dataset.id
     wx.navigateTo({
-      url: '../../htdetail/htdetail/?id='+id,
+      url: '../../htdetail/htdetail?id='+id,
     })
   },
 
