@@ -197,7 +197,7 @@ Page({
         }
         if (activeID === 0) {
             wx.request({
-                url:getApp().globalData.baseUrl + '/api/user_create_topic/' + getApp().globalData.myUserId + '/',
+                url:getApp().globalData.baseUrl + '/api/user_create_topic_self/',
                 header: head,
                 method:"GET",   
                 data: {
@@ -275,7 +275,7 @@ Page({
             }, 
             success(res) {   
                 wx.request({
-                    url:getApp().globalData.baseUrl + '/api/user_create_topic/' + getApp().globalData.myUserId + '/',
+                    url:getApp().globalData.baseUrl + '/api/user_create_topic_self/',
                     header: head,
                     method:"GET",   
                     data: {
@@ -413,7 +413,7 @@ Page({
                 }
             }
             wx.request({
-                url:getApp().globalData.baseUrl + '/api/user_create_topic/' + getApp().globalData.myUserId + '/',
+                url:getApp().globalData.baseUrl + '/api/user_create_topic_self/',
                 header: head,
                 method:"GET",   
                 data: {
