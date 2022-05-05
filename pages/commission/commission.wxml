@@ -67,10 +67,15 @@
         <view class="margin-top">
           <button class="bg-grey bg" bindtap="TerminateCommission" >终止委托</button>
         </view>
-        
       </view>
-      <view wx:if="{{status === 3 && score === 0}}" class="margin-top">
-        <button class="bg-grey bg" bindtap="Evaluate">发表评价</button>
+      <view wx:if="{{status === 3}}">
+        <view class="cu-form-group margin-top" bindtap="JumpTpAcceptedUser">
+          完成者详情<text>{{accepted_user.nickName}}</text>
+        </view>
+        <view wx:if="{{score === 0}}" class="margin-top">
+          <button class="bg-grey bg" bindtap="Evaluate">发表评价</button>
+        </view>
+        
       </view>
     </view>
     <view wx:if="{{accepted_user.id === myUserId}}" >
