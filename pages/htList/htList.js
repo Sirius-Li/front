@@ -297,6 +297,8 @@ Page({
               getApp().globalData.util.netErrorToast()
             }
           })
+        }).catch((err)=>{
+            
         })  
     }, 
 
@@ -367,6 +369,8 @@ Page({
               getApp().globalData.util.netErrorToast()
             }
           })
+        }).catch((err)=>{
+            
         })
     },
     /**
