@@ -13,6 +13,7 @@ Page({
     user_status: null,
     commentShow: [],
     ht: null,
+    photo: null,
     myUserId: null
   },
 
@@ -46,7 +47,8 @@ Page({
       success(res) {
         //console.log(res.data)
         self.setData({
-          ht: res.data
+          ht: res.data,
+          photo: res.data.photo == '' ? '' : getApp().globalData.baseUrl + res.data.photo,
         })
         let tempList = []
         for (let i = 0; i <= res.data.comment.length; i++) {
