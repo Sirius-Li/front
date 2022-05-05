@@ -103,17 +103,12 @@ Page({
       },
       success (res) {
         for (var i = 0; i < res.data.length; i++) {
-          var m = res.data[i]
-          var start = parseInt(m.start_time.split(' ')[0].split('/')[2])
+          var m = res.data[i].commission
+          var start = parseInt(m.create_time.split(' ')[0].split('/')[2])
           var end = parseInt(m.end_time.split(' ')[0].split('/')[2])
 
           var start_month = parseInt(m.start_time.split(' ')[0].split('/')[1])
           var end_month = parseInt(m.end_time.split(' ')[0].split('/')[1])
-          // console.log("start_time: " + m.start_time)
-          // console.log("end_time: " + m.end_time)
-          // console.log(that.data.curMonth)
-          // console.log("start " + start)
-          // console.log("end " + end) 
           if (start_month <= that.data.curMonth && that.data.curMonth <= end_month) {
             for (var d = start; d <= end; d++) {
               commissionList[d].push({
