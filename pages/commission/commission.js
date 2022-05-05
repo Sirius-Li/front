@@ -171,10 +171,10 @@ Page({
                 title: '删除成功',
               })
               // this.onShow()
-              // wx.navigateBack()
-              wx.navigateTo({
-                url: '../wtList/wtList?type=5',
-              })
+              wx.navigateBack()
+              // wx.navigateTo({
+              //   url: '../wtList/wtList?type=5',
+              // })
             },
             fail(res){
               getApp().globalData.util.netErrorToast()
