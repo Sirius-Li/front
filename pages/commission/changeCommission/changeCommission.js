@@ -60,10 +60,10 @@ Page({
     });
   },
 
-  real_time(event) {
+  RealTimeChange(event) {
+    console.log(this.data.list)
     this.setData({
-      'real_time': (event.datail.value),
-      'list.real_time': ((event.datail.value)?1:2),
+      'real_time': event.detail.value,
     })
   },
 
@@ -76,7 +76,7 @@ Page({
   LocationChange(event) {
     this.setData({
       'location': event.detail.value,
-      'list.location': event.detail.value,
+      'list.location': Number(event.detail.value)+1,
     });
   },
 
@@ -98,10 +98,9 @@ Page({
     });
   },
 
-  DiscriptionChange(event) {
+  DescriptionChange(event) {
     this.setData({
       'description': event.detail.value,
-      'list.description': event.datail.value,
     });
   },
 
@@ -120,13 +119,15 @@ Page({
         content: '委托开始时间不能晚于委托结束时间',
         showCancel: false
       })
-    } else if (now > this.data.start_time) {
-      wx.showModal({
-        title: '提示',
-        content: '委托开始时间必须晚于现在',
-        showCancel: false
-      })
-    } else if (Mydate < today) {
+    }
+    //  else if (now < this.data.start_time) {
+    //   wx.showModal({
+    //     title: '提示',
+    //     content: '委托开始时间必须晚于现在',
+    //     showCancel: false
+    //   })
+    // }
+     else if (Mydate < today) {
       wx.showModal({
         title: '提示',
         content: '委托开始日期必须晚于今日',
@@ -182,24 +183,24 @@ Page({
       let self = this
       this.release(self)
       //TODO
-      wx.getSetting({
-        withSubscriptions: true,
-        success(res) {
-          if(res.subscriptionsSetting.mainSwitch){
-            wx.requestSubscribeMessage({
-              tmplIds: [
-                'mEFV6psbMGpP9i8CU8NXTJ27dOoppg8FZsYQmN9lHcs',
-                'C4V9ycGzS0BGvjVsmcondcBwFMOvLFQ3sE8j0KKTF0g',
-                'N0g3qePR6hz8Fn79lM_5sIT9jhUTKEYQW5Y_VObffZ0'],
-              success (res) {
-                self.release(self)
-              }
-            })
-          }else{
-            self.release(self)
-          }
-        },
-      })
+      // wx.getSetting({
+      //   withSubscriptions: true,
+      //   success(res) {
+      //     if(res.subscriptionsSetting.mainSwitch){
+      //       wx.requestSubscribeMessage({
+      //         tmplIds: [
+      //           'mEFV6psbMGpP9i8CU8NXTJ27dOoppg8FZsYQmN9lHcs',
+      //           'C4V9ycGzS0BGvjVsmcondcBwFMOvLFQ3sE8j0KKTF0g',
+      //           'N0g3qePR6hz8Fn79lM_5sIT9jhUTKEYQW5Y_VObffZ0'],
+      //         success (res) {
+      //           self.release(self)
+      //         }
+      //       })
+      //     }else{
+      //       self.release(self)
+      //     }
+      //   },
+      // })
     }
   },
   
@@ -210,20 +211,23 @@ Page({
     this.setData({
       'list.start_time' : s_time,
       'list.end_time' : e_time,
-      'list.commission_type' : Number(this.data.commission_type_id) + 1
+      'list.commission_type': Number(this.data.commission_type_id) + 1,
+      'list.real_time': Number(this.data.real_time?1:2),
+      'list.description': this.data.description,
     })
-    
-  
+
     wx.request({
       header: this.data.head,
-      url: getApp().globalData.baseUrl + '/api/commission/check/' + this.data.id +'/', //接口名称
-      method: 'PUT',
+      // url: getApp().globalData.baseUrl + '/api/commission/check/'+this.data.id+'/', //接口名称
+      url: getApp().globalData.baseUrl + '/api/commission/check/', //接口名称
+      method: 'POST',
       // filePath: self.data.imgList[0],
       // name:'photo',   
       // header: self.data.head,
       data: this.data.list, 
       success:(res) => {     
         if(res.statusCode == 201){
+          
           wx.navigateTo({
             url: '../commission?id=' + this.data.id,
           })

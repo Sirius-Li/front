@@ -153,7 +153,7 @@ Page({
   getActivityList:function(event){
     //type为活动类型
     let type = event.detail.title
-    // console.log(type)
+    //console.log(type)
     let self = this
     this.setData({
       type: type,
@@ -224,7 +224,7 @@ Page({
         success(res) { 
           if(res.statusCode == 200){
             self.setData({
-              activityList: res.data,
+              activityList: self.unique(res.data),
               loading: false
             })
             
@@ -310,7 +310,7 @@ Page({
         success(res) { 
           if(res.statusCode == 200){
             self.setData({
-              activityList: res.data,
+              activityList: self.unique(res.data),
               loading: false
             })
             
@@ -346,6 +346,7 @@ Page({
       header: headers,
       success (res) {
         if(res.statusCode == 200){
+          //console.log(res.data)
           that.setData({
             categories: res.data
           })
@@ -356,6 +357,7 @@ Page({
               tempTypeList.push(that.data.categories[i].name)
             }
           }
+          //console.log(tempTypeList)
           that.setData({
             typeList: tempTypeList
           })
