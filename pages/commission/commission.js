@@ -71,10 +71,30 @@ Page({
               commission_id: this.data.id,
             }, 
             success:(res) => {
-              wx.showToast({
-                title: '接取成功',
-              })
-              this.onShow()
+              console.log(res)
+              if (res.statusCode === 200) {
+                wx.showToast({
+                  title: '接取成功',
+                })
+                this.onShow()
+              } else if (res.statusCode === 400){
+                if(res.data === ''){
+                  wx.showToast({
+                    title: '接取失败',
+                    icon: 'error'
+                  })
+                }else{
+                  wx.showModal({
+                    content: res.data,
+                    showCancel: false
+                  })
+                }
+              } else {
+                wx.showToast({
+                  title: '接取失败',
+                  icon: 'error'
+                })
+              }
             },
             fail(res){
               getApp().globalData.util.netErrorToast()
@@ -171,10 +191,10 @@ Page({
                 title: '删除成功',
               })
               // this.onShow()
-              // wx.navigateBack()
-              wx.navigateTo({
-                url: '../wtList/wtList?type=5',
-              })
+              wx.navigateBack()
+              // wx.navigateTo({
+              //   url: '../wtList/wtList?type=5',
+              // })
             },
             fail(res){
               getApp().globalData.util.netErrorToast()

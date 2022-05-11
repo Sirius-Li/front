@@ -98,10 +98,9 @@ Page({
     });
   },
 
-  DiscriptionChange(event) {
+  DescriptionChange(event) {
     this.setData({
       'description': event.detail.value,
-      'list.description': event.datail.value,
     });
   },
 
@@ -213,7 +212,8 @@ Page({
       'list.start_time' : s_time,
       'list.end_time' : e_time,
       'list.commission_type': Number(this.data.commission_type_id) + 1,
-      'list.real_time': Number(this.data.real_time?1:2)
+      'list.real_time': Number(this.data.real_time?1:2),
+      'list.description': this.data.description,
     })
 
     wx.request({
