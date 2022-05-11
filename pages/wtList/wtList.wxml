@@ -4,6 +4,12 @@
 </cu-custom>
 
 <block wx:if="{{type <= 4 || type == 10}}">
+  <van-dropdown-menu active-color="#1989fa">
+    <block wx:if="{{type == 1 || type == 2}}"> 
+      <van-dropdown-item value="{{ value1 }}" options="{{ wtTypeList }}" bind:change = "select"/>
+    </block>
+    <van-dropdown-item value="{{ value2 }}" options="{{ option2 }}" bind:change = "select"/>
+  </van-dropdown-menu>
   <block wx:if="{{type <= 4}}">
   <!-- 查看全局委托 -->
     <block wx:for="{{list}}" wx:for-item="item" wx:for-index="idx" wx:key="id">

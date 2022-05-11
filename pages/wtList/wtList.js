@@ -9,6 +9,8 @@ Page({
     CustomBar: app.globalData.CustomBar,
     list:[],
 
+    originList:[],
+
     releasedWtList: [],
 
     appliedWtList: [],
@@ -16,6 +18,16 @@ Page({
     finishedWtList: [],
     
     realTimeList: [],
+
+    wtTypeList: [],
+
+    option2: [
+        { text: '时间排序', value: 'time' },
+        { text: '点赞数排序', value: 'like' },
+        { text: '关注数排序', value: 'follow' },
+    ],
+    value1: 0,
+    value2: 'time',
 
     //包括关键字 搜索栏输入关键字
     keywords: '',
@@ -26,6 +38,69 @@ Page({
     //
     sort: '',
     status: '',
+  },
+
+  myCompare:function(prop) {
+        return function(a, b) {
+            if (prop == "like") {
+                var v1 = parseInt(a["like"])
+                var v2 = parseInt(b["like"])
+            } else if (prop == "follow") {
+                var v1 = parseInt(a["follow"])
+                var v2 = parseInt(b["follow"])
+            } else {
+                var v1 = Date.parse(new Date(a["time"]))
+                var v2 = Date.parse(new Date(b["time"]))
+            }
+            return v2-v1;
+        }
+    },
+
+  select:function(event) {
+        var id = event.detail
+        let that = this
+        let tmpList = [];
+        if (that.data.originList.length == 0) {
+          if (that.data.type == 10) { // 实时委托
+            that.setData({
+              originList: that.data.realTimeList
+            })
+          } else { // 非实时委托
+            that.setData({
+                originList: that.data.list
+            })
+          }
+        }
+        if (id == "time" || id == "like" || id == "follow") { // 排序方式
+            that.setData({
+                value2: id
+            })
+        } else { // 筛选类别
+            that.setData({
+                value1: id
+            })
+        }
+        if (that.data.value1 != 0) { // 筛选
+            console.log("筛选类别")
+            for (let i = 0; i < that.data.originList.length; i++) {
+                if (that.data.originList[i].commission_type.id == that.data.value1) {
+                    tmpList.push(that.data.originList[i]);
+                }
+            }
+        } else {
+          console.log("排序方式")
+          console.log(that.data.value2)
+          tmpList = that.data.originList
+        }
+        if (that.data.type == 10) { // 实时委托
+          that.setData({
+            realTimeList: tmpList.sort(that.myCompare(that.data.value2))
+          })
+        } else { // 非实时委托
+          that.setData({
+            list: tmpList.sort(that.myCompare(that.data.value2))
+          })
+        }
   },
 
   /*
@@ -55,6 +130,7 @@ Page({
         data: {
         }, 
         success(res) {   
+          console.log("所有类别所有委托")
           console.log(res.data)
           self.setData({
             list: res.data
@@ -216,6 +292,32 @@ Page({
         }
       })
     }
+    // 查询所有委托类别
+    var tmpTypeList = [ { text: '全部分类', value: 0 },]
+    wx.request({
+      url: getApp().globalData.baseUrl + '/api/commission/sort/', //获取委托类别
+      header: head,
+      method:"GET",  //请求方式    
+      data: {},
+      success(res) {   
+        console.log("查看委托类别")
+        console.log(res)
+        for (let i = 0 ; i < res.data.length; i++) {
+          var tmpItem = {
+              text: res.data[i].name, 
+              value: res.data[i].id
+          }
+          tmpTypeList.push(tmpItem)
+        }
+        self.setData({
+          wtTypeList: tmpTypeList
+        })
+      },
+      fail(res){
+        getApp().globalData.util.netErrorToast()
+      }
+    })
+    console.log(this.data.wtTypeList)
   },
   
 
