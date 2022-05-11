@@ -5,7 +5,7 @@
 
 <block wx:if="{{type <= 4 || type == 10}}">
   <van-dropdown-menu active-color="#1989fa">
-    <block> 
+    <block wx:if="{{type == 1 || type == 2}}"> 
       <van-dropdown-item value="{{ value1 }}" options="{{ wtTypeList }}" bind:change = "select"/>
     </block>
     <van-dropdown-item value="{{ value2 }}" options="{{ option2 }}" bind:change = "select"/>
