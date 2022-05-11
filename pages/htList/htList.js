@@ -1,65 +1,21 @@
 // pages/htList/htList.js
-import Toast from '../../miniprogram_npm/@vant/weapp/toast/toast';
 import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog'
 Page({
-
-    /**
-     * 页面的初始数据
-     */
     data: {
-        /*
-        StatusBar: app.globalData.StatusBar,
-        CustomBar: app.globalData.CustomBar,
-        */
         list: [
-           /* {
-                "id": 1,
-                "topic_type": {
-                  "id": 2,
-                  "name": "求助"
-                },
-                "name": "学院路计院大三选课",
-                "create_at": "2022/04/13 23:39",
-                "audit": 1,
-                "photo": "",
-                "description": "核心专业和个人专业都拜托了",
-                "like": 1,
-                "follow": 0,
-                "create_user": {
-                  "id": 1,
-                  "nickName": "田所浩二",
-                  "avatarUrl": "../../img/profile2.jpg",
-                  "email": "admin@se.alangy.net",
-                  "age": 22,
-                  "gender": 0,
-                  "audit_status": 3,
-                  "is_staff": true
-                }
-            }, {
-                "id": 2,
-                "topic_type": {
-                  "id": 1,
-                  "name": "生活"
-                },
-                "name": "求推荐学校周边餐馆",
-                "create_at": "2022/04/13 23:39",
-                "audit": 1,
-                "photo": "../../img/bg.jpg",
-                "description": "RT",
-                "like": 56,
-                "follow": 987,
-                "create_user": {
-                  "id": 1,
-                  "nickName": "远野",
-                  "avatarUrl": "../../img/profile1.jpg",
-                  "email": "admin@se.alangy.net",
-                  "age": 22,
-                  "gender": 0,
-                  "audit_status": 3,
-                  "is_staff": true
-                }
-            },  */
         ],
+        originList: [
+
+        ],
+        option1: [
+        ],
+        option2: [
+            { text: '时间排序', value: 'a' },
+            { text: '点赞数排序', value: 'b' },
+            { text: '关注数排序', value: 'c' },
+        ],
+        value1: 0,
+        value2: 'a',
         type: 1,
         keywords: '',
         sort: '',
@@ -67,9 +23,6 @@ Page({
         activeId:0
     },
 
-    /*
-     * 获取list数据
-     */
     getDetail:function() {
         let app = getApp()
         let head
@@ -175,7 +128,37 @@ Page({
           url: '../profile/profile?id=' + user_id,
         })
     },
-
+    
+    getTypeList:function() {
+        var tmpList = [ { text: '全部分类', value: 0 },]
+        var that = this
+        var headers = {}
+        if (getApp().globalData.token != null) {
+            headers = {
+                Authorization: 'Token ' + getApp().globalData.token
+            }
+        }
+        wx.request({
+            url:  getApp().globalData.baseUrl + '/api/topic_types/',
+            method:'GET',
+            header:headers,
+            success(res) {
+              for (let i = 0 ; i < res.data.length; i++) {
+                var tmpItem = {
+                    text: res.data[i].name, 
+                    value: res.data[i].id
+                }
+                tmpList.push(tmpItem)
+              }
+              that.setData({
+                  option1: tmpList
+              })
+            },
+            fail(res) {
+              getApp().globalData.util.netErrorToast()
+            }
+        })
+    },
 
     changeTab:function(event) {
         let activeID = event.detail.index
@@ -373,9 +356,58 @@ Page({
             
         })
     },
-    /**
-     * 生命周期函数--监听页面加载
-     */
+
+    myCompare:function(prop) {
+        return function(a, b) {
+            if (prop == "b") {
+                var v1 = parseInt(a["like"])
+                var v2 = parseInt(b["like"])
+            } else if (prop == "c") {
+                var v1 = parseInt(a["follow"])
+                var v2 = parseInt(b["follow"])
+            } else {
+                var v1 = Date.parse(new Date(a["create_at"]))
+                var v2 = Date.parse(new Date(b["create_at"]))
+            }
+            return v2-v1;
+        }
+    },
+
+    select:function(event) {
+        var id = event.detail
+        let that = this
+        let tmpList = [];
+        if (that.data.originList.length == 0) {
+            that.setData({
+                originList: that.data.list
+            })
+        }
+        if (id == "a" || id == "b" || id == "c") {
+            that.setData({
+                value2: id
+            })
+        } else {
+            that.setData({
+                value1: id
+            })
+        }
+
+        if (that.data.value1 != 0) {
+            console.log("1")
+            for (let i = 0; i < that.data.originList.length; i++) {
+                if (that.data.originList[i].topic_type.id == that.data.value1) {
+                    tmpList.push(that.data.originList[i]);
+                }
+            }
+        } else {
+            tmpList = that.data.originList
+        }
+        that.setData({
+            list: tmpList.sort(that.myCompare(that.data.value2))
+        })
+
+    },
+
     onLoad: function (options) {
         var that = this
         that.setData({
@@ -388,18 +420,13 @@ Page({
                 sort: options.sort
             })
         }
+        
     },
 
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
     onReady: function () {
 
     },
 
-    /**
-     * 生命周期函数--监听页面显示
-     */
     onShow: function () {
         if (this.data.type == 5 && this.data.activeId == 0) {
             let app = getApp()
@@ -480,20 +507,14 @@ Page({
             })
         } else {
             this.getDetail()
-        }
-        
+            this.getTypeList()
+        }   
     },
 
-    /**
-     * 生命周期函数--监听页面隐藏
-     */
     onHide: function () {
 
     },
 
-    /**
-     * 生命周期函数--监听页面卸载
-     */
     onUnload: function () {
 
     },

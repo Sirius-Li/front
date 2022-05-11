@@ -1,4 +1,3 @@
-<!--pages/htList/htList.wxml-->
 <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}"> 
     <view slot="backText"> </view>>
     <view slot="content">话题列表</view>>
@@ -70,6 +69,12 @@
 </block>
 
 <block wx:else>
+  <van-dropdown-menu active-color="#1989fa">
+    <block wx:if="{{type != 2}}"> 
+      <van-dropdown-item value="{{ value1 }}" options="{{ option1 }}" bind:change = "select"/>
+    </block>
+    <van-dropdown-item value="{{ value2 }}" options="{{ option2 }}" bind:change = "select"/>
+  </van-dropdown-menu>
   <block wx:for="{{list}}" wx:for-item="item" wx:for-index="idx" wx:key="id">
     <view class="cu-card case":class="isCard?'no-card':''">
       <view class="cu-item shadow">
@@ -118,4 +123,5 @@
     </view>
   </view>
 </block>
+
 <van-dialog id="van-dialog" />
