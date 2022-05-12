@@ -34,7 +34,8 @@ Page({
     audit: '',
     //费用
     fee: null,
-    
+    //评分
+    score: 5,
     //评论
     comment: [],
     
@@ -299,6 +300,43 @@ Page({
         } else if (res.cancel) {
           
         }
+      }
+    })
+  },
+
+  UndoFinish() {
+    let head = null
+    let app = getApp()
+    if (app.globalData.token == null) {
+      head = {      
+        'content-type': 'application/json'
+       }
+    } else {
+      head = {      
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + app.globalData.token
+       }
+    }
+    wx.request({    
+      //TODO
+      url: getApp().globalData.baseUrl + '/api/commission/score/', //接口名称   
+      header: head,
+      method:"POST",  //请求方式    
+      //data: app.globalData.zdxx,  //用于存放post请求的参数  
+      data: {
+        //TODO
+        'commission_id': this.data.id,
+        'score': this.data.score
+      }, 
+      success: (res) => { 
+        wx.showToast({
+          title: '撤销成功',
+        })
+        this.hideEvaluate()
+        this.onShow()
+      },
+      fail(res){
+        getApp().globalData.util.netErrorToast()
       }
     })
   },
