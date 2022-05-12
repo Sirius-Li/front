@@ -1,5 +1,5 @@
 <!--pages/message/message.wxml-->
-<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+<cu-custom bgColor="bg-gradual-blue" isBack="{{false}}">
 	<view slot="backText"></view>
 	<view slot="content">我的消息</view>
 </cu-custom>
@@ -60,9 +60,9 @@
       </van-cell>
       <view wx:for="{{systemMessages}}" wx:key="key">
         <view bindlongpress="deleteMessage" data-messageid="{{item.id}}">
-          <van-cell bindtap="routeActivityDescription" data-activityid="{{item.activity}}" data-messageid="{{item.id}}"use-label-slot="{{true}}">
+          <van-cell bindtap="routeActivityDescription" data-activityid="{{item.data}}" data-detailtype="{{item.type}}" data-messageid="{{item.id}}" use-label-slot="{{true}}">
             <view slot="title">
-              <text dot>{{item.display.title}}</text>
+              <text dot>{{messageTitles[item.not_type]}}</text>
               <van-icon wx:if="{{item.isread === false}}" name="/static/img/small_blank.png" dot />
             </view>
             <view slot="label">

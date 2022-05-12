@@ -1,4 +1,4 @@
-const BASE_URL = 'https://se.alangy.net'
+const BASE_URL = getApp().globalData.baseUrl
 Page({
   data: {
     content: ''
@@ -52,7 +52,6 @@ Page({
             }
           })
         } else {
-          
           wx.showToast({title: '请重试！'})
         }
       },

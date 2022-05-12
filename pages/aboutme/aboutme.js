@@ -9,20 +9,20 @@ Page({
     username: '',
     userAvatarUrl: '',
     activityClasses: [{
-        text: '未开始',
-        icon: 'add-o',
+        text: '日程',
+        icon: 'todo-list-o',
       },
       {
-        text: '进行中',
+        text: '活动',
         icon: 'clock-o',
       },
       {
-        text: '已结束',
-        icon: 'passed',
+        text: '委托',
+        icon: 'medal-o',
       },
       {
-        text: '已发布',
-        icon: 'info-o',
+        text: '话题',
+        icon: 'chat-o',
       },
     ],
     activityStat: [
@@ -34,17 +34,13 @@ Page({
         name: '已发布且通过审核的活动数',
         value: '0',
       },
-      // {
-      //   name: '已发布活动综合评分',
-      //   value: '4.5/5.0',
-      // },
     ],
     menuItems: [
-      {
+      /*{
         text: '我的消息',
         icon: 'icon iconfont icon-message',
         url: '/pages/aboutme/message/message',
-      },
+      },*/
       {
         text: '关注列表',
         icon: 'icon iconfont icon-guanzhu',
@@ -132,7 +128,7 @@ Page({
         duration: 0
       });
       wx.request({
-        url: 'https://se.alangy.net/api/update_user_bykc',
+        url: getApp().globalData.baseUrl + '/api/update_user_bykc',
         method: 'POST',
         header: header,
         data: {
@@ -152,7 +148,7 @@ Page({
               title: '开启成功'
             })
             wx.request({
-              url: 'https://se.alangy.net/api/update_bykc',
+              url: getApp().globalData.baseUrl + '/api/update_bykc',
               method: 'POST',
               header: header,
               data: {
@@ -213,7 +209,7 @@ Page({
     }
     let self = this
     wx.request({
-      url: 'https://se.alangy.net/api/update_user_bykc',
+      url: getApp().globalData.baseUrl + '/api/update_user_bykc',
       method: 'POST',
       header: header,
       data: {
@@ -337,8 +333,19 @@ Page({
 
   navigateToActivities(event){
     const type = event.currentTarget.dataset.type
-    const url = `../actList/actList?type=${type}`
-    wx.navigateTo({url})
+    if (type === 0) {
+      const url = `../activity/calendar/calendar`
+      wx.navigateTo({url})
+    } else if (type === 1) {
+      const url = `../actList/actList?type=2`
+      wx.navigateTo({url})
+    } else if (type === 2) {
+      const url = `../wtList/wtList?type=5`
+      wx.navigateTo({url})
+    } else if (type === 3) {
+      const url = `../htList/htList?type=5`
+      wx.navigateTo({url})
+    }
   },
 
 
@@ -453,7 +460,7 @@ Page({
 
 
     wx.request({
-      url: 'https://se.alangy.net/api/users/profile/',
+      url: getApp().globalData.baseUrl + '/api/users/profile/',
       method: 'GET',
       header: header,
       success(res) {

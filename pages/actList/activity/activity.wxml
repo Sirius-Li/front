@@ -4,7 +4,7 @@
 </cu-custom>
 
 <view style="merge-bottom:100px">
-  <view class="cu-bar bg-white margin-top">
+  <view class="cu-bar bg-white margin-top" style="position: relative; left: 0rpx; top: 19rpx">
     <view class="action font-break">
       <text class="cuIcon-title text-blue">{{activity.name}}</text> 
     </view>
@@ -13,20 +13,23 @@
       参加人数{{activity.attend_user_num === null?'-':activity.attend_user_num}}/{{activity.normal_activity.allow_total}}
     </view>
   </view>
-  <!--<view class="tower-swiper" bindtouchmove="towerMove" bindtouchstart="towerStart" bindtouchend="towerEnd">
+  <!-- <view class="tower-swiper" bindtouchmove="towerMove" bindtouchstart="towerStart" bindtouchend="towerEnd">
   <view class="tower-item {{item.zIndex==1?'none':''}}" wx:for="{{swiperList}}" wx:key="id" style="--index:{{item.zIndex}};--left:{{item.mLeft}}">
     <view class="swiper-item">
       <image src="{{item.url}}" mode="aspectFill" wx:if="{{item.type=='image'}}"></image>
       <video src="{{item.url}}" autoplay loop muted show-play-btn="{{false}}" controls="{{false}}" objectFit="cover" wx:if="{{item.type=='video'}}"></video>
     </view>
   </view>
-  </view>-->
-  <view class="margin-sm">
+  </view> -->
+  <!-- <view class="margin-sm">
     <swiper class="screen-swiper">
-      <swiper-item wx:for="{{swiperList}}" wx:key="id" bindtap="view" data-url="{{item.url}}">
+      <swiper-item wx:for="{{swiperList}}" wx:key="id" bindtap="view" data-url="{{item.url}}" style="position: absolute; left: 3rpx; top: 0rpx">
         <image src="{{item.url}}" mode="aspectFit"></image>
       </swiper-item>
     </swiper>
+  </view> -->
+  <view class="margin-sm" bindtap="view" data-url="{{photo}}">
+    <image src="{{photo}}" mode="aspectFit"></image>
   </view>
   <van-toast id="van-toast" />
   <block wx:if="{{activity.audit_status == 3}}">

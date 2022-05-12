@@ -2,11 +2,8 @@
 const util = require('./utils/util.js')
 
 App({
+  
   onLaunch() {
-    // var x = []
-    // var y = x[x.length - 1]
-    // 
-
     let that = this
     this.myDefineProperty('messageCount', '_messageCount', 'messageCountFunc')
     this.myDefineProperty('notificationCount', '_notificationCount', 'notificationCountFunc')
@@ -43,10 +40,9 @@ App({
     wx.login({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
-        
         if (res.code) {
           wx.request({
-            url: 'https://se.alangy.net/api/auth/',
+            url: getApp().globalData.baseUrl + '/api/auth/',
             method: 'POST',
             data: {
               code: res.code
@@ -65,7 +61,7 @@ App({
                   self.loginedCallback(getApp().globalData.logined);
                 }
                 wx.request({
-                  url: 'https://se.alangy.net/api/users/profile/',
+                  url: getApp().globalData.baseUrl + '/api/users/profile/',
                   method: 'GET',
                   header: that.getHeaderWithToken(),
                   success(res) {
@@ -89,6 +85,7 @@ App({
               //getApp().globalData.user_status = 2
             },
             fail (res) {
+              console.log(res)
               self.reLogin.reset().start()
             }
           })
@@ -118,7 +115,6 @@ App({
           success() {
           },
           fail(res) {
-            
           }
         });
         this.serverTimeoutObj = setTimeout(() =>{
@@ -184,7 +180,7 @@ App({
     if (that.globalData.authenticate == true) {
       const token = that.globalData.token
       that.globalData['socketTask'] = wx.connectSocket({
-        url: 'wss://se.alangy.net/talk_message/' + token + '/',
+        url: 'ws://114.116.215.100:443/talk_message/' + token + '/',
         header:{
           'content-type': 'application/json'
         },
@@ -268,7 +264,7 @@ App({
     const header = this.getHeaderWithToken()
     const that = this
     wx.request({
-      url: 'https://se.alangy.net/api/mymessage/',
+      url: getApp().globalData.baseUrl + '/api/mymessage/',
       method: 'GET',
       header: header,
       success: function(res) {
@@ -379,7 +375,7 @@ App({
         'Authorization': `Token` + ' ' + `${getApp().globalData.token}`
       }
       wx.request({
-        url: 'https://se.alangy.net/api/users/profile/',
+        url: getApp().globalData.baseUrl + '/api/users/profile/',
         method: 'GET',
         header: header,
         success(res) {
@@ -397,8 +393,7 @@ App({
   },
 
   globalData: {
-    baseUrl: 'https://se.alangy.net/api',
-
+    baseUrl: 'http://114.116.215.100:443',
     userInfo: null,
     token: null,
     authenticate: false,

@@ -144,7 +144,7 @@ Page({
       }
     }
     wx.request({
-      url: 'https://se.alangy.net/api/activity_types/',
+      url: getApp().globalData.baseUrl + '/api/activity_types/',
       method: 'GET',
       data: {
 
@@ -280,7 +280,7 @@ Page({
       wx.showModal({
         title: '提示',
         content: '活动人数需为大于0的正整数',
-        showCancel: false
+        showCancel: falsez
       })
     }  else if (this.data.act_number >= 2001) {
       wx.showModal({
@@ -417,7 +417,7 @@ Page({
   release(self){
     wx.uploadFile({    
       header: self.data.head,
-      url: 'https://se.alangy.net/api/activities/', //接口名称
+      url: getApp().globalData.baseUrl + '/api/activities/', //接口名称
       filePath: self.data.imgList[0],
       name:'photo',   
       // header: self.data.head,

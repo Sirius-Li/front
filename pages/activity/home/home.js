@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    typeList:['综合', '体育', '讲座'],
+    typeList:['热门话题', '委托推荐', '热门活动'],
     //获取到的订阅类别
     categories:[],
 
@@ -34,7 +34,8 @@ Page({
       url: '../../../img/bg.jpg'
     }],
 
-    activityList:[/*{
+    activityList:[
+      {
       id: 0,
       url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg',
       name:'活动1',
@@ -73,24 +74,25 @@ Page({
       total:'200',
       brief:'啦啦啦啦啦啦啦啦啦',
       tags:['标签1', '标签2','标签3']
-    }*/
+    }
     ],
 
-    shortcutList:[/*{
-        bgColor: "#16C2C2",
-        //图标/图片地址
-        imgUrl: "img/robot.png",
-        //图片高度 rpx
-        imgHeight: 64,
-        //图片宽度 rpx
-        imgWidth: 64,
-        //名称
-        text: "小助手",
-        //字体大小
-        fontSize: 34,
-        //字体颜色
-        color: "#fff"
-    }*/
+    shortcutList:[
+      // {
+      //   bgColor: "#16C2C2",
+      //   //图标/图片地址
+      //   imgUrl: "img/robot.png",
+      //   //图片高度 rpx
+      //   imgHeight: 64,
+      //   //图片宽度 rpx
+      //   imgWidth: 64,
+      //   //名称
+      //   text: "小助手",
+      //   //字体大小
+      //   fontSize: 34,
+      //   //字体颜色
+      //   color: "#fff"
+      // }
     ],
 
     height: null,
@@ -151,10 +153,8 @@ Page({
   getActivityList:function(event){
     //type为活动类型
     let type = event.detail.title
+    //console.log(type)
     let self = this
-    /*wx.showToast({
-      title: type,
-    })*/
     this.setData({
       type: type,
       activityList: [],
@@ -171,11 +171,11 @@ Page({
         'Authorization': 'Token ' + app.globalData.token
        }
     }
-    if(type == '综合'){
+    if(type == '热门话题'){
       let self = this
       wx.request({
-        url: 'https://se.alangy.net/api/recommend/activities/',
-        method: 'POST',
+        url: getApp().globalData.baseUrl + '/api/topic/',
+        method: 'GET',
         data: {
   
         },
@@ -190,22 +190,41 @@ Page({
           getApp().globalData.util.netErrorToast()
         }
       })
-    }else{
+    } else if (type == '委托推荐') {
+      let self = this
+      wx.request({
+        url: getApp().globalData.baseUrl + '/api/commission/search/all/',
+        method: 'GET',
+        data: {
+  
+        },
+        header: this.data.head,
+        success (res) {
+          self.setData({
+            activityList: self.unique(res.data),
+            loading: false
+          })
+        },
+        fail(res){
+          getApp().globalData.util.netErrorToast()
+        }
+      })
+    } else{
       wx.request({    
-        url: 'https://se.alangy.net/api/condition/activities/', //接口名称   
+        url: getApp().globalData.baseUrl + '/api/recommend/activities/', //接口名称   
         header: this.data.head,
         method:"POST",  //请求方式 
         data: {
-          "types": {
-            "method": "name",
-            "value": [type],
-          },
-          'audit_status': [3]
+          // "types": {
+          //   "method": "name",
+          //   "value": [type],
+          // },
+          // 'audit_status': [3]
         }, 
         success(res) { 
           if(res.statusCode == 200){
             self.setData({
-              activityList: res.data,
+              activityList: self.unique(res.data),
               loading: false
             })
             
@@ -222,9 +241,11 @@ Page({
 
   //加载页面时获取综合推荐的活动信息
   getCompoActivityList:function(){
-    this.setData({
-      type: '综合'
-    })
+    if (this.data.type == null) {
+        this.setData({
+        type: '热门话题'
+      })
+    }
     let app = getApp()
     if (app.globalData.token == null) {
       this.data.head = {      
@@ -237,24 +258,71 @@ Page({
        }
     }
     let self = this
-    wx.request({
-      url: 'https://se.alangy.net/api/recommend/activities/',
-      method: 'POST',
-      data: {
-
-      },
-      header: this.data.head,
-      success (res) {
-        self.setData({
-          activityList: self.unique(res.data),
-          loading: false
-        })
-      },
-      fail(res){
-        getApp().globalData.util.netErrorToast()
-      }
-    })
-
+    let type = self.data.type
+    if(type == '热门话题'){
+      wx.request({
+        url: getApp().globalData.baseUrl + '/api/topic/',
+        method: 'GET',
+        data: {
+  
+        },
+        header: this.data.head,
+        success (res) {
+          self.setData({
+            activityList: self.unique(res.data),
+            loading: false
+          })
+        },
+        fail(res){
+          getApp().globalData.util.netErrorToast()
+        }
+      })
+    } else if (type == '委托推荐') {
+      wx.request({
+        url: getApp().globalData.baseUrl + '/api/commission/search/all/',
+        method: 'GET',
+        data: {
+  
+        },
+        header: this.data.head,
+        success (res) {
+          self.setData({
+            activityList: self.unique(res.data),
+            loading: false
+          })
+        },
+        fail(res){
+          getApp().globalData.util.netErrorToast()
+        }
+      })
+    } else{
+      wx.request({    
+        url: getApp().globalData.baseUrl + '/api/recommend/activities/', //接口名称   
+        header: this.data.head,
+        method:"POST",  //请求方式 
+        data: {
+          // "types": {
+          //   "method": "name",
+          //   "value": [type],
+          // },
+          // 'audit_status': [3]
+        }, 
+        success(res) { 
+          if(res.statusCode == 200){
+            self.setData({
+              activityList: self.unique(res.data),
+              loading: false
+            })
+            
+          }else{
+            
+          }
+        },
+        fail(res){
+          getApp().globalData.util.netErrorToast()
+        }
+      })
+    }
   },
 
   //去除重复活动，这里后端回传会重复的活动，需要进行沟通一下，目前前端先解决
@@ -273,21 +341,23 @@ Page({
       }
     }
     wx.request({
-      url: 'https://se.alangy.net/api/activity_types_user_list/',
+      url: getApp().globalData.baseUrl + '/api/activity_types_user_list/',
       method: 'GET',
       header: headers,
       success (res) {
         if(res.statusCode == 200){
+          //console.log(res.data)
           that.setData({
             categories: res.data
           })
-          let tempTypeList = ['综合', '体育', '讲座']
+          let tempTypeList = ['热门话题', '委托推荐', '热门活动']
           for(let i = 0; i < that.data.categories.length; i++){
             if(that.data.categories[i].id != 1 && that.data.categories[i].id != 5 && that.data.categories[i].id != 9
               && that.data.categories[i].is_subscribe == true){
               tempTypeList.push(that.data.categories[i].name)
             }
           }
+          //console.log(tempTypeList)
           that.setData({
             typeList: tempTypeList
           })
@@ -307,6 +377,20 @@ Page({
     let id = event.currentTarget.dataset.id
     wx.navigateTo({
       url: '../../actList/activity/activity?id='+id,
+    })
+  },
+
+  jumpToWt : function(event) {
+    let id = event.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '../../commission/commission?id='+id,
+    })
+  },
+
+  jumpToHt : function(event) {
+    let id = event.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '../../htdetail/htdetail?id='+id,
     })
   },
 
@@ -341,7 +425,6 @@ Page({
     this.getSwiperUrl()
     let app = getApp()
     if (app.globalData.logined == false) {
-      //callback
       app.loginedCallback = (logined) => {
         if (logined == true) {
           this.getTabs()

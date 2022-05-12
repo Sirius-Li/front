@@ -3,14 +3,13 @@
     "pages/activity/home/home",
     "pages/certification/certification",
     "pages/actList/activity/attendList/attendList",
-    "pages/activity/releasing/changeAct/changeAct",
+    "pages/release/releaseAct/changeAct/changeAct",
     "pages/actList/activity/activity",
     "pages/index/index",
     "pages/logs/logs",
     "pages/aboutme/aboutme",
     "pages/activity/category/category",
     "pages/activity/calendar/calendar",
-    "pages/activity/releasing/releasing",
     "pages/activity/home/search/search",
     "pages/actList/actList",
     "pages/activity/sports/sports",
@@ -23,7 +22,13 @@
     "pages/feedback/feedback",
     "pages/profile/follow/follow",
     "pages/chatBot/chatBot",
-    "pages/other/about/about"
+    "pages/other/about/about",
+    "pages/htList/htList",
+    "pages/commission/commission",
+    "pages/wtList/wtList",
+    "pages/release/release",
+    "pages/htdetail/htdetail",
+    "pages/commission/changeCommission/changeCommission"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -113,10 +118,10 @@
         "pagePath": "pages/activity/category/category"
       },
       {
-        "pagePath": "pages/activity/releasing/releasing"
+        "pagePath": "pages/release/release"
       },
       {
-        "pagePath": "pages/activity/calendar/calendar"
+        "pagePath": "pages/aboutme/message/message"
       },
       {
         "pagePath": "pages/aboutme/aboutme"
@@ -131,7 +136,7 @@
   },
   "plugins": {
     "chooseLocation": {
-      "version": "1.0.5",
+      "version": "1.0.9",
       "provider": "wx76a9a06e5b4e693e"
     }
   }

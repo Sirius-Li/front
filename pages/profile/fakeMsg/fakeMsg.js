@@ -1,4 +1,4 @@
-const BASE_URL = 'https://se.alangy.net'
+const BASE_URL = getApp().globalData.baseUrl
 const util = require('../../../utils/util.js')
 const defaultAvatarUrl = 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132'
 Page({

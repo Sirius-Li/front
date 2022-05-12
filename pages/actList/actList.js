@@ -7,8 +7,8 @@ Page({
   data: {
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
-    list:[/*
-      {
+    list:[
+     /* {
         name:"张1",
         photo:"https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg",
         "normal_activity": {
@@ -55,8 +55,8 @@ Page({
         "attend_users": 3,
         "location": 3,
         "position": "adddd"
-      }
-    */],
+      }*/
+    ],
     //包括关键字
     keywords: '',
     //id
@@ -64,7 +64,8 @@ Page({
     //type
     type: 1,
     //
-    locList:['','学院路', '沙河', '校外']
+    locList:['','学院路', '沙河', '校外'],
+    activename:'0'
   },
 
   getDetail: function() {
@@ -83,7 +84,7 @@ Page({
     }
     if(this.data.type == 1){
       wx.request({    
-        url: 'https://se.alangy.net/api/search/', //接口名称   
+        url: getApp().globalData.baseUrl + '/api/search/', //接口名称   
         header: head,
         method:"GET",  //请求方式    
         //data: app.globalData.zdxx,  //用于存放post请求的参数  
@@ -105,7 +106,7 @@ Page({
       var value = []
       value.push(this.data.id)
       wx.request({    
-        url: 'https://se.alangy.net/api/condition/activities/', //接口名称   
+        url: getApp().globalData.baseUrl + '/api/condition/activities/', //接口名称   
         header: head,
         method:"POST",  //请求方式    
         //data: app.globalData.zdxx,  //用于存放post请求的参数  
@@ -128,7 +129,7 @@ Page({
     }
     else if(this.data.type >= 2 && this.data.type <= 4){
       wx.request({    
-        url: 'https://se.alangy.net/api/condition/activities/', //接口名称   
+        url: getApp().globalData.baseUrl + '/api/condition/activities/', //接口名称   
         header: head,
         method:"POST",  //请求方式    
         //data: app.globalData.zdxx,  //用于存放post请求的参数  
@@ -149,7 +150,7 @@ Page({
     }
     else if(this.data.type == 5){
       wx.request({    
-        url: 'https://se.alangy.net/api/condition/activities/', //接口名称   
+        url: getApp().globalData.baseUrl + '/api/condition/activities/', //接口名称   
         header: head,
         method:"POST",  //请求方式    
         //data: app.globalData.zdxx,  //用于存放post请求的参数  
@@ -177,7 +178,7 @@ Page({
       console.log(nowTime.toLocaleDateString())
       console.log(preTime.toLocaleDateString())*/
       wx.request({
-        url: 'https://se.alangy.net/api/activities_trend/',
+        url: getApp().globalData.baseUrl + '/api/activities_trend/',
         method: 'POST',
         data: {
   
@@ -198,16 +199,11 @@ Page({
       //let nowDate = new Date()
       //let nowDateStr = nowDate.toLocaleDateString() + ' ' + nowDate.getHours() + ':' + nowDate.getMinutes() 
       //console.log(nowDateStr)
+      console.log(111)
       wx.request({
-        url: 'https://se.alangy.net/api/condition/activities/',
-        method: 'POST',
+        url: getApp().globalData.baseUrl + '/api/activities/',
+        method: 'GET',
         data: {
-          'types': {
-            'method':'name',
-            'value': ['博雅']
-          },
-          'audit_status': [3],
-          'activity_status': 4
         },
         header: head,
         success (res) {
@@ -216,7 +212,7 @@ Page({
               list: res.data
             })
           }else{
-            //console.log('用户不存在')
+            console.log('获取list数据失败')
           }
         },
         fail(res){
@@ -243,6 +239,14 @@ Page({
     }
   },
 
+  changeTab:function (event) {
+    let activeID = event.detail.index + 2
+    let self = this
+    self.setData({
+      type: activeID
+    })
+    this.getDetail()
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

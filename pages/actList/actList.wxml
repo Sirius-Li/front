@@ -11,7 +11,7 @@
         <view class="cu-item shadow">
           <view class="image" bindtap="jumpToSonPages" data-id="{{item.id}}">
             <block wx:if="{{item.content.photo != ''}}">
-              <image src="https://se.alangy.net/{{item.content.photo}}" mode="widthFix"/>
+              <image src="http://114.116.215.100:443/{{item.content.photo}}" mode="widthFix"/>
             </block>
             <block wx:else>
               <image src="../../static/img/nophoto.jpg" mode="widthFix"/>
@@ -42,6 +42,52 @@
     </view>
   </block>
 </block>
+
+<block wx:elif="{{type >= 2 && type <=5}}">
+  <van-tabs active = "{{activename}}" bind:change="changeTab">
+    <van-tab title="未开始" wx:key="0" name="0"></van-tab>
+    <van-tab title="进行中" wx:key="1" name="1"></van-tab>
+    <van-tab title="已结束" wx:key="2" name="2"></van-tab>
+    <van-tab title="已发布" wx:key="3" name="3"></van-tab>
+  </van-tabs>
+  <block wx:for="{{list}}" wx:for-item="item" wx:for-index="idx" wx:key="id">
+    <view class="cu-card case {{isCard?'no-card':''}}">
+      <view class="cu-card case {{isCard?'no-card':''}}">
+        <view class="cu-item shadow">
+          <view class="image" bindtap="jumpToSonPages" data-id="{{item.id}}">
+            <block wx:if="{{item.photo != ''}}">
+              <image src="http://114.116.215.100:443/{{item.photo}}" mode="widthFix"/>
+            </block>
+            <block wx:else>
+              <image src="../../static/img/nophoto.jpg" mode="widthFix"/>
+            </block>
+            <view class="cu-tag bg-red" wx:if="{{type == 7}}"><text class="icon iconfont icon-hot" wx:for="{{item.heat}}" wx:key="*this"/>
+            </view>
+            <view class="cu-bar bg-shadeBottom">
+            </view>
+          </view>
+          <van-card>
+            <view slot="thumb" bindtap="gotoUserPage" data-userid="{{item.create_user.id}}">
+              <view class="cu-avatar round lg" 
+              style="background-image:url({{item.create_user.avatarUrl == ''?'../../img/default_avatar.png':item.create_user.avatarUrl}});"></view>
+            </view>
+            <view slot="title" class="text-black text-df">
+              {{item.name}}
+            </view>
+            <view slot="desc" bindtap="jumpToSonPages" data-id="{{item.id}}">
+              <van-tag wx:for="{{item.tags}}" wx:for-item="tag" wx:key="id" round type="primary">{{tag.name}}</van-tag>
+              <view><van-icon name="user-o"/><text class="field-name text-blue" >发起人：</text>{{item.create_user.nickName}}</view>
+              <view><van-icon name="clock-o"/><text class="field-name text-blue" >报名时间:</text>{{item.start_enrollment_at}}-{{item.end_enrollment_at}}</view>
+              <view><van-icon name="clock"/><text class="field-name text-blue">活动时间:</text>{{item.normal_activity.start_at}}-{{item.normal_activity.end_at}}</view>
+              <view><van-icon name="location-o"/><text class="field-name text-blue">活动地点:</text>{{locList[item.location]}} {{item.position}}</view>
+              <view><van-icon name="friends-o"/><text class="field-name text-blue">已选人数/总人数:</text>{{item.attend_user_num === null?'-':item.attend_user_num}}/{{item.normal_activity.allow_total}}</view>
+            </view>
+          </van-card>
+        </view>
+      </view>
+    </view>
+  </block> 
+</block>  
 <block wx:else>
   <block wx:for="{{list}}" wx:for-item="item" wx:for-index="idx" wx:key="id">
     <view class="cu-card case {{isCard?'no-card':''}}">
@@ -49,7 +95,7 @@
         <view class="cu-item shadow">
           <view class="image" bindtap="jumpToSonPages" data-id="{{item.id}}">
             <block wx:if="{{item.photo != ''}}">
-              <image src="https://se.alangy.net/{{item.photo}}" mode="widthFix"/>
+              <image src="http://114.116.215.100:443/{{item.photo}}" mode="widthFix"/>
             </block>
             <block wx:else>
               <image src="../../static/img/nophoto.jpg" mode="widthFix"/>
@@ -81,6 +127,8 @@
     </view>
   </block>
 </block>
+
+
 <block wx:if="{{list.length == 0}}">
   <view class="bg-white">
     <view class="padding-xs flex align-center">

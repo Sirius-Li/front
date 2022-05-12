@@ -137,7 +137,7 @@ Page({
       }
     }
     wx.request({
-      url: 'https://se.alangy.net/api/activity_types/',
+      url: getApp().globalData.baseUrl + '/api/activity_types/',
       method: 'GET',
       data: {
 
@@ -470,7 +470,7 @@ Page({
       //console.log(self.data.list.activity_type)
       wx.request({    
         header: this.data.head,
-        url: `https://se.alangy.net/api/activities/${this.data.active_id}/`, //接口名称
+        url: getApp().globalData.baseUrl + `/api/activities/${this.data.active_id}/`, //接口名称
         method: "PUT",
         //filePath: this.data.imgList[0],
         //name:'photo',   
@@ -479,7 +479,8 @@ Page({
         success(res) {     
           if(res.statusCode == 201){
             wx.redirectTo({
-              url: '../../../actList/actList?type=5',
+              //url: '../../../actList/actList?type=5',
+              url: '/pages/actList/actList?type=5'
             })
             wx.showToast({
               title: '活动修改成功',
@@ -524,7 +525,7 @@ Page({
     }
     let self = this
     wx.request({    
-      url: `https://se.alangy.net/api/activities/${self.data.active_id}/`,
+      url: getApp().globalData.baseUrl + `/api/activities/${self.data.active_id}/`,
       header: head,
       method:"GET",  //请求方式   
       success(res) {     
