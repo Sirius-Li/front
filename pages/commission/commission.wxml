@@ -72,11 +72,15 @@
         <view class="cu-form-group margin-top" bindtap="JumpTpAcceptedUser">
           完成者详情<text>{{accepted_user.nickName}}</text>
         </view>
-        <view wx:if="{{score === 0}}" class="margin-top">
-          <button class="bg-grey bg" bindtap="Evaluate">发表评价</button>
+        <view class="margin-top">
+          <button class="bg-grey bg" bindtap="Evaluate">确认完成并评分</button>
         </view>
-        
+        <view class="margin-top">
+          <button class="bg-grey bg" bindtap="UndoFinish">撤销完成</button>
+        </view>
       </view>
+      
+      
     </view>
     <view wx:if="{{accepted_user.id === myUserId}}" >
       <!-- 接取委托的用户 -->
@@ -97,7 +101,7 @@
     <view class="cu-modal {{evaluateShow==true?'show':''}}">
       <view class="cu-dialog">
         <view class="cu-bar bg-white justify-end">
-          <view class="content">评论本次委托</view>
+          <view class="content">确认完成并评分</view>
           <view class="action" bindtap="hideEvaluate" data-index="{{-1}}">
             <text class="cuIcon-close text-red"></text>
           </view>
