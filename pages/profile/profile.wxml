@@ -14,24 +14,31 @@
             <view class="flex-initial flex items-center text-gray-800 m-1 px-2 pt-1.5 pb-1 rounded-full shadow-md justify-end border" bindtap="onTapLikeButton">
               <block wx:if="{{ liked }}">
                 <text class="flex-grow text-xs mr-1 ml-2">已关注</text>
-                <text class='flex-initial iconfont if-icon-star-filled text-base mr-1' />
+                <text class='flex-initial iconfont icon-guanzhu-yiguanzhu text-base mr-1' />
               </block>
               <block wx:else>
                 <text class="flex-grow text-xs mr-1 ml-2">关注</text>
-                <text class='flex-initial iconfont if-icon-star text-base mr-1' />
+                <text class='flex-initial iconfont icon-guanzhu-weiguanzhu text-base mr-1' />
               </block>
             </view>
             <view class="mt-2 flex-initial flex items-center text-gray-800 m-1 px-2 pt-1.5 pb-1 rounded-full shadow-md justify-end border" bindtap="onTapMsgButton">
               <text class="flex-grow text-xs mr-1 ml-2">私信TA</text>
-              <text class='flex-initial iconfont if-icon-msg text-base mr-1' />
+              <text class='flex-initial iconfont icon-xiaoxi text-base mr-1' />
             </view>
+            <view class="mt-2 flex-initial flex items-center text-gray-800 m-1 px-2 pt-1.5 pb-1 rounded-full shadow-md justify-end border" bindtap="onTapTipButton">
+              <text class="flex-grow text-xs mr-1 ml-2">举报TA</text>
+              <text class='flex-initial iconfont icon-chakantiezigengduojubao text-base mr-1' />
+            </view>
+            <van-dialog use-slot title="举报用户{{ username }}" show="{{ showDialog }}" show-cancel-button bind:close="closeDialog" bind:getuserinfo="getUserInfo">
+              <image src="{{userAvatarUrl===''?'../../img/profile3.jpg':userAvatarUrl}}" />
+            </van-dialog>
           </view>
         </block>
         <block wx:else>
           <view class="flex-row w-auto">
             <view class="mt-2 flex-initial flex items-center text-gray-800 m-1 px-2 pt-1.5 pb-1 rounded-full shadow-md justify-end border" bindtap="onTapEditButton">
               <text class="flex-grow text-xs mr-1 ml-2">修改个人资料</text>
-              <text class='flex-initial iconfont if-icon-edit text-base mr-1' />
+              <text class='flex-initial iconfont icon-bianji text-base mr-1' />
             </view>
           </view>
         </block>
@@ -52,7 +59,7 @@
           <van-cell title="性别" value="{{ gender === 0?'未知':gender === 1?'男':'女' }}" class="break-all" />
         </van-cell-group>
         <van-tabs active="{{ 1 }}">
-          <van-tab title="发布的活动" >
+          <van-tab title="发布的活动">
             <van-cell title="综合评分" value="{{ score_avg }}" class="break-all" />
             <view class="content">
               <view class="cu-card article" wx:for="{{ releasedActivities }}" wx:for-item="item" wx:for-index="idx" wx:key="id">
@@ -70,7 +77,7 @@
               </view>
             </view>
           </van-tab>
-          <van-tab title="发布的话题" >
+          <van-tab title="发布的话题">
             <view class="content">
               <view class="cu-card article" wx:for="{{ releasedTopics }}" wx:for-item="item" wx:for-index="idx" wx:key="id">
                 <view class="cu-item shadow" data-topicid="{{ item.id }}" bindtap="onTapTopic">
@@ -87,7 +94,7 @@
               </view>
             </view>
           </van-tab>
-          <van-tab title="发布的委托" >
+          <van-tab title="发布的委托">
             <view class="content">
               <van-cell title="综合评分" value="{{ commission_score_avg }}" class="break-all" />
               <view class="cu-card article" wx:for="{{ releasedCommissions }}" wx:for-item="item" wx:for-index="idx" wx:key="id">
