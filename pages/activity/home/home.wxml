@@ -50,7 +50,7 @@
         </view>
 
         <view class='margin-xs bg-white radius shadow-lg' wx:for="{{activityList}}" wx:key="id">
-          <van-card title="{{item.name}}" bindtap="jumpToHt" data-id="{{item.id}}" thumb="{{item.photo == '' ? '/static/img/nophoto.jpg' : 'http://114.116.215.100:443' + item.photo}}">
+          <van-card title="{{item.name}}" bindtap="jumpToHt" data-id="{{item.id}}" thumb="{{item.photo == '' ? '/static/img/nophoto.jpg' : 'https://marfr1.2022martu1.cn' + item.photo}}">
             <view slot="desc">
               <view>
                 <van-icon name="user-o" /><text class="field-name text-blue">发起人：</text>{{item.create_user.nickName}}
@@ -117,7 +117,7 @@
         </view>
 
         <view class='margin-xs bg-white radius shadow-lg' wx:for="{{activityList}}" wx:key="id">
-          <van-card tag="{{item.activity_type.name}}" title="{{item.name}}" bindtap="jumpToSonPages" data-id="{{item.id}}" thumb="{{item.photo == '' ? '/static/img/nophoto.jpg' : 'http://114.116.215.100:443' + item.photo}}">
+          <van-card tag="{{item.activity_type.name}}" title="{{item.name}}" bindtap="jumpToSonPages" data-id="{{item.id}}" thumb="{{item.photo == '' ? '/static/img/nophoto.jpg' : 'https://marfr1.2022martu1.cn' + item.photo}}">
             <view slot="desc">
               <van-tag wx:for="{{item.tags}}" wx:for-item="tag" wx:key="id" round type="primary">{{tag.name}}</van-tag>
               <view>
