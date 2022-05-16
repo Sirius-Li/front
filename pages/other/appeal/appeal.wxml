@@ -1,0 +1,7 @@
+<!--pages/other/appeal/appeal.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText"></view>
+  <view slot="content">权限申诉</view>
+</cu-custom>
+
+<view class="text-grey text-center text-lg margin-top">当前暂无评论！</view>
