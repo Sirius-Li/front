@@ -107,7 +107,7 @@ Page({
     }else{
       this.undoRcvMsg()
     }
-    // this.getMessageStatus()
+    this.getMessageStatus()
   },
 
   // 接收消息提醒
@@ -420,7 +420,6 @@ Page({
                 console.log("fail in 开启订阅openSetting", res)
               },
               complete (res) {
-                console.log("complete in 开启订阅openSetting", res)
               }
             })
           }
