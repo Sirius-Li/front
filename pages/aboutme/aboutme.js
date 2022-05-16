@@ -57,6 +57,11 @@ Page({
         url: '/pages/other/faq/faq',
       },
       {
+        text: '权限申诉',
+        icon: 'warning-o',
+        url: ''//todo
+      },
+      {
         text: '意见反馈',
         icon: 'service-o',
         url: '/pages/feedback/feedback',
