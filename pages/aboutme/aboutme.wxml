@@ -12,14 +12,14 @@
         <view class="flex-1 mt-3" bindtap="onTapUserName"> {{ email }} </view>
       </view>
     </view>
-    <view class="px-4">
+    <!-- <view class="px-4">
       <view class="grid grid-cols-5 gap-y-2">
         <block wx:for="{{ activityStat }}" wx:key="name">
           <view class="col-span-3"> {{ item.name }}: </view>
           <view class="col-span-2"> {{item.value}} </view>
         </block>
       </view>
-    </view>
+    </view> -->
   </view>
   <view class="w-auto mx-4 bg-white rounded-xl shadow-md items-center mb-6 flex overflow-hidden">
     <van-grid square class="flex-1 block">
@@ -58,6 +58,14 @@
         </view>
         <view slot="right-icon">
           <van-switch checked="{{ boyaChecked }}" bind:change="boyaSwitch" size="45rpx"/>
+        </view>
+      </van-cell>
+      <van-cell icon="icon iconfont icon-boya-o">
+        <view slot="title">
+          <view class="title">消息提醒</view>
+        </view>
+        <view slot="right-icon">
+          <van-switch v-model="{{ messageChecked }}" bind:change="messageSwitch" size="45rpx"/>
         </view>
       </van-cell>
       <van-dialog
