@@ -59,7 +59,7 @@ Page({
       {
         text: '权限申诉',
         icon: 'warning-o',
-        url: ''//todo
+        url: '/pages/other/appeal/appeal'
       },
       {
         text: '意见反馈',
