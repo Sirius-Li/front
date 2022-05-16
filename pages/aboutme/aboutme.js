@@ -112,37 +112,51 @@ Page({
 
   // 接收消息提醒
   rcvMsg() {
-    console.log("in rcvMsg")
+    console.log("in rcvMsg", this.data.messageHasSetting)
+    let self = this
     if(this.data.messageHasSetting == false){
-      let self = this
       wx.requestSubscribeMessage({
         tmplIds: ['tnmAvtNzq1q0BHU-eou3pUurmiaRGGpFQxHW9VO5GB4'],
         success (res) { 
           console.log("wx.requestSubscribeMessage success")
-          // self.getMessageStatus()
         },
         fail (res) {
           console.log("fail")
           console.log(res)
+        },
+        complete (res) {
+          self.getMessageStatus()
         }
       })
-    }else{
+    }else{ 
       wx.showModal({
         title: '开启消息提醒',
         content: '请前往微信小程序的设置界面开启（受腾讯推送规范限制，暂只能使用放假通知类别进行订阅推送）',
         confirmText: '现在前往',
         success (res) {
           if (res.confirm) {
-            wx.openSetting({
+            console.log("点击确定")
+            wx.openSetting({ // bug 不执行？
               withSubscriptions: true,
               success (res) {
                 console.log("success in 接收消息提醒 openSetting", res)
               },
               fail (res) {
                 console.log("fail in 接收消息提醒 openSetting", res)
+              },
+              complete (res) {
+                console.log("complete in 接收消息提醒 openSetting", res)
               }
             })
+          } else if (res.cancel) {
+            console.log("点击取消")
           }
+        },
+        fail (res) {
+          console.log("rcvMsg fail", res)
+        },
+        complete (res) {
+          self.getMessageStatus()
         }
       })
     }
@@ -174,14 +188,13 @@ Page({
   },
 
   getMessageStatus(){
+    console.log("in getMessageStatus")
     let self = this
     wx.getSetting({
       // 同时获取用户订阅消息的订阅状态
       withSubscriptions: true,
       success(res) {
-        console.log("in getMessageStatus")
-        console.log(res)
-        console.log(res.subscriptionsSetting)
+        console.log("in getMessageStatus getSetting success", res)
         if(res.subscriptionsSetting == undefined){
           self.setData({
             messageChecked: false,
@@ -212,7 +225,7 @@ Page({
         closeShow: true
       })
     }
-  },
+  }, 
 
   //统一认证账号密码提交
   passwordSubmit(){
@@ -375,10 +388,9 @@ Page({
 
   //请求订阅推送
   subscribe(){
-    console.log("in subscribe")
-    console.log(this.data.hasSetting)
+    console.log("in subscribe", this.data.hasSetting)
+    let self = this
     if(this.data.hasSetting == false){
-      let self = this
       wx.requestSubscribeMessage({
         tmplIds: [
           'rDBOdvuEP9THubpDddJL3CQNvvrnLGmTiV1KN9jtPUA'],
@@ -406,6 +418,8 @@ Page({
               },
               fail (res) {
                 console.log("fail in 开启订阅openSetting", res)
+              },
+              complete (res) {
               }
             })
           }
