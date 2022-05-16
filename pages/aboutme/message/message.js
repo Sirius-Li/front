@@ -23,6 +23,54 @@ Page({
     newNotificationCount: 0
   },
 
+   //发送订阅消息
+   requestSendMsg() {
+    var that = this;
+    //订阅消息模板id
+    var template_id ="tnmAvtNzq1q0BHU-eou3pUurmiaRGGpFQxHW9VO5GB4";
+    var APPID = getApp().globalData.appid;
+    var APPSECRET = getApp().globalData.appsecret;
+    var myurl = getApp().globalData.baseUrl + '';
+    wx.requestSubscribeMessage({
+      tmplIds: [template_id],
+      success(res) {
+        console.log(res)
+          // wx.request({
+          //   url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' + APPID + '&secret=' + APPSECRET,
+          //   success (res) {
+          //     console.log("success in requestSendMsg -> requestSubscribeMessage", res)
+          //     var accessToken = res.data.access_token;
+          //     // 发送access_token请求
+          //     wx.request({
+          //       url: myurl,
+          //       data:{
+          //         access_token: accessToken,
+          //         //数据包
+          //         data:{
+          //         //openid
+          //           "touser": getApp().globalData.openId,
+          //         //模板id
+          //           "template_id": template_id,
+          //           "page": "pages/aboutme/message/message",
+          //         }
+          //       },
+          //       success: function(res) {
+          //         console.log("订阅成功");
+          //         console.log(res);
+          //       },
+          //       fail: function(res) {
+          //         console.log("订阅失败");
+          //       },
+          //     })
+          //   },
+          //   fail (res) {
+          //     console.log("fail in requestSendMsg -> requestSubscribeMessage", res)
+          //   }
+          // })
+      }
+    })
+  },
+
   routeSecretMsg: function (event) {
     const id = event.currentTarget.dataset.fromuserid
     const name = event.currentTarget.dataset.fromusername
