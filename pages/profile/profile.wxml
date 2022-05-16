@@ -29,8 +29,17 @@
               <text class="flex-grow text-xs mr-1 ml-2">举报TA</text>
               <text class='flex-initial iconfont icon-chakantiezigengduojubao text-base mr-1' />
             </view>
-            <van-dialog use-slot title="举报用户{{ username }}" show="{{ showDialog }}" show-cancel-button bind:close="closeDialog" bind:getuserinfo="getUserInfo">
-              <image src="{{userAvatarUrl===''?'../../img/profile3.jpg':userAvatarUrl}}" />
+            <van-dialog use-slot title="举报用户 {{ username }}" show="{{ showDialog }}" show-cancel-button bind:close="closeDialog" bind:confirm="informUser">
+              <van-divider customStyle="border-color: #000000;" />
+              <van-radio-group value="{{tipChosenOption}}" bind:change="onCheckboxChange">
+                <van-cell-group>
+                  <van-cell wx:for="{{tipAllOptions}}" wx:key="index" title="{{item}}" clickable data-name="{{index}}" bind:click="toggle">
+                    <van-radio slot="right-icon" name="{{index}}" />
+                  </van-cell>
+                </van-cell-group>
+              </van-radio-group>
+              <van-divider />
+                <van-field model:value="{{ tipReason }}" type="textarea" placeholder="请输入详细理由（30字以内）" autosize input-align="center" maxlength="30" />      
             </van-dialog>
           </view>
         </block>

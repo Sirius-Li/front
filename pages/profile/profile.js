@@ -18,7 +18,10 @@ Page({
     releasedActivities: null,
     releasedCommissions: null,
     releasedTopics: null,
-    showDialog: null
+    showDialog: null,
+    tipChosenOption: null,
+    tipAllOptions: null,
+    tipReason: null
   },
 
   onLoad(options) {
@@ -35,7 +38,15 @@ Page({
   onShow() {
     this.getInfo()
     this.setData({
-      showDialog: false
+      showDialog: false,
+      tipChosenOption: null,
+      tipAllOptions: [
+        "发布不合适的话题",
+        "发表恶意评论",
+        "对接取委托的用户恶意评分",
+        "恶意接取委托"
+      ],
+      tipReason: ''
     })
   },
   onTapLikeButton() {
@@ -75,6 +86,17 @@ Page({
       }
     }
   },
+  onCheckboxChange(event) {
+    this.setData({
+      tipChosenOption: event.detail
+    })
+  },
+  toggle(event) {
+    const { name } = event.currentTarget.dataset
+    this.setData({
+      tipChosenOption: name
+    })
+  },
   onTapTipButton() {
     if (getApp().globalData.user_status === 2) {
       wx.redirectTo({
@@ -93,8 +115,50 @@ Page({
   },
   closeDialog() {
     this.setData({
-      showDialog: false
+      showDialog: false,
+      tipChosenOption: null,
+      tipReason: ''
     })
+  },
+  informUser() {
+    let app = getApp()
+    const that = this
+    if (this.data.tipChosenOption == null) {
+      wx.showModal({
+        title: '提示',
+        content: '请选择举报类别',
+        showCancel: false
+      })
+    } else if (this.data.tipReason == null || this.data.tipReason.length == 0) {
+      wx.showModal({
+        title: '提示',
+        content: '请填写详细信息',
+        showCancel: false
+      })
+    } else {
+      wx.request({
+        url: `${BASE_URL}/api/inform/`,
+        method: 'POST',
+        header: this.getHeaderWithToken(),
+        data: {
+          id: that.data.myId,
+          to_user_id: that.data.userId,
+          authority: parseInt(that.data.tipChosenOption),
+          reason: that.data.tipReason
+        },
+        success(res) {
+          console.log(res)
+          if (res.statusCode == 201) {
+            wx.showToast({
+              title: '举报成功',
+            })
+          }
+        },
+        fail(res) {
+          getApp().globalData.util.netErrorToast()
+        }
+      })
+    }
   },
   onTapEditButton() {
     wx.navigateTo({
