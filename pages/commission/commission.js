@@ -317,26 +317,36 @@ Page({
         'Authorization': 'Token ' + app.globalData.token
        }
     }
-    wx.request({    
-      //TODO
-      url: getApp().globalData.baseUrl + '/api/commission/score/', //接口名称   
-      header: head,
-      method:"POST",  //请求方式    
-      //data: app.globalData.zdxx,  //用于存放post请求的参数  
-      data: {
-        //TODO
-        'commission_id': this.data.id,
-        'score': this.data.score
-      }, 
-      success: (res) => { 
-        wx.showToast({
-          title: '撤销成功',
-        })
-        this.hideEvaluate()
-        this.onShow()
-      },
-      fail(res){
-        getApp().globalData.util.netErrorToast()
+    wx.showModal({
+      title: '警告',
+      content: '确认撤销完成',
+      success:(res) =>{
+        if (res.confirm) {
+          wx.request({    
+            //TODO
+            url: getApp().globalData.baseUrl + '/api/commission/score/', //接口名称   
+            header: head,
+            method:"DELETE",  //请求方式    
+            //data: app.globalData.zdxx,  //用于存放post请求的参数  
+            data: {
+              //TODO
+              'commission_id': this.data.id,
+              'score': this.data.score
+            }, 
+            success: (res) => { 
+              wx.showToast({
+                title: '撤销成功',
+              })
+              this.hideEvaluate()
+              this.onShow()
+            },
+            fail(res){
+              getApp().globalData.util.netErrorToast()
+            }
+          })
+        } else if (res.cancel) {
+          
+        }
       }
     })
   },
@@ -709,7 +719,8 @@ Page({
           "description": res.data.description,
           "fee": res.data.fee,
           "comment": res.data.comment,
-          "score": res.data.score
+          // "score": res.data.score
+          "score": 5
         });
       },
       fail(res){

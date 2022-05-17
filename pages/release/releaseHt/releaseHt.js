@@ -207,6 +207,8 @@ Component({
           }
         })
       }else{
+        // console.log(self.data.imgList[0])
+        // console.log(self.data.list)
         wx.uploadFile({
           header: self.data.head,
           url: getApp().globalData.baseUrl + '/api/topic/', //接口名称
