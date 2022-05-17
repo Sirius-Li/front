@@ -80,6 +80,8 @@
           <button class="bg-grey bg" bindtap="UndoFinish">撤销完成</button>
         </view>
       </view>
+      
+      
     </view>
     <view wx:if="{{accepted_user.id === myUserId}}" >
       <!-- 接取委托的用户 -->

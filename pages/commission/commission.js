@@ -35,7 +35,7 @@ Page({
     //费用
     fee: null,
     //评分
-    score: 4,
+    score: 5,
     //评论
     comment: [],
     
