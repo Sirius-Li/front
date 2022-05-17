@@ -29,7 +29,8 @@
       <view class="cu-form-group">委托状态：
         <text wx:if="{{status==1}}">已发布</text>
         <text wx:if="{{status==2}}">已申请</text>
-        <text wx:if="{{status==3}}">已完成</text>
+        <text wx:if="{{status==3}}">等待确认</text>
+        <text wx:if="{{status==4}}">已完成</text>
       </view>
 
       <!-- TODO -->
@@ -79,8 +80,6 @@
           <button class="bg-grey bg" bindtap="UndoFinish">撤销完成</button>
         </view>
       </view>
-      
-      
     </view>
     <view wx:if="{{accepted_user.id === myUserId}}" >
       <!-- 接取委托的用户 -->
