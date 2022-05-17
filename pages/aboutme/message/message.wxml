@@ -3,9 +3,9 @@
 	<view slot="backText"></view>
 	<view slot="content">我的消息</view>
 </cu-custom>
-<view>
+<!-- <view>
   <button bindtap="requestSendMsg">接收一次微信消息提醒</button>
-</view>
+</view> -->
 <van-tabs active="{{ active }}" bind:change="onChange" swipeable>
   <van-tab title="私聊消息" dot="{{newSecretMsgCount !== 0}}">
     <van-cell use-label-slot="true">
@@ -80,5 +80,7 @@
     </van-cell-group>
   </van-tab>
 </van-tabs>
-
+<view style="display: flex; flex-direction: row; justify-content: center;">
+  <button style="position: fixed; bottom: 60px; border-radius: 20px; background: #5677fc;" bindtap="requestSendMsg">接收一次微信消息提醒</button>
+</view>
 <van-dialog id="van-dialog" />
