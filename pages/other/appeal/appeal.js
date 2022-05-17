@@ -1,67 +1,128 @@
-// pages/other/appeal/appeal.js
+const BASE_URL = getApp().globalData.baseUrl
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    content: '',
+    radio: null,
+    appealOptions: [
+      '发布话题权限',
+      '发表评论权限',
+      '发布委托权限',
+      '接取委托权限'
+    ],
+    userAuthority: null,
+    userId: null
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
-
+    const that = this
+    if (getApp().globalData.user_status === 2) {
+      wx.redirectTo({
+        url: '../certification/certification',
+      })
+    } else if (getApp().globalData.user_status === 1) {
+      wx.switchTab({
+        url: '../activity/home/home',
+      })
+      wx.showToast({
+        title: '用户还在认证中',
+        icon: 'error'
+      })
+    } else {
+      wx.request({
+        url: `${BASE_URL}/api/users/profile/`,
+        method: 'GET',
+        header: this.getHeaderWithToken(),
+        success(res) {
+          console.log(res.data)
+          that.setData({
+            userAuthority: res.data.authority,
+            userId: res.data.id,
+            content: '',
+            radio: null
+          })
+        },
+        fail(res) {
+          getApp().globalData.util.netErrorToast()
+        }
+      })
+    }
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  onChange(event) {
+    this.setData({
+      radio: event.detail,
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
+  onClick(event) {
+    const { name } = event.currentTarget.dataset
+    this.setData({
+      radio: name,
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
+  onTapSubmit(event) {
+    const that = this
+    const content = event.detail.value.content
+    const radio = event.detail.value.radio
+    console.log(radio)
+    if (content.replace(/(^\s*)|(\s*$)/g, "").length === 0) {
+      wx.showModal({
+        title: '提示',
+        content: '申诉理由不能为空',
+        showCancel: false
+      })
+      return
+    } else if (radio == null) {
+      wx.showModal({
+        title: '提示',
+        content: '请选择具体申诉权限',
+        showCancel: false
+      })
+      return
+    } else if (this.data.userAuthority[radio] == '1') {
+      wx.showModal({
+        title: '提示',
+        content: '该权限未被取消，无需申诉',
+        showCancel: false
+      })
+      return
+    }
 
-  },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
+    wx.request({
+      url: `${BASE_URL}/api/appeal/`,
+      method: 'POST',
+      header: this.getHeaderWithToken(),
+      data: {
+        id: parseInt(that.data.userId),
+        authority: parseInt(radio),
+        reason: content
+      },
+      success(res) {
+        if (res.statusCode === 201) {
+          const data = res.data
 
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+          that.setData({
+            content: '',
+            radio: null
+          })
+          wx.showToast({
+            title: '申诉已成功提交', 
+            success () {
+              setTimeout(() => {
+                wx.navigateBack()
+              }, 700)
+            }
+          })
+        } else {
+          wx.showToast({title: '请重试！'})
+        }
+      },
+      fail(res){
+        getApp().globalData.util.netErrorToast()
+      }
+    })
   },
 
   getHeaderWithToken() {

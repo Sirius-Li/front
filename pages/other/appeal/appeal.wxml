@@ -4,4 +4,31 @@
   <view slot="content">权限申诉</view>
 </cu-custom>
 
-<view class="text-grey text-center text-lg margin-top">当前暂无评论！</view>
+<view class="bg-gray-100 flex flex-col w-full">
+  <view class=" bg-white flex-row items-center mb-4 h-auto mx-4 mt-4 rounded-xl shadow-xl p-4 overflow-hidden w-auto">
+    <view class="w-full">
+      <form bindsubmit="onTapSubmit">
+        <view class="text-base mb-2">申诉权限</view>
+        <view class="border-2 border-black">
+          <van-radio-group value="{{ radio }}" name="radio" bind:change="onChange">
+            <van-cell-group>
+              <van-cell wx:for="{{appealOptions}}" wx:key="index" title="{{item}}" clickable
+              data-name="{{index}}" bind:click="onClick">
+              <van-radio slot="right-icon" name="{{index}}" />
+              </van-cell>
+            </van-cell-group>
+          </van-radio-group>
+        </view>
+        <van-divider />
+        <view class="text-base mb-2">申诉理由</view>
+        <view class="border-2 border-black">
+          <van-field value="{{ content }}" name="content" autosize type="textarea" border="{{ false }}" show-word-limit maxlength="400" placeholder="请在此处输入详细申诉理由" />
+        </view>
+        <view class="py-4 w-full">
+          <van-button formType="submit" type="info" block class="lock w-full mx-auto">提交申诉</van-button>
+        </view>
+      </form>
+    </view>
+    <van-toast id="van-toast" />
+  </view>
+</view>
