@@ -17,7 +17,11 @@ Page({
     commission_score_avg: null,
     releasedActivities: null,
     releasedCommissions: null,
-    releasedTopics: null
+    releasedTopics: null,
+    showDialog: null,
+    tipChosenOption: null,
+    tipAllOptions: null,
+    tipReason: null
   },
 
   onLoad(options) {
@@ -33,6 +37,17 @@ Page({
   },
   onShow() {
     this.getInfo()
+    this.setData({
+      showDialog: false,
+      tipChosenOption: null,
+      tipAllOptions: [
+        "发布不合适的话题",
+        "发表恶意评论",
+        "对接取委托的用户恶意评分",
+        "恶意接取委托"
+      ],
+      tipReason: ''
+    })
   },
   onTapLikeButton() {
     if (getApp().globalData.user_status === 2) {
@@ -71,6 +86,80 @@ Page({
       }
     }
   },
+  onCheckboxChange(event) {
+    this.setData({
+      tipChosenOption: event.detail
+    })
+  },
+  toggle(event) {
+    const { name } = event.currentTarget.dataset
+    this.setData({
+      tipChosenOption: name
+    })
+  },
+  onTapTipButton() {
+    if (getApp().globalData.user_status === 2) {
+      wx.redirectTo({
+        url: '../certification/certification',
+      })
+    } else if (getApp().globalData.user_status === 1) {
+      wx.showModal({
+        title: '拒绝访问',
+        content: '您的账号还在认证中，无权进行此操作'
+      })
+    } else {
+      this.setData({
+        showDialog: true
+      })
+    }
+  },
+  closeDialog() {
+    this.setData({
+      showDialog: false,
+      tipChosenOption: null,
+      tipReason: ''
+    })
+  },
+  informUser() {
+    let app = getApp()
+    const that = this
+    if (this.data.tipChosenOption == null) {
+      wx.showModal({
+        title: '提示',
+        content: '请选择举报类别',
+        showCancel: false
+      })
+    } else if (this.data.tipReason == null || this.data.tipReason.length == 0) {
+      wx.showModal({
+        title: '提示',
+        content: '请填写详细信息',
+        showCancel: false
+      })
+    } else {
+      wx.request({
+        url: `${BASE_URL}/api/inform/`,
+        method: 'POST',
+        header: this.getHeaderWithToken(),
+        data: {
+          id: that.data.myId,
+          to_user_id: that.data.userId,
+          authority: parseInt(that.data.tipChosenOption),
+          reason: that.data.tipReason
+        },
+        success(res) {
+          console.log(res)
+          if (res.statusCode == 201) {
+            wx.showToast({
+              title: '举报成功',
+            })
+          }
+        },
+        fail(res) {
+          getApp().globalData.util.netErrorToast()
+        }
+      })
+    }
+  },
   onTapEditButton() {
     wx.navigateTo({
       url: './edit/edit',
@@ -82,13 +171,13 @@ Page({
       url: `/pages/actList/activity/activity?id=${id}`,
     })
   },
-  onTapTopic(e){
+  onTapTopic(e) {
     const id = e.currentTarget.dataset.topicid
     wx.navigateTo({
       url: `/pages/htdetail/htdetail?id=${id}`,
     })
   },
-  onTapCommission(e){
+  onTapCommission(e) {
     const id = e.currentTarget.dataset.commissionid
     //console.log(id)
     wx.navigateTo({
@@ -217,7 +306,7 @@ Page({
     })
   },
 
-  getReleasedCommissions(){
+  getReleasedCommissions() {
     const that = this
     const header = this.getHeaderWithToken()
     wx.request({
@@ -240,7 +329,7 @@ Page({
     })
   },
 
-  getReleasedTopics(){
+  getReleasedTopics() {
     const that = this
     const header = this.getHeaderWithToken()
     wx.request({
@@ -277,11 +366,11 @@ Page({
     return activities
   },
 
-  parseReceivedReleasedCommissions(data){
+  parseReceivedReleasedCommissions(data) {
     let commissions = []
-    for(const item of data){
+    for (const item of data) {
       commissions.push({
-        id:item.id,
+        id: item.id,
         name: item.name,
         realTime: item.real_time,
         description: item.description
@@ -290,15 +379,15 @@ Page({
     return commissions
   },
 
-  parseReceivedReleasedTopics(data){
+  parseReceivedReleasedTopics(data) {
     let topics = []
     //console.log(data)
-    for(const item of data){
+    for (const item of data) {
       topics.push({
-        id:item.id,
-        name:item.name,
-        description:item.description,
-        imageUrl:item.photo ? `${BASE_URL}${item.photo}` : '/static/img/nophoto.jpg'
+        id: item.id,
+        name: item.name,
+        description: item.description,
+        imageUrl: item.photo ? `${BASE_URL}${item.photo}` : '/static/img/nophoto.jpg'
       })
     }
     return topics

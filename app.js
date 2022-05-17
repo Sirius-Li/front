@@ -50,6 +50,7 @@ App({
             success (res) {
               self.reLogin.reset()
               if (res.statusCode == 200) {
+                getApp().globalData.openId = res.data.openid
                 getApp().globalData.token = res.data.token
                 getApp().globalData.authenticate = true
                 getApp().globalData.logined = true
@@ -180,7 +181,7 @@ App({
     if (that.globalData.authenticate == true) {
       const token = that.globalData.token
       that.globalData['socketTask'] = wx.connectSocket({
-        url: 'ws://114.116.215.100:443/talk_message/' + token + '/',
+        url: 'wss://marfr1.2022martu1.cn/talk_message/' + token + '/',
         header:{
           'content-type': 'application/json'
         },
@@ -264,11 +265,11 @@ App({
     const header = this.getHeaderWithToken()
     const that = this
     wx.request({
+      // 获取所有目标为本用户的未读聊天消息
       url: getApp().globalData.baseUrl + '/api/mymessage/',
       method: 'GET',
       header: header,
       success: function(res) {
-        
         const data = res.data
         let messages = wx.getStorageSync('messages')
         for (let i = 0; i < data.length; i++) {
@@ -308,7 +309,6 @@ App({
         }
       },
       fail: function(res) {
-        
         that.globalData.new_message = false
         that.globalData.messageCount = 0
       }
@@ -393,7 +393,9 @@ App({
   },
 
   globalData: {
-    baseUrl: 'http://114.116.215.100:443',
+    baseUrl: 'https://marfr1.2022martu1.cn',
+    appid: 'wx9f6970d0a04d5232',
+    openId: '',
     userInfo: null,
     token: null,
     authenticate: false,

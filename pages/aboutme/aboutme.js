@@ -57,6 +57,11 @@ Page({
         url: '/pages/other/faq/faq',
       },
       {
+        text: '权限申诉',
+        icon: 'warning-o',
+        url: ''//todo
+      },
+      {
         text: '意见反馈',
         icon: 'service-o',
         url: '/pages/feedback/feedback',
@@ -70,6 +75,13 @@ Page({
 
     notificationCount: 0,
     messageCount: 0,
+
+    //消息开关
+    messageChecked: false,
+
+    // 消息提醒
+    messageReminder: '',
+    messageHasSetting: '',
 
     //博雅选择开关的值
     boyaChecked: null,
@@ -88,6 +100,120 @@ Page({
     hasSetting: null
   },
 
+  messageSwitch({detail}){
+    console.log(detail)
+    if(detail === true){
+      this.rcvMsg()
+    }else{
+      this.undoRcvMsg()
+    }
+    this.getMessageStatus()
+  },
+
+  // 接收消息提醒
+  rcvMsg() {
+    console.log("in rcvMsg", this.data.messageHasSetting)
+    let self = this
+    if(this.data.messageHasSetting == false){
+      wx.requestSubscribeMessage({
+        tmplIds: ['tnmAvtNzq1q0BHU-eou3pUurmiaRGGpFQxHW9VO5GB4'],
+        success (res) { 
+          console.log("wx.requestSubscribeMessage success")
+        },
+        fail (res) {
+          console.log("fail")
+          console.log(res)
+        },
+        complete (res) {
+          self.getMessageStatus()
+        }
+      })
+    }else{ 
+      wx.showModal({
+        title: '开启消息提醒',
+        content: '请前往微信小程序的设置界面开启（受腾讯推送规范限制，暂只能使用放假通知类别进行订阅推送）',
+        confirmText: '现在前往',
+        success (res) {
+          if (res.confirm) {
+            console.log("点击确定")
+            wx.openSetting({ // bug 不执行？
+              withSubscriptions: true,
+              success (res) {
+                console.log("success in 接收消息提醒 openSetting", res)
+              },
+              fail (res) {
+                console.log("fail in 接收消息提醒 openSetting", res)
+              },
+              complete (res) {
+                console.log("complete in 接收消息提醒 openSetting", res)
+              }
+            })
+          } else if (res.cancel) {
+            console.log("点击取消")
+          }
+        },
+        fail (res) {
+          console.log("rcvMsg fail", res)
+        },
+        complete (res) {
+          self.getMessageStatus()
+        }
+      })
+    }
+  },
+
+  // 取消消息提醒
+  undoRcvMsg(){
+    console.log("in undoRcvMsg")
+    wx.showModal({
+      title: '取消消息提醒',
+      content: '请前往微信小程序的设置界面取消',
+      confirmText: '现在前往',
+      success (res) {
+        console.log(res)
+        if (res.confirm) {
+          console.log("hhh")
+          wx.openSetting({
+            withSubscriptions: true,
+            success (res) {
+              console.log("undoRcvMsg openSetting success", res)
+            },
+            fail (res) {
+              console.log("undoRcvMsg openSetting fail", res)
+            }
+          })
+        }
+      }
+    })
+  },
+
+  getMessageStatus(){
+    console.log("in getMessageStatus")
+    let self = this
+    wx.getSetting({
+      // 同时获取用户订阅消息的订阅状态
+      withSubscriptions: true,
+      success(res) {
+        console.log("in getMessageStatus getSetting success", res)
+        if(res.subscriptionsSetting == undefined){
+          self.setData({
+            messageChecked: false,
+            messageHasSetting: false
+          })
+          //console.log(self.data.subscribeMsgChecked)
+        }else{
+          self.setData({
+            messageChecked: res.subscriptionsSetting.mainSwitch,
+            //  &&
+            //  res.subscriptionsSetting == 'accept', // 貌似有bug
+            messageHasSetting: true
+          })
+        }
+        //console.log(self.data.subscribeMsgChecked)
+      },
+    })
+  },
+
   //博雅开关选择和取消
   boyaSwitch({detail}){
     if(detail === true){
@@ -99,7 +225,7 @@ Page({
         closeShow: true
       })
     }
-  },
+  }, 
 
   //统一认证账号密码提交
   passwordSubmit(){
@@ -250,22 +376,31 @@ Page({
 
   //订阅推送的允许和取消
   subscribeMsgSwitch({detail}){
+    console.log("in subscribeMsgSwitch")
+    console.log(detail)
     if(detail === true){
       this.subscribe()
     }else{
       this.undosubscribe()
     }
+    this.getSubscribeStatus()
   },
 
   //请求订阅推送
   subscribe(){
+    console.log("in subscribe", this.data.hasSetting)
+    let self = this
     if(this.data.hasSetting == false){
-      let self = this
       wx.requestSubscribeMessage({
         tmplIds: [
-          'ueT_F8NdhXtY9Yh2_3e1mHTdbmtXnZ-PZOmVB_pyTz8'],
+          'rDBOdvuEP9THubpDddJL3CQNvvrnLGmTiV1KN9jtPUA'],
         success (res) { 
+          console.log("wx.requestSubscribeMessage success")
           self.getSubscribeStatus()
+        },
+        fail (res) {
+          console.log("fail")
+          console.log(res)
         }
       })
     }else{
@@ -275,8 +410,17 @@ Page({
         confirmText: '现在前往',
         success (res) {
           if (res.confirm) {
+            console.log("confirm")
             wx.openSetting({
               withSubscriptions: true,
+              success (res) {
+                console.log("success in 开启订阅openSetting", res)
+              },
+              fail (res) {
+                console.log("fail in 开启订阅openSetting", res)
+              },
+              complete (res) {
+              }
             })
           }
         }
@@ -286,14 +430,25 @@ Page({
 
   //取消订阅推送
   undosubscribe(){
+    console.log("in undosubscribe")
     wx.showModal({
       title: '取消订阅推送',
       content: '请前往微信小程序的设置界面取消',
       confirmText: '现在前往',
       success (res) {
+        console.log(res)
         if (res.confirm) {
+          console.log("hhh")
           wx.openSetting({
             withSubscriptions: true,
+            success (res) {
+              console.log("success")
+              console.log(res)
+            },
+            fail (res) {
+              console.log("fail")
+              console.log(res)
+            }
           })
         }
       }
@@ -304,10 +459,13 @@ Page({
   getSubscribeStatus(){
     let self = this
     wx.getSetting({
+      // 同时获取用户订阅消息的订阅状态
       withSubscriptions: true,
       success(res) {
-        //console.log(res.subscriptionsSetting['ueT_F8NdhXtY9Yh2_3e1mHTdbmtXnZ-PZOmVB_pyTz8'])
-        if(res.subscriptionsSetting['ueT_F8NdhXtY9Yh2_3e1mHTdbmtXnZ-PZOmVB_pyTz8'] == undefined){
+        console.log("in getSubscribeStatus")
+        console.log(res)
+        console.log(res.subscriptionsSetting)
+        if(res.subscriptionsSetting == undefined){
           self.setData({
             subscribeMsgChecked: false,
             hasSetting: false
@@ -315,8 +473,9 @@ Page({
           //console.log(self.data.subscribeMsgChecked)
         }else{
           self.setData({
-            subscribeMsgChecked: res.subscriptionsSetting.mainSwitch &&
-             res.subscriptionsSetting['ueT_F8NdhXtY9Yh2_3e1mHTdbmtXnZ-PZOmVB_pyTz8'] == 'accept',
+            subscribeMsgChecked: res.subscriptionsSetting.mainSwitch,
+            //  &&
+            //  res.subscriptionsSetting == 'accept', // 貌似有bug
              hasSetting: true
           })
         }
@@ -385,13 +544,11 @@ Page({
     }else{
       this.getInfo()
       this.setMessageCount()
-
       getApp().watch('notificationCountFunc', 'aboutme', (value) => {
         if (value !== this.data.notificationCount) {
           this.setNotificationCount()
         }
       })
-
       getApp().watch('messageCountFunc', 'aboutme', (value) => {
         if (value !== this.data.messageCount) {
           this.setMessageCount()
@@ -400,7 +557,8 @@ Page({
 
       //获取推送订阅的状态
       this.getSubscribeStatus()
-      
+      //获取消息提醒状态
+      this.getMessageStatus()
     }
   },
 
@@ -408,7 +566,6 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
     getApp().unWatch('notificationCountFunc', 'aboutme')
     getApp().unWatch('messageCountFunc', 'aboutme')
   },
@@ -448,6 +605,7 @@ Page({
     const {url} = e.currentTarget.dataset
     wx.navigateTo({url})
   },
+
   getInfo: function () {
     var that = this
     var header = {}
@@ -457,8 +615,6 @@ Page({
         'Authorization': `Token` + ' ' + `${getApp().globalData.token}`
       }
     }
-
-
     wx.request({
       url: getApp().globalData.baseUrl + '/api/users/profile/',
       method: 'GET',
