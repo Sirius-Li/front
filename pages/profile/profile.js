@@ -219,6 +219,7 @@ Page({
       success(res) {
         if (res.statusCode === 200) {
           const data = res.data
+          console.log(data)
           if (data.id === that.data.userId) {
             that.setData({
               isMe: true,
