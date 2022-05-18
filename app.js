@@ -395,7 +395,6 @@ App({
   globalData: {
     baseUrl: 'https://marfr1.2022martu1.cn',
     appid: 'wx9f6970d0a04d5232',
-    appsecret: 'cba0da4db779aae76ed914d720edae28',
     openId: '',
     userInfo: null,
     token: null,
