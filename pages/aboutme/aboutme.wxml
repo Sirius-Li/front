@@ -39,17 +39,6 @@
           <!-- <van-tag type="danger">标签</van-tag> -->
         </view>
       </van-cell>
-      <van-cell value="" icon="{{ item.icon }}" is-link wx:for="{{ menuItems }}" wx:key="text" bindtap="onTapMenuItem" data-url="{{ item.url }}">
-        <view slot="title">
-          <view class="title">
-            {{ item.text }}
-            <block wx:if="{{( notificationCount || messageCount )&& item.text === '我的消息' }}">
-              <van-tag type="danger inline ml-1">{{ notificationCount + messageCount }}</van-tag>
-            </block>
-          </view>
-          <!-- <van-tag type="danger">标签</van-tag> -->
-        </view>
-      </van-cell>
       <!--新加的订阅推送-->
       <van-cell icon="icon iconfont icon-MsgSubscribe">
         <view slot="title">
