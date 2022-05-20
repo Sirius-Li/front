@@ -35,22 +35,37 @@
   <view>
     <view class="cu-bar bg-white margin-top">
       <view class="action">
-        <button class="cu-btn bg-grey bg" bindtap="showModal" data-index="{{-1}}">评论话题</button>
+        <button class="cu-btn bg-grey bg" bindtap="showModal" data-index="{{-1}}">评论</button>
       </view>
       <view class="action">
-        <button wx:if="{{is_follow==false}}" class="cu-btn bg-grey bg" bindtap="followTopic">关注话题({{ht.follow}})</button>
+        <button wx:if="{{is_follow==false}}" class="cu-btn bg-grey bg" bindtap="followTopic">关注({{ht.follow}})</button>
         <button wx:else class="cu-btn bg-blue bg" bindtap="unfollowTopic">已关注({{ht.follow}})</button>
       </view>
       <view class="action">
-        <button wx:if="{{is_like==false}}" class="cu-btn bg-grey bg" bindtap="likeTopic">点赞话题({{ht.like}})</button>
+        <button wx:if="{{is_like==false}}" class="cu-btn bg-grey bg" bindtap="likeTopic">点赞({{ht.like}})</button>
         <button wx:else class="cu-btn bg-blue bg" bindtap="unlikeTopic">已点赞({{ht.like}})</button>
       </view>
     </view>
-    <view class="cu-modal {{commentShow[0]==true?'show':''}}">
+    <!-- <view class="cu-modal {{commentShow[0]==true?'show':''}}">
       <view class="cu-dialog">
         <view class="cu-bar bg-white justify-end">
           <view class="content">评论话题：{{ht.name}}</view>
           <view class="action" bindtap="hideModal" data-index="{{-1}}">
+            <text class="cuIcon-close text-red"></text>
+          </view>
+        </view>
+        <view class="padding-xl">
+          <input placeholder="请输入评论" value="{{str}}" bindinput="setValue"></input>
+          <button class="cu-btn bg-grey sm" bindtap="submitCom">提交评论</button>
+        </view>
+      </view>
+    </view> -->
+
+    <view class="cu-modal {{commentHtShow==true?'show':''}}">
+      <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+          <view class="content">评论话题：{{ht.name}}</view>
+          <view class="action" bindtap="hideModal">
             <text class="cuIcon-close text-red"></text>
           </view>
         </view>
@@ -64,53 +79,54 @@
 
   <view wx:if="{{ht.comment.length!=0}}" class="text-gray margin-top">查看全部评论({{ht.comment.length}})</view>
   <view wx:else class="text-grey text-center text-sm margin-top">当前暂无评论！</view>
+
   <block wx:for="{{ht.comment}}" data-item="item" wx:for-index="idx" wx:key="this">
     <view class="cu-list menu-avatar comment solids-top">
       <view class="cu-item">
         <view class="cu-avatar round" style="background-image:url({{item.user.avatarUrl===''?'../../img/default_avatar.png':item.user.avatarUrl}});" bindtap="gotoUserPage" data-userid="{{item.user.id}}"></view>
-        <view class="content">
+        <view class="content"  style="position: relative; left: 3rpx; top: 0rpx">
           <view class="text-grey">{{item.user.nickName}}</view>
-          <block wx:if="{{item.to_user.id > 1}}">
+          <!-- <block wx:if="{{item.to_user.id > 1}}">
             <view>
               @{{item.to_user.nickName}}
             </view>
-          </block>
-          <view class="text-black text-content text-df">
+          </block> -->
+          <text class="text-black text-content text-df">
             {{item.comment_content}}
-          </view>
+          </text>
           <view class="margin-top-sm flex justify-between">
             <view class="text-gray text-df">{{item.comment_time}} | {{idx+1}}楼
             </view>
           </view>
           <view>
             <view class="cu-bar bg-white margin-top">
-              <van-icon bindtap="showModal" data-index="{{idx}}" name="comment-o" size="20"/>
-              <view wx:if="{{is_like_comment[idx] == true}}">
+              <van-icon bindtap="showModal" data-index="{{idx}}" name="comment-o" size="20" />
+              <!-- <view wx:if="{{is_like_comment[idx] == true}}">
                 <van-icon bindtap="unlikeComment" name="like" size="20" data-commentid="{{item.id}}"></van-icon>
                 {{item.like}}
               </view>
               <view wx:else>
                 <van-icon bindtap="likeComment" name="like-o" size="20" data-commentid="{{item.id}}"></van-icon>
                 {{item.like}}
-              </view>
-              <van-icon bindtap="deleteComment" data-commentid="{{item.id}}" data-userid="{{item.user.id}}" wx:if="{{item.user.id === myUserId}}" name="delete-o" size="20"/>
-              <van-icon wx:else/>
+              </view> -->
+              <van-icon bindtap="deleteComment" data-commentid="{{item.id}}" data-userid="{{item.user.id}}" wx:if="{{item.user.id === myUserId}}" name="delete-o" size="20" />
+              <van-icon wx:else />
             </view>
           </view>
           <view class="cu-modal {{commentShow[idx + 1]==true?'show':''}}">
-              <view class="cu-dialog">
-                <view class="cu-bar bg-white justify-end">
-                  <view class="content">回复{{item.user.nickName}}</view>
-                  <view class="action" bindtap="hideModal" data-index="{{idx}}">
-                    <text class="cuIcon-close text-red"></text>
-                  </view>
-                </view>
-                <view class="padding-xl">
-                  <input placeholder="请输入回复" value="{{str}}" bindinput="setValue"></input>
-                  <button class="cu-btn bg-grey sm" bindtap="resubmitCom" data-userid="{{item.user.id}}">提交回复</button>
+            <view class="cu-dialog">
+              <view class="cu-bar bg-white justify-end">
+                <view class="content">回复{{item.user.nickName}}</view>
+                <view class="action" bindtap="hideModal" data-index="{{idx}}">
+                  <text class="cuIcon-close text-red"></text>
                 </view>
               </view>
+              <view class="padding-xl">
+                <input placeholder="请输入回复" value="{{str}}" bindinput="setValue"></input>
+                <button class="cu-btn bg-grey sm" bindtap="resubmitCom" data-userid="{{item.user.id}}">提交回复</button>
+              </view>
             </view>
+          </view>
         </view>
       </view>
     </view>

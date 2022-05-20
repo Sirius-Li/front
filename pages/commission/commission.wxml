@@ -144,13 +144,16 @@
       <view class="cu-item">
         <view class="cu-avatar round" style="background-image:url({{item.user.avatarUrl===''?'../img/default_avatar.png':item.user.avatarUrl}});" bindtap="gotoUserPage" data-userid="{{item.user.id}}"></view>
         <view class="content" style="position: relative; left: 3rpx; top: 0rpx">
-          <view class="text-grey">{{item.user.nickName}} {{item.comment_time}}</view>
-          <view>{{item.comment}}</view>
-
+          <view class="text-grey">{{item.user.nickName}}</view>
+          <text bindlongpress="{{item.user.id === myUserId ? 'deleteComment' : ''}}" data-commentid="{{item.id}}" bindtap="showModal" data-commentid="{{item.id}}" data-userid="{{item.user.id}}" data-username="{{item.user.nickName}}">{{item.comment}}</text>
+          <view class="margin-top-sm flex justify-between">
+            <view class="text-gray text-df">{{item.comment_time}} | {{idx+1}}楼</view>
+          </view>
           <!--二级评论-->
           <view>
             <block wx:for="{{item.reply}}" wx:for-item="replyItem" wx:key="id">
-              <view class="border: 3rpx solid #faca82;" >
+              <!-- <view class="border: 3rpx solid #faca82;" > -->
+              <view>
                 <block>
                   <text class="text-grey" bindtap="gotoUserPage" data-userid="{{replyItem.user.id}}">{{replyItem.user.nickName}}</text> 回复 <text class="text-grey" bindtap="gotoUserPage" data-userid="{{replyItem.to_user.id}}">{{replyItem.to_user.nickName}}</text>：<text bindlongpress="{{replyItem.user.id === myUserId ? 'deleteComment' : ''}}" data-commentid="{{replyItem.id}}" bindtap="showModal" data-commentid="{{replyItem.id}}" data-userid="{{replyItem.user.id}}" data-username="{{replyItem.user.nickName}}">{{replyItem.comment}}</text>
                 </block>
@@ -158,18 +161,14 @@
             </block>
           </view>
 
-          <view class="margin-top-sm flex justify-between">
-            <view class="text-gray text-df">{{idx+1}}楼</view>
-          </view>
-          <view>
+          <!-- <view>
             <view class="cu-bar bg-white margin-top">
               <view>
                 <button class="cu-btn bg-grey bg" bindtap="showModal" data-commentid="{{item.id}}" data-userid="{{item.user.id}}" data-username="{{item.user.nickName}}">评论</button>
               </view>
-              <!-- TODO   -->
               <van-icon bindtap="deleteComment" data-commentid="{{item.id}}" wx:if="{{item.user.id === myUserId}}" name="delete-o" />
             </view>
-          </view>
+          </view> -->
         </view>
       </view>
     </view>
