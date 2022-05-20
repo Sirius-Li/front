@@ -35,7 +35,7 @@
   <view>
     <view class="cu-bar bg-white margin-top">
       <view class="action">
-        <button class="cu-btn bg-grey bg" bindtap="showModal" data-index="{{-1}}">评论</button>
+        <button class="cu-btn bg-grey bg" bindtap="showModal">评论</button>
       </view>
       <view class="action">
         <button wx:if="{{is_follow==false}}" class="cu-btn bg-grey bg" bindtap="followTopic">关注({{ht.follow}})</button>
@@ -84,52 +84,61 @@
     <view class="cu-list menu-avatar comment solids-top">
       <view class="cu-item">
         <view class="cu-avatar round" style="background-image:url({{item.user.avatarUrl===''?'../../img/default_avatar.png':item.user.avatarUrl}});" bindtap="gotoUserPage" data-userid="{{item.user.id}}"></view>
-        <view class="content"  style="position: relative; left: 3rpx; top: 0rpx">
+        <view class="content" style="position: relative; left: 3rpx; top: 0rpx">
           <view class="text-grey">{{item.user.nickName}}</view>
           <!-- <block wx:if="{{item.to_user.id > 1}}">
             <view>
               @{{item.to_user.nickName}}
             </view>
           </block> -->
-          <text class="text-black text-content text-df">
+          <text class="text-black text-content text-df" bindlongpress="{{item.user.id === myUserId ? 'deleteComment' : ''}}" data-commentid="{{item.id}}" bindtap="showModal" data-commentid="{{item.id}}" data-userid="{{item.user.id}}" data-username="{{item.user.nickName}}">
             {{item.comment_content}}
           </text>
           <view class="margin-top-sm flex justify-between">
-            <view class="text-gray text-df">{{item.comment_time}} | {{idx+1}}楼
-            </view>
+            <view class="text-gray text-df">{{item.comment_time}} | {{idx+1}}楼</view>
           </view>
+          <!--二级评论-->
           <view>
+            <block wx:for="{{item.reply}}" wx:for-item="replyItem" wx:key="id">
+              <!-- <view class="border: 3rpx solid #faca82;" > -->
+              <view>
+                <block>
+                  <text class="text-grey" bindtap="gotoUserPage" data-userid="{{replyItem.user.id}}">{{replyItem.user.nickName}}</text> 回复 <text class="text-grey" bindtap="gotoUserPage" data-userid="{{replyItem.to_user.id}}">{{replyItem.to_user.nickName}}</text>：<text bindlongpress="{{replyItem.user.id === myUserId ? 'deleteComment' : ''}}" data-commentid="{{replyItem.id}}" bindtap="showModal" data-commentid="{{replyItem.id}}" data-userid="{{replyItem.user.id}}" data-username="{{replyItem.user.nickName}}">{{replyItem.comment}}</text>
+                </block>
+              </view>
+            </block>
+          </view>
+          <!-- <view>
             <view class="cu-bar bg-white margin-top">
               <van-icon bindtap="showModal" data-index="{{idx}}" name="comment-o" size="20" />
-              <!-- <view wx:if="{{is_like_comment[idx] == true}}">
+              <view wx:if="{{is_like_comment[idx] == true}}">
                 <van-icon bindtap="unlikeComment" name="like" size="20" data-commentid="{{item.id}}"></van-icon>
                 {{item.like}}
               </view>
               <view wx:else>
                 <van-icon bindtap="likeComment" name="like-o" size="20" data-commentid="{{item.id}}"></van-icon>
                 {{item.like}}
-              </view> -->
+              </view>
               <van-icon bindtap="deleteComment" data-commentid="{{item.id}}" data-userid="{{item.user.id}}" wx:if="{{item.user.id === myUserId}}" name="delete-o" size="20" />
               <van-icon wx:else />
             </view>
-          </view>
-          <view class="cu-modal {{commentShow[idx + 1]==true?'show':''}}">
-            <view class="cu-dialog">
-              <view class="cu-bar bg-white justify-end">
-                <view class="content">回复{{item.user.nickName}}</view>
-                <view class="action" bindtap="hideModal" data-index="{{idx}}">
-                  <text class="cuIcon-close text-red"></text>
-                </view>
-              </view>
-              <view class="padding-xl">
-                <input placeholder="请输入回复" value="{{str}}" bindinput="setValue"></input>
-                <button class="cu-btn bg-grey sm" bindtap="resubmitCom" data-userid="{{item.user.id}}">提交回复</button>
-              </view>
-            </view>
-          </view>
+          </view> -->
         </view>
       </view>
     </view>
   </block>
+  <view class="cu-modal {{myCommentShow==true?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">回复{{commentUser.nickName}}</view>
+        <view class="action" bindtap="hideModal">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="padding-xl">
+        <input placeholder="请输入回复" value="{{str}}" bindinput="setValue"></input>
+        <button class="cu-btn bg-grey sm" bindtap="submitCom">提交回复</button>
+      </view>
+    </view>
+  </view>
 </view>
-<van-dialog id="van-dialog" />

@@ -486,6 +486,7 @@ Page({
         to_comment_id: this.data.comment_id, 
       }
     }
+    console.log("submitCom", data)
     if(getApp().globalData.user_status == 2){
       wx.navigateTo({
         url: '../../certification/certification',
@@ -542,6 +543,7 @@ Page({
   },
 
   deleteComment(event) {
+    console.log("deleteComment", event, event.currentTarget.dataset.commentid, "貌似有bug，长按二级评论，在wxml里取值是二级评论id，但是传进来是一级评论id")
     let comment_id = event.currentTarget.dataset.commentid
     let head
     if (getApp().globalData.token == null) {
