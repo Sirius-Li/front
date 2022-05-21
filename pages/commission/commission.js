@@ -534,15 +534,35 @@ Page({
           method: "POST",  //请求方式    
           data: data,
           success: (res) => {
-            self.data.list = res.data
-            wx.showToast({
-              title: '评论成功',
-            })
-            this.onShow()
-            this.setData({
-              myCommentShow: false,
-              commentWtShow: false,
-            })
+            if (res.statusCode == 201) {
+              self.data.list = res.data
+              wx.showToast({
+                title: '评论成功',
+              })
+              this.onShow()
+              this.setData({
+                myCommentShow: false,
+                commentWtShow: false,
+              })
+            } else if (res.statusCode == 403) {
+              wx.showModal({
+                title: res.data + '。是否跳转至权限申诉界面？',
+                success(res) {
+                  if (res.confirm) {
+                    wx.navigateTo({
+                      url: '/pages/other/appeal/appeal',
+                    })
+                  }
+                }
+              })
+              this.onShow()
+              this.setData({
+                myCommentShow: false,
+                commentWtShow: false,
+              })
+            } else {
+              getApp().globalData.util.netErrorToast()
+            }
           },
           fail(res) {
             getApp().globalData.util.netErrorToast()
