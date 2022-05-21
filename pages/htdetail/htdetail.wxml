@@ -99,7 +99,7 @@
               </view>
               <view wx:else class="my-view">
                 <van-icon bindtap="likeComment" name="like-o" size="20" data-commentid="{{item.id}}"></van-icon>
-                <text style="font-size:small">{{item.like}}</text>
+                <text style="font-size:small">点赞({{item.like}})</text>
               </view>
               <view class="my-view">
               <van-icon bindtap="deleteComment" data-commentid="{{item.id}}" data-userid="{{item.user.id}}" wx:if="{{item.user.id === myUserId}}" name="delete-o" size="20" />
