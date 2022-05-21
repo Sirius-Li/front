@@ -47,6 +47,11 @@ Page({
         url: '/pages/profile/follow/follow',
       },
       {
+        text: '历史查看',
+        icon: 'icon iconfont icon-guanzhu',
+        url: '/pages/htList/htList?type=10',
+      },
+      {
         text: '权限查看与申诉',
         icon: 'warning-o',
         url: '/pages/other/appeal/appeal'

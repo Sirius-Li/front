@@ -1,6 +1,7 @@
 <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}"> 
     <view slot="backText"> </view>>
-    <view slot="content">话题列表</view>>
+    <view wx:if="{{type==10}}" slot="content">历史话题</view>
+    <view wx:else slot="content">话题列表</view>
 </cu-custom>
 
 <block wx:if="{{type == 5}}">
