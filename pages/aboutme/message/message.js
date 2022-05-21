@@ -1,5 +1,5 @@
 // pages/message/message.js
-import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog'
+import Dialog from '../../../miniprogram_npm/@vant/weapp/dialog/dialog'
 const util = require('../../../utils/util.js')
 Page({
 

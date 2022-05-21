@@ -5,17 +5,20 @@ Page({
 
   data: {
     id: null,
-    list: [],
     str: '',
     is_like: null,
     is_follow: null,
     is_like_comment: [],
     user_status: null,
-    commentShow: [],
     ht: null,
     photo: null,
     myUserId: null,
-    comments: null
+    comments: null,
+    htCommentShow: null,
+    commentShow: null,
+    userName: null,
+    userId: null,
+    commentId: null
   },
 
   onLoad(options) {
@@ -51,11 +54,9 @@ Page({
           photo: res.data.photo == '' ? '' : getApp().globalData.baseUrl + res.data.photo,
           comments: res.data.comment
         })
-        let tempList = []
         let ttemplst = []
         //console.log(self.data.comments)
         for (let i = 0; i < res.data.comment.length; i++) {
-          tempList.push(false)
           if (res.data.comment[i].to_comment_id != '-1') {
             var info1 = 'comments[' + i + '].has_ref_comment'
             var info2 = 'comments[' + i + '].ref_comment'
@@ -76,14 +77,13 @@ Page({
               self.setData({
                 [info1]: false
               })
-
             }
           }
           ttemplst.push(res.data.comment[i].id)
         }
-        tempList.push(false)
         self.setData({
-          commentShow: tempList
+          htCommentShow: false,
+          commentShow: false
         })
         let templst = []
         let tmplst = []
@@ -542,8 +542,6 @@ Page({
     }
   },
   resubmitCom: function (event) {
-    let userid = event.currentTarget.dataset.userid
-    let commentid = event.currentTarget.dataset.commentid
     if (getApp().globalData.user_status == 2) {
       wx.navigateTo({
         url: '../certification/certification',
@@ -575,17 +573,15 @@ Page({
           showCancel: false
         })
       } else {
-        console.log(userid)
-        console.log(self.data.id)
         wx.request({
           url: getApp().globalData.baseUrl + "/api/topic_comment/", //接口名称   
           header: head,
           method: "POST",  //请求方式    
           data: {
-            to_user_id: userid,
+            to_user_id: self.data.userId,
             topic_id: self.data.id,
             comment_content: self.data.str,
-            to_comment_id: commentid
+            to_comment_id: self.data.commentId
           },
           success(res) {
             if (res.statusCode == 201) {
@@ -594,7 +590,7 @@ Page({
               })
               self.reset()
               self.getDetail()
-            } else if(res.statusCode == 403){
+            } else if (res.statusCode == 403) {
 
             }
           },
@@ -619,23 +615,60 @@ Page({
         icon: 'error'
       })
     } else {
-      let index = e.currentTarget.dataset.index
-      let tempList = []
-      for (let i = 0; i <= this.data.commentShow.length; i++) {
-        tempList.push(false)
-      }
-      tempList[index + 1] = true
+      // let index = e.currentTarget.dataset.index
+      // let tempList = []
+      // for (let i = 0; i <= this.data.commentShow.length; i++) {
+      //   tempList.push(false)
+      // }
+      // tempList[index + 1] = true
+      // this.setData({
+      //   commentShow: tempList
+      // })
       this.setData({
-        commentShow: tempList
+        htCommentShow: true
       })
     }
   },
+
+  showCommentModal(event) {
+    if (getApp().globalData.user_status == 2) {
+      wx.navigateTo({
+        url: '../certification/certification',
+      })
+    } else if (getApp().globalData.user_status == 1) {
+      wx.showToast({
+        title: '用户还在认证中',
+        icon: 'error'
+      })
+    } else {
+      this.setData({
+        commentShow: true,
+        userName: event.currentTarget.dataset.username,
+        userId: event.currentTarget.dataset.userid,
+        commentId: event.currentTarget.dataset.commentid
+      })
+    }
+  },
+
+
   hideModal(e) {
-    let index = e.currentTarget.dataset.index
-    let tempList = this.data.commentShow
-    tempList[index + 1] = false
+    // let index = e.currentTarget.dataset.index
+    // let tempList = this.data.commentShow
+    // tempList[index + 1] = false
+    // this.setData({
+    //   commentShow: tempList
+    // })
     this.setData({
-      commentShow: tempList
+      htCommentShow: false
+    })
+    this.reset()
+  },
+
+  hideCommentModal() {
+    this.setData({
+      commentShow: false,
+      userId: null,
+      commentId: null
     })
     this.reset()
   },

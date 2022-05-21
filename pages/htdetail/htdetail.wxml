@@ -35,7 +35,7 @@
   <view>
     <view class="cu-bar bg-white margin-top">
       <view class="action">
-        <button class="cu-btn bg-grey bg" bindtap="showModal" data-index="{{-1}}">评论话题</button>
+        <button class="cu-btn bg-grey bg" bindtap="showModal">评论话题</button>
       </view>
       <view class="action">
         <button wx:if="{{is_follow==false}}" class="cu-btn bg-grey bg" bindtap="followTopic">关注话题({{ht.follow}})</button>
@@ -46,11 +46,11 @@
         <button wx:else class="cu-btn bg-blue bg" bindtap="unlikeTopic">已点赞({{ht.like}})</button>
       </view>
     </view>
-    <view class="cu-modal {{commentShow[0]==true?'show':''}}">
+    <view class="cu-modal {{htCommentShow==true?'show':''}}">
       <view class="cu-dialog">
         <view class="cu-bar bg-white justify-end">
           <view class="content">评论话题：{{ht.name}}</view>
-          <view class="action" bindtap="hideModal" data-index="{{-1}}">
+          <view class="action" bindtap="hideModal">
             <text class="cuIcon-close text-red"></text>
           </view>
         </view>
@@ -90,7 +90,7 @@
           <view>
             <view class="cu-bar bg-white">
               <view>
-                <van-icon bindtap="showModal" data-index="{{idx}}" name="comment-o" size="20" />
+                <van-icon bindtap="showCommentModal" data-username="{{item.user.nickName}}" data-userid="{{item.user.id}}" data-commentid="{{item.id}}" name="comment-o" size="20" />
               </view>
               <view wx:if="{{is_like_comment[idx] == true}}">
                 <van-icon bindtap="unlikeComment" name="like" size="15" data-commentid="{{item.id}}"></van-icon>
@@ -104,23 +104,23 @@
               <van-icon wx:else />
             </view>
           </view>
-          <view class="cu-modal {{commentShow[idx + 1]==true?'show':''}}">
-            <view class="cu-dialog">
-              <view class="cu-bar bg-white justify-end">
-                <view class="content">回复{{item.user.nickName}}</view>
-                <view class="action" bindtap="hideModal" data-index="{{idx}}">
-                  <text class="cuIcon-close text-red"></text>
-                </view>
-              </view>
-              <view class="padding-xl">
-                <input placeholder="请输入回复" value="{{str}}" bindinput="setValue"></input>
-                <button class="cu-btn bg-grey sm" bindtap="resubmitCom" data-userid="{{item.user.id}}" data-commentid="{{item.id}}">提交回复</button>
-              </view>
-            </view>
-          </view>
         </view>
       </view>
     </view>
   </block>
+  <view class="cu-modal {{commentShow==true?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">回复{{userName}}</view>
+        <view class="action" bindtap="hideCommentModal">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="padding-xl">
+        <input placeholder="请输入回复" value="{{str}}" bindinput="setValue"></input>
+        <button class="cu-btn bg-grey sm" bindtap="resubmitCom">提交回复</button>
+      </view>
+    </view>
+  </view>
 </view>
 <van-dialog id="van-dialog" />
