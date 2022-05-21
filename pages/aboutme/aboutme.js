@@ -47,6 +47,11 @@ Page({
         url: '/pages/profile/follow/follow',
       },
       {
+        text: '权限查看与申诉',
+        icon: 'warning-o',
+        url: '/pages/other/appeal/appeal'
+      },
+      {
         text: '运动',
         icon: 'icon iconfont icon-sport-o',
         url: '/pages/activity/sports/sports',
@@ -55,11 +60,6 @@ Page({
         text: 'FAQ',
         icon: 'icon iconfont icon-faq',
         url: '/pages/other/faq/faq',
-      },
-      {
-        text: '权限申诉',
-        icon: 'warning-o',
-        url: ''//todo
       },
       {
         text: '意见反馈',
@@ -77,11 +77,16 @@ Page({
     messageCount: 0,
 
     //消息开关
-    messageChecked: false,
+    // messageChecked: false,
 
-    // 消息提醒
-    messageReminder: '',
-    messageHasSetting: '',
+    // // 消息提醒
+    // messageReminder: '',
+    // messageHasSetting: '',
+    recommendChecked: false,
+    recommendOpenShow: false,
+    recommendCloseShow: false,
+    wtTypeList: [],
+    checkResult: [],
 
     //博雅选择开关的值
     boyaChecked: null,
@@ -100,117 +105,122 @@ Page({
     hasSetting: null
   },
 
-  messageSwitch({detail}){
-    console.log(detail)
-    if(detail === true){
-      this.rcvMsg()
-    }else{
-      this.undoRcvMsg()
-    }
-    this.getMessageStatus()
-  },
-
-  // 接收消息提醒
-  rcvMsg() {
-    console.log("in rcvMsg", this.data.messageHasSetting)
+  getWtTypeList () {
+    let app = getApp()
+    let head
     let self = this
-    if(this.data.messageHasSetting == false){
-      wx.requestSubscribeMessage({
-        tmplIds: ['tnmAvtNzq1q0BHU-eou3pUurmiaRGGpFQxHW9VO5GB4'],
-        success (res) { 
-          console.log("wx.requestSubscribeMessage success")
-        },
-        fail (res) {
-          console.log("fail")
-          console.log(res)
-        },
-        complete (res) {
-          self.getMessageStatus()
-        }
-      })
-    }else{ 
-      wx.showModal({
-        title: '开启消息提醒',
-        content: '请前往微信小程序的设置界面开启（受腾讯推送规范限制，暂只能使用放假通知类别进行订阅推送）',
-        confirmText: '现在前往',
-        success (res) {
-          if (res.confirm) {
-            console.log("点击确定")
-            wx.openSetting({ // bug 不执行？
-              withSubscriptions: true,
-              success (res) {
-                console.log("success in 接收消息提醒 openSetting", res)
-              },
-              fail (res) {
-                console.log("fail in 接收消息提醒 openSetting", res)
-              },
-              complete (res) {
-                console.log("complete in 接收消息提醒 openSetting", res)
-              }
-            })
-          } else if (res.cancel) {
-            console.log("点击取消")
-          }
-        },
-        fail (res) {
-          console.log("rcvMsg fail", res)
-        },
-        complete (res) {
-          self.getMessageStatus()
-        }
-      })
+    if (app.globalData.token == null) {
+      head = {      
+        'content-type': 'application/json'
+       }
+    } else {
+      head = {      
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + app.globalData.token
+       }
     }
-  },
-
-  // 取消消息提醒
-  undoRcvMsg(){
-    console.log("in undoRcvMsg")
-    wx.showModal({
-      title: '取消消息提醒',
-      content: '请前往微信小程序的设置界面取消',
-      confirmText: '现在前往',
-      success (res) {
-        console.log(res)
-        if (res.confirm) {
-          console.log("hhh")
-          wx.openSetting({
-            withSubscriptions: true,
-            success (res) {
-              console.log("undoRcvMsg openSetting success", res)
-            },
-            fail (res) {
-              console.log("undoRcvMsg openSetting fail", res)
-            }
-          })
+    var tmpTypeList = []
+    wx.request({
+      url: getApp().globalData.baseUrl + '/api/commission/sort/', //获取委托类别
+      header: head,
+      method:"GET",  //请求方式    
+      data: {},
+      success(res) {   
+        console.log("查看委托类别", res)
+        for (let i = 0 ; i < res.data.length; i++) {
+          var tmpItem = {
+              name: res.data[i].name, 
+              value: res.data[i].id,
+              checked: true,
+          }
+          tmpTypeList.push(tmpItem)
         }
+        self.setData({
+          wtTypeList: tmpTypeList
+        })
+        console.log("wtTypeList", tmpTypeList)
+      },
+      fail(res){
+        getApp().globalData.util.netErrorToast()
       }
     })
   },
 
-  getMessageStatus(){
-    console.log("in getMessageStatus")
+  recommendSwitch({detail}) {
+    console.log("in recommendSwitch", detail)
+    if(detail === true){
+      this.setData({
+        recommendOpenShow: true
+      })
+    }else{
+      this.setData({
+        recommendCloseShow: true
+      })
+    }
+  },
+
+  checkboxChange(e) {
+    this.setData({
+      checkResult: e.detail
+    })
+    console.log(this.data.checkResult)
+  },
+
+  handleWtRecommend () {
+    console.log("in handleWtRecommend")
+    let app = getApp()
+    let head
     let self = this
-    wx.getSetting({
-      // 同时获取用户订阅消息的订阅状态
-      withSubscriptions: true,
-      success(res) {
-        console.log("in getMessageStatus getSetting success", res)
-        if(res.subscriptionsSetting == undefined){
-          self.setData({
-            messageChecked: false,
-            messageHasSetting: false
+    if (this.data.checkResult.length == 0) {
+      wx.showModal({
+        title: '提示',
+        content: '所选不能为空',
+      }) 
+    } else {
+      wx.requestSubscribeMessage({
+        tmplIds: ['BT2hBJj_iJ8lmaIR2_0rAiiMwIF0bNb4bQACVX1dt6Q'],
+        success (res) { 
+          console.log("wx.requestSubscribeMessage success")
+          if (app.globalData.token == null) {
+            head = {      
+              'content-type': 'application/json'
+            }
+          } else {
+            head = {      
+              'content-type': 'application/json',
+              'Authorization': 'Token ' + app.globalData.token
+            }
+          }
+          wx.request({
+            url: getApp().globalData.baseUrl + '', //开通委托推荐 接口暂未设计好 TODO
+            header: head,
+            method:"GET",  //请求方式    
+            data: {
+              idList: self.data.checkResult
+            },
+            success(res) {   
+              self.setData({
+                checkResult: [],
+                recommendChecked: true,
+              })
+            }
           })
-          //console.log(self.data.subscribeMsgChecked)
-        }else{
-          self.setData({
-            messageChecked: res.subscriptionsSetting.mainSwitch,
-            //  &&
-            //  res.subscriptionsSetting == 'accept', // 貌似有bug
-            messageHasSetting: true
-          })
-        }
-        //console.log(self.data.subscribeMsgChecked)
-      },
+        },
+      })
+    }
+  },
+
+  recommendClose() {
+    this.setData({
+      checkResult: []
+    })
+  },
+
+  undoWtRecommend () {
+    console.log("in undoWtRecommend")
+    this.setData({
+      checkResult: [],
+      recommendChecked: false,
     })
   },
 
@@ -558,7 +568,8 @@ Page({
       //获取推送订阅的状态
       this.getSubscribeStatus()
       //获取消息提醒状态
-      this.getMessageStatus()
+      // this.getMessageStatus()
+      this.getWtTypeList()
     }
   },
 

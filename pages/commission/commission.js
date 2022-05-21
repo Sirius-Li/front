@@ -40,8 +40,14 @@ Page({
     comment: [],
     
     //一些控制变量
+    commentWtShow: false,
     evaluateShow: false,
-    commentShow: [],
+    myCommentShow: false,
+    commentUser: {
+      id: null,
+      nickName: null,
+    },
+    comment_id: null,
     commentStr: null,
   },
 
@@ -418,6 +424,10 @@ Page({
   },
 
   showModal(event) {
+    console.log("in showModel", event)
+    let userid = event.currentTarget.dataset.userid
+    let username = event.currentTarget.dataset.username
+    let commentid = event.currentTarget.dataset.commentid
     if(getApp().globalData.user_status == 2){
       wx.navigateTo({
         url: '../../certification/certification',
@@ -428,31 +438,29 @@ Page({
         icon: 'error'
       })
     }else{
-      let index =  event.currentTarget.dataset.index
-      let tempList = []
-      for(let i = 0; i<= this.data.commentShow.length; i++){
-        tempList.push(false)
-      }
-      tempList[index + 1] = true
       this.setData({
-        commentShow: tempList
+        myCommentShow: commentid == null ? false: true,
+        commentWtShow: commentid == null ? true: false,
+        commentUser: {
+          id: userid,
+          nickName: username,
+        },
+        comment_id: commentid,
       })
     }
+    console.log(this.data.myCommentShow, this.data.commentUser, this.data.comment_id)
   },
 
   hideModal(event) {
-    let index =  event.currentTarget.dataset.index
-    let tempList = this.data.commentShow
-    tempList[index + 1] = false
     this.setData({
-      commentShow: tempList
-    })
-    this.reset()
-  },
-
-  reset: function() {
-    this.setData({
-      commentStr: null
+      myCommentShow: false,
+      commentWtShow: false,
+      commentStr: null,
+      commentUser: {
+        id: null,
+        nickName: null,
+      },
+      comment_id: null,
     })
   },
 
@@ -464,6 +472,21 @@ Page({
 
   submitCom() {
     //TODO
+    let data
+    if (this.data.comment_id==null) {
+      data = {
+        commission_id: this.data.id,
+        comment: this.data.commentStr
+      }
+    } else {
+      data = {
+        commission_id: this.data.id,
+        to_user_id: this.data.commentUser.id,
+        comment: this.data.commentStr,
+        to_comment_id: this.data.comment_id, 
+      }
+    }
+    console.log("submitCom", data)
     if(getApp().globalData.user_status == 2){
       wx.navigateTo({
         url: '../../certification/certification',
@@ -476,7 +499,6 @@ Page({
     }else{
       let app = getApp()
       let head = {}
-      
       if (app.globalData.token == null) {
         head = {      
           'content-type': 'application/json'
@@ -499,21 +521,16 @@ Page({
           url: getApp().globalData.baseUrl + '/api/commission/comment/', //接口名称   
           header: head,
           method:"POST",  //请求方式    
-          data: {
-            commission_id: this.data.id,
-            comment: this.data.commentStr
-          }, 
+          data: data,
           success:(res) => {   
             self.data.list = res.data 
             wx.showToast({
               title: '评论成功',
             })
-            // this.reset()
             this.onShow()
-            let tempList = this.data.commentShow
-            tempList[0] = false
             this.setData({
-              commentShow: tempList
+              myCommentShow: false,
+              commentWtShow: false,
             })
           },
           fail(res){
@@ -522,74 +539,11 @@ Page({
         })
       }
     }
-  },
-
-  resubmitCom(event) {
-    let to_user_id = event.currentTarget.dataset.userid
-    let comment = this.data.commentStr
-    let idx = event.currentTarget.dataset.idx
-    if(getApp().globalData.user_status == 2){
-      wx.navigateTo({
-        url: '../../certification/certification',
-      })
-    }else if(getApp().globalData.user_status == 1){
-      wx.showToast({
-        title: '用户还在认证中',
-        icon: 'error'
-      })
-    }else{
-      let app = getApp()
-      let head = {}
-      
-      if (app.globalData.token == null) {
-        head = {      
-          'content-type': 'application/json'
-        }
-      } else {
-        head = {      
-          'content-type': 'application/json',
-          'Authorization': 'Token ' + app.globalData.token
-        }
-      }
-      if (this.data.commentStr == null || this.data.commentStr.length == 0) {
-        wx.showModal({
-          title: '提示',
-          content: '评论不能为空',
-          showCancel: false
-        })
-      } else {
-        self = this
-      wx.request({    
-        url: getApp().globalData.baseUrl + '/api/commission/comment/', //接口名称   
-        header: head,
-        method:"POST",  //请求方式    
-        data: {
-          commission_id: this.data.id,
-          to_user_id: to_user_id,
-          comment: comment,
-        }, 
-        success:(res) => {   
-          self.data.list = res.data 
-          wx.showToast({
-            title: '评论成功',
-          })
-          // self.reset()
-          self.onShow()
-          let temp_commentShow = this.data.commentShow
-          temp_commentShow[idx+1] = false
-          this.setData({
-            commentShow: temp_commentShow
-          })
-        },
-        fail(res){
-          getApp().globalData.util.netErrorToast()
-        }
-      })
-      }
-    }
+    this.hideModal()
   },
 
   deleteComment(event) {
+    console.log("deleteComment", event, event.currentTarget.dataset.commentid, "貌似有bug，长按二级评论，在wxml里取值是二级评论id，但是传进来是一级评论id")
     let comment_id = event.currentTarget.dataset.commentid
     let head
     if (getApp().globalData.token == null) {

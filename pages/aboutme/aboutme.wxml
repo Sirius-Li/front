@@ -1,12 +1,11 @@
 <cu-custom bgColor="bg-gradual-blue" isBack="{{false}}">
-	<view slot="backText">返回</view>
-	<view slot="content">我的</view>
+  <view slot="backText">返回</view>
+  <view slot="content">我的</view>
 </cu-custom>
 <view class="bg-gray-100 flex-col justify-center min-h-screen" style="margin-bottom: 50px">
   <view class="w-auto mx-4 flex-col mb-6 pt-6">
     <view class="flex items-center h-auto px-2 mb-4 w-full">
-      <image mode="aspectFit" class="flex-none w-20 h-20 rounded-full shadow-md"
-             src="{{ userAvatarUrl===''?'../../img/default_avatar.png':userAvatarUrl }}" bindtap="onTapUserName"/>
+      <image mode="aspectFit" class="flex-none w-20 h-20 rounded-full shadow-md" src="{{ userAvatarUrl===''?'../../img/default_avatar.png':userAvatarUrl }}" bindtap="onTapUserName" />
       <view class="w-auto ml-4 text-base leading-6 text-gray-700 flex-row flex-initial">
         <view class="flex-1 text-2xl" bindtap="onTapUserName"> {{ username }} </view>
         <view class="flex-1 mt-3" bindtap="onTapUserName"> {{ email }} </view>
@@ -23,8 +22,7 @@
   </view>
   <view class="w-auto mx-4 bg-white rounded-xl shadow-md items-center mb-6 flex overflow-hidden">
     <van-grid square class="flex-1 block">
-      <van-grid-item icon="{{ item.icon }}" text="{{ item.text }}" wx:for="{{ activityClasses }}" wx:key="text"
-       bindtap="navigateToActivities" data-type="{{index}}"/>
+      <van-grid-item icon="{{ item.icon }}" text="{{ item.text }}" wx:for="{{ activityClasses }}" wx:key="text" bindtap="navigateToActivities" data-type="{{index}}" />
     </van-grid>
     <view class="clear-both" />
   </view>
@@ -47,7 +45,7 @@
           <view class="title">接收订阅活动推送</view>
         </view>
         <view slot="right-icon">
-          <van-switch checked="{{ subscribeMsgChecked }}" bind:change="subscribeMsgSwitch" size="45rpx"/>
+          <van-switch checked="{{ subscribeMsgChecked }}" bind:change="subscribeMsgSwitch" size="45rpx" />
         </view>
       </van-cell>
       <!--新加的订阅推送-->
@@ -57,54 +55,50 @@
           <view class="title">博雅选课</view>
         </view>
         <view slot="right-icon">
-          <van-switch checked="{{ boyaChecked }}" bind:change="boyaSwitch" size="45rpx"/>
+          <van-switch checked="{{ boyaChecked }}" bind:change="boyaSwitch" size="45rpx" />
         </view>
       </van-cell>
-      <van-cell icon="icon iconfont icon-boya-o">
+      <van-cell icon="icon iconfont icon-MsgSubscribe">
         <view slot="title">
-          <view class="title">消息提醒</view>
+          <view class="title">委托个性化推荐</view>
         </view>
         <view slot="right-icon">
-          <van-switch v-model="{{ messageChecked }}" bind:change="messageSwitch" size="45rpx"/>
+          <van-switch checked="{{ recommendChecked }}" bind:change="recommendSwitch" size="45rpx" />
         </view>
       </van-cell>
-      <van-dialog
-        use-slot
-        title="填写统一认证账号的密码"
-        show="{{ openShow }}"
-        show-cancel-button
-        show-confirm-button="{{false}}"
-        bind:close="dialogClose"
-      >
+      <van-dialog use-slot title="填写统一认证账号的密码" show="{{ openShow }}" show-cancel-button show-confirm-button="{{false}}" bind:close="dialogClose">
         <view class="bg-white padding-sm">
           <view class="flex-sub">
             <view class="text-sm padding text-gray">为了支持博雅选课服务，我们需要您提供北航统一认证账号的密码,而账号会默认使用您在身份认证时填写的学号，若此有误，请先进行修改</view>
             <van-toast id="van-toast" />
             <van-cell-group>
-              <van-field
-                label="密码"
-                placeholder="请输入密码"
-                password
-                error-message="{{errMsg}}"
-                model:value="{{password}}"
-                use-button-slot
-                bind:change="hasPassword"
-              >
+              <van-field label="密码" placeholder="请输入密码" password error-message="{{errMsg}}" model:value="{{password}}" use-button-slot bind:change="hasPassword">
                 <van-button slot="button" size="small" type="info" bindtap="passwordSubmit">提交</van-button>
               </van-field>
             </van-cell-group>
           </view>
         </view>
       </van-dialog>
-      <van-dialog
-        title="取消博雅选课服务"
-        message='您确定要取消博雅选课服务吗?'
-        show="{{ closeShow }}"
-        show-cancel-button
-        bind:confirm="undoBoya"
-      >
+      <van-dialog title="取消博雅选课服务" message='您确定要取消博雅选课服务吗?' show="{{ closeShow }}" show-cancel-button bind:confirm="undoBoya">
       </van-dialog>
       <!--新加-->
+
+      <van-dialog use-slot title="个性化推荐" show="{{ recommendOpenShow }}" show-cancel-button bind:close="recommendClose" bind:confirm="handleWtRecommend">
+        <view class="bg-white padding-sm">
+          <view>
+                <view class="weui-cells weui-cells_after-title">
+                  <van-checkbox-group value="{{checkResult}}" bindchange="checkboxChange">
+                    <view style="margin-top: 10px" wx:for="{{wtTypeList}}" wx:key="{{item.value}}">
+                      <!-- <van-checkbox value="{{item.value}}" checked="{{item.checked}}">{{item.name}}</van-checkbox> -->
+                      <van-checkbox name="{{item.value}}">{{item.name}}</van-checkbox>
+                    </view>
+                  </van-checkbox-group>
+                </view>
+          </view>
+        </view>
+      </van-dialog>
+
+      <van-dialog show="{{ recommendCloseShow }}" title="个性化推荐" message="确定要关闭吗？" show-cancel-button bind:confirm="undoWtRecommend"></van-dialog>
     </van-cell-group>
   </view>
 </view>
