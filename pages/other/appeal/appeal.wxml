@@ -1,10 +1,23 @@
 <!--pages/other/appeal/appeal.wxml-->
 <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
   <view slot="backText"></view>
-  <view slot="content">权限申诉</view>
+  <view slot="content">权限查看与申诉</view>
 </cu-custom>
 
 <view class="bg-gray-100 flex flex-col w-full">
+  <view class=" bg-white flex-row items-center mb-4 h-auto mx-4 mt-4 rounded-xl shadow-xl p-4 overflow-hidden w-auto">
+    <view class="w-full">
+      <view class="text-lg font-bold mb-2">当前权限状态</view>
+      <view wx:for="{{appealOptions}}" wx:key="index">
+        <text class="text-base mb-3 mr-2">{{item}}</text>
+        <van-icon wx:if="{{userAuthority[index] == '1'}}" name="success" />
+        <van-icon wx:else name="cross" />
+      </view>
+    </view>
+  </view>
+</view>
+
+<view wx:if="{{userAuthority != '1111'}}" class="bg-gray-100 flex flex-col w-full">
   <view class=" bg-white flex-row items-center mb-4 h-auto mx-4 mt-4 rounded-xl shadow-xl p-4 overflow-hidden w-auto">
     <view class="w-full">
       <form bindsubmit="onTapSubmit">
@@ -12,9 +25,8 @@
         <view class="border-2 border-black">
           <van-radio-group value="{{ radio }}" name="radio" bind:change="onChange">
             <van-cell-group>
-              <van-cell wx:for="{{appealOptions}}" wx:key="index" title="{{item}}" clickable
-              data-name="{{index}}" bind:click="onClick">
-              <van-radio slot="right-icon" name="{{index}}" />
+              <van-cell wx:for="{{appealOptions}}" wx:key="index" title="{{item}}" clickable data-name="{{index}}" bind:click="onClick">
+                <van-radio slot="right-icon" name="{{index}}" />
               </van-cell>
             </van-cell-group>
           </van-radio-group>
@@ -29,6 +41,12 @@
         </view>
       </form>
     </view>
-    <van-toast id="van-toast" />
+    <!-- <van-toast id="van-toast" /> -->
+  </view>
+</view>
+
+<view wx:else class="bg-gray-100 flex flex-col w-full">
+  <view class=" bg-white flex-row items-center mb-4 h-auto mx-4 mt-4 rounded-xl shadow-xl p-4 overflow-hidden w-auto">
+    <view class="text-base font-bold text-center">当前没有被禁止的权限，无需申诉！</view>
   </view>
 </view>

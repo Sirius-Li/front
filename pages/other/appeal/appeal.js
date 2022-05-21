@@ -28,9 +28,26 @@ Page({
         icon: 'error'
       })
     } else {
+      // wx.request({
+      //   url: `${BASE_URL}/api/users/profile/`,
+      //   method: 'GET',
+      //   header: this.getHeaderWithToken(),
+      //   success(res) {
+      //     console.log(res.data)
+      //     that.setData({
+      //       userAuthority: res.data.authority,
+      //       userId: res.data.id,
+      //       content: '',
+      //       radio: null
+      //     })
+      //   },
+      //   fail(res) {
+      //     getApp().globalData.util.netErrorToast()
+      //   }
+      // })
       wx.request({
-        url: `${BASE_URL}/api/users/profile/`,
-        method: 'GET',
+        url: `${BASE_URL}/api/user_authority_self/`,
+        method: "GET",
         header: this.getHeaderWithToken(),
         success(res) {
           console.log(res.data)
@@ -108,18 +125,18 @@ Page({
             radio: null
           })
           wx.showToast({
-            title: '申诉已成功提交', 
-            success () {
+            title: '申诉已成功提交',
+            success() {
               setTimeout(() => {
                 wx.navigateBack()
               }, 700)
             }
           })
         } else {
-          wx.showToast({title: '请重试！'})
+          wx.showToast({ title: '请重试！' })
         }
       },
-      fail(res){
+      fail(res) {
         getApp().globalData.util.netErrorToast()
       }
     })

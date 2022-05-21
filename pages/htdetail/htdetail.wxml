@@ -70,21 +70,21 @@
         <view class="cu-avatar round" style="background-image:url({{item.user.avatarUrl===''?'../../img/default_avatar.png':item.user.avatarUrl}});" bindtap="gotoUserPage" data-userid="{{item.user.id}}"></view>
         <view class="content">
           <view class="text-grey">{{item.user.nickName}}</view>
-          <block wx:if="{{item.to_user.id > 1}}">
-            <view>
-              @{{item.to_user.nickName}}
+          <view class="text-gray text-df">{{item.comment_time}}</view>
+
+          <block>
+            <view class="bg-gray margin-top-xs margin-bottom-xs padding-xs">
+              <text class="text-grey">adwur: </text>
+              <text class="text-black">成色如何</text>
             </view>
           </block>
-          <view class="text-black text-content text-df">
+
+          <view class="text-black text-content text-base margin-top-xs">
             {{item.comment_content}}
           </view>
-          <view class="margin-top-sm flex justify-between">
-            <view class="text-gray text-df">{{item.comment_time}} | {{idx+1}}楼
-            </view>
-          </view>
           <view>
-            <view class="cu-bar bg-white margin-top">
-              <van-icon bindtap="showModal" data-index="{{idx}}" name="comment-o" size="20"/>
+            <view class="cu-bar bg-white">
+              <van-icon bindtap="showModal" data-index="{{idx}}" name="comment-o" size="20" />
               <view wx:if="{{is_like_comment[idx] == true}}">
                 <van-icon bindtap="unlikeComment" name="like" size="20" data-commentid="{{item.id}}"></van-icon>
                 {{item.like}}
@@ -93,24 +93,24 @@
                 <van-icon bindtap="likeComment" name="like-o" size="20" data-commentid="{{item.id}}"></van-icon>
                 {{item.like}}
               </view>
-              <van-icon bindtap="deleteComment" data-commentid="{{item.id}}" data-userid="{{item.user.id}}" wx:if="{{item.user.id === myUserId}}" name="delete-o" size="20"/>
-              <van-icon wx:else/>
+              <van-icon bindtap="deleteComment" data-commentid="{{item.id}}" data-userid="{{item.user.id}}" wx:if="{{item.user.id === myUserId}}" name="delete-o" size="20" />
+              <van-icon wx:else />
             </view>
           </view>
           <view class="cu-modal {{commentShow[idx + 1]==true?'show':''}}">
-              <view class="cu-dialog">
-                <view class="cu-bar bg-white justify-end">
-                  <view class="content">回复{{item.user.nickName}}</view>
-                  <view class="action" bindtap="hideModal" data-index="{{idx}}">
-                    <text class="cuIcon-close text-red"></text>
-                  </view>
-                </view>
-                <view class="padding-xl">
-                  <input placeholder="请输入回复" value="{{str}}" bindinput="setValue"></input>
-                  <button class="cu-btn bg-grey sm" bindtap="resubmitCom" data-userid="{{item.user.id}}">提交回复</button>
+            <view class="cu-dialog">
+              <view class="cu-bar bg-white justify-end">
+                <view class="content">回复{{item.user.nickName}}</view>
+                <view class="action" bindtap="hideModal" data-index="{{idx}}">
+                  <text class="cuIcon-close text-red"></text>
                 </view>
               </view>
+              <view class="padding-xl">
+                <input placeholder="请输入回复" value="{{str}}" bindinput="setValue"></input>
+                <button class="cu-btn bg-grey sm" bindtap="resubmitCom" data-userid="{{item.user.id}}">提交回复</button>
+              </view>
             </view>
+          </view>
         </view>
       </view>
     </view>

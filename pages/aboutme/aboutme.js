@@ -47,6 +47,11 @@ Page({
         url: '/pages/profile/follow/follow',
       },
       {
+        text: '权限查看与申诉',
+        icon: 'warning-o',
+        url: '/pages/other/appeal/appeal'
+      },
+      {
         text: '运动',
         icon: 'icon iconfont icon-sport-o',
         url: '/pages/activity/sports/sports',
@@ -55,11 +60,6 @@ Page({
         text: 'FAQ',
         icon: 'icon iconfont icon-faq',
         url: '/pages/other/faq/faq',
-      },
-      {
-        text: '权限申诉',
-        icon: 'warning-o',
-        url: '/pages/other/appeal/appeal'
       },
       {
         text: '意见反馈',
