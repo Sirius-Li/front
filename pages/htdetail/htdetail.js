@@ -476,20 +476,6 @@ Page({
   },
 
   submitCom: function () {
-    let data
-    if (this.data.comment_id==null) {
-      data = {
-        commission_id: this.data.id,
-        comment: this.data.str
-      }
-    } else {
-      data = {
-        commission_id: this.data.id,
-        to_user_id: this.data.commentUser.id,
-        comment: this.data.str,
-        to_comment_id: this.data.comment_id, 
-      }
-    }
     if (getApp().globalData.user_status == 2) {
       wx.navigateTo({
         url: '../certification/certification',
@@ -525,7 +511,11 @@ Page({
           url: app.globalData.baseUrl + "/api/topic_comment/", //接口名称   
           header: head,
           method: "POST",  //请求方式    
-          data: data,
+          data: {
+            //to_user_id:null,
+            topic_id: this.data.id,
+            comment_content: self.data.str
+          },
           success(res) {
             if (res.statusCode == 201) {
               wx.showToast({
@@ -633,7 +623,7 @@ Page({
 
 
 
-  showModal(event) {
+  showModal(e) {
     if (getApp().globalData.user_status == 2) {
       wx.navigateTo({
         url: '../certification/certification',
@@ -699,6 +689,7 @@ Page({
       userId: null,
       commentId: null
     })
+    this.reset()
   },
 
 
