@@ -424,7 +424,7 @@ Page({
   },
 
   showModal(event) {
-    console.log("in showModel", event)
+    console.log("in showModel", event, event.currentTarget.dataset.test)
     let userid = event.currentTarget.dataset.userid
     let username = event.currentTarget.dataset.username
     let commentid = event.currentTarget.dataset.commentid
