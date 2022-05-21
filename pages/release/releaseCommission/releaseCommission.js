@@ -18,6 +18,7 @@ Component({
     commission_type_id: -1,
     //委托类别
     type_list: [],
+    commission_type_list: [],
     commission_type_name_list: [],
     //委托名称
     name: '',
@@ -244,7 +245,7 @@ Component({
         url: getApp().globalData.baseUrl + '/api/commission/publish/', //接口名称
         method: 'post',
         data: {
-          "commission_type": Number(this.data.commission_type_id) + 1,
+          "commission_type": this.data.commission_type_list[Number(this.data.commission_type_id)].id,
           "name": this.data.name,
           "start_time": s_time,
           "end_time": e_time,
@@ -306,7 +307,7 @@ Component({
         commission_type_id: -1,
         //委托类别
         type_list: [],
-        // commission_type_name_list: [],
+        // commission_type_list: [],
         //委托名称
         name: '',
         start_time: now.toString(),
@@ -385,7 +386,7 @@ Component({
       'start_time': now.toString(),
       'end_time': now.toString(),
     })
-    console.log(this.data.start_time)
+    // console.log(this.data.start_time)
 
     wx.request({
       url: getApp().globalData.baseUrl + '/api/commission/sort/',
@@ -399,14 +400,20 @@ Component({
             'type_list': res.data
         })
         let temp_list = []
+        let name_list = []
         for (const key in this.data.type_list) {
           if (this.data.type_list.hasOwnProperty.call(this.data.type_list, key)) {
-            temp_list.push(this.data.type_list[key].name);       
+            // console.log(this.data.type_list[key])
+            temp_list.push(this.data.type_list[key]);    
+            name_list.push(this.data.type_list[key].name)   
           }
         }
+        // console.log(res.data)
         this.setData({
-          commission_type_name_list: temp_list
+          commission_type_list: temp_list,
+          commission_type_name_list: name_list
         })
+        // console.log(this.data.commission_type_list[3])
       },
       fail:(res) => {
           getApp().globalData.util.netErrorToast()
