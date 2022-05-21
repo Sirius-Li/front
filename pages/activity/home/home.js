@@ -181,6 +181,7 @@ Page({
         },
         header: this.data.head,
         success (res) {
+          //console.log(res.data)
           self.setData({
             activityList: self.unique(res.data),
             loading: false

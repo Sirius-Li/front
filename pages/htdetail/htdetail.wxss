@@ -9,3 +9,19 @@
 .font-break {
   word-break:break-all;
 }
+
+.my-bar{
+  display: flex;
+	position: relative;
+	align-items: center;
+	min-height: 80rpx;
+  justify-content: space-between;
+  margin-bottom: -20rpx;
+}
+
+.my-view{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
