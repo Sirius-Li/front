@@ -424,7 +424,7 @@ Page({
   },
 
   showModal(event) {
-    console.log("in showModel", event, event.currentTarget.dataset.test)
+    console.log("in showModel", event, event.currentTarget.dataset.delcommentid)
     let userid = event.currentTarget.dataset.userid
     let username = event.currentTarget.dataset.username
     let commentid = event.currentTarget.dataset.commentid
@@ -543,8 +543,8 @@ Page({
   },
 
   deleteComment(event) {
-    console.log("deleteComment", event, event.currentTarget.dataset.commentid, "貌似有bug，长按二级评论，在wxml里取值是二级评论id，但是传进来是一级评论id")
-    let comment_id = event.currentTarget.dataset.commentid
+    console.log("deleteComment", event, event.currentTarget.dataset.delcommentid)
+    let comment_id = event.currentTarget.dataset.delcommentid
     let head
     if (getApp().globalData.token == null) {
       head = {      

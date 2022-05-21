@@ -145,9 +145,7 @@
         <view class="cu-avatar round" style="background-image:url({{item.user.avatarUrl===''?'../img/default_avatar.png':item.user.avatarUrl}});" catchtap="gotoUserPage" data-userid="{{item.user.id}}"></view>
         <view class="content" style="position: relative; left: 3rpx; top: 0rpx">
           <view class="text-grey">{{item.user.nickName}}</view>
-          <text class="text-black text-content text-df" 
-          catchlongpress="{{item.user.id === myUserId ? 'deleteComment' : ''}}" data-commentid="{{item.id}}" 
-          catchtap="showModal" data-commentid="{{item.id}}" data-userid="{{item.user.id}}" data-username="{{item.user.nickName}}">{{item.comment}}</text>
+          <text class="text-black text-content text-df" catchlongpress="{{item.user.id === myUserId ? 'deleteComment' : ''}}" data-commentid="{{item.id}}" catchtap="showModal" data-commentid="{{item.id}}" data-userid="{{item.user.id}}" data-username="{{item.user.nickName}}">{{item.comment}}</text>
           <view class="margin-top-sm flex justify-between">
             <view class="text-gray text-df">{{item.comment_time}} | {{idx+1}}楼</view>
           </view>
@@ -158,12 +156,11 @@
               <view>
                 <block>
                   <text class="text-grey" catchtap="gotoUserPage" data-userid="{{replyItem.user.id}}">{{replyItem.user.nickName}}</text>
-                   回复 <text class="text-grey" catchtap="gotoUserPage" data-userid="{{replyItem.to_user.id}}">{{replyItem.to_user.nickName}}</text>：
-                   <text 
-                   catchtap="showModal" data-test="{{replyItem.id}}" data-commentid="{{item.id}}" data-userid="{{replyItem.user.id}}" 
-                   data-username="{{replyItem.user.nickName}}"
-                   catchlongpress="{{replyItem.user.id === myUserId ? 'deleteComment' : ''}}" data-commentid="{{replyItem.id}}" 
-                   >{{replyItem.comment}}</text>
+                  回复 <text class="text-grey" catchtap="gotoUserPage" data-userid="{{replyItem.to_user.id}}">{{replyItem.to_user.nickName}}</text>：
+                  <text 
+                  catchlongpress="{{replyItem.user.id === myUserId ? 'deleteComment' : ''}}" data-delcommentid="{{replyItem.id}}"
+                  catchtap="showModal" data-commentid="{{item.id}}" data-userid="{{replyItem.user.id}}" data-username="{{replyItem.user.nickName}}"
+                  >{{replyItem.comment}}</text>
                 </block>
               </view>
             </block>
