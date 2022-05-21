@@ -82,6 +82,7 @@
           <view class="text-black text-content text-base margin-top-xs">
             {{item.comment_content}}
           </view>
+          <!--二级评论-->
           <view>
             <view class="cu-bar bg-white">
               <van-icon bindtap="showModal" data-index="{{idx}}" name="comment-o" size="20" />
@@ -96,24 +97,23 @@
               <van-icon bindtap="deleteComment" data-commentid="{{item.id}}" data-userid="{{item.user.id}}" wx:if="{{item.user.id === myUserId}}" name="delete-o" size="20" />
               <van-icon wx:else />
             </view>
-          </view>
-          <view class="cu-modal {{commentShow[idx + 1]==true?'show':''}}">
-            <view class="cu-dialog">
-              <view class="cu-bar bg-white justify-end">
-                <view class="content">回复{{item.user.nickName}}</view>
-                <view class="action" bindtap="hideModal" data-index="{{idx}}">
-                  <text class="cuIcon-close text-red"></text>
-                </view>
-              </view>
-              <view class="padding-xl">
-                <input placeholder="请输入回复" value="{{str}}" bindinput="setValue"></input>
-                <button class="cu-btn bg-grey sm" bindtap="resubmitCom" data-userid="{{item.user.id}}">提交回复</button>
-              </view>
-            </view>
-          </view>
+          </view> -->
         </view>
       </view>
     </view>
   </block>
+  <view class="cu-modal {{myCommentShow==true?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">回复{{commentUser.nickName}}</view>
+        <view class="action" bindtap="hideModal">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="padding-xl">
+        <input placeholder="请输入回复" value="{{str}}" bindinput="setValue"></input>
+        <button class="cu-btn bg-grey sm" bindtap="submitCom">提交回复</button>
+      </view>
+    </view>
+  </view>
 </view>
-<van-dialog id="van-dialog" />
