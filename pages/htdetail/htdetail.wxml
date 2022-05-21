@@ -88,20 +88,23 @@
             {{item.comment_content}}
           </view>
           <view>
-            <view class="cu-bar bg-white">
-              <view>
-                <van-icon bindtap="showCommentModal" data-username="{{item.user.nickName}}" data-userid="{{item.user.id}}" data-commentid="{{item.id}}" name="comment-o" size="20" />
+            <view class="my-bar margin-top-xs bg-white">
+              <view class="my-view" bindtap="showCommentModal" data-username="{{item.user.nickName}}" data-userid="{{item.user.id}}" data-commentid="{{item.id}}">
+                <van-icon name="comment-o" size="20" />
+                <text style="font-size: small;">回复</text>
               </view>
-              <view wx:if="{{is_like_comment[idx] == true}}">
-                <van-icon bindtap="unlikeComment" name="like" size="15" data-commentid="{{item.id}}"></van-icon>
-                {{item.like}}
+              <view wx:if="{{is_like_comment[idx] == true}}" class="my-view">
+                <van-icon bindtap="unlikeComment" name="like" size="20" data-commentid="{{item.id}}"></van-icon>
+                <text style="font-size:small">{{item.like}}</text>
               </view>
-              <view wx:else>
+              <view wx:else class="my-view">
                 <van-icon bindtap="likeComment" name="like-o" size="20" data-commentid="{{item.id}}"></van-icon>
-                {{item.like}}
+                <text style="font-size:small">{{item.like}}</text>
               </view>
+              <view class="my-view">
               <van-icon bindtap="deleteComment" data-commentid="{{item.id}}" data-userid="{{item.user.id}}" wx:if="{{item.user.id === myUserId}}" name="delete-o" size="20" />
               <van-icon wx:else />
+              </view>
             </view>
           </view>
         </view>

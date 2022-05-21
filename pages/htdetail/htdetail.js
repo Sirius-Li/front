@@ -499,7 +499,7 @@ Page({
           'Authorization': 'Token ' + app.globalData.token
         }
       }
-      if (this.data.str.length == 0 || util.strIsEmpty(this.data.str)) {
+      if (this.data.str == null || this.data.str.length == 0 || util.strIsEmpty(this.data.str)) {
         wx.showModal({
           title: '提示',
           content: '评论不能为空',
@@ -525,8 +525,14 @@ Page({
               self.getDetail()
             } else if (res.statusCode == 403) {
               wx.showModal({
-                title: res.data,
-                showCancel: false
+                title: res.data + '。是否跳转至权限申诉界面？',
+                success(res) {
+                  if (res.confirm) {
+                    wx.navigateTo({
+                      url: '/pages/other/appeal/appeal',
+                    })
+                  }
+                }
               })
               self.reset()
               self.getDetail()
@@ -565,7 +571,7 @@ Page({
         }
       }
       let self = this
-      if (this.data.str.length == 0 || util.strIsEmpty(this.data.str)) {
+      if (this.data.str == null || this.data.str.length == 0 || util.strIsEmpty(this.data.str)) {
         this.reset()
         wx.showModal({
           title: '提示',
@@ -591,7 +597,20 @@ Page({
               self.reset()
               self.getDetail()
             } else if (res.statusCode == 403) {
-
+              wx.showModal({
+                title: res.data + '。是否跳转至权限申诉界面？',
+                success(res) {
+                  if (res.confirm) {
+                    wx.navigateTo({
+                      url: '/pages/other/appeal/appeal',
+                    })
+                  }
+                }
+              })
+              self.reset()
+              self.getDetail()
+            } else {
+              getApp().globalData.util.netErrorToast()
             }
           },
           fail(res) {
