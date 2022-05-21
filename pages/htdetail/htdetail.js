@@ -69,7 +69,7 @@ Page({
           data: {
           },
           success(res) {
-            //console.log(res.data[0].topic_comment.id)
+            //console.log(res.data)
             for (let i = 0; i < res.data.length; i++) {
               templst.push(res.data[i].topic_comment.id)
             }
@@ -103,6 +103,7 @@ Page({
             for (let i = 0; i < res.data.length; i++) {
               if (self.data.id == res.data[i].topic.id) {
                 llike = true
+                break
               }
             }
             if (llike) {
@@ -131,6 +132,7 @@ Page({
               //console.log(res.data[i].id)
               if (self.data.id == res.data[i].topic.id) {
                 ffollow = true
+                break
               }
             }
             if (ffollow) {
@@ -500,11 +502,22 @@ Page({
           method: "POST",  //请求方式    
           data: data,
           success(res) {
-            wx.showToast({
-              title: '评论成功'
-            })
-            self.reset()
-            self.getDetail()
+            if(res.statusCode == 201){
+              wx.showToast({
+                title: '评论成功'
+              })
+              self.reset()
+              self.getDetail()
+            } else if(res.statusCode == 403){
+              wx.showModal({
+                title: res.data,
+                showCancel: false
+              })
+              self.reset()
+              self.getDetail()
+            } else{
+              getApp().globalData.util.netErrorToast()
+            }
           },
           fail(res) {
             getApp().globalData.util.netErrorToast()
