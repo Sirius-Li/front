@@ -14,7 +14,8 @@ Page({
     commentShow: [],
     ht: null,
     photo: null,
-    myUserId: null
+    myUserId: null,
+    comments: null
   },
 
   onLoad(options) {
@@ -45,15 +46,42 @@ Page({
       data: {
       },
       success(res) {
-        //console.log(res.data)
         self.setData({
           ht: res.data,
           photo: res.data.photo == '' ? '' : getApp().globalData.baseUrl + res.data.photo,
+          comments: res.data.comment
         })
         let tempList = []
-        for (let i = 0; i <= res.data.comment.length; i++) {
+        let ttemplst = []
+        //console.log(self.data.comments)
+        for (let i = 0; i < res.data.comment.length; i++) {
           tempList.push(false)
+          if (res.data.comment[i].to_comment_id != '-1') {
+            var info1 = 'comments[' + i + '].has_ref_comment'
+            var info2 = 'comments[' + i + '].ref_comment'
+            //console.log(ttemplst)
+            var index = ttemplst.indexOf(res.data.comment[i].to_comment_id)
+            //console.log(index)
+            //console.log('-------')
+            if (index >= 0) {
+              self.setData({
+                [info1]: true,
+                [info2]: {
+                  user_id: res.data.comment[index].user.id,
+                  user_name: res.data.comment[index].user.nickName,
+                  comment_content: res.data.comment[index].comment_content
+                }
+              })
+            } else {
+              self.setData({
+                [info1]: false
+              })
+
+            }
+          }
+          ttemplst.push(res.data.comment[i].id)
         }
+        tempList.push(false)
         self.setData({
           commentShow: tempList
         })
@@ -489,20 +517,20 @@ Page({
             comment_content: self.data.str
           },
           success(res) {
-            if(res.statusCode == 201){
+            if (res.statusCode == 201) {
               wx.showToast({
                 title: '评论成功'
               })
               self.reset()
               self.getDetail()
-            } else if(res.statusCode == 403){
+            } else if (res.statusCode == 403) {
               wx.showModal({
                 title: res.data,
                 showCancel: false
               })
               self.reset()
               self.getDetail()
-            } else{
+            } else {
               getApp().globalData.util.netErrorToast()
             }
           },
@@ -515,6 +543,7 @@ Page({
   },
   resubmitCom: function (event) {
     let userid = event.currentTarget.dataset.userid
+    let commentid = event.currentTarget.dataset.commentid
     if (getApp().globalData.user_status == 2) {
       wx.navigateTo({
         url: '../certification/certification',
@@ -555,14 +584,19 @@ Page({
           data: {
             to_user_id: userid,
             topic_id: self.data.id,
-            comment_content: self.data.str
+            comment_content: self.data.str,
+            to_comment_id: commentid
           },
           success(res) {
-            wx.showToast({
-              title: '回复成功',
-            })
-            self.reset()
-            self.getDetail()
+            if (res.statusCode == 201) {
+              wx.showToast({
+                title: '回复成功',
+              })
+              self.reset()
+              self.getDetail()
+            } else if(res.statusCode == 403){
+
+            }
           },
           fail(res) {
             getApp().globalData.util.netErrorToast()
