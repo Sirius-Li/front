@@ -93,17 +93,17 @@
                 <van-icon name="comment-o" size="20" />
                 <text style="font-size: small;">回复</text>
               </view>
-              <view wx:if="{{is_like_comment[idx] == true}}" class="my-view">
-                <van-icon bindtap="unlikeComment" name="like" size="20" data-commentid="{{item.id}}"></van-icon>
+              <view wx:if="{{is_like_comment[idx] == true}}" class="my-view" bindtap="unlikeComment" data-commentid="{{item.id}}">
+                <van-icon name="like" size="20"></van-icon>
                 <text style="font-size:small">{{item.like}}</text>
               </view>
-              <view wx:else class="my-view">
-                <van-icon bindtap="likeComment" name="like-o" size="20" data-commentid="{{item.id}}"></van-icon>
+              <view wx:else class="my-view" bindtap="likeComment" data-commentid="{{item.id}}">
+                <van-icon name="like-o" size="20"></van-icon>
                 <text style="font-size:small">点赞({{item.like}})</text>
               </view>
               <view class="my-view">
-              <van-icon bindtap="deleteComment" data-commentid="{{item.id}}" data-userid="{{item.user.id}}" wx:if="{{item.user.id === myUserId}}" name="delete-o" size="20" />
-              <van-icon wx:else />
+                <van-icon bindtap="deleteComment" data-commentid="{{item.id}}" data-userid="{{item.user.id}}" wx:if="{{item.user.id === myUserId}}" name="delete-o" size="20" />
+                <van-icon wx:else />
               </view>
             </view>
           </view>
