@@ -21,10 +21,10 @@ Page({
     this.data.studentId = event.detail
   },
   onChangeStudentCollege(event){
-    this.data.studentCollege = event.detail
+    this.data.college = event.detail
   },
   onChangeStudentGrade(event){
-    this.data.studentGrade = event.detail
+    this.data.grade = event.detail
   },
   onGenderConfirm() {
     this.applyGenderChange()
@@ -105,13 +105,13 @@ Page({
       throw '学号不能为空'
     } else if (this.data.studentId && this.data.studentId.length > 15) {
       throw '学号非法'
-    } else if (util.strIsEmpty(this.data.studentCollege)) {
+    } else if (util.strIsEmpty(this.data.college)) {
       throw '输入不能为空'
-    } else if (this.data.studentCollege && this.data.studentCollege.length > 15) {
+    } else if (this.data.college && this.data.college.length > 15) {
       throw '输入非法'
-    } else if (util.strIsEmpty(this.data.studentGrade)) {
+    } else if (util.strIsEmpty(this.data.grade)) {
       throw '学号不能为空'
-    } else if (this.data.studentGrade && this.data.studentGrade.length > 15) {
+    } else if (this.data.grade && this.data.grade.length > 15) {
       throw '输入非法'
     } 
   },
@@ -121,9 +121,11 @@ Page({
       this.checkInput()
     }
     catch (err) {
+      console.log(1)
+      console.log(err)
       wx.showModal({
         title: '错误',
-        content: err
+        content: err.errMsg
       })
       return
     }
@@ -135,8 +137,8 @@ Page({
         gender: that.data.gender,
         student_id: that.data.studentId,
         avatarUrl: that.data.userAvatarUrl,
-        college: that.data.studentCollege,
-        grade: that.data.studentGrade
+        college: that.data.college,
+        grade: that.data.grade
       },
       header: that.getHeaderWithToken(),
       success(res) {
