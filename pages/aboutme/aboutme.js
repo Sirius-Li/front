@@ -172,10 +172,11 @@ Page({
   },
 
   handleWtRecommend () {
-    console.log("in handleWtRecommend")
+    console.log("in handleWtRecommend", this.data.checkResult)
     let app = getApp()
     let head
     let self = this
+    let data = this.data.checkResult
     if (this.data.checkResult.length == 0) {
       wx.showModal({
         title: '提示',
@@ -197,13 +198,14 @@ Page({
             }
           }
           wx.request({
-            url: getApp().globalData.baseUrl + '', //开通委托推荐 接口暂未设计好 TODO
+            url: getApp().globalData.baseUrl + '/api/commission/recommend/', //开通委托推荐 接口暂未设计好 TODO
             header: head,
-            method:"GET",  //请求方式    
+            method:"POST",  //请求方式    
             data: {
-              idList: self.data.checkResult
+              idList: data
             },
-            success(res) {   
+            success(res) {
+              console.log("推荐data:", data)
               self.setData({
                 checkResult: [],
                 recommendChecked: true,

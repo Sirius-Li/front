@@ -122,20 +122,8 @@ Page({
               console.log("htList type = 10 ", res.data)
               let tmp = []
               let i = 0
-              let j = 0
               for (i = 0; i < res.data.length; i++) {
-                var flag = 0
-                for (j = 0; j < tmp.length; j++) {
-                  if (tmp.length > 0) {
-                    if (tmp[j].id === res.data[i].topic.id) {
-                      flag = 1
-                      break
-                    }
-                  }
-                }
-                if (flag === 0) {
                   tmp.push(res.data[i].topic)
-                }
               }
               console.log("tmp=", tmp)
                 self.setData({
@@ -146,8 +134,8 @@ Page({
                 getApp().globalData.util.netErrorToast()
             }
         })
-        }
-
+      }
+      console.log("======================", this.data.list)
     },
 
     jumpToSonPages:function(event) {

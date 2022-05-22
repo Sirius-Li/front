@@ -88,7 +88,7 @@
           <view>
                 <view class="weui-cells weui-cells_after-title">
                   <van-checkbox-group value="{{checkResult}}" bindchange="checkboxChange">
-                    <view style="margin-top: 10px" wx:for="{{wtTypeList}}" wx:key="{{value}}">
+                    <view style="margin-top: 10px" wx:for="{{wtTypeList}}" wx:key="value">
                       <!-- <van-checkbox value="{{item.value}}" checked="{{item.checked}}">{{item.name}}</van-checkbox> -->
                       <van-checkbox name="{{item.value}}">{{item.name}}</van-checkbox>
                     </view>
