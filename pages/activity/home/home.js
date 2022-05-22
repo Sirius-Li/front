@@ -173,8 +173,9 @@ Page({
     }
     if(type == '热门话题'){
       let self = this
+      //let templst = []
       wx.request({
-        url: getApp().globalData.baseUrl + '/api/topic/',
+        url: getApp().globalData.baseUrl + '/api/topic_click/',
         method: 'GET',
         data: {
   
@@ -182,8 +183,12 @@ Page({
         header: this.data.head,
         success (res) {
           //console.log(res.data)
+          // for(let i=0;i<res.data.length;i++){
+          //   templst.push(res.data[i].topic)
+          // }
+          //console.log(templst)
           self.setData({
-            activityList: self.unique(res.data),
+            activityList: res.data,
             loading: false
           })
         },
@@ -261,16 +266,22 @@ Page({
     let self = this
     let type = self.data.type
     if(type == '热门话题'){
+      //let templst = []
       wx.request({
-        url: getApp().globalData.baseUrl + '/api/topic/',
+        url: getApp().globalData.baseUrl + '/api/topic_click/',
         method: 'GET',
         data: {
   
         },
         header: this.data.head,
         success (res) {
+          //console.log(res.data)
+          // for(let i=0;i<res.data.length;i++){
+          //   templst.push(res.data[i].topic)
+          // }
+          //console.log(templst)
           self.setData({
-            activityList: self.unique(res.data),
+            activityList: res.data,
             loading: false
           })
         },

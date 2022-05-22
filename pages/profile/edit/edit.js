@@ -20,6 +20,12 @@ Page({
   onChangeStudentId(event) {
     this.data.studentId = event.detail
   },
+  onChangeStudentCollege(event){
+    this.data.studentCollege = event.detail
+  },
+  onChangeStudentGrade(event){
+    this.data.studentGrade = event.detail
+  },
   onGenderConfirm() {
     this.applyGenderChange()
     this.hideGenderPopup()
@@ -57,7 +63,9 @@ Page({
             phone: data.phone,
             studentId: data.student_id,
             gender: data.gender,
-            email: data.email
+            email: data.email,
+            college: data.college,
+            grade: data.grade
           })
           wx.setStorageSync('profile', data)
         } else {
@@ -97,7 +105,15 @@ Page({
       throw '学号不能为空'
     } else if (this.data.studentId && this.data.studentId.length > 15) {
       throw '学号非法'
-    }
+    } else if (util.strIsEmpty(this.data.studentCollege)) {
+      throw '输入不能为空'
+    } else if (this.data.studentCollege && this.data.studentCollege.length > 15) {
+      throw '输入非法'
+    } else if (util.strIsEmpty(this.data.studentGrade)) {
+      throw '学号不能为空'
+    } else if (this.data.studentGrade && this.data.studentGrade.length > 15) {
+      throw '输入非法'
+    } 
   },
   submitChange() {
     const that = this
@@ -119,6 +135,8 @@ Page({
         gender: that.data.gender,
         student_id: that.data.studentId,
         avatarUrl: that.data.userAvatarUrl,
+        college: that.data.studentCollege,
+        grade: that.data.studentGrade
       },
       header: that.getHeaderWithToken(),
       success(res) {

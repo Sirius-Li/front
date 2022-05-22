@@ -66,6 +66,26 @@
               type="textarea"
               disabled
           />
+          <van-field
+              value="{{ college }}"
+              border="{{ false }}"
+              label="学院"
+              input-align="right" center
+              autosize="{{ true }}"
+              bind:change="onChangeStudentCollege"
+              type="textarea"
+              maxlength="15" show-word-limit
+          />
+          <van-field
+              value="{{ grade }}"
+              border="{{ false }}"
+              label="年级"
+              input-align="right" center
+              autosize="{{ true }}"
+              bind:change="onChangeStudentGrade"
+              type="textarea"
+              maxlength="15" show-word-limit
+          />
           <van-popup
               show="{{ show.genderPopup }}"
               position="bottom"

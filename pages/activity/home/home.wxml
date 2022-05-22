@@ -50,16 +50,19 @@
         </view>
 
         <view class='margin-xs bg-white radius shadow-lg' wx:for="{{activityList}}" wx:key="id">
-          <van-card title="{{item.name}}" bindtap="jumpToHt" data-id="{{item.id}}" thumb="{{item.photo == '' ? '/static/img/nophoto.jpg' : 'https://marfr1.2022martu1.cn' + item.photo}}">
+          <van-card title="{{item.topic.name}}" bindtap="jumpToHt" data-id="{{item.topic.id}}" thumb="{{(item.topic.photo == '' || item.topic.photo == null || item.topic.photo == undefined) ? '/static/img/nophoto.jpg' : 'https://marfr1.2022martu1.cn' + item.topic.photo}}">
             <view slot="desc">
               <view>
-                <van-icon name="user-o" /><text class="field-name text-blue">发起人：</text>{{item.create_user.nickName}}
+                <van-icon name="user-o" /><text class="field-name text-blue">发起人：</text>{{item.topic.create_user.nickName}}
               </view>
               <view>
-                <van-icon name="clock-o" /><text class="field-name text-blue">点赞数:</text>{{item.like}}
+                <van-icon name="clock-o" /><text class="field-name text-blue">点赞数:</text>{{item.topic.like}}
               </view>
               <view>
-                <van-icon name="clock" /><text class="field-name text-blue">关注数:</text>{{item.follow}}
+                <van-icon name="clock" /><text class="field-name text-blue">关注数:</text>{{item.topic.follow}}
+              </view>
+              <view>
+                <van-icon name="clock-o" /><text class="field-name text-blue">点击量:</text>{{item.count}}
               </view>
               <view> {{item.description}} </view>
             </view>
@@ -117,7 +120,7 @@
         </view>
 
         <view class='margin-xs bg-white radius shadow-lg' wx:for="{{activityList}}" wx:key="id">
-          <van-card tag="{{item.activity_type.name}}" title="{{item.name}}" bindtap="jumpToSonPages" data-id="{{item.id}}" thumb="{{item.photo == '' ? '/static/img/nophoto.jpg' : 'https://marfr1.2022martu1.cn' + item.photo}}">
+          <van-card tag="{{item.activity_type.name}}" title="{{item.name}}" bindtap="jumpToSonPages" data-id="{{item.id}}" thumb="{{(item.photo == '' || item.photo == null || item.photo == undefined) ? '/static/img/nophoto.jpg' : 'https://marfr1.2022martu1.cn' + item.photo}}">
             <view slot="desc">
               <van-tag wx:for="{{item.tags}}" wx:for-item="tag" wx:key="id" round type="primary">{{tag.name}}</van-tag>
               <view>

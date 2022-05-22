@@ -13,6 +13,8 @@ Page({
     studentId: null,
     gender: null,
     email: null,
+    college: null,
+    grade: null,
     score_avg: null,
     commission_score_avg: null,
     releasedActivities: null,
@@ -21,11 +23,13 @@ Page({
     showDialog: null,
     tipChosenOption: null,
     tipAllOptions: null,
-    tipReason: null
+    tipReason: null,
+    followingNum: null,
+    followedNum: null
   },
 
   onLoad(options) {
-    console.log(options)
+    //console.log(options)
     let fromMsg = options.fromMsg
     if (fromMsg === undefined) {
       fromMsg = false
@@ -230,7 +234,9 @@ Page({
               phone: data.phone,
               studentId: data.student_id,
               gender: data.gender,
-              email: data.email
+              email: data.email,
+              college: data.college,
+              grade: data.grade
             })
             wx.setStorageSync('profile', data)
           } else {
@@ -264,11 +270,13 @@ Page({
       success(res) {
         if (res.statusCode === 200) {
           const data = res.data
-          console.log(data)
+          //console.log(data)
           that.setData({
             username: data.nickName,
             userAvatarUrl: data.avatarUrl,
             gender: data.gender,
+            college: data.college,
+            grade: data.grade,
             liked: data.is_followed,
             score_avg: data.average_rate.remark__avg || '暂无评分',
             commission_score_avg: data.average_rate.score__avg || '暂无评分'
@@ -277,6 +285,42 @@ Page({
           that.getReleasedCommissions()
           that.getReleasedTopics()
         } else {
+        }
+      },
+      fail(res) {
+        getApp().globalData.util.netErrorToast()
+      }
+    })
+    wx.request({
+      url: `${BASE_URL}/api/followers/${that.data.userId}`,
+      method: 'GET',
+      header,
+      success(res) {
+        if (res.statusCode == 200) {
+          //console.log(res.data)
+          that.setData({
+            followedNum: res.data.length
+          })
+        } else {
+          getApp().globalData.util.netErrorToast()
+        }
+      },
+      fail(res) {
+        getApp().globalData.util.netErrorToast()
+      }
+    })
+    wx.request({
+      url: `${BASE_URL}/api/followees/${that.data.userId}`,
+      method: 'GET',
+      header,
+      success(res) {
+        if (res.statusCode == 200) {
+          //console.log(res.data)
+          that.setData({
+            followingNum: res.data.length
+          })
+        } else {
+          getApp().globalData.util.netErrorToast()
         }
       },
       fail(res) {
@@ -317,7 +361,7 @@ Page({
       success(res) {
         if (res.statusCode === 200) {
           const data = res.data
-          console.log(data)
+          //console.log(data)
           that.setData({
             releasedCommissions: that.parseReceivedReleasedCommissions(data)
           })
