@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    typeList:['热门话题', '委托推荐', '热门活动'],
+    typeList:['热门话题', '话题推荐', '热门活动'],
     //获取到的订阅类别
     categories:[],
 
@@ -171,11 +171,12 @@ Page({
         'Authorization': 'Token ' + app.globalData.token
        }
     }
-    if(type == '热门话题'){
+    if(type == '话题推荐'){
       let self = this
       //let templst = []
       wx.request({
-        url: getApp().globalData.baseUrl + '/api/topic_click/',
+        //url: getApp().globalData.baseUrl + '/api/topic_click/',
+        url:getApp().globalData.baseUrl+'/api/topic_recommend/',
         method: 'GET',
         data: {
   
@@ -196,10 +197,10 @@ Page({
           getApp().globalData.util.netErrorToast()
         }
       })
-    } else if (type == '委托推荐') {
+    } else if (type == '热门话题') {
       let self = this
       wx.request({
-        url: getApp().globalData.baseUrl + '/api/commission/search/all/',
+        url: getApp().globalData.baseUrl + '/api/topic_click/',
         method: 'GET',
         data: {
   
@@ -207,7 +208,7 @@ Page({
         header: this.data.head,
         success (res) {
           self.setData({
-            activityList: self.unique(res.data),
+            activityList: res.data,
             loading: false
           })
         },
@@ -265,10 +266,11 @@ Page({
     }
     let self = this
     let type = self.data.type
-    if(type == '热门话题'){
+    if(type == '话题推荐'){
       //let templst = []
       wx.request({
-        url: getApp().globalData.baseUrl + '/api/topic_click/',
+        //url: getApp().globalData.baseUrl + '/api/topic_click/',
+        url: getApp().globalData.baseUrl + '/api/topic_recommend/',
         method: 'GET',
         data: {
   
@@ -289,9 +291,9 @@ Page({
           getApp().globalData.util.netErrorToast()
         }
       })
-    } else if (type == '委托推荐') {
+    } else if (type == '热门话题') {
       wx.request({
-        url: getApp().globalData.baseUrl + '/api/commission/search/all/',
+        url: getApp().globalData.baseUrl + '/api/topic_click/',
         method: 'GET',
         data: {
   
@@ -299,7 +301,7 @@ Page({
         header: this.data.head,
         success (res) {
           self.setData({
-            activityList: self.unique(res.data),
+            activityList: res.data,
             loading: false
           })
         },
@@ -362,7 +364,7 @@ Page({
           that.setData({
             categories: res.data
           })
-          let tempTypeList = ['热门话题', '委托推荐', '热门活动']
+          let tempTypeList = ['热门话题', '话题推荐', '热门活动']
           for(let i = 0; i < that.data.categories.length; i++){
             if(that.data.categories[i].id != 1 && that.data.categories[i].id != 5 && that.data.categories[i].id != 9
               && that.data.categories[i].is_subscribe == true){
