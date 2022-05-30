@@ -363,94 +363,94 @@ Page({
       })
     }
   },
-  likeComment(event) {
-    if (getApp().globalData.user_status === 2) {
-      wx.redirectTo({
-        url: '../certification/certification',
-      })
-    } else if (getApp().globalData.user_status === 1) {
-      wx.showModal({
-        title: '拒绝访问',
-        content: '您的账号还在认证中，无权进行此操作'
-      })
-    } else {
-      let commentId = event.currentTarget.dataset.commentid
-      let app = getApp()
-      let head = {}
-      let self = this
-      if (app.globalData.token == null) {
-        head = {
-          'content-type': 'application/json'
-        }
-      } else {
-        head = {
-          'content-type': 'application/json',
-          'Authorization': 'Token ' + app.globalData.token
-        }
-      }
-      wx.request({
-        url: app.globalData.baseUrl + "/api/topic_comment_like/",
-        header: head,
-        method: "POST",
-        data: {
-          topic_comment_id: commentId
-        },
-        success(res) {
-          wx.showToast({
-            title: '点赞评论成功'
-          })
-          self.getDetail()
-        },
-        fail(res) {
-          getApp().globalData.util.netErrorToast()
-        }
-      })
-    }
-  },
+  // likeComment(event) {
+  //   if (getApp().globalData.user_status === 2) {
+  //     wx.redirectTo({
+  //       url: '../certification/certification',
+  //     })
+  //   } else if (getApp().globalData.user_status === 1) {
+  //     wx.showModal({
+  //       title: '拒绝访问',
+  //       content: '您的账号还在认证中，无权进行此操作'
+  //     })
+  //   } else {
+  //     let commentId = event.currentTarget.dataset.commentid
+  //     let app = getApp()
+  //     let head = {}
+  //     let self = this
+  //     if (app.globalData.token == null) {
+  //       head = {
+  //         'content-type': 'application/json'
+  //       }
+  //     } else {
+  //       head = {
+  //         'content-type': 'application/json',
+  //         'Authorization': 'Token ' + app.globalData.token
+  //       }
+  //     }
+  //     wx.request({
+  //       url: app.globalData.baseUrl + "/api/topic_comment_like/",
+  //       header: head,
+  //       method: "POST",
+  //       data: {
+  //         topic_comment_id: commentId
+  //       },
+  //       success(res) {
+  //         wx.showToast({
+  //           title: '点赞评论成功'
+  //         })
+  //         self.getDetail()
+  //       },
+  //       fail(res) {
+  //         getApp().globalData.util.netErrorToast()
+  //       }
+  //     })
+  //   }
+  // },
 
-  unlikeComment: function (event) {
-    if (getApp().globalData.user_status === 2) {
-      wx.redirectTo({
-        url: '../certification/certification',
-      })
-    } else if (getApp().globalData.user_status === 1) {
-      wx.showModal({
-        title: '拒绝访问',
-        content: '您的账号还在认证中，无权进行此操作'
-      })
-    } else {
-      let commentId = event.currentTarget.dataset.commentid
-      let app = getApp()
-      let head = {}
-      let self = this
-      if (app.globalData.token == null) {
-        head = {
-          'content-type': 'application/json'
-        }
-      } else {
-        head = {
-          'content-type': 'application/json',
-          'Authorization': 'Token ' + app.globalData.token
-        }
-      }
-      wx.request({
-        url: app.globalData.baseUrl + "/api/topic_comment_like/" + commentId + "/",
-        header: head,
-        method: "DELETE",
-        data: {
-        },
-        success(res) {
-          self.getDetail()
-          wx.showToast({
-            title: '取消点赞成功'
-          })
-        },
-        fail(res) {
-          getApp().globalData.util.netErrorToast()
-        }
-      })
-    }
-  },
+  // unlikeComment: function (event) {
+  //   if (getApp().globalData.user_status === 2) {
+  //     wx.redirectTo({
+  //       url: '../certification/certification',
+  //     })
+  //   } else if (getApp().globalData.user_status === 1) {
+  //     wx.showModal({
+  //       title: '拒绝访问',
+  //       content: '您的账号还在认证中，无权进行此操作'
+  //     })
+  //   } else {
+  //     let commentId = event.currentTarget.dataset.commentid
+  //     let app = getApp()
+  //     let head = {}
+  //     let self = this
+  //     if (app.globalData.token == null) {
+  //       head = {
+  //         'content-type': 'application/json'
+  //       }
+  //     } else {
+  //       head = {
+  //         'content-type': 'application/json',
+  //         'Authorization': 'Token ' + app.globalData.token
+  //       }
+  //     }
+  //     wx.request({
+  //       url: app.globalData.baseUrl + "/api/topic_comment_like/" + commentId + "/",
+  //       header: head,
+  //       method: "DELETE",
+  //       data: {
+  //       },
+  //       success(res) {
+  //         self.getDetail()
+  //         wx.showToast({
+  //           title: '取消点赞成功'
+  //         })
+  //       },
+  //       fail(res) {
+  //         getApp().globalData.util.netErrorToast()
+  //       }
+  //     })
+  //   }
+  // },
 
   /**
    * 生命周期函数--监听页面显示
@@ -476,6 +476,20 @@ Page({
   },
 
   submitCom: function () {
+    let data
+    if (this.data.comment_id==null) {
+      data = {
+        commission_id: this.data.id,
+        comment: this.data.str
+      }
+    } else {
+      data = {
+        commission_id: this.data.id,
+        to_user_id: this.data.commentUser.id,
+        comment: this.data.str,
+        to_comment_id: this.data.comment_id, 
+      }
+    }
     if (getApp().globalData.user_status == 2) {
       wx.navigateTo({
         url: '../certification/certification',
@@ -511,11 +525,7 @@ Page({
           url: app.globalData.baseUrl + "/api/topic_comment/", //接口名称   
           header: head,
           method: "POST",  //请求方式    
-          data: {
-            //to_user_id:null,
-            topic_id: this.data.id,
-            comment_content: self.data.str
-          },
+          data: data,
           success(res) {
             if (res.statusCode == 201) {
               wx.showToast({
@@ -622,8 +632,11 @@ Page({
   },
 
 
-
-  showModal(e) {
+  showModal(event) {
+    console.log("in showModel", event)
+    let userid = event.currentTarget.dataset.userid
+    let username = event.currentTarget.dataset.username
+    let commentid = event.currentTarget.dataset.commentid
     if (getApp().globalData.user_status == 2) {
       wx.navigateTo({
         url: '../certification/certification',
@@ -689,7 +702,6 @@ Page({
       userId: null,
       commentId: null
     })
-    this.reset()
   },
 
 

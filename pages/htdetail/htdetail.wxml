@@ -87,6 +87,7 @@
           <view class="text-black text-content text-base margin-top-xs">
             {{item.comment_content}}
           </view>
+          <!--二级评论-->
           <view>
             <view class="my-bar margin-top-xs bg-white">
               <view class="my-view" bindtap="showCommentModal" data-username="{{item.user.nickName}}" data-userid="{{item.user.id}}" data-commentid="{{item.id}}">
