@@ -111,8 +111,31 @@ Page({
                     getApp().globalData.util.netErrorToast()
                 }
             })
-        }
-
+        } else if (this.data.type == 10) { // 历史话题
+          wx.request({
+            url: getApp().globalData.baseUrl + '/api/topic_click_users_self/',
+            header: head,
+            method:"GET", 
+            data: {
+            },
+            success(res) {
+              console.log("htList type = 10 ", res.data)
+              let tmp = []
+              let i = 0
+              for (i = 0; i < res.data.length; i++) {
+                  tmp.push(res.data[i].topic)
+              }
+              console.log("tmp=", tmp)
+                self.setData({
+                    list: tmp
+                })
+            },
+            fail(res) {
+                getApp().globalData.util.netErrorToast()
+            }
+        })
+      }
+      console.log("======================", this.data.list)
     },
 
     jumpToSonPages:function(event) {
@@ -506,8 +529,8 @@ Page({
                 }
             })
         } else {
-            this.getDetail()
             this.getTypeList()
+            this.getDetail()
         }   
     },
 

@@ -39,7 +39,7 @@
                 </van-cell-group>
               </van-radio-group>
               <van-divider />
-                <van-field model:value="{{ tipReason }}" type="textarea" placeholder="请输入详细理由（30字以内）" autosize input-align="center" maxlength="30" />      
+              <van-field model:value="{{ tipReason }}" type="textarea" placeholder="请输入详细理由（30字以内）" autosize input-align="center" maxlength="30" />
             </van-dialog>
           </view>
         </block>
@@ -60,16 +60,23 @@
           <van-cell title="学号" value="{{ studentId }}" class="break-all" />
           <van-cell title="性别" value="{{ gender === 0?'未知':gender === 1?'男':'女' }}" class="break-all" />
           <van-cell title="电子邮箱" value="{{ email }}" class="break-all" />
+          <van-cell title="学院" value="{{ college === ''?'未知':college }}" class="break-all" />
+          <van-cell title="年级" value="{{ grade === ''?'未知':grade }}" class="break-all" />
         </van-cell-group>
       </view>
       <view wx:else>
         <van-cell-group>
           <van-cell title="用户名" value="{{ username }}" class="break-all" />
           <van-cell title="性别" value="{{ gender === 0?'未知':gender === 1?'男':'女' }}" class="break-all" />
+          <van-cell title="学院" value="{{ college === ''?'未知':college }}" class="break-all" />
+          <van-cell title="年级" value="{{ grade === ''?'未知':grade }}" class="break-all" />
+          <van-cell title="关注数" value="{{followingNum}}" class="break-all" />
+          <van-cell title="粉丝数" value="{{followedNum}}" class="break-all" />
         </van-cell-group>
         <van-tabs active="{{ 1 }}">
           <van-tab title="发布的活动">
             <van-cell title="综合评分" value="{{ score_avg }}" class="break-all" />
+            <van-cell title="发布数量" value="{{ releasedActivities.length }}" class="break-all" />
             <view class="content">
               <view class="cu-card article" wx:for="{{ releasedActivities }}" wx:for-item="item" wx:for-index="idx" wx:key="id">
                 <view class="cu-item shadow" data-activityid="{{ item.id }}" bindtap="onTapActivity">
@@ -87,6 +94,7 @@
             </view>
           </van-tab>
           <van-tab title="发布的话题">
+            <van-cell title="发布数量" value="{{ releasedTopics.length }}" class="break-all" />
             <view class="content">
               <view class="cu-card article" wx:for="{{ releasedTopics }}" wx:for-item="item" wx:for-index="idx" wx:key="id">
                 <view class="cu-item shadow" data-topicid="{{ item.id }}" bindtap="onTapTopic">
@@ -106,6 +114,7 @@
           <van-tab title="发布的委托">
             <view class="content">
               <van-cell title="综合评分" value="{{ commission_score_avg }}" class="break-all" />
+              <van-cell title="发布数量" value="{{ releasedCommissions.length }}" class="break-all" />
               <view class="cu-card article" wx:for="{{ releasedCommissions }}" wx:for-item="item" wx:for-index="idx" wx:key="id">
                 <view class="cu-item shadow" data-commissionid="{{ item.id }}" bindtap="onTapCommission">
                   <view class="title">
