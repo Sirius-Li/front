@@ -16,6 +16,7 @@ Page({
     commission_type_id: 0,
     //委托类别
     type_list: [],
+    commission_type_list: [],
     commission_type_name_list: [],
     //委托名称
     name: '',
@@ -75,8 +76,7 @@ Page({
 
   LocationChange(event) {
     this.setData({
-      'location': event.detail.value,
-      'list.location': Number(event.detail.value) + 1,
+      'location': event.detail.value
     });
   },
 
@@ -211,7 +211,7 @@ Page({
     this.setData({
       'list.start_time': s_time,
       'list.end_time': e_time,
-      'list.commission_type': Number(this.data.commission_type_id) + 1,
+      'list.commission_type': this.data.commission_type_list[Number(this.data.commission_type_id)].id,
       'list.real_time': Number(this.data.real_time ? 1 : 2),
       'list.description': this.data.description,
     })
@@ -342,33 +342,6 @@ Page({
     }
 
     wx.request({
-      //获取委托类型列表
-      url: getApp().globalData.baseUrl + '/api/commission/sort/',
-      header: head,
-      method: "GET",
-      // data: {
-      //     'keyword': this.data.keywords
-      // },
-      success: (res) => {
-        this.setData({
-          'type_list': res.data
-        })
-        let temp_list = []
-        for (const key in this.data.type_list) {
-          if (this.data.type_list.hasOwnProperty.call(this.data.type_list, key)) {
-            temp_list.push(this.data.type_list[key].name);
-          }
-        }
-        this.setData({
-          commission_type_name_list: temp_list
-        })
-      },
-      fail(res) {
-        getApp().globalData.util.netErrorToast()
-      }
-    })
-
-    wx.request({
       url: getApp().globalData.baseUrl + '/api/commission/detail/', //接口名称   
       header: head,
       method: "POST",  //请求方式    
@@ -380,11 +353,10 @@ Page({
       success: (res) => {
         // console.log("this is wtChange detail")
         // console.log(res.data)
-
         this.setData({
           "list": res.data,
           "id": res.data.id,
-          "commission_type_id": Number(res.data.commission_type.id) - 1,
+          "commission_type_id": Number(res.data.commission_type.id),
           "name": res.data.name,
           "date": res.data.start_time.split(' ')[0],
           "start_time": res.data.start_time.split(' ')[1],
@@ -396,11 +368,53 @@ Page({
           "tags": res.data.tag_list == null ? '' : res.data.tag_list.join(''),
         });
         // console.log(this.data.list)
+
+        wx.request({
+          //获取委托类型列表
+          url: getApp().globalData.baseUrl + '/api/commission/sort/',
+          header: head,
+          method: "GET",
+          // data: {
+          //     'keyword': this.data.keywords
+          // },
+          success: (res) => {
+            this.setData({
+              'type_list': res.data
+            })
+            let temp_list = []
+            let name_list = []
+            let id
+            for (const key in this.data.type_list) {
+              if (this.data.type_list.hasOwnProperty.call(this.data.type_list, key)) {
+                // console.log(this.data.type_list[key])
+                temp_list.push(this.data.type_list[key]);
+                name_list.push(this.data.type_list[key].name)
+                if (this.data.type_list[key].id === this.data.commission_type_id) {
+                  id = key
+                }
+              }
+            }
+            // console.log(res.data)
+            this.setData({
+              commission_type_list: temp_list,
+              commission_type_name_list: name_list,
+              commission_type_id: id
+            })
+            // console.log("test")
+            // console.log(this.data.commission_type_list)
+            // console.log(this.data.commission_type_name_list)
+            // console.log(this.data.commission_type_id)
+          },
+          fail(res) {
+            getApp().globalData.util.netErrorToast()
+          }
+        })    
       },
       fail(res) {
         getApp().globalData.util.netErrorToast()
       }
     })
+
   },
 
   /**

@@ -30,7 +30,7 @@
 		<view class="title">类型选择</view>
 		<picker bindchange="TypeChange" value="{{commission_type_id}}" range="{{commission_type_name_list}}">
 			<view class="picker">
-				{{(commission_type_id>-1)?commission_type_name_list[commission_type_id]:'委托类型'}}
+				{{(commission_type_id>-1)?commission_type_list[commission_type_id].name:'委托类型'}}
 			</view>
 		</picker>
 	</view>

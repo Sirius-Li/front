@@ -3,7 +3,6 @@
 // pages/release/releaseCommission/releaseConnission.js
 Component({
   /**
-
    * 组件的初始数据
    */
   data: {
@@ -182,7 +181,7 @@ Component({
           content: '请选择委托类型',
           showCancel: false
         })
-      } else if (this.data.length == 0) {
+      } else if (this.data.description.length == 0) {
         wx.showModal({
           title: '提示',
           content: '请输入委托简介',
@@ -207,25 +206,26 @@ Component({
         }
         let self = this
         this.release(self)
+
         //TODO
-        wx.getSetting({
-          withSubscriptions: true,
-          success(res) {
-            if (res.subscriptionsSetting.mainSwitch) {
-              wx.requestSubscribeMessage({
-                tmplIds: [
-                  'mEFV6psbMGpP9i8CU8NXTJ27dOoppg8FZsYQmN9lHcs',
-                  'C4V9ycGzS0BGvjVsmcondcBwFMOvLFQ3sE8j0KKTF0g',
-                  'N0g3qePR6hz8Fn79lM_5sIT9jhUTKEYQW5Y_VObffZ0'],
-                success(res) {
-                  self.release(self)
-                }
-              })
-            } else {
-              self.release(self)
-            }
-          },
-        })
+        // wx.getSetting({
+        //   withSubscriptions: true,
+        //   success(res) {
+        //     if (res.subscriptionsSetting.mainSwitch) {
+        //       wx.requestSubscribeMessage({
+        //         tmplIds: [
+        //           'mEFV6psbMGpP9i8CU8NXTJ27dOoppg8FZsYQmN9lHcs',
+        //           'C4V9ycGzS0BGvjVsmcondcBwFMOvLFQ3sE8j0KKTF0g',
+        //           'N0g3qePR6hz8Fn79lM_5sIT9jhUTKEYQW5Y_VObffZ0'],
+        //         success(res) {
+        //           self.release(self)
+        //         }
+        //       })
+        //     } else {
+        //       self.release(self)
+        //     }
+        //   },
+        // })
       }
     },
 
@@ -235,6 +235,7 @@ Component({
       let e_time = this.data.date.toString().replace(/-/g, '/') + ' ' + this.data.end_time
       // let r_time = this.data.real_time.toString().replace(/-/g, '/')
       let tag_temp = this.data.tagStr.split(' ')
+      this.data.tag_list = []
       for (const key in tag_temp) {
         if (tag_temp.hasOwnProperty.call(tag_temp, key)) {
           this.data.tag_list.push({ "name": tag_temp[key] });
