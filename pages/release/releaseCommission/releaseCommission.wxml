@@ -66,7 +66,7 @@
 	</view>
   <!-- tags  -->
 	<view class="cu-form-group">
-		<view class="title">自定义活动标签</view>
+		<view class="title">自定义委托标签</view>
 		<input placeholder="请用空格隔开每个标签" bindchange="tagChange" value="{{tagStr}}"></input>
 	</view> 
 

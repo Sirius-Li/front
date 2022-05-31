@@ -6,7 +6,7 @@ Component({
    * 页面的初始数据
    */
   data: {
-    head:null,
+    head: null,
     topic_name: null,
     modalname: null,
     textareaValue: '',
@@ -161,17 +161,17 @@ Component({
       }
     },
     release(self) {
-      if(this.data.list.photo.length==0){
+      if (this.data.list.photo.length == 0) {
         console.log(self.data.list)
         console.log(self.data.head)
         wx.request({
           url: getApp().globalData.baseUrl + '/api/topic/',
-          header:self.data.head,
-          method:"POST",
-          data:{
-            name:self.data.list.name,
-            description:self.data.list.description,
-            topic_type:self.data.list.topic_type
+          header: self.data.head,
+          method: "POST",
+          data: {
+            name: self.data.list.name,
+            description: self.data.list.description,
+            topic_type: self.data.list.topic_type
           },
           success(res) {
             console.log(res)
@@ -183,6 +183,18 @@ Component({
                 title: '话题发布成功',
               })
               self.reset()
+            } else if (res.statusCode == 403) {
+              self.reset()
+              wx.showModal({
+                title: '当前用户无发布话题权限，请及时进行申诉。是否跳转至权限申诉界面？',
+                success(res) {
+                  if (res.confirm) {
+                    wx.navigateTo({
+                      url: '/pages/other/appeal/appeal',
+                    })
+                  }
+                }
+              })
             } else if (res.statusCode == 400) {
               if (res.data === '') {
                 wx.showToast({
@@ -206,7 +218,7 @@ Component({
             getApp().globalData.util.netErrorToast()
           }
         })
-      }else{
+      } else {
         // console.log(self.data.imgList[0])
         // console.log(self.data.list)
         wx.uploadFile({
@@ -226,6 +238,18 @@ Component({
                 title: '话题发布成功',
               })
               self.reset()
+            } else if (res.statusCode == 403) {
+              self.reset()
+              wx.showModal({
+                title: '当前用户无发布话题权限，请及时进行申诉。是否跳转至权限申诉界面？',
+                success(res) {
+                  if (res.confirm) {
+                    wx.navigateTo({
+                      url: '/pages/other/appeal/appeal',
+                    })
+                  }
+                }
+              })
             } else if (res.statusCode == 400) {
               if (res.data === '') {
                 wx.showToast({
@@ -250,7 +274,7 @@ Component({
           }
         })
       }
-      
+
     },
   },
 
@@ -285,7 +309,7 @@ Component({
         }
       }
       wx.request({
-        url: app.globalData.baseUrl+'/api/topic_types_simple/',
+        url: app.globalData.baseUrl + '/api/topic_types_simple/',
         method: 'GET',
         data: {
 

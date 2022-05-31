@@ -38,7 +38,7 @@ Page({
     score: 5,
     //评论
     comment: [],
-    
+
     //一些控制变量
     commentWtShow: false,
     evaluateShow: false,
@@ -56,11 +56,11 @@ Page({
     //接取委托
     let head
     if (getApp().globalData.token == null) {
-      head = {      
+      head = {
         'content-type': 'application/json'
       }
     } else {
-      head = {      
+      head = {
         'content-type': 'application/json',
         'Authorization': 'Token ' + getApp().globalData.token
       }
@@ -73,24 +73,35 @@ Page({
           wx.request({
             url: getApp().globalData.baseUrl + '/api/commission/apply/',
             header: head,
-            method:"POST",  //请求方式    
+            method: "POST",  //请求方式    
             data: {
               commission_id: this.data.id,
-            }, 
-            success:(res) => {
+            },
+            success: (res) => {
               console.log(res)
               if (res.statusCode === 200) {
                 wx.showToast({
                   title: '接取成功',
                 })
                 this.onShow()
-              } else if (res.statusCode === 400){
-                if(res.data === ''){
+              } else if (res.statusCode === 403) {
+                wx.showModal({
+                  title: res.data + '。是否跳转至权限申诉界面？',
+                  success(res) {
+                    if (res.confirm) {
+                      wx.navigateTo({
+                        url: '/pages/other/appeal/appeal',
+                      })
+                    }
+                  }
+                })
+              } else if (res.statusCode === 400) {
+                if (res.data === '') {
                   wx.showToast({
                     title: '接取失败',
                     icon: 'error'
                   })
-                }else{
+                } else {
                   wx.showModal({
                     content: res.data,
                     showCancel: false
@@ -103,12 +114,12 @@ Page({
                 })
               }
             },
-            fail(res){
+            fail(res) {
               getApp().globalData.util.netErrorToast()
             }
           })
         } else if (res.cancel) {
-          
+
         }
       }
     })
@@ -127,11 +138,11 @@ Page({
     let commission_id = this.data.id
     let head
     if (getApp().globalData.token == null) {
-      head = {      
+      head = {
         'content-type': 'application/json'
       }
     } else {
-      head = {      
+      head = {
         'content-type': 'application/json',
         'Authorization': 'Token ' + getApp().globalData.token
       }
@@ -139,27 +150,27 @@ Page({
     wx.showModal({
       title: '警告',
       content: '确认终止委托',
-      success:(res) => {
+      success: (res) => {
         if (res.confirm) {
           wx.request({
             url: getApp().globalData.baseUrl + '/api/commission/terminate/',
             header: head,
-            method:"POST",  //请求方式    
+            method: "POST",  //请求方式    
             data: {
               'commission_id': commission_id,
-            }, 
-            success:(res) => {
+            },
+            success: (res) => {
               wx.showToast({
                 title: '终止成功',
               })
               this.onShow()
             },
-            fail(res){
+            fail(res) {
               getApp().globalData.util.netErrorToast()
             }
           })
         } else if (res.cancel) {
-          
+
         }
       }
     })
@@ -171,11 +182,11 @@ Page({
     let commission_id = this.data.id
     let head
     if (getApp().globalData.token == null) {
-      head = {      
+      head = {
         'content-type': 'application/json'
       }
     } else {
-      head = {      
+      head = {
         'content-type': 'application/json',
         'Authorization': 'Token ' + getApp().globalData.token
       }
@@ -183,17 +194,17 @@ Page({
     wx.showModal({
       title: '警告',
       content: '确认删除委托',
-      success:(res) => {
+      success: (res) => {
         if (res.confirm) {
           wx.request({
             // url: getApp().globalData.baseUrl + '/api/commission/check/'+this.data.id+'/',
             url: getApp().globalData.baseUrl + '/api/commission/check/',
             header: head,
-            method:"DELETE",  //请求方式    
+            method: "DELETE",  //请求方式    
             data: {
               'commission_id': this.data.id,
-            }, 
-            success:(res) => {
+            },
+            success: (res) => {
               wx.showToast({
                 title: '删除成功',
               })
@@ -203,12 +214,12 @@ Page({
               //   url: '../wtList/wtList?type=5',
               // })
             },
-            fail(res){
+            fail(res) {
               getApp().globalData.util.netErrorToast()
             }
           })
         } else if (res.cancel) {
-          
+
         }
       }
     })
@@ -227,11 +238,11 @@ Page({
     let commission_id = this.data.id
     let head
     if (getApp().globalData.token == null) {
-      head = {      
+      head = {
         'content-type': 'application/json'
       }
     } else {
-      head = {      
+      head = {
         'content-type': 'application/json',
         'Authorization': 'Token ' + getApp().globalData.token
       }
@@ -239,16 +250,16 @@ Page({
     wx.showModal({
       title: '确认',
       content: '委托已完成',
-      success:(res) => {
+      success: (res) => {
         if (res.confirm) {
           wx.request({
             url: getApp().globalData.baseUrl + '/api/commission/finish/',
             header: head,
-            method:"POST",  //请求方式    
+            method: "POST",  //请求方式    
             data: {
               'commission_id': commission_id,
-            }, 
-            success:(res) => {
+            },
+            success: (res) => {
               this.setData({
                 'status': 3
               })
@@ -257,12 +268,12 @@ Page({
               })
               this.onShow()
             },
-            fail(res){
+            fail(res) {
               getApp().globalData.util.netErrorToast()
             }
           })
         } else if (res.cancel) {
-          
+
         }
       }
     })
@@ -272,11 +283,11 @@ Page({
     let commission_id = this.data.id
     let head
     if (getApp().globalData.token == null) {
-      head = {      
+      head = {
         'content-type': 'application/json'
       }
     } else {
-      head = {      
+      head = {
         'content-type': 'application/json',
         'Authorization': 'Token ' + getApp().globalData.token
       }
@@ -284,27 +295,27 @@ Page({
     wx.showModal({
       title: '警告',
       content: '确认放弃委托',
-      success:(res) =>{
+      success: (res) => {
         if (res.confirm) {
           wx.request({
             url: getApp().globalData.baseUrl + '/api/commission/drop/',
             header: head,
-            method:"POST",  //请求方式    
+            method: "POST",  //请求方式    
             data: {
               'commission_id': commission_id,
-            }, 
-            success:(res) => {
+            },
+            success: (res) => {
               wx.showToast({
                 title: '放弃成功',
               })
               this.onShow()
             },
-            fail(res){
+            fail(res) {
               getApp().globalData.util.netErrorToast()
             }
           })
         } else if (res.cancel) {
-          
+
         }
       }
     })
@@ -314,44 +325,44 @@ Page({
     let head = null
     let app = getApp()
     if (app.globalData.token == null) {
-      head = {      
+      head = {
         'content-type': 'application/json'
-       }
+      }
     } else {
-      head = {      
+      head = {
         'content-type': 'application/json',
         'Authorization': 'Token ' + app.globalData.token
-       }
+      }
     }
     wx.showModal({
       title: '警告',
       content: '确认撤销完成',
-      success:(res) =>{
+      success: (res) => {
         if (res.confirm) {
-          wx.request({    
+          wx.request({
             //TODO
             url: getApp().globalData.baseUrl + '/api/commission/score/', //接口名称   
             header: head,
-            method:"DELETE",  //请求方式    
+            method: "DELETE",  //请求方式    
             //data: app.globalData.zdxx,  //用于存放post请求的参数  
             data: {
               //TODO
               'commission_id': this.data.id,
               'score': this.data.score
-            }, 
-            success: (res) => { 
+            },
+            success: (res) => {
               wx.showToast({
                 title: '撤销成功',
               })
               this.hideEvaluate()
               this.onShow()
             },
-            fail(res){
+            fail(res) {
               getApp().globalData.util.netErrorToast()
             }
           })
         } else if (res.cancel) {
-          
+
         }
       }
     })
@@ -394,11 +405,11 @@ Page({
     let score = this.data.score
     let head
     if (getApp().globalData.token == null) {
-      head = {      
+      head = {
         'content-type': 'application/json'
       }
     } else {
-      head = {      
+      head = {
         'content-type': 'application/json',
         'Authorization': 'Token ' + getApp().globalData.token
       }
@@ -406,18 +417,18 @@ Page({
     wx.request({
       url: getApp().globalData.baseUrl + '/api/commission/score/',
       header: head,
-      method:"POST",  //请求方式    
+      method: "POST",  //请求方式    
       data: {
         'commission_id': commission_id,
         'score': score
-      }, 
-      success:(res) =>{
+      },
+      success: (res) => {
         wx.showToast({
           title: '评分成功',
         })
         this.onShow()
       },
-      fail(res){
+      fail(res) {
         getApp().globalData.util.netErrorToast()
       }
     })
@@ -428,19 +439,19 @@ Page({
     let userid = event.currentTarget.dataset.userid
     let username = event.currentTarget.dataset.username
     let commentid = event.currentTarget.dataset.commentid
-    if(getApp().globalData.user_status == 2){
+    if (getApp().globalData.user_status == 2) {
       wx.navigateTo({
         url: '../../certification/certification',
       })
-    }else if(getApp().globalData.user_status == 1){
+    } else if (getApp().globalData.user_status == 1) {
       wx.showToast({
         title: '用户还在认证中',
         icon: 'error'
       })
-    }else{
+    } else {
       this.setData({
-        myCommentShow: commentid == null ? false: true,
-        commentWtShow: commentid == null ? true: false,
+        myCommentShow: commentid == null ? false : true,
+        commentWtShow: commentid == null ? true : false,
         commentUser: {
           id: userid,
           nickName: username,
@@ -473,7 +484,7 @@ Page({
   submitCom() {
     //TODO
     let data
-    if (this.data.comment_id==null) {
+    if (this.data.comment_id == null) {
       data = {
         commission_id: this.data.id,
         comment: this.data.commentStr
@@ -483,28 +494,28 @@ Page({
         commission_id: this.data.id,
         to_user_id: this.data.commentUser.id,
         comment: this.data.commentStr,
-        to_comment_id: this.data.comment_id, 
+        to_comment_id: this.data.comment_id,
       }
     }
     console.log("submitCom", data)
-    if(getApp().globalData.user_status == 2){
+    if (getApp().globalData.user_status == 2) {
       wx.navigateTo({
         url: '../../certification/certification',
       })
-    }else if(getApp().globalData.user_status == 1){
+    } else if (getApp().globalData.user_status == 1) {
       wx.showToast({
         title: '用户还在认证中',
         icon: 'error'
       })
-    }else{
+    } else {
       let app = getApp()
       let head = {}
       if (app.globalData.token == null) {
-        head = {      
+        head = {
           'content-type': 'application/json'
         }
       } else {
-        head = {      
+        head = {
           'content-type': 'application/json',
           'Authorization': 'Token ' + app.globalData.token
         }
@@ -517,23 +528,43 @@ Page({
         })
       } else {
         self = this
-        wx.request({    
+        wx.request({
           url: getApp().globalData.baseUrl + '/api/commission/comment/', //接口名称   
           header: head,
-          method:"POST",  //请求方式    
+          method: "POST",  //请求方式    
           data: data,
-          success:(res) => {   
-            self.data.list = res.data 
-            wx.showToast({
-              title: '评论成功',
-            })
-            this.onShow()
-            this.setData({
-              myCommentShow: false,
-              commentWtShow: false,
-            })
+          success: (res) => {
+            if (res.statusCode == 201) {
+              self.data.list = res.data
+              wx.showToast({
+                title: '评论成功',
+              })
+              this.onShow()
+              this.setData({
+                myCommentShow: false,
+                commentWtShow: false,
+              })
+            } else if (res.statusCode == 403) {
+              wx.showModal({
+                title: res.data + '。是否跳转至权限申诉界面？',
+                success(res) {
+                  if (res.confirm) {
+                    wx.navigateTo({
+                      url: '/pages/other/appeal/appeal',
+                    })
+                  }
+                }
+              })
+              this.onShow()
+              this.setData({
+                myCommentShow: false,
+                commentWtShow: false,
+              })
+            } else {
+              getApp().globalData.util.netErrorToast()
+            }
           },
-          fail(res){
+          fail(res) {
             getApp().globalData.util.netErrorToast()
           }
         })
@@ -547,11 +578,11 @@ Page({
     let comment_id = event.currentTarget.dataset.delcommentid
     let head
     if (getApp().globalData.token == null) {
-      head = {      
+      head = {
         'content-type': 'application/json'
       }
     } else {
-      head = {      
+      head = {
         'content-type': 'application/json',
         'Authorization': 'Token ' + getApp().globalData.token
       }
@@ -559,7 +590,7 @@ Page({
     wx.showModal({
       title: '警告',
       content: '确认删除评论',
-      success:(res) => {
+      success: (res) => {
         if (res.confirm) {
           wx.request({
             url: getApp().globalData.baseUrl + '/api/commission/comment/' + comment_id + '/',
@@ -567,19 +598,19 @@ Page({
             method: 'delete',  //请求方式    
             data: {
               'id': comment_id,
-            }, 
-            success:(res) =>{
+            },
+            success: (res) => {
               wx.showToast({
                 title: '删除成功',
               })
               this.onShow()
             },
-            fail(res){
+            fail(res) {
               getApp().globalData.util.netErrorToast()
             }
           })
         } else if (res.cancel) {
-          
+
         }
       }
     })
@@ -589,33 +620,33 @@ Page({
     let head = null
     let app = getApp()
     if (app.globalData.token == null) {
-      head = {      
+      head = {
         'content-type': 'application/json'
-       }
+      }
     } else {
-      head = {      
+      head = {
         'content-type': 'application/json',
         'Authorization': 'Token ' + app.globalData.token
-       }
+      }
     }
-    wx.request({    
+    wx.request({
       url: getApp().globalData.baseUrl + '/api/commission/score/', //接口名称   
       header: head,
-      method:"POST",  //请求方式    
+      method: "POST",  //请求方式    
       //data: app.globalData.zdxx,  //用于存放post请求的参数  
       data: {
         //TODO
         'commission_id': this.data.id,
         'score': this.data.score
-      }, 
-      success: (res) => { 
+      },
+      success: (res) => {
         wx.showToast({
           title: '评价成功',
         })
         this.hideEvaluate()
         this.onShow()
       },
-      fail(res){
+      fail(res) {
         getApp().globalData.util.netErrorToast()
       }
     })
@@ -628,7 +659,7 @@ Page({
     })
   },
 
-  getDetail: function() {
+  getDetail: function () {
     let app = getApp()
     let head = {}
     this.setData({
@@ -636,26 +667,26 @@ Page({
     })
 
     if (app.globalData.token == null) {
-      head = {      
+      head = {
         'content-type': 'application/json'
-       }
+      }
     } else {
-      head = {      
+      head = {
         'content-type': 'application/json',
         'Authorization': 'Token ' + app.globalData.token
-       }
+      }
     }
     let self = this
-    wx.request({    
+    wx.request({
       url: getApp().globalData.baseUrl + '/api/commission/detail/', //接口名称   
       header: head,
-      method:"POST",  //请求方式    
+      method: "POST",  //请求方式    
       //data: app.globalData.zdxx,  //用于存放post请求的参数  
       data: {
         //TODO
         'commission_id': self.data.id,
-      }, 
-      success: (res) => { 
+      },
+      success: (res) => {
         console.log("this is wt detail")
         console.log(res.data)
         this.setData({
@@ -665,7 +696,7 @@ Page({
           "start_time": res.data.start_time,
           "end_time": res.data.end_time,
           "create_time": res.data.create_time,
-          "real_time": (res.data.real_time===1)?true:false, 
+          "real_time": (res.data.real_time === 1) ? true : false,
           "user": res.data.user,
           "accepted_user": res.data.accepted_user,
           "location": res.data.location,
@@ -677,7 +708,7 @@ Page({
           "score": 5
         });
       },
-      fail(res){
+      fail(res) {
         getApp().globalData.util.netErrorToast()
       }
     })
@@ -686,7 +717,7 @@ Page({
   gotoUserPage(event) {
     //跳转到个人主页
     let userid = event.currentTarget.dataset.userid
-    
+
     wx.navigateTo({
       url: '../profile/profile?id=' + userid,
     })
@@ -697,7 +728,7 @@ Page({
    */
   onLoad(options) {
     this.setData({
-        id: options.id
+      id: options.id
     })
   },
 

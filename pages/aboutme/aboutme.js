@@ -47,7 +47,7 @@ Page({
         url: '/pages/profile/follow/follow',
       },
       {
-        text: '历史查看',
+        text: '历史话题浏览',
         icon: 'icon iconfont icon-guanzhu',
         url: '/pages/htList/htList?type=10',
       },

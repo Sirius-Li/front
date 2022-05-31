@@ -529,8 +529,8 @@ Page({
                 }
             })
         } else {
-            this.getDetail()
             this.getTypeList()
+            this.getDetail()
         }   
     },
 

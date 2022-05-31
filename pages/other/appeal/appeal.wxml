@@ -46,7 +46,7 @@
 </view>
 
 <view wx:else class="bg-gray-100 flex flex-col w-full">
-  <view class=" bg-white flex-row items-center mb-4 h-auto mx-4 mt-4 rounded-xl shadow-xl p-4 overflow-hidden w-auto">
+  <view class=" bg-blue flex-row items-center mb-4 h-auto mx-4 mt-4 rounded-xl shadow-xl p-4 overflow-hidden w-auto">
     <view class="text-base font-bold text-center">当前没有被禁止的权限，无需申诉！</view>
   </view>
 </view>
