@@ -227,7 +227,7 @@ Page({
       data: this.data.list,
       success: (res) => {
         if (res.statusCode == 201) {
-          console.log("navigate to"+this.data.id )
+          //console.log("navigate to"+this.data.id )
           wx.redirectTo({
             url: '../commission?id=' + this.data.id,
           })
