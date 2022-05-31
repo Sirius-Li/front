@@ -228,9 +228,10 @@ Page({
       success: (res) => {
         if (res.statusCode == 201) {
           //console.log("navigate to"+this.data.id )
-          wx.redirectTo({
-            url: '../commission?id=' + this.data.id,
-          })
+          // wx.redirectTo({
+          //   url: '../commission?id=' + this.data.id,
+          // })
+          wx.navigateBack()
           wx.showToast({
             title: '委托修改成功',
           })
