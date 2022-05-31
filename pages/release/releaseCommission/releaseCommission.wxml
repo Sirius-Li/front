@@ -30,7 +30,7 @@
 	</view>
 	<!--location position-->
 	<view class="cu-form-group">
-		<view class="title">活动所在校区</view>
+		<view class="title">委托所在校区</view>
 		<picker bindchange="LocationChange" value="{{location}}" range="{{location_list}}">
 			<view class="picker">
 				{{(location>-1)?location_list[location]:'选择校区'}}

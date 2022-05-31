@@ -61,7 +61,7 @@ Page({
   },
 
   RealTimeChange(event) {
-    console.log(this.data.list)
+    // console.log(this.data.list)
     this.setData({
       'real_time': event.detail.value,
     })
@@ -227,8 +227,8 @@ Page({
       data: this.data.list,
       success: (res) => {
         if (res.statusCode == 201) {
-
-          wx.navigateTo({
+          console.log("navigate to"+this.data.id )
+          wx.redirectTo({
             url: '../commission?id=' + this.data.id,
           })
           wx.showToast({
@@ -378,8 +378,8 @@ Page({
         'commission_id': this.data.id,
       },
       success: (res) => {
-        console.log("this is wtChange detail")
-        console.log(res.data)
+        // console.log("this is wtChange detail")
+        // console.log(res.data)
 
         this.setData({
           "list": res.data,
@@ -395,7 +395,7 @@ Page({
           "fee": res.data.fee,
           "tags": res.data.tag_list == null ? '' : res.data.tag_list.join(''),
         });
-        console.log(this.data.list)
+        // console.log(this.data.list)
       },
       fail(res) {
         getApp().globalData.util.netErrorToast()
@@ -424,7 +424,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    console.log("发起请求获取数据")
+    // console.log("发起请求获取数据")
     this.getDetail()
   },
 
