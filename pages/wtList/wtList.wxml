@@ -6,9 +6,11 @@
 <block wx:if="{{type <= 4 || type == 10}}">
   <van-dropdown-menu active-color="#1989fa">
     <block wx:if="{{type == 1 || type == 2}}"> 
-      <van-dropdown-item value="{{ value1 }}" options="{{ wtTypeList }}" bind:change = "select"/>
+      <van-dropdown-item value="{{ selectType }}" options="{{ wtTypeList }}" bind:change = "selectTpye"/>
     </block>
-    <van-dropdown-item value="{{ value2 }}" options="{{ option2 }}" bind:change = "select"/>
+    <van-dropdown-item value="{{ selectStatus }}" options="{{ statusOption }}" bind:change = "selectStatus"/>
+    <van-dropdown-item value="{{ selectLocation }}" options="{{ locationOption }}" bind:change = "selectLocation"/>
+    <van-dropdown-item value="{{ selectFee }}" options="{{ feeOption }}" bind:change = "selectFee"/>
   </van-dropdown-menu>
   <block wx:if="{{type <= 4}}">
   <!-- 查看全局委托 -->
