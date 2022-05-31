@@ -209,10 +209,13 @@ Page({
                 title: '删除成功',
               })
               // this.onShow()
-              wx.navigateBack()
+              // wx.navigateBack()
               // wx.navigateTo({
               //   url: '../wtList/wtList?type=5',
               // })
+              wx.reLaunch({
+                url: '../activity/home/home',
+              })
             },
             fail(res) {
               getApp().globalData.util.netErrorToast()
@@ -229,7 +232,7 @@ Page({
     //TODO
     //修改委托
     // 跳转到发布的子组件？？
-    wx.navigateTo({
+    wx.redirectTo({
       url: 'changeCommission/changeCommission?id=' + this.data.id,
     })
   },
