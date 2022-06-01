@@ -55,10 +55,10 @@
       <van-cell wx:for="{{commissionTodoList}}" wx:key="key" use-label-slot="{{true}}" bindtap="routeCommissionDescription" data-activityid="{{item.commissionId}}">
         <!-- <view  wx:if="{{selectDate==item.date}}"> -->
         <view slot="title">
-          <text dot>{{item.commissionName}}</text>
+          <text dot>委托名称：{{item.commissionName}}</text>
         </view>
         <view slot="label">
-          <text>{{item.commissionLocation}}</text>
+          <text>{{item.commissionDescription}}</text>
           <text style="display:flex;flex-direction:row-reverse">{{item.commissionTime}}</text>
         </view>
         <!-- </view> -->
