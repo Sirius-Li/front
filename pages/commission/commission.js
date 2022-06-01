@@ -213,6 +213,9 @@ Page({
               // wx.navigateTo({
               //   url: '../wtList/wtList?type=5',
               // })
+              // wx.reLaunch({
+              //   url: '../activity/home/home',
+              // })
             },
             fail(res) {
               getApp().globalData.util.netErrorToast()
