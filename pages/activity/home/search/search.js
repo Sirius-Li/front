@@ -6,73 +6,73 @@ Page({
    * 页面的初始数据
    */
   data: {
-    hotSearchActivityList:[],
+    hotSearchActivityList: [],
 
-    hotSearchHtList:[],
-    
+    hotSearchHtList: [],
+
     //这个列表仅显示前20条历史记录
-    historySearchActivityList:[],
+    historySearchActivityList: [],
 
-    historySearchHtList:[],
+    historySearchHtList: [],
 
-    historySearchCommissionList:[],
+    historySearchCommissionList: [],
 
     //这个列表用于保存完整的历史记录
-    historySearchListAll:[],
+    historySearchListAll: [],
 
-    categorySearchList:[
-    { // 活动相关
-      id: 0,
-      type: "活动",
-      subkind: [
-        {
-          id: 0,
-          name: "博雅"
-        }, {
-          id: 1,
-          name: "运动"
-        }, {
-          id: 2,
-          name: "志愿"
-        }, {
-          id: 3,
-          name: "学术讲座"
-        }
-      ]
-    }, { // 委托相关
-      id: 1,
-      type: "委托",
-      subkind: [
-        {
+    categorySearchList: [
+      { // 活动相关
         id: 0,
-        name: "取快递"
-      }, {
+        type: "活动",
+        subkind: [
+          {
+            id: 0,
+            name: "博雅"
+          }, {
+            id: 1,
+            name: "运动"
+          }, {
+            id: 2,
+            name: "志愿"
+          }, {
+            id: 3,
+            name: "学术讲座"
+          }
+        ]
+      }, { // 委托相关
         id: 1,
-        name: "取外卖"
-      }, {
-        id: 2,
-        name: "其他"
-      }]
-    }, { // 话题相关
+        type: "委托",
+        subkind: [
+          {
+            id: 0,
+            name: "取快递"
+          }, {
+            id: 1,
+            name: "取外卖"
+          }, {
+            id: 2,
+            name: "其他"
+          }]
+      }, { // 话题相关
         id: 2,
         type: "话题",
         subkind: [
-        {
-          id: 0,
-          name: "选课"
-        }, {
-          id: 1,
-          name: "运动"
-        }, {
-          id: 2,
-          name: "志愿"
-        }, {
-          id: 3,
-          name: "生活服务"
-        }, {
-          id: 4,
-          name: "其他"
-        }]
+          {
+            id: 0,
+            name: "选课"
+          }, {
+            id: 1,
+            name: "运动"
+          }, {
+            id: 2,
+            name: "志愿"
+          }, {
+            id: 3,
+            name: "生活服务"
+          }, {
+            id: 4,
+            name: "其他"
+          }]
       }
     ],
 
@@ -88,23 +88,23 @@ Page({
   },
 
   //点击取消，回到上个页面
-  onCancel: function(){
+  onCancel: function () {
     wx.navigateBack({
       delta: 0,
     })
   },
 
   //与后端通信，获取热搜信息
-  getHotSearchList: function(){
+  getHotSearchList: function () {
     //获取前六条
     let self = this
     let app = getApp()
     if (app.globalData.token == null) {
-      self.data.head = {      
+      self.data.head = {
         'content-type': 'application/json'
       }
     } else {
-      self.data.head = {      
+      self.data.head = {
         'content-type': 'application/json',
         'Authorization': 'Token ' + app.globalData.token
       }
@@ -116,7 +116,7 @@ Page({
 
       },
       header: this.data.head,
-      success (res) {
+      success(res) {
         console.log("in getHotSearchList")
         console.log(res)
         /*self.setData({
@@ -124,8 +124,8 @@ Page({
         })*/
         let tmpList = res.data
         let resList = []
-        for(let i = 0; i< tmpList.length; i++){
-          resList.push({id: i, keyword: tmpList[i].keyword})
+        for (let i = 0; i < tmpList.length; i++) {
+          resList.push({ id: i, keyword: tmpList[i].keyword })
         }
         // self.setData({
         //   hotSearchList: resList.filter(x => !util.strIsEmpty(x.keyword)).slice(0, 6)
@@ -135,34 +135,34 @@ Page({
           hotSearchActivityList: resList.slice(0, 6)
         })
       },
-      fail(res){
+      fail(res) {
         getApp().globalData.util.netErrorToast()
       }
     })
   },
 
-  getHotSearchHtList: function(){
+  getHotSearchHtList: function () {
     //获取前六条
     let self = this
     let app = getApp()
     if (app.globalData.token == null) {
-      self.data.head = {      
+      self.data.head = {
         'content-type': 'application/json'
       }
     } else {
-      self.data.head = {      
+      self.data.head = {
         'content-type': 'application/json',
         'Authorization': 'Token ' + app.globalData.token
       }
     }
     wx.request({
       url: getApp().globalData.baseUrl + '/api/topic_search_trend/',
-      method: 'POST', 
+      method: 'POST',
       data: {
         // user_id: this.data.user_id
       },
       header: this.data.head,
-      success (res) {
+      success(res) {
         console.log("in getHotSearchHtList")
         console.log(res)
         /*self.setData({
@@ -170,8 +170,8 @@ Page({
         })*/
         let tmpList = res.data
         let resList = []
-        for(let i = 0; i< tmpList.length; i++){
-          resList.push({id: i, keyword: tmpList[i].keyword})
+        for (let i = 0; i < tmpList.length; i++) {
+          resList.push({ id: i, keyword: tmpList[i].keyword })
         }
         // self.setData({
         //   hotSearchHtList: resList.filter(x => !util.strIsEmpty(x.keyword)).slice(0, 6)
@@ -180,17 +180,17 @@ Page({
           hotSearchHtList: resList.slice(0, 6)
         })
       },
-      fail(res){
+      fail(res) {
         getApp().globalData.util.netErrorToast()
       }
     })
   },
 
   //清空历史搜索
-  clearHistorySearch(){
+  clearHistorySearch() {
     let self = this
     let keywordList = []
-    for(let i = 0; i < this.data.historySearchListAll.length; i++){
+    for (let i = 0; i < this.data.historySearchListAll.length; i++) {
       keywordList.push(this.data.historySearchListAll[i].keyword)
     }
     wx.showModal({
@@ -199,46 +199,46 @@ Page({
       success: function (res) {
         if (res.confirm) {
           console.log('确定')
-          
-        // on confirm
-        let app = getApp()
-        if (app.globalData.token == null) {
-          self.data.head = {      
-            'content-type': 'application/json'
-           }
-        } else {
-          self.data.head = {      
-            'content-type': 'application/json',
-            'Authorization': 'Token ' + app.globalData.token
-           }
-        }
-        wx.request({
-          url: getApp().globalData.baseUrl + '/api/search/',
-          method: 'POST',
-          data: {
-            'name': keywordList,
-          },
-          header: self.data.head,
-          success (res) {
-            if(res.statusCode == 204){
-              self.getHistorySearchList()
-            }else if(res.statusCode == 404){
-              wx.showToast({
-                title: '该用户不存在',
-                icon: 'error'
-              })
-            }else{
-              wx.showToast({
-                title: '操作失败',
-                icon: 'error'
-              })
+
+          // on confirm
+          let app = getApp()
+          if (app.globalData.token == null) {
+            self.data.head = {
+              'content-type': 'application/json'
             }
-          },
-          fail(res){
-            getApp().globalData.util.netErrorToast()
+          } else {
+            self.data.head = {
+              'content-type': 'application/json',
+              'Authorization': 'Token ' + app.globalData.token
+            }
           }
-        })
-      
+          wx.request({
+            url: getApp().globalData.baseUrl + '/api/search/',
+            method: 'POST',
+            data: {
+              'name': keywordList,
+            },
+            header: self.data.head,
+            success(res) {
+              if (res.statusCode == 204) {
+                self.getHistorySearchList()
+              } else if (res.statusCode == 404) {
+                wx.showToast({
+                  title: '该用户不存在',
+                  icon: 'error'
+                })
+              } else {
+                wx.showToast({
+                  title: '操作失败',
+                  icon: 'error'
+                })
+              }
+            },
+            fail(res) {
+              getApp().globalData.util.netErrorToast()
+            }
+          })
+
         } else {
           console.log('取消')
         }
@@ -246,67 +246,67 @@ Page({
     })
   },
 
-  clearHistoryCommissionSearch(){
+  clearHistoryCommissionSearch() {
     let self = this
     let keywordList = []
     console.log(this.data.historySearchCommissionList)
-    for(let i = 0; i < this.data.historySearchCommissionList.length; i++){
+    for (let i = 0; i < this.data.historySearchCommissionList.length; i++) {
       keywordList.push(this.data.historySearchCommissionList[i].id)
-    } 
+    }
     wx.showModal({
       title: '提示',
       content: '确定要清空历史记录吗？',
-      success (res) {
+      success(res) {
         if (res.confirm) {
           console.log('用户点击确定')
-          
-        // on confirm
-        let idList = []
-        let keywordList = []
-        for(let i = 0; i < self.data.historySearchCommissionList.length; i++) {
-          idList.push(self.data.historySearchCommissionList[i].id)
-          keywordList.push(self.data.historySearchCommissionList[i].keyword)
-        }
-        let app = getApp()
-        if (app.globalData.token == null) {
-          self.data.head = {      
-            'content-type': 'application/json'
-           }
-        } else {
-          self.data.head = {
-            'content-type': 'application/json',
-            'Authorization': 'Token ' + app.globalData.token
-           }
-        }
-        wx.request({
-          url: getApp().globalData.baseUrl + '/api/commission/search/history/',
-          method: 'DELETE',
-          data: {
-            'id': idList,
-            'keyword': keywordList
-          },
-          header: self.data.head,
-          success (res) {
-            console.log("in clearHistoryCommissionSearch")
-            if(res.statusCode == 204){
-              self.getHistorySearchCommissionList()
-            }else if(res.statusCode == 404){
-              wx.showToast({
-                title: '该用户不存在',
-                icon: 'error'
-              })
-            }else{
-              wx.showToast({
-                title: '操作失败',
-                icon: 'error'
-              })
-            }
-          },
-          fail(res){
-            getApp().globalData.util.netErrorToast()
+
+          // on confirm
+          let idList = []
+          let keywordList = []
+          for (let i = 0; i < self.data.historySearchCommissionList.length; i++) {
+            idList.push(self.data.historySearchCommissionList[i].id)
+            keywordList.push(self.data.historySearchCommissionList[i].keyword)
           }
-        })
-      
+          let app = getApp()
+          if (app.globalData.token == null) {
+            self.data.head = {
+              'content-type': 'application/json'
+            }
+          } else {
+            self.data.head = {
+              'content-type': 'application/json',
+              'Authorization': 'Token ' + app.globalData.token
+            }
+          }
+          wx.request({
+            url: getApp().globalData.baseUrl + '/api/commission/search/history/',
+            method: 'DELETE',
+            data: {
+              'id': idList,
+              'keyword': keywordList
+            },
+            header: self.data.head,
+            success(res) {
+              console.log("in clearHistoryCommissionSearch")
+              if (res.statusCode == 204) {
+                self.getHistorySearchCommissionList()
+              } else if (res.statusCode == 404) {
+                wx.showToast({
+                  title: '该用户不存在',
+                  icon: 'error'
+                })
+              } else {
+                wx.showToast({
+                  title: '操作失败',
+                  icon: 'error'
+                })
+              }
+            },
+            fail(res) {
+              getApp().globalData.util.netErrorToast()
+            }
+          })
+
         } else if (res.cancel) {
           console.log('用户点击取消')
         }
@@ -314,7 +314,7 @@ Page({
     });
   },
 
-  clearHistoryHtSearch(){
+  clearHistoryHtSearch() {
     console.log("into clearHistoryHtSearch")
     let self = this
     wx.showModal({
@@ -322,57 +322,57 @@ Page({
       content: '确定要清空历史记录吗？',
       success: function (res) {
         if (res.confirm) {
-          
-        // on confirm
-        let idList = []
-        let keywordList = []
-        for(let i = 0; i < self.data.historySearchHtList.length; i++) {
-          idList.push(self.data.historySearchHtList[i].id)
-          keywordList.push(self.data.historySearchHtList[i].keyword)
-        }
-        let app = getApp()
-        if (app.globalData.token == null) {
-          self.data.head = {      
-            'content-type': 'application/json'
-           }
-        } else {
-          self.data.head = {      
-            'content-type': 'application/json',
-            'Authorization': 'Token ' + app.globalData.token
-           }
-        }
-        wx.request({
-          url: getApp().globalData.baseUrl + '/api/topic_search_historydel/',
-          method: 'POST',
-          data: {
-            'id': idList,
-            'keyword': keywordList
-          },
-          header: self.data.head,
-          success (res) {
-            console.log("in clearHistoryHtSearch")
-            console.log(keywordList)
-            console.log(idList)
-            console.log(res)
-            if(res.statusCode == 204){
-              self.getHistorySearchHtList()
-            }else if(res.statusCode == 404){
-              wx.showToast({
-                title: '该用户不存在',
-                icon: 'error'
-              })
-            }else{
-              wx.showToast({
-                title: '操作失败',
-                icon: 'error'
-              })
-            }
-          },
-          fail(res){
-            getApp().globalData.util.netErrorToast()
+
+          // on confirm
+          let idList = []
+          let keywordList = []
+          for (let i = 0; i < self.data.historySearchHtList.length; i++) {
+            idList.push(self.data.historySearchHtList[i].id)
+            keywordList.push(self.data.historySearchHtList[i].keyword)
           }
-        })
-      
+          let app = getApp()
+          if (app.globalData.token == null) {
+            self.data.head = {
+              'content-type': 'application/json'
+            }
+          } else {
+            self.data.head = {
+              'content-type': 'application/json',
+              'Authorization': 'Token ' + app.globalData.token
+            }
+          }
+          wx.request({
+            url: getApp().globalData.baseUrl + '/api/topic_search_historydel/',
+            method: 'POST',
+            data: {
+              'id': idList,
+              'keyword': keywordList
+            },
+            header: self.data.head,
+            success(res) {
+              console.log("in clearHistoryHtSearch")
+              console.log(keywordList)
+              console.log(idList)
+              console.log(res)
+              if (res.statusCode == 204) {
+                self.getHistorySearchHtList()
+              } else if (res.statusCode == 404) {
+                wx.showToast({
+                  title: '该用户不存在',
+                  icon: 'error'
+                })
+              } else {
+                wx.showToast({
+                  title: '操作失败',
+                  icon: 'error'
+                })
+              }
+            },
+            fail(res) {
+              getApp().globalData.util.netErrorToast()
+            }
+          })
+
         } else {
           console.log('取消')
         }
@@ -381,22 +381,22 @@ Page({
   },
 
   //长按历史搜索标签可出现取消按钮
-  canCancel(event){
+  canCancel(event) {
     let index = event.currentTarget.dataset.index
     let tempList = []
-    for(let i = 0; i< 20; i++){
+    for (let i = 0; i < 20; i++) {
       tempList.push(false)
     }
     tempList[index] = true
     this.setData({
       cancelable: tempList
     })
-  }, 
-  
-  canCancelWt(event){
+  },
+
+  canCancelWt(event) {
     let index = event.currentTarget.dataset.index
     let tempList = []
-    for(let i = 0; i< 20; i++){
+    for (let i = 0; i < 20; i++) {
       tempList.push(false)
     }
     tempList[index] = true
@@ -405,10 +405,10 @@ Page({
     })
   },
 
-  canCancelHt(event){
+  canCancelHt(event) {
     let index = event.currentTarget.dataset.index
     let tempList = []
-    for(let i = 0; i< 20; i++){
+    for (let i = 0; i < 20; i++) {
       tempList.push(false)
     }
     tempList[index] = true
@@ -417,7 +417,7 @@ Page({
     })
   },
 
-  deleteHistorySearch(event){
+  deleteHistorySearch(event) {
     let self = this
     wx.showModal({
       title: '提示',
@@ -425,64 +425,64 @@ Page({
       success: function (res) {
         if (res.confirm) {
           console.log('确定')
-          
-        // on confirm
-        let keyword = event.currentTarget.dataset.keyword
-        let app = getApp()
-        if (app.globalData.token == null) {
-          self.data.head = {      
-            'content-type': 'application/json'
-           }
-        } else {
-          self.data.head = {      
-            'content-type': 'application/json',
-            'Authorization': 'Token ' + app.globalData.token
-           }
-        }
-        wx.request({
-          url: getApp().globalData.baseUrl + '/api/search/',
-          method: 'POST',
-          data: {
-            'name': [keyword]
-          },
-          header: self.data.head,
-          success (res) {
-            if(res.statusCode == 204){
-              self.getHistorySearchList()
-            }else if(res.statusCode == 404){
-              wx.showToast({
-                title: '该用户不存在',
-                icon: 'error'
-              })
-            }else{
-              wx.showToast({
-                title: '操作失败',
-                icon: 'error'
-              })
+
+          // on confirm
+          let keyword = event.currentTarget.dataset.keyword
+          let app = getApp()
+          if (app.globalData.token == null) {
+            self.data.head = {
+              'content-type': 'application/json'
             }
-          },
-          fail(res){
-            getApp().globalData.util.netErrorToast()
+          } else {
+            self.data.head = {
+              'content-type': 'application/json',
+              'Authorization': 'Token ' + app.globalData.token
+            }
           }
-        })
-      
+          wx.request({
+            url: getApp().globalData.baseUrl + '/api/search/',
+            method: 'POST',
+            data: {
+              'name': [keyword]
+            },
+            header: self.data.head,
+            success(res) {
+              if (res.statusCode == 204) {
+                self.getHistorySearchList()
+              } else if (res.statusCode == 404) {
+                wx.showToast({
+                  title: '该用户不存在',
+                  icon: 'error'
+                })
+              } else {
+                wx.showToast({
+                  title: '操作失败',
+                  icon: 'error'
+                })
+              }
+            },
+            fail(res) {
+              getApp().globalData.util.netErrorToast()
+            }
+          })
+
         } else {
           console.log('取消')
-          
-        // on cancel
-        let index = event.currentTarget.dataset.index
-        let tempList = self.data.cancelable
-        tempList[index] = false
-        self.setData({
-          cancelable: tempList
-        })
-      
+
+          // on cancel
+          let index = event.currentTarget.dataset.index
+          let tempList = self.data.cancelable
+          tempList[index] = false
+          self.setData({
+            cancelable: tempList
+          })
+
         }
       }
     })
   },
 
-  deleteHistoryCommissionSearch(event){
+  deleteHistoryCommissionSearch(event) {
     let self = this
     wx.showModal({
       title: '提示',
@@ -495,14 +495,14 @@ Page({
           let keyword = self.data.historySearchCommissionList[event.currentTarget.dataset.index].keyword
           let app = getApp()
           if (app.globalData.token == null) {
-            self.data.head = {      
+            self.data.head = {
               'content-type': 'application/json'
-             }
+            }
           } else {
-            self.data.head = {      
+            self.data.head = {
               'content-type': 'application/json',
               'Authorization': 'Token ' + app.globalData.token
-             }
+            }
           }
           wx.request({
             url: getApp().globalData.baseUrl + '/api/commission/search/history/',
@@ -512,24 +512,24 @@ Page({
               'keyword': [keyword]
             },
             header: self.data.head,
-            success (res) {
+            success(res) {
               console.log("in deleteHistoryCommissionSearch")
               console.log(res)
-              if(res.statusCode == 204){
+              if (res.statusCode == 204) {
                 self.getHistorySearchCommissionList()
-              }else if(res.statusCode == 404){
+              } else if (res.statusCode == 404) {
                 wx.showToast({
                   title: '该用户不存在',
                   icon: 'error'
                 })
-              }else{
+              } else {
                 wx.showToast({
                   title: '操作失败',
                   icon: 'error'
                 })
               }
             },
-            fail(res){
+            fail(res) {
               console.log(id)
               console.log(self.data.head)
               console.log(res)
@@ -537,7 +537,7 @@ Page({
               getApp().globalData.util.netErrorToast()
             }
           })
-        
+
         } else {
           console.log('取消')
           // on cancel
@@ -547,14 +547,14 @@ Page({
           self.setData({
             cancelableWt: tempList
           })
-        
+
         }
       }
     })
   },
 
-  deleteHistoryHtSearch(event){
-    console.log("hehehehe")
+  deleteHistoryHtSearch(event) {
+    console.log("in deleteHistoryHtSearch", event)
     let self = this
     wx.showModal({
       title: '提示',
@@ -563,52 +563,48 @@ Page({
         if (res.confirm) {
           console.log('确定')
           // on confirm
-  
           let id = self.data.historySearchHtList[event.currentTarget.dataset.index].id
           let keyword = self.data.historySearchHtList[event.currentTarget.dataset.index].keyword
-  
+          console.log(id)
+          console.log(keyword)
           let app = getApp()
           if (app.globalData.token == null) {
-            self.data.head = {      
+            self.data.head = {
               'content-type': 'application/json'
-             }
+            }
           } else {
-            self.data.head = {      
+            self.data.head = {
               'content-type': 'application/json',
               'Authorization': 'Token ' + app.globalData.token
-             }
+            }
           }
           wx.request({
             url: getApp().globalData.baseUrl + '/api/topic_search_historydel/',
             method: 'POST',
             data: {
               'id': [id],
-              'keyword': [keyword]
+              'name': [keyword]
             },
             header: self.data.head,
-            success (res) {
-              console.log("in deleteHistoryHtSearch")
-              console.log(id)
-              console.log(res)
-              if(res.statusCode == 204){
+            success(res) {
+              if (res.statusCode == 204) {
                 self.getHistorySearchHtList()
-              }else if(res.statusCode == 404){
+              } else if (res.statusCode == 404) {
                 wx.showToast({
                   title: '该用户不存在',
                   icon: 'error'
                 })
-              }else{
+              } else {
                 wx.showToast({
                   title: '操作失败',
                   icon: 'error'
                 })
               }
             },
-            fail(res){
+            fail(res) {
               getApp().globalData.util.netErrorToast()
             }
           })
-        
         } else {
           console.log('取消')
           // on cancel
@@ -618,17 +614,16 @@ Page({
           self.setData({
             cancelableHt: tempList
           })
-        
         }
       }
     })
   },
 
   //获取历史搜索列表
-  getHistorySearchList(){
+  getHistorySearchList() {
     //初始化cancelable
     let tempList = []
-    for(let i = 0; i< 20; i++){
+    for (let i = 0; i < 20; i++) {
       tempList.push(false)
     }
     this.setData({
@@ -636,14 +631,14 @@ Page({
     })
     let app = getApp()
     if (app.globalData.token == null) {
-      this.data.head = {      
+      this.data.head = {
         'content-type': 'application/json'
-       }
+      }
     } else {
-      this.data.head = {      
+      this.data.head = {
         'content-type': 'application/json',
         'Authorization': 'Token ' + app.globalData.token
-       }
+      }
     }
     let self = this
     wx.request({
@@ -653,10 +648,10 @@ Page({
 
       },
       header: this.data.head,
-      success (res) {
+      success(res) {
         console.log("in getHistorySearchList")
         console.log(res)
-        if(res.statusCode == 200){
+        if (res.statusCode == 200) {
           // self.setData({
           //   historySearchList: res.data.reverse().filter(x => !util.strIsEmpty(x.keyword)).slice(0, 20),
           //   historySearchListAll: res.data
@@ -668,16 +663,16 @@ Page({
           })
         }
       },
-      fail(res){
+      fail(res) {
         getApp().globalData.util.netErrorToast()
       }
     })
   },
 
-  getHistorySearchCommissionList(){
+  getHistorySearchCommissionList() {
     //初始化cancelableWt
     let tempList = []
-    for(let i = 0; i< 20; i++){
+    for (let i = 0; i < 20; i++) {
       tempList.push(false)
     }
     this.setData({
@@ -685,14 +680,14 @@ Page({
     })
     let app = getApp()
     if (app.globalData.token == null) {
-      this.data.head = {      
+      this.data.head = {
         'content-type': 'application/json'
-       }
+      }
     } else {
-      this.data.head = {      
+      this.data.head = {
         'content-type': 'application/json',
         'Authorization': 'Token ' + app.globalData.token
-       }
+      }
     }
     let self = this
     wx.request({
@@ -701,27 +696,27 @@ Page({
       data: {
       },
       header: this.data.head,
-      success (res) {
+      success(res) {
         console.log("in getHistorySearchCommissionList")
         console.log(res)
-        if(res.statusCode == 200){
+        if (res.statusCode == 200) {
           self.setData({
             historySearchCommissionList: res.data.reverse().filter(x => !util.strIsEmpty(x.keyword)).slice(0, 20),
             //historySearchCommissionListAll: res.data
           })
         }
       },
-      fail(res){
+      fail(res) {
         getApp().globalData.util.netErrorToast()
       }
     })
   },
 
   // TODO 话题无法获取历史搜索 
-  getHistorySearchHtList(){
+  getHistorySearchHtList() {
     //初始化cancelableHt
     let tempList = []
-    for(let i = 0; i< 20; i++){
+    for (let i = 0; i < 20; i++) {
       tempList.push(false)
     }
     this.setData({
@@ -729,14 +724,14 @@ Page({
     })
     let app = getApp()
     if (app.globalData.token == null) {
-      this.data.head = {      
+      this.data.head = {
         'content-type': 'application/json'
-       }
+      }
     } else {
-      this.data.head = {      
+      this.data.head = {
         'content-type': 'application/json',
         'Authorization': 'Token ' + app.globalData.token
-       }
+      }
     }
     let self = this
     wx.request({
@@ -745,142 +740,143 @@ Page({
       data: {
       },
       header: this.data.head,
-      success (res) {
+      success(res) {
         console.log("in getHistorySearchHtList")
         console.log(res)
-        if(res.statusCode == 200){
+        if (res.statusCode == 200) {
           self.setData({
             historySearchHtList: res.data.slice(0, 20),
             //historySearchHtListAll: res.data
-          }) 
+          })
         }
       },
-      fail(res){
+      fail(res) {
         getApp().globalData.util.netErrorToast()
       }
     })
   },
 
-//将关键词传值到活动列表
-  onSearch(event){
+  //将关键词传值到活动列表
+  onSearch(event) {
     //空输入报错
-    if(event.detail == ''){
+    if (event.detail == '') {
       this.setData({
         searchError: true
       })
-    }else{
-      
-    wx.navigateTo({
-      url: '../../../actList/actList?keywords='+ event.detail
-    })
+    } else {
+
+      wx.navigateTo({
+        url: '../../../actList/actList?keywords=' + event.detail
+      })
     }
   },
 
   //将关键词传值到活动列表
-  onSearchActivity(event){
+  onSearchActivity(event) {
     //空输入报错
-    if(event.detail == ''){
+    if (event.detail == '') {
       this.setData({
         searchError: true
       })
-    }else{
-      
-    wx.navigateTo({
-      url: '../../../actList/actList?keywords='+ event.detail
-    })
+    } else {
+
+      wx.navigateTo({
+        url: '../../../actList/actList?keywords=' + event.detail
+      })
     }
   },
 
   //将关键词传值到委托列表
-  onSearchWt(event){
+  onSearchWt(event) {
     //空输入报错
-    if(event.detail == ''){
+    if (event.detail == '') {
       this.setData({
         searchError: true
       })
-    }else{
+    } else {
       wx.navigateTo({
-        url: '../../../wtList/wtList?type=2&keywords='+ event.detail
+        url: '../../../wtList/wtList?type=2&keywords=' + event.detail
       })
     }
   },
 
-   //将关键词传值到话题列表
-  onSearchTopic(event){
+  //将关键词传值到话题列表
+  onSearchTopic(event) {
     //空输入报错
-    if(event.detail == ''){
+    if (event.detail == '') {
       this.setData({
         searchError: true
       })
-    }else{
+    } else {
       wx.navigateTo({
-        url: '../../../htList/htList?type=3&keywords='+ event.detail
+        url: '../../../htList/htList?type=3&keywords=' + event.detail
       })
     }
   },
 
   //检测到关键词时取消报错
-  hasKeyword(event){
+  hasKeyword(event) {
     this.setData({
       searchError: false
     })
   },
 
   //将热搜、历史字段传值到活动列表
-  tagSearch(event){
+  tagSearch(event) {
     let index = event.currentTarget.dataset.index
-    
-    if(index != undefined && this.data.cancelable[index] == true){
+
+    if (index != undefined && this.data.cancelable[index] == true) {
       this.deleteHistorySearch(event)
-    }else{
+    } else {
       //let keyword = event.currentTarget.dataset.keyword
       wx.navigateTo({
-        url: '../../../actList/actList?keywords='+ event.currentTarget.dataset.keyword
+        url: '../../../actList/actList?keywords=' + event.currentTarget.dataset.keyword
       })
     }
   },
 
-  tagCommissionSearch(event){
+  tagCommissionSearch(event) {
     let index = event.currentTarget.dataset.index
-    if(index != undefined && this.data.cancelableWt[index] == true){
+    if (index != undefined && this.data.cancelableWt[index] == true) {
       this.deleteHistoryCommissionSearch(event)
-    }else{
+    } else {
       //let keyword = event.currentTarget.dataset.keyword
       wx.navigateTo({
-        url: '../../../wtList/wtList?type=2&keywords='+ event.currentTarget.dataset.keyword
+        url: '../../../wtList/wtList?type=2&keywords=' + event.currentTarget.dataset.keyword
       })
     }
   },
 
-  tagHtSearch(event){
+  tagHtSearch(event) {
+    console.log("in tagHtSearch", event)
     let index = event.currentTarget.dataset.index
-    if(index != undefined && this.data.cancelableHt[index] == true){
+    if (index != undefined && this.data.cancelableHt[index] == true) {
       this.deleteHistoryHtSearch(event)
-    }else{
+    } else {
       //let keyword = event.currentTarget.dataset.keyword
       wx.navigateTo({
-        url: '../../../htList/htList?type=3&keywords='+ event.currentTarget.dataset.keyword
+        url: '../../../htList/htList?type=3&keywords=' + event.currentTarget.dataset.keyword
       })
     }
   },
 
   //将分类搜索的类别传到活动列表
-  typeSearch(event){
+  typeSearch(event) {
     //let id = event.currentTarget.dataset.id
     wx.navigateTo({
-      url: '../../../actList/actList?type=6&id='+ event.currentTarget.dataset.id
+      url: '../../../actList/actList?type=6&id=' + event.currentTarget.dataset.id
     })
   },
 
-  getCategorySearchList(){
+  getCategorySearchList() {
     let self = this
     let app = getApp()
     if (app.globalData.token == null) {
-      self.data.head = {      
+      self.data.head = {
         'content-type': 'application/json'
       }
     } else {
-      self.data.head = {      
+      self.data.head = {
         'content-type': 'application/json',
         'Authorization': 'Token ' + app.globalData.token
       }
@@ -892,19 +888,19 @@ Page({
 
       },
       header: this.data.head,
-      success (res) {
+      success(res) {
         //console.log(res.data)
         self.setData({
           categorySearchList: res.data
         })
         //console.log(res)
       },
-      fail(res){
+      fail(res) {
         getApp().globalData.util.netErrorToast()
       }
     })
   },
-  
+
 
   /**
    * 生命周期函数--监听页面加载
