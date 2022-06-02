@@ -122,9 +122,9 @@ Page({
             })
             wx.requestSubscribeMessage({
               tmplIds: [
-                'N0g3qePR6hz8Fn79lM_5sIT9jhUTKEYQW5Y_VObffZ0',
-                'mEFV6psbMGpP9i8CU8NXTCVLUApFp2bh8lcP-cJDvj0',
-                'C4V9ycGzS0BGvjVsmcondcBwFMOvLFQ3sE8j0KKTF0g'],
+                '-FAyi3t4dQSNPa5uwAgUNXocZSp01cQhiScffMrFfZI',
+                '-FAyi3t4dQSNPa5uwAgUNXocZSp01cQhiScffMrFfZI',
+                '-FAyi3t4dQSNPa5uwAgUNQ-ejjKOitTnlnkzsNJNbZo'],
               success (res) { }
             })
           }else{
