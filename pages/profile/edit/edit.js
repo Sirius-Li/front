@@ -123,9 +123,10 @@ Page({
     catch (err) {
       console.log(1)
       console.log(err)
+      console.log(err.errMsg)
       wx.showModal({
         title: '错误',
-        content: err.errMsg
+        content: err
       })
       return
     }
