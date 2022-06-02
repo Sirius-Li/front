@@ -123,7 +123,8 @@ Page({
             wx.requestSubscribeMessage({
               tmplIds: [
                 '-FAyi3t4dQSNPa5uwAgUNXocZSp01cQhiScffMrFfZI',
-                '-FAyi3t4dQSNPa5uwAgUNXocZSp01cQhiScffMrFfZI',],
+                '-FAyi3t4dQSNPa5uwAgUNXocZSp01cQhiScffMrFfZI',
+                '-FAyi3t4dQSNPa5uwAgUNQ-ejjKOitTnlnkzsNJNbZo'],
               success (res) { }
             })
           }else{
