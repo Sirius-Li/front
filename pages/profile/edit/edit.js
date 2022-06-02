@@ -110,7 +110,7 @@ Page({
     } else if (this.data.college && this.data.college.length > 15) {
       throw '输入非法'
     } else if (util.strIsEmpty(this.data.grade)) {
-      throw '学号不能为空'
+      throw '年级不能为空'
     } else if (this.data.grade && this.data.grade.length > 15) {
       throw '输入非法'
     } 
