@@ -17,24 +17,24 @@ Page({
     weekArr: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
     dateList: [],
     commissionList: [ // commissionList[i]表示当前月份第i天的所有委托
-      [],[
-        {
-          commissionId: 111,
-          commissionName: "取快递",
-          commissionLocation: "学院路",
-          commissionTime: "14:00", // 对应接口的start_time
-          date: "2022/4/1"
-        }
-      ],
-      [
-        {
-          commissionId: 112,
-          commissionName: "取外卖",
-          commissionLocation: "学院路",
-          commissionTime: "13:00", // 对应接口的start_time
-          date: "2022/4/2"
-        }
-      ],
+      // [], [
+      //   {
+      //     commissionId: 111,
+      //     commissionName: "取快递",
+      //     commissionLocation: "学院路",
+      //     commissionTime: "14:00", // 对应接口的start_time
+      //     date: "2022/4/1"
+      //   }
+      // ],
+      // [
+      //   {
+      //     commissionId: 112,
+      //     commissionName: "取外卖",
+      //     commissionLocation: "学院路",
+      //     commissionTime: "13:00", // 对应接口的start_time
+      //     date: "2022/4/2"
+      //   }
+      // ],
     ],
   },
 
@@ -59,19 +59,12 @@ Page({
     for (var i = 1; i <= vm.data.daysCountArr[mon]; i++) {
       activityList[i] = []
     }
-    
+
     // 初始化commissionList
     var commissionList = {}
     for (var i = 1; i <= vm.data.daysCountArr[mon]; i++) {
-
       commissionList[i] = []
-      // 前端测试用
-      // commissionList[i] = this.data.commissionList[i] || []
-      // console.log(commissionList[i])
     }
-    //var commissionList = this.data.commissionList
-    
-    
     var that = this
     var headers = {}
     if (getApp().globalData.token != null) {
@@ -86,27 +79,18 @@ Page({
     var weekIndex = 0;//第几个星期
     var timerange = {
       start: y + '/' + (parseInt(mon) + 1) + '/1 00:00',
-      end: y + '/' + (parseInt(mon) + 1) + '/' + vm.data.daysCountArr[mon] + ' 23:59'  
+      end: y + '/' + (parseInt(mon) + 1) + '/' + vm.data.daysCountArr[mon] + ' 23:59'
     }
-    
-    // console.log("before")
-    // console.log(commissionList)
-
-    console.log(headers)
     wx.request({
-      // url: getApp().globalData.baseUrl + '/api/condition/commissions/',
-      // method: 'POST',
       url: getApp().globalData.baseUrl + '/api/commission/applied/2/', // 查看自己申请的委托
       method: 'GET',
       header: headers,
-      data: {
-      },
-      success (res) {
+      data: {},
+      success(res) {
         for (var i = 0; i < res.data.length; i++) {
           var m = res.data[i].commission
           var start = parseInt(m.create_time.split(' ')[0].split('/')[2])
           var end = parseInt(m.end_time.split(' ')[0].split('/')[2])
-
           var start_month = parseInt(m.start_time.split(' ')[0].split('/')[1])
           var end_month = parseInt(m.end_time.split(' ')[0].split('/')[1])
           if (start_month <= that.data.curMonth && that.data.curMonth <= end_month) {
@@ -114,19 +98,18 @@ Page({
               commissionList[d].push({
                 commissionId: m.id,
                 commissionName: m.name,
-                commissionTime: m.start_time + ' - ' + m.ent_time,
-                commissionRealTime: m.real_time
+                commissionTime: m.start_time + ' - ' + m.end_time,
+                commissionRealTime: m.real_time,
+                commissionDescription: m.description
               })
             }
           }
         }
-        // console.log("in wx.request   ")
-        // console.log(commissionList)
       },
-      fail(res){
+      fail(res) {
         getApp().globalData.util.netErrorToast()
       },
-      complete () {
+      complete() {
         vm.setData({
           commissionList: commissionList,
           commissionTodoList: commissionList[vm.data.selectDay] || []
@@ -140,9 +123,7 @@ Page({
             timerange: timerange,
             audit_status: [3],
           },
-          success (res) {  
-            console.log(res)
-            console.log(timerange)
+          success(res) {
             // 读出res数据
             for (var i = 0; i < res.data.length; i++) {
               var m = res.data[i]
@@ -158,12 +139,10 @@ Page({
               }
             }
           },
-          fail(res){
+          fail(res) {
             getApp().globalData.util.netErrorToast()
           },
-          complete () {
-            console.log("=========================")
-            // console.log(commissionList)
+          complete() {
             for (var i = 0; i < vm.data.daysCountArr[mon]; i++) {
               var week = new Date(y, mon, (i + 1)).getDay();
               // 如果是新的一周，则新增一周
@@ -195,7 +174,6 @@ Page({
               activityList: activityList,
               todoList: activityList[vm.data.selectDay] || []
             });
-            // console.log(vm.data.dateList)
           }
         })
       }
@@ -315,14 +293,14 @@ Page({
   onShow: function () {
     //this.getTabBar().init();
     getApp().getNotificationCount()
-    if(getApp().globalData.user_status == 2){
+    if (getApp().globalData.user_status == 2) {
       wx.redirectTo({
         url: '../../certification/certification',
       })
-    }else if(getApp().globalData.user_status == 1){
+    } else if (getApp().globalData.user_status == 1) {
       wx.switchTab({
         url: '../home/home',
-        success(res){
+        success(res) {
           wx.showToast({
             title: '用户还在认证中',
             icon: 'error'
@@ -347,7 +325,7 @@ Page({
     let mon = this.data.curMonth
     this.syncData()
     this.getDateList(y, mon - 1);
-    
+
   },
 
   /**

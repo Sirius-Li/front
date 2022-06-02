@@ -292,7 +292,7 @@ Component({
         wx.showModal({
           title: '提示',
           content: '活动人数需为大于0的正整数',
-          showCancel: falsez
+          showCancel: false
         })
       }  else if (this.data.act_number >= 2001) {
         wx.showModal({
@@ -533,10 +533,11 @@ Component({
   attached() {
     //this.tabBar();
     //console.log("call onshow()")
-    //console.log(this.data.choosePlace)
+    console.log(this.data.choosePlace)
     this.getAlltype()
     getApp().getNotificationCount()
     const location1 = chooseLocation.getLocation();
+    console.log(location1)
     let nowTime = new Date()
     let nowDate = nowTime.getFullYear() + '-' + (nowTime.getMonth()+1<10?'0' + (nowTime.getMonth()+1):(nowTime.getMonth()+1)) + '-' + (nowTime.getDate()<10?'0' + nowTime.getDate():nowTime.getDate())
     let nowSign = nowTime.getFullYear() + '-' + (nowTime.getMonth()+1<10?'0' + (nowTime.getMonth()+1):(nowTime.getMonth()+1)) + '-' + (nowTime.getDate()<10?'0' + nowTime.getDate():nowTime.getDate())
@@ -573,5 +574,24 @@ Component({
 
   options: {
     addGlobalClass: true
+  },
+
+  pageLifetimes: {
+    show: function() {
+      // 页面被展示
+      const location1 = chooseLocation.getLocation();
+      console.log(location1)
+      if (location1 && this.data.choosePlace) {
+        this.setData({
+          location: location1.address,
+          latitude: location1.latitude,
+          longitude: location1.longitude,
+        })
+      }
+    },
+    hide: function() {
+      // 页面被隐藏
+      chooseLocation.setLocation(null);
+    },
   }
 })
