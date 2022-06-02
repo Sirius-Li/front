@@ -1,7 +1,7 @@
 <!--pages/message/message.wxml-->
 <cu-custom bgColor="bg-gradual-blue" isBack="{{false}}">
-	<view slot="backText"></view>
-	<view slot="content">我的消息</view>
+  <view slot="backText"></view>
+  <view slot="content">我的消息</view>
 </cu-custom>
 <van-tabs active="{{ active }}" bind:change="onChange" swipeable>
   <van-tab title="私聊消息" dot="{{newSecretMsgCount !== 0}}">
@@ -20,14 +20,11 @@
       </view>
     </van-cell>
     <view class="cu-list menu-avatar">
-      <view class="cu-item " wx:for="{{ secretMsg }}" wx:for-item="item" wx:for-index="idx" wx:key="index"
-      bindtap="routeSecretMsg" bindlongpress="deleteSecretMsg" data-fromuserid="{{item.fromUserId}}"
-      data-fromusername="{{item.name}}" data-fromuseravatar="{{item.avatarUrl}}">
-        <view class="cu-avatar round lg" 
-        style="background-image:url({{ item.avatarUrl===''?'../../../img/default_avatar.png':item.avatarUrl }});"></view>
+      <view class="cu-item " wx:for="{{ secretMsg }}" wx:for-item="item" wx:for-index="idx" wx:key="index" bindtap="routeSecretMsg" bindlongpress="deleteSecretMsg" data-fromuserid="{{item.fromUserId}}" data-fromusername="{{item.name}}" data-fromuseravatar="{{item.avatarUrl}}">
+        <view class="cu-avatar round lg" style="background-image:url({{ item.avatarUrl===''?'../../../img/default_avatar.png':item.avatarUrl }});"></view>
         <view class="content">
           <view style="width: 100%">
-            <text class="text-cut overflow-ellipsis" >{{ item.name  }}</text>
+            <text class="text-cut overflow-ellipsis">{{ item.name }}</text>
           </view>
           <view class="text-gray text-sm flex">
             <text class="text-cut">{{ item.lastMsg}}</text>
@@ -40,6 +37,9 @@
           </block>
         </view>
       </view>
+    </view>
+    <view style="display: flex; flex-direction: row; justify-content: center;">
+      <button style="position: fixed; bottom: 60px; border-radius: 20px; background: #5677fc;" bindtap="requestSendMsg">接收一次微信消息提醒</button>
     </view>
   </van-tab>
   <van-tab title="系统消息" dot="{{newNotificationCount !== 0}}">
@@ -77,7 +77,3 @@
     </van-cell-group>
   </van-tab>
 </van-tabs>
-<view style="display: flex; flex-direction: row; justify-content: center;">
-  <button style="position: fixed; bottom: 60px; border-radius: 20px; background: #5677fc;" bindtap="requestSendMsg">接收一次微信消息提醒</button>
-</view>
-<van-dialog id="van-dialog" />
