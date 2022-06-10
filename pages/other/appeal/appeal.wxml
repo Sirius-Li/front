@@ -21,7 +21,7 @@
   <view class=" bg-white flex-row items-center mb-4 h-auto mx-4 mt-4 rounded-xl shadow-xl p-4 overflow-hidden w-auto">
     <view class="w-full">
       <form bindsubmit="onTapSubmit">
-        <view class="text-base mb-2">申诉权限</view>
+        <view class="text-base mb-2">申诉权限（每次只能申诉一项权限）</view>
         <view class="border-2 border-black">
           <van-radio-group value="{{ radio }}" name="radio" bind:change="onChange">
             <van-cell-group>
