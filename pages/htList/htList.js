@@ -119,13 +119,11 @@ Page({
             data: {
             },
             success(res) {
-              console.log("htList type = 10 ", res.data)
               let tmp = []
               let i = 0
               for (i = 0; i < res.data.length; i++) {
                   tmp.push(res.data[i].topic)
               }
-              console.log("tmp=", tmp)
                 self.setData({
                     list: tmp
                 })
@@ -135,7 +133,6 @@ Page({
             }
         })
       }
-      console.log("======================", this.data.list)
     },
 
     jumpToSonPages:function(event) {
@@ -230,6 +227,11 @@ Page({
                     let itemList = []
                     for(let i = 0; i < res.data.length; i++){
                         tmpList.push(res.data[i].topic.id)
+                    }
+                    if (tmpList.length == 0) {
+                        self.setData({
+                            list : []
+                        })
                     }
                     for (let i = 0; i < tmpList.length; i++) {
                         wx.request({
@@ -342,9 +344,14 @@ Page({
                     },
                     success(res) {
                         let tmpList = []
-                    let itemList = []
+                        let itemList = []
                     for(let i = 0; i < res.data.length; i++){
                         tmpList.push(res.data[i].topic.id)
+                    }
+                    if (tmpList.length == 0) {
+                        that.setData({
+                            list : itemList
+                        })
                     }
                     for (let i = 0; i < tmpList.length; i++) {
                         wx.request({
@@ -416,7 +423,6 @@ Page({
         }
 
         if (that.data.value1 != 0) {
-            console.log("1")
             for (let i = 0; i < that.data.originList.length; i++) {
                 if (that.data.originList[i].topic_type.id == that.data.value1) {
                     tmpList.push(that.data.originList[i]);
