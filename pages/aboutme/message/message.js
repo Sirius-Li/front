@@ -313,7 +313,7 @@ Page({
     })
   },
 
-  setAllRead: function (event) {
+  setAllRead: function () {
     var message = '是否要将所有系统消息设为已读？'
     var that = this
     var headers = {}
@@ -330,7 +330,7 @@ Page({
         method: 'GET',
         header: headers,
         success (res) {
-          
+
           that.getMessage()
         },
         fail(res){

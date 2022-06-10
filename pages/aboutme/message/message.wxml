@@ -77,3 +77,4 @@
     </van-cell-group>
   </van-tab>
 </van-tabs>
+<van-dialog id="van-dialog" />
