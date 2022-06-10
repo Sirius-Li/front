@@ -31,7 +31,7 @@ Component({
     textareaAInput(e) {
       this.setData({
         textareaValue: e.detail.value,
-        'list.description': e.detail.value
+        'list.description': e.detail.value.trim()
       })
     },
     ViewImage(e) {
@@ -96,13 +96,13 @@ Component({
 
     submit: function () {
       let app = getApp()
-      if (this.data.topic_name == null || this.data.topic_name.length == 0) {
+      if (this.data.topic_name == null || this.data.topic_name.trim().length == 0) {
         wx.showModal({
           title: '提示',
           content: '没有设置话题名称',
           showCancel: false
         })
-      } else if (this.data.textareaValue.length == 0) {
+      } else if (this.data.textareaValue.trim().length == 0 || this.data.textareaValue == null) {
         wx.showModal({
           title: '提示',
           content: '请输入话题内容',
@@ -122,7 +122,7 @@ Component({
         })
       } else {
         this.setData({
-          'list.name': this.data.topic_name,
+          'list.name': this.data.topic_name.trim(),
           'list.topic_type': this.data.type[this.data.typeStr],
           'list.photo': this.data.imgList,
         })
