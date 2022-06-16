@@ -41,6 +41,34 @@
     <view style="display: flex; flex-direction: row; justify-content: center;">
       <button style="position: fixed; bottom: 200rpx; border-radius: 20rpx; background: #5677fc;" bindtap="requestSendMsg">接收一次微信消息提醒</button>
     </view>
+    <view class='placeholder-view'>
+      <view wx:if="{{secretMsg.length != 0}}">
+        <view class="flex align-center">
+          <view class="flex-sub text-center">
+            <text class="text-gray">~已经到底了哦~
+            
+            
+
+              
+              
+            </text>
+          </view>
+        </view>
+      </view>
+      <view wx:else="">
+        <view class="flex align-center">
+          <view class="flex-sub text-center">
+            <text class="text-gray">~暂无私聊消息~
+            
+            
+
+              
+
+            </text>
+          </view>
+        </view>
+      </view>
+    </view>
   </van-tab>
   <van-tab title="系统消息" dot="{{newNotificationCount !== 0}}">
     <van-cell-group>
@@ -72,6 +100,34 @@
               </view>
             </view>
           </van-cell>
+        </view>
+      </view>
+      <view class='placeholder-view'>
+        <view wx:if="{{systemMessages.length != 0}}">
+          <view class="flex align-center">
+            <view class="flex-sub text-center">
+              <text class="text-gray">~已经到底了哦~
+              
+              
+
+              
+
+              </text>
+            </view>
+          </view>
+        </view>
+        <view wx:else="">
+          <view class="flex align-center">
+            <view class="flex-sub text-center">
+              <text class="text-gray">~暂无系统消息~
+              
+              
+
+              
+
+              </text>
+            </view>
+          </view>
         </view>
       </view>
     </van-cell-group>
