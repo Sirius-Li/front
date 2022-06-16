@@ -39,7 +39,7 @@
       </view>
     </view>
     <view style="display: flex; flex-direction: row; justify-content: center;">
-      <button style="position: fixed; bottom: 60px; border-radius: 20px; background: #5677fc;" bindtap="requestSendMsg">接收一次微信消息提醒</button>
+      <button style="position: fixed; bottom: 200rpx; border-radius: 20rpx; background: #5677fc;" bindtap="requestSendMsg">接收一次微信消息提醒</button>
     </view>
   </van-tab>
   <van-tab title="系统消息" dot="{{newNotificationCount !== 0}}">
@@ -77,4 +77,6 @@
     </van-cell-group>
   </van-tab>
 </van-tabs>
+
 <van-dialog id="van-dialog" />
+
