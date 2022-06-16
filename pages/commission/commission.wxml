@@ -45,6 +45,7 @@
       <view class="cu-form-group">地点：
         <text wx:if="{{location==1}}">学院路</text>
         <text wx:if="{{location==2}}">沙河</text>
+        <text wx:if="{{location==3}}">校外</text>
       </view>
       <view class="cu-form-group">委托报酬：
         <text>￥{{fee}}</text>

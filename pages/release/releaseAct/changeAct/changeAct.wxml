@@ -93,7 +93,7 @@
 	<view class="cu-form-group">
 		<view class="grid col-4 grid-square flex-sub">
 			<view class="bg-img">
-				<image src='https://marfr1.2022martu1.cn/{{imgList}}' mode='aspectFill'></image>
+				<image src='{{new_photo}}' mode='aspectFill'></image>
 			</view>
 		</view>
 	</view>
