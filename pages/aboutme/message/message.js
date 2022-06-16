@@ -303,7 +303,6 @@ Page({
         method: 'GET',
         header: headers,
         success(res) {
-
           that.getMessage()
         },
         fail(res) {
