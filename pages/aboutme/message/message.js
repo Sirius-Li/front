@@ -245,8 +245,8 @@ Page({
         method: 'POST',
         header: headers,
         success(res) {
-
           that.getMessage()
+          that.getTabBar().init();
         },
         fail(res) {
           getApp().globalData.util.netErrorToast()
@@ -274,8 +274,8 @@ Page({
         method: 'GET',
         header: headers,
         success(res) {
-
           that.getMessage()
+          that.getTabBar().init();
         },
         fail(res) {
           getApp().globalData.util.netErrorToast()
@@ -303,8 +303,8 @@ Page({
         method: 'GET',
         header: headers,
         success(res) {
-
           that.getMessage()
+          that.getTabBar().init();
         },
         fail(res) {
           getApp().globalData.util.netErrorToast()
@@ -331,6 +331,7 @@ Page({
       wx.setStorageSync('messages', messages)
       that.getSecretMsg()
       getApp().globalData.messageCount = 0
+      that.getTabBar().init();
     }).catch(() => {
 
     })
@@ -350,6 +351,7 @@ Page({
       wx.setStorageSync('messagesId', messagesId)
       that.getSecretMsg()
       getApp().globalData.messageCount = 0
+      that.getTabBar().init();
     }).catch(() => {
 
     })
@@ -367,6 +369,7 @@ Page({
       wx.setStorageSync('messages', messages)
       that.getSecretMsg()
       getApp().globalData.messageCount -= unread_count
+      that.getTabBar().init();
     }).catch(() => {
 
     })
@@ -394,7 +397,6 @@ Page({
     getApp().watch('new_message_func', 'message', this.watchBack)
     this.getMessage()
     this.getSecretMsg()
-
   },
 
   /**

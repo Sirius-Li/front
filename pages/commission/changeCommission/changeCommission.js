@@ -214,8 +214,9 @@ Page({
       'list.commission_type': this.data.commission_type_list[Number(this.data.commission_type_id)].id,
       'list.real_time': Number(this.data.real_time ? 1 : 2),
       'list.description': this.data.description,
+      'list.location': Number(this.data.location) + 1
     })
-
+    console.log(this.data.list)
     wx.request({
       header: this.data.head,
       // url: getApp().globalData.baseUrl + '/api/commission/check/'+this.data.id+'/', //接口名称
