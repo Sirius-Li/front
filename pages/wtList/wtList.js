@@ -16,8 +16,6 @@ Page({
 
     appliedWtList: [],
 
-    waitComfirmedWtList: [],
-
     finishedWtList: [],
 
     realTimeList: [],
@@ -56,7 +54,7 @@ Page({
   },
 
   select: function (event) {
-    // console.log("in select")
+    console.log("in select")
     // selectType: 0,
     // selectStatus: 'all',
     // selectFee: 'default',
@@ -179,7 +177,7 @@ Page({
   },
 
   selectTpye: function (event) {
-    // console.log("in selectTpye")
+    console.log("in selectTpye")
     this.setData({
       selectType: event.detail
     })
@@ -187,7 +185,7 @@ Page({
   },
 
   selectStatus: function (event) {
-    // console.log("in selectStatus")
+    console.log("in selectStatus")
     this.setData({
       selectStatus: event.detail
     })
@@ -195,7 +193,7 @@ Page({
   },
 
   selectFee: function (event) {
-    // console.log("in selectFee")
+    console.log("in selectFee")
     this.setData({
       selectFee: event.detail
     })
@@ -203,7 +201,7 @@ Page({
   },
 
   selectLocation: function (event) {
-    // console.log("in selectLocation")
+    console.log("in selectLocation")
     this.setData({
       selectLocation: event.detail
     })
@@ -227,7 +225,7 @@ Page({
         'Authorization': 'Token ' + app.globalData.token
       }
     }
-    // console.log(this.data.type)
+    console.log(this.data.type)
     if (this.data.type == 1) { // 所有类别所有委托
       wx.request({
         url: getApp().globalData.baseUrl + '/api/commission/search/all/', //接口名称   
@@ -237,15 +235,15 @@ Page({
         data: {
         },
         success(res) {
-          // console.log("所有类别所有委托")
-          // console.log(res.data)
+          console.log("所有类别所有委托")
+          console.log(res.data)
           self.setData({
             list: res.data,
             originList: res.data
           })
         },
         fail(res) {
-          // console.log(res)
+          console.log(res)
           getApp().globalData.util.netErrorToast()
         }
       })
@@ -260,13 +258,13 @@ Page({
           "info": this.data.keywords
         },
         success(res) {
-          // console.log("in wtList type = 2")
-          // console.log(res)
+          console.log("in wtList type = 2")
+          console.log(res)
           self.setData({
             list: res.data,
             originList: res.data
           })
-          // console.log(self.data.list)
+          console.log(self.data.list)
         },
         fail(res) {
           getApp().globalData.util.netErrorToast()
@@ -287,7 +285,7 @@ Page({
             list: res.data,
             originList: res.data
           })
-          // console.log(res)
+          console.log(res)
         },
         fail(res) {
           getApp().globalData.util.netErrorToast()
@@ -308,7 +306,7 @@ Page({
             list: res.data,
             originList: res.data
           })
-          // console.log(self.data.list)
+          console.log(self.data.list)
         },
         fail(res) {
           getApp().globalData.util.netErrorToast()
@@ -334,8 +332,8 @@ Page({
             realTimeList: tempList,
             originList: res.data
           })
-          // console.log("查询实时委托")
-          // console.log(self.data.realTimeList)
+          console.log("查询实时委托")
+          console.log(self.data.realTimeList)
         },
         fail(res) {
           getApp().globalData.util.netErrorToast()
@@ -353,18 +351,18 @@ Page({
           //'keyword': this.data.keywords
         },
         success(res) {
-          // console.log("查看已申请的委托")
-          // console.log(res)
+          console.log("查看已申请的委托")
+          console.log(res)
           self.setData({
             appliedWtList: res.data
           })
-          // console.log(self.data.appliedWtList)
+          console.log(self.data.appliedWtList)
         },
         fail(res) {
           getApp().globalData.util.netErrorToast()
         }
       })
-      // 查看等待确认的委托
+      // 查看已完成的委托
       wx.request({
         url: getApp().globalData.baseUrl + '/api/commission/applied/3/', //接口名称   
         header: head,
@@ -375,30 +373,9 @@ Page({
         },
         success(res) {
           self.setData({
-            waitComfirmedWtList: res.data
-          })
-          // console.log(res)
-          console.log('等待确认')
-          console.log(res)
-        },
-        fail(res) {
-          getApp().globalData.util.netErrorToast()
-        }
-      })
-      // 查看已完成的委托
-      wx.request({
-        url: getApp().globalData.baseUrl + '/api/commission/applied/4/', //接口名称   
-        header: head,
-        method: "GET",  //请求方式    
-        //data: app.globalData.zdxx,  //用于存放post请求的参数  
-        data: {
-          //'keyword': this.data.keywords
-        },
-        success(res) {
-          self.setData({
             finishedWtList: res.data
           })
-          // console.log(res)
+          console.log(res)
         },
         fail(res) {
           getApp().globalData.util.netErrorToast()
@@ -414,8 +391,8 @@ Page({
           //'keyword': this.data.keywords
         },
         success(res) {
-          // console.log("查看我发布的委托")
-          // console.log(res)
+          console.log("查看我发布的委托")
+          console.log(res)
           self.setData({
             releasedWtList: res.data
           })
@@ -433,8 +410,8 @@ Page({
       method: "GET",  //请求方式    
       data: {},
       success(res) {
-        // console.log("查看委托类别")
-        // console.log(res)
+        console.log("查看委托类别")
+        console.log(res)
         for (let i = 0; i < res.data.length; i++) {
           var tmpItem = {
             text: res.data[i].name,
@@ -450,7 +427,7 @@ Page({
         getApp().globalData.util.netErrorToast()
       }
     })
-    // console.log(this.data.wtTypeList)
+    console.log(this.data.wtTypeList)
   },
 
 
@@ -458,7 +435,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // console.log(options)
+    console.log(options)
     this.setData({
       keywords: options.keywords,
       type: options.type
@@ -483,7 +460,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // console.log("onshow")
+    console.log("onshow")
     this.getDetail();
     //this.tabBar();
   },
