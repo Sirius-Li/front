@@ -47,6 +47,16 @@ Page({
         url: '/pages/profile/follow/follow',
       },
       {
+        text: '历史话题浏览',
+        icon: 'icon iconfont icon-guanzhu',
+        url: '/pages/htList/htList?type=10',
+      },
+      {
+        text: '权限查看与申诉',
+        icon: 'warning-o',
+        url: '/pages/other/appeal/appeal'
+      },
+      {
         text: '运动',
         icon: 'icon iconfont icon-sport-o',
         url: '/pages/activity/sports/sports',
@@ -71,6 +81,18 @@ Page({
     notificationCount: 0,
     messageCount: 0,
 
+    //消息开关
+    // messageChecked: false,
+
+    // // 消息提醒
+    // messageReminder: '',
+    // messageHasSetting: '',
+    recommendChecked: false,
+    recommendOpenShow: false,
+    recommendCloseShow: false,
+    wtTypeList: [],
+    checkResult: [],
+
     //博雅选择开关的值
     boyaChecked: null,
     //开启博雅功能弹出框展示字段
@@ -88,6 +110,127 @@ Page({
     hasSetting: null
   },
 
+  getWtTypeList () {
+    let app = getApp()
+    let head
+    let self = this
+    if (app.globalData.token == null) {
+      head = {      
+        'content-type': 'application/json'
+       }
+    } else {
+      head = {      
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + app.globalData.token
+       }
+    }
+    var tmpTypeList = []
+    wx.request({
+      url: getApp().globalData.baseUrl + '/api/commission/sort/', //获取委托类别
+      header: head,
+      method:"GET",  //请求方式    
+      data: {},
+      success(res) {   
+        console.log("查看委托类别", res)
+        for (let i = 0 ; i < res.data.length; i++) {
+          var tmpItem = {
+              name: res.data[i].name, 
+              value: res.data[i].id,
+              checked: true,
+          }
+          tmpTypeList.push(tmpItem)
+        }
+        self.setData({
+          wtTypeList: tmpTypeList
+        })
+        console.log("wtTypeList", tmpTypeList)
+      },
+      fail(res){
+        getApp().globalData.util.netErrorToast()
+      }
+    })
+  },
+
+  recommendSwitch({detail}) {
+    console.log("in recommendSwitch", detail)
+    if(detail === true){
+      this.setData({
+        recommendOpenShow: true
+      })
+    }else{
+      this.setData({
+        recommendCloseShow: true
+      })
+    }
+  },
+
+  checkboxChange(e) {
+    this.setData({
+      checkResult: e.detail
+    })
+    console.log(this.data.checkResult)
+  },
+
+  handleWtRecommend () {
+    console.log("in handleWtRecommend", this.data.checkResult)
+    let app = getApp()
+    let head
+    let self = this
+    let data = this.data.checkResult
+    if (this.data.checkResult.length == 0) {
+      wx.showModal({
+        title: '提示',
+        content: '所选不能为空',
+      }) 
+    } else {
+      wx.requestSubscribeMessage({
+        tmplIds: ['BT2hBJj_iJ8lmaIR2_0rAiiMwIF0bNb4bQACVX1dt6Q'],
+        success (res) { 
+          console.log("wx.requestSubscribeMessage success")
+          if (app.globalData.token == null) {
+            head = {      
+              'content-type': 'application/json'
+            }
+          } else {
+            head = {      
+              'content-type': 'application/json',
+              'Authorization': 'Token ' + app.globalData.token
+            }
+          }
+          wx.request({
+            url: getApp().globalData.baseUrl + '/api/commission/recommend/', //开通委托推荐 接口暂未设计好 TODO
+            header: head,
+            method:"POST",  //请求方式    
+            data: {
+              idList: data
+            },
+            success(res) {
+              console.log("推荐data:", data)
+              self.setData({
+                checkResult: [],
+                recommendChecked: true,
+              })
+            }
+          })
+        },
+      })
+    }
+  },
+
+  recommendClose() {
+    this.setData({
+      checkResult: []
+    })
+  },
+
+  undoWtRecommend () {
+    console.log("in undoWtRecommend")
+    this.setData({
+      checkResult: [],
+      recommendChecked: false,
+    })
+  },
+
   //博雅开关选择和取消
   boyaSwitch({detail}){
     if(detail === true){
@@ -99,7 +242,7 @@ Page({
         closeShow: true
       })
     }
-  },
+  }, 
 
   //统一认证账号密码提交
   passwordSubmit(){
@@ -250,22 +393,31 @@ Page({
 
   //订阅推送的允许和取消
   subscribeMsgSwitch({detail}){
+    console.log("in subscribeMsgSwitch")
+    console.log(detail)
     if(detail === true){
       this.subscribe()
     }else{
       this.undosubscribe()
     }
+    this.getSubscribeStatus()
   },
 
   //请求订阅推送
   subscribe(){
+    console.log("in subscribe", this.data.hasSetting)
+    let self = this
     if(this.data.hasSetting == false){
-      let self = this
       wx.requestSubscribeMessage({
         tmplIds: [
-          'ueT_F8NdhXtY9Yh2_3e1mHTdbmtXnZ-PZOmVB_pyTz8'],
+          'rDBOdvuEP9THubpDddJL3CQNvvrnLGmTiV1KN9jtPUA'],
         success (res) { 
+          console.log("wx.requestSubscribeMessage success")
           self.getSubscribeStatus()
+        },
+        fail (res) {
+          console.log("fail")
+          console.log(res)
         }
       })
     }else{
@@ -275,8 +427,17 @@ Page({
         confirmText: '现在前往',
         success (res) {
           if (res.confirm) {
+            console.log("confirm")
             wx.openSetting({
               withSubscriptions: true,
+              success (res) {
+                console.log("success in 开启订阅openSetting", res)
+              },
+              fail (res) {
+                console.log("fail in 开启订阅openSetting", res)
+              },
+              complete (res) {
+              }
             })
           }
         }
@@ -286,14 +447,25 @@ Page({
 
   //取消订阅推送
   undosubscribe(){
+    console.log("in undosubscribe")
     wx.showModal({
       title: '取消订阅推送',
       content: '请前往微信小程序的设置界面取消',
       confirmText: '现在前往',
       success (res) {
+        console.log(res)
         if (res.confirm) {
+          console.log("hhh")
           wx.openSetting({
             withSubscriptions: true,
+            success (res) {
+              console.log("success")
+              console.log(res)
+            },
+            fail (res) {
+              console.log("fail")
+              console.log(res)
+            }
           })
         }
       }
@@ -304,10 +476,13 @@ Page({
   getSubscribeStatus(){
     let self = this
     wx.getSetting({
+      // 同时获取用户订阅消息的订阅状态
       withSubscriptions: true,
       success(res) {
-        //console.log(res.subscriptionsSetting['ueT_F8NdhXtY9Yh2_3e1mHTdbmtXnZ-PZOmVB_pyTz8'])
-        if(res.subscriptionsSetting['ueT_F8NdhXtY9Yh2_3e1mHTdbmtXnZ-PZOmVB_pyTz8'] == undefined){
+        console.log("in getSubscribeStatus")
+        console.log(res)
+        console.log(res.subscriptionsSetting)
+        if(res.subscriptionsSetting == undefined){
           self.setData({
             subscribeMsgChecked: false,
             hasSetting: false
@@ -315,8 +490,9 @@ Page({
           //console.log(self.data.subscribeMsgChecked)
         }else{
           self.setData({
-            subscribeMsgChecked: res.subscriptionsSetting.mainSwitch &&
-             res.subscriptionsSetting['ueT_F8NdhXtY9Yh2_3e1mHTdbmtXnZ-PZOmVB_pyTz8'] == 'accept',
+            subscribeMsgChecked: res.subscriptionsSetting.mainSwitch,
+            //  &&
+            //  res.subscriptionsSetting == 'accept', // 貌似有bug
              hasSetting: true
           })
         }
@@ -385,13 +561,11 @@ Page({
     }else{
       this.getInfo()
       this.setMessageCount()
-
       getApp().watch('notificationCountFunc', 'aboutme', (value) => {
         if (value !== this.data.notificationCount) {
           this.setNotificationCount()
         }
       })
-
       getApp().watch('messageCountFunc', 'aboutme', (value) => {
         if (value !== this.data.messageCount) {
           this.setMessageCount()
@@ -400,7 +574,9 @@ Page({
 
       //获取推送订阅的状态
       this.getSubscribeStatus()
-      
+      //获取消息提醒状态
+      // this.getMessageStatus()
+      this.getWtTypeList()
     }
   },
 
@@ -408,7 +584,6 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
     getApp().unWatch('notificationCountFunc', 'aboutme')
     getApp().unWatch('messageCountFunc', 'aboutme')
   },
@@ -448,6 +623,7 @@ Page({
     const {url} = e.currentTarget.dataset
     wx.navigateTo({url})
   },
+
   getInfo: function () {
     var that = this
     var header = {}
@@ -457,8 +633,6 @@ Page({
         'Authorization': `Token` + ' ' + `${getApp().globalData.token}`
       }
     }
-
-
     wx.request({
       url: getApp().globalData.baseUrl + '/api/users/profile/',
       method: 'GET',

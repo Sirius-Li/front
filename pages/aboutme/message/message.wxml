@@ -1,7 +1,7 @@
 <!--pages/message/message.wxml-->
 <cu-custom bgColor="bg-gradual-blue" isBack="{{false}}">
-	<view slot="backText"></view>
-	<view slot="content">我的消息</view>
+  <view slot="backText"></view>
+  <view slot="content">我的消息</view>
 </cu-custom>
 <van-tabs active="{{ active }}" bind:change="onChange" swipeable>
   <van-tab title="私聊消息" dot="{{newSecretMsgCount !== 0}}">
@@ -20,14 +20,11 @@
       </view>
     </van-cell>
     <view class="cu-list menu-avatar">
-      <view class="cu-item " wx:for="{{ secretMsg }}" wx:for-item="item" wx:for-index="idx" wx:key="index"
-      bindtap="routeSecretMsg" bindlongpress="deleteSecretMsg" data-fromuserid="{{item.fromUserId}}"
-      data-fromusername="{{item.name}}" data-fromuseravatar="{{item.avatarUrl}}">
-        <view class="cu-avatar round lg" 
-        style="background-image:url({{ item.avatarUrl===''?'../../../img/default_avatar.png':item.avatarUrl }});"></view>
+      <view class="cu-item " wx:for="{{ secretMsg }}" wx:for-item="item" wx:for-index="idx" wx:key="index" bindtap="routeSecretMsg" bindlongpress="deleteSecretMsg" data-fromuserid="{{item.fromUserId}}" data-fromusername="{{item.name}}" data-fromuseravatar="{{item.avatarUrl}}">
+        <view class="cu-avatar round lg" style="background-image:url({{ item.avatarUrl===''?'../../../img/default_avatar.png':item.avatarUrl }});"></view>
         <view class="content">
           <view style="width: 100%">
-            <text class="text-cut overflow-ellipsis" >{{ item.name  }}</text>
+            <text class="text-cut overflow-ellipsis">{{ item.name }}</text>
           </view>
           <view class="text-gray text-sm flex">
             <text class="text-cut">{{ item.lastMsg}}</text>
@@ -38,6 +35,37 @@
           <block wx:if="{{ item.unreadCount }}">
             <view class="cu-tag round bg-red sm">{{ item.unreadCount }}</view>
           </block>
+        </view>
+      </view>
+    </view>
+    <view style="display: flex; flex-direction: row; justify-content: center;">
+      <button style="position: fixed; bottom: 200rpx; border-radius: 20rpx; background: #5677fc;" bindtap="requestSendMsg">接收一次微信消息提醒</button>
+    </view>
+    <view class='placeholder-view'>
+      <view wx:if="{{secretMsg.length != 0}}">
+        <view class="flex align-center">
+          <view class="flex-sub text-center">
+            <text class="text-gray">~已经到底了哦~
+            
+            
+
+              
+              
+            </text>
+          </view>
+        </view>
+      </view>
+      <view wx:else="">
+        <view class="flex align-center">
+          <view class="flex-sub text-center">
+            <text class="text-gray">~暂无私聊消息~
+            
+            
+
+              
+
+            </text>
+          </view>
         </view>
       </view>
     </view>
@@ -74,8 +102,35 @@
           </van-cell>
         </view>
       </view>
+      <view class='placeholder-view'>
+        <view wx:if="{{systemMessages.length != 0}}">
+          <view class="flex align-center">
+            <view class="flex-sub text-center">
+              <text class="text-gray">~已经到底了哦~
+              
+              
+
+              
+
+              </text>
+            </view>
+          </view>
+        </view>
+        <view wx:else="">
+          <view class="flex align-center">
+            <view class="flex-sub text-center">
+              <text class="text-gray">~暂无系统消息~
+              
+              
+
+              
+
+              </text>
+            </view>
+          </view>
+        </view>
+      </view>
     </van-cell-group>
   </van-tab>
 </van-tabs>
-
 <van-dialog id="van-dialog" />

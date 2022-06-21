@@ -93,7 +93,7 @@
 	<view class="cu-form-group">
 		<view class="grid col-4 grid-square flex-sub">
 			<view class="bg-img">
-				<image src='http://114.116.215.100:443/{{imgList}}' mode='aspectFill'></image>
+				<image src='{{new_photo}}' mode='aspectFill'></image>
 			</view>
 		</view>
 	</view>

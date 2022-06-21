@@ -1,6 +1,7 @@
 <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}"> 
     <view slot="backText"> </view>>
-    <view slot="content">话题列表</view>>
+    <view wx:if="{{type==10}}" slot="content">历史话题</view>
+    <view wx:else slot="content">话题列表</view>
 </cu-custom>
 
 <block wx:if="{{type == 5}}">
@@ -97,7 +98,7 @@
           </van-card>
           <block wx:if="{{item.photo != ''}}">
             <view class="image" bindtap="jumpToSonPages" data-id="{{item.id}}">
-                <image src= "http://114.116.215.100:443{{item.photo}}" mode="widthFix"/>
+                <image src= "https://marfr1.2022martu1.cn{{item.photo}}" mode="widthFix"/>
                 <view class="cu-bar bg-shadeBottom">
                 </view>  
             </view>

@@ -111,8 +111,28 @@ Page({
                     getApp().globalData.util.netErrorToast()
                 }
             })
-        }
-
+        } else if (this.data.type == 10) { // 历史话题
+          wx.request({
+            url: getApp().globalData.baseUrl + '/api/topic_click_users_self/',
+            header: head,
+            method:"GET", 
+            data: {
+            },
+            success(res) {
+              let tmp = []
+              let i = 0
+              for (i = 0; i < res.data.length; i++) {
+                  tmp.push(res.data[i].topic)
+              }
+                self.setData({
+                    list: tmp
+                })
+            },
+            fail(res) {
+                getApp().globalData.util.netErrorToast()
+            }
+        })
+      }
     },
 
     jumpToSonPages:function(event) {
@@ -207,6 +227,11 @@ Page({
                     let itemList = []
                     for(let i = 0; i < res.data.length; i++){
                         tmpList.push(res.data[i].topic.id)
+                    }
+                    if (tmpList.length == 0) {
+                        self.setData({
+                            list : []
+                        })
                     }
                     for (let i = 0; i < tmpList.length; i++) {
                         wx.request({
@@ -319,9 +344,14 @@ Page({
                     },
                     success(res) {
                         let tmpList = []
-                    let itemList = []
+                        let itemList = []
                     for(let i = 0; i < res.data.length; i++){
                         tmpList.push(res.data[i].topic.id)
+                    }
+                    if (tmpList.length == 0) {
+                        that.setData({
+                            list : itemList
+                        })
                     }
                     for (let i = 0; i < tmpList.length; i++) {
                         wx.request({
@@ -393,7 +423,6 @@ Page({
         }
 
         if (that.data.value1 != 0) {
-            console.log("1")
             for (let i = 0; i < that.data.originList.length; i++) {
                 if (that.data.originList[i].topic_type.id == that.data.value1) {
                     tmpList.push(that.data.originList[i]);
@@ -506,8 +535,8 @@ Page({
                 }
             })
         } else {
-            this.getDetail()
             this.getTypeList()
+            this.getDetail()
         }   
     },
 

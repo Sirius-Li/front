@@ -18,7 +18,12 @@
   
   <view class="right_list">
     <view class="right_item" wx:for="{{categories}}" wx:for-item="item" wx:for-index="idx" wx:key="id" bindtap="jumpToList" data-id="{{item.id}}">
-      <image class="right_image" src="http://114.116.215.100:443{{item.image}}"> </image>
+      <block wx:if="{{item.image != ''}}"> 
+        <image class="right_image" src="https://marfr1.2022martu1.cn{{item.image}}"> </image>
+      </block>
+      <block wx:else> 
+        <image class="right_image" src="/static/img/nophoto.jpg"> </image>
+      </block>
       <text class="right_text"> {{item.name}} </text>
     </view>
   </view>

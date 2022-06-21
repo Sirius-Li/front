@@ -16,6 +16,7 @@ Page({
     commission_type_id: 0,
     //委托类别
     type_list: [],
+    commission_type_list: [],
     commission_type_name_list: [],
     //委托名称
     name: '',
@@ -35,7 +36,7 @@ Page({
     tags: [],
     tag_list: [],
     tagStr: '',
-    
+
     //页面变量
     date: '',
     location_list: [
@@ -53,7 +54,7 @@ Page({
     });
   },
 
-  FeeChange(event) { 
+  FeeChange(event) {
     this.setData({
       'fee': event.detail.value,
       'list.fee': event.detail.value,
@@ -61,7 +62,7 @@ Page({
   },
 
   RealTimeChange(event) {
-    console.log(this.data.list)
+    // console.log(this.data.list)
     this.setData({
       'real_time': event.detail.value,
     })
@@ -75,8 +76,7 @@ Page({
 
   LocationChange(event) {
     this.setData({
-      'location': event.detail.value,
-      'list.location': Number(event.detail.value)+1,
+      'location': event.detail.value
     });
   },
 
@@ -105,14 +105,14 @@ Page({
   },
 
   // 提交信息
-  submit: function() {
+  submit: function () {
     let app = getApp()
     let nowTime = new Date()
     let Mydate = this.data.date.replace(/-/g, '/')
-    let today = nowTime.getFullYear() + '/' + (nowTime.getMonth()+1<10?'0' + (nowTime.getMonth()+1):(nowTime.getMonth()+1)) 
-         + '/' + (nowTime.getDate()<10?'0' + nowTime.getDate():nowTime.getDate())
-    let now = ((nowTime.getHours())<10 ? '0'+(nowTime.getHours()) : (nowTime.getHours())) + ':' + ((nowTime.getMinutes())<10? '0'+(nowTime.getMinutes()) : (nowTime.getMinutes()))
-      
+    let today = nowTime.getFullYear() + '/' + (nowTime.getMonth() + 1 < 10 ? '0' + (nowTime.getMonth() + 1) : (nowTime.getMonth() + 1))
+      + '/' + (nowTime.getDate() < 10 ? '0' + nowTime.getDate() : nowTime.getDate())
+    let now = ((nowTime.getHours()) < 10 ? '0' + (nowTime.getHours()) : (nowTime.getHours())) + ':' + ((nowTime.getMinutes()) < 10 ? '0' + (nowTime.getMinutes()) : (nowTime.getMinutes()))
+
     if (this.start_time > this.end_time) {
       wx.showModal({
         title: '提示',
@@ -127,7 +127,7 @@ Page({
     //     showCancel: false
     //   })
     // }
-     else if (Mydate < today) {
+    else if (Mydate < today) {
       wx.showModal({
         title: '提示',
         content: '委托开始日期必须晚于今日',
@@ -139,7 +139,7 @@ Page({
         content: '没有设置委托名称',
         showCancel: false
       })
-    }  else if (this.data.location == null) {
+    } else if (this.data.location == null) {
       wx.showModal({
         title: '提示',
         content: '没有选择校区',
@@ -151,7 +151,7 @@ Page({
         content: '请设置委托报酬',
         showCancel: false
       })
-    }else if (this.data.commission_type_id < 0) {
+    } else if (this.data.commission_type_id < 0) {
       wx.showModal({
         title: '提示',
         content: '请选择委托类型',
@@ -171,14 +171,14 @@ Page({
       })
     } else {
       if (app.globalData.token == null) {
-        this.data.head = {      
+        this.data.head = {
           'content-type': 'application/json'
-         }
+        }
       } else {
-        this.data.head = {      
+        this.data.head = {
           'content-type': 'application/json',
           'Authorization': 'Token ' + app.globalData.token
-         }
+        }
       }
       let self = this
       this.release(self)
@@ -203,19 +203,20 @@ Page({
       // })
     }
   },
-  
-  
-  release(self){
+
+
+  release(self) {
     let s_time = this.data.date.toString().replace(/-/g, '/') + ' ' + this.data.start_time
     let e_time = this.data.date.toString().replace(/-/g, '/') + ' ' + this.data.end_time
     this.setData({
-      'list.start_time' : s_time,
-      'list.end_time' : e_time,
-      'list.commission_type': Number(this.data.commission_type_id) + 1,
-      'list.real_time': Number(this.data.real_time?1:2),
+      'list.start_time': s_time,
+      'list.end_time': e_time,
+      'list.commission_type': this.data.commission_type_list[Number(this.data.commission_type_id)].id,
+      'list.real_time': Number(this.data.real_time ? 1 : 2),
       'list.description': this.data.description,
+      'list.location': Number(this.data.location) + 1
     })
-
+    console.log(this.data.list)
     wx.request({
       header: this.data.head,
       // url: getApp().globalData.baseUrl + '/api/commission/check/'+this.data.id+'/', //接口名称
@@ -224,37 +225,38 @@ Page({
       // filePath: self.data.imgList[0],
       // name:'photo',   
       // header: self.data.head,
-      data: this.data.list, 
-      success:(res) => {     
-        if(res.statusCode == 201){
-          
-          wx.navigateTo({
-            url: '../commission?id=' + this.data.id,
-          })
+      data: this.data.list,
+      success: (res) => {
+        if (res.statusCode == 201) {
+          //console.log("navigate to"+this.data.id )
+          // wx.redirectTo({
+          //   url: '../commission?id=' + this.data.id,
+          // })
+          wx.navigateBack()
           wx.showToast({
             title: '委托修改成功',
           })
-          self.onShow()  
-        }else if(res.statusCode == 400){
-          if(res.data === ''){
+          self.onShow()
+        } else if (res.statusCode == 400) {
+          if (res.data === '') {
             wx.showToast({
               title: '委托修改失败',
               icon: 'error'
             })
-          }else{
+          } else {
             wx.showModal({
               content: res.data,
               showCancel: false
             })
           }
-        }else{
-            wx.showToast({
-              title: '委托修改失败',
-              icon: 'error'
-            })
+        } else {
+          wx.showToast({
+            title: '委托修改失败',
+            icon: 'error'
+          })
         }
       },
-      fail(res){
+      fail(res) {
         getApp().globalData.util.netErrorToast()
       }
     })
@@ -298,11 +300,11 @@ Page({
       // 标签
       tag_list: [],
       tagStr: '',
-      
+
       //页面变量
       // 自动获取今天的日期
       date: '',
-      
+
       location_list: [
         "学院路",
         "沙河",
@@ -315,14 +317,14 @@ Page({
   getDetail() {
     let head;
     let app = getApp()
-    if(getApp().globalData.user_status == 2){
+    if (getApp().globalData.user_status == 2) {
       wx.redirectTo({
         url: '../../certification/certification',
       })
-    }else if(getApp().globalData.user_status == 1){
+    } else if (getApp().globalData.user_status == 1) {
       wx.switchTab({
         url: '../home/home',
-        success(res){
+        success(res) {
           wx.showToast({
             title: '用户还在认证中',
             icon: 'error'
@@ -331,76 +333,90 @@ Page({
       })
     }
     if (app.globalData.token == null) {
-      head = {      
+      head = {
         'content-type': 'application/json'
       }
     } else {
-        head = {      
-          'content-type': 'application/json',
-          'Authorization': 'Token ' + app.globalData.token
-        }
+      head = {
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + app.globalData.token
+      }
     }
 
     wx.request({
-      //获取委托类型列表
-      url: getApp().globalData.baseUrl + '/api/commission/sort/',
-      header: head,
-      method:"GET", 
-      // data: {
-      //     'keyword': this.data.keywords
-      // },
-      success: (res) => {
-        this.setData({
-            'type_list': res.data
-        })
-        let temp_list = []
-        for (const key in this.data.type_list) {
-          if (this.data.type_list.hasOwnProperty.call(this.data.type_list, key)) {
-            temp_list.push(this.data.type_list[key].name);       
-          }
-        }
-        this.setData({
-          commission_type_name_list: temp_list
-        })
-      },
-      fail(res) {
-          getApp().globalData.util.netErrorToast()
-      }
-    })
-
-    wx.request({    
       url: getApp().globalData.baseUrl + '/api/commission/detail/', //接口名称   
       header: head,
-      method:"POST",  //请求方式    
+      method: "POST",  //请求方式    
       //data: app.globalData.zdxx,  //用于存放post请求的参数  
       data: {
         //TODO
         'commission_id': this.data.id,
-      }, 
-      success: (res) => { 
-        console.log("this is wtChange detail")
-        console.log(res.data)
-        
+      },
+      success: (res) => {
+        // console.log("this is wtChange detail")
+        // console.log(res.data)
         this.setData({
           "list": res.data,
           "id": res.data.id,
-          "commission_type_id": Number(res.data.commission_type.id) - 1,
+          "commission_type_id": Number(res.data.commission_type.id),
           "name": res.data.name,
           "date": res.data.start_time.split(' ')[0],
           "start_time": res.data.start_time.split(' ')[1],
           "end_time": res.data.end_time.split(' ')[1],
-          "real_time": (res.data.real_time==1)?true:false,
+          "real_time": (res.data.real_time == 1) ? true : false,
           "location": res.data.location - 1,
           "description": res.data.description,
           "fee": res.data.fee,
-          "tags": res.data.tag_list==null?'':res.data.tag_list.join(''),
+          "tags": res.data.tag_list == null ? '' : res.data.tag_list.join(''),
         });
-        console.log(this.data.list)
+        // console.log(this.data.list)
+
+        wx.request({
+          //获取委托类型列表
+          url: getApp().globalData.baseUrl + '/api/commission/sort/',
+          header: head,
+          method: "GET",
+          // data: {
+          //     'keyword': this.data.keywords
+          // },
+          success: (res) => {
+            this.setData({
+              'type_list': res.data
+            })
+            let temp_list = []
+            let name_list = []
+            let id
+            for (const key in this.data.type_list) {
+              if (this.data.type_list.hasOwnProperty.call(this.data.type_list, key)) {
+                // console.log(this.data.type_list[key])
+                temp_list.push(this.data.type_list[key]);
+                name_list.push(this.data.type_list[key].name)
+                if (this.data.type_list[key].id === this.data.commission_type_id) {
+                  id = key
+                }
+              }
+            }
+            // console.log(res.data)
+            this.setData({
+              commission_type_list: temp_list,
+              commission_type_name_list: name_list,
+              commission_type_id: id
+            })
+            // console.log("test")
+            // console.log(this.data.commission_type_list)
+            // console.log(this.data.commission_type_name_list)
+            // console.log(this.data.commission_type_id)
+          },
+          fail(res) {
+            getApp().globalData.util.netErrorToast()
+          }
+        })    
       },
-      fail(res){
+      fail(res) {
         getApp().globalData.util.netErrorToast()
       }
     })
+
   },
 
   /**
@@ -424,7 +440,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    console.log("发起请求获取数据")
+    // console.log("发起请求获取数据")
     this.getDetail()
   },
 

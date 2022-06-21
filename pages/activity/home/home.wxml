@@ -37,7 +37,7 @@
           </view>
         </view>
       </block>
-      <block wx:elif="{{type == '热门话题'}}">
+      <block wx:elif="{{type == '话题推荐'}}">
         <view class="bg-white" wx:if="{{activityList.length == 0}}">
           <view class="padding-xs flex align-center">
             <view class="flex-sub text-center">
@@ -50,7 +50,7 @@
         </view>
 
         <view class='margin-xs bg-white radius shadow-lg' wx:for="{{activityList}}" wx:key="id">
-          <van-card title="{{item.name}}" bindtap="jumpToHt" data-id="{{item.id}}" thumb="{{item.photo == '' ? '/static/img/nophoto.jpg' : 'http://114.116.215.100:443' + item.photo}}">
+          <van-card title="{{item.name}}" bindtap="jumpToHt" data-id="{{item.id}}" thumb="{{(item.photo == '' || item.photo == null || item.photo == undefined) ? '/static/img/nophoto.jpg' : 'https://marfr1.2022martu1.cn' + item.photo}}">
             <view slot="desc">
               <view>
                 <van-icon name="user-o" /><text class="field-name text-blue">发起人：</text>{{item.create_user.nickName}}
@@ -61,12 +61,16 @@
               <view>
                 <van-icon name="clock" /><text class="field-name text-blue">关注数:</text>{{item.follow}}
               </view>
+              <!-- <view>
+                <van-icon name="clock-o" /><text class="field-name text-blue">点击量:</text>{{item.count}}
+              </view> -->
               <view> {{item.description}} </view>
             </view>
             <view slot="bottom">
             </view>
           </van-card>
         </view>
+
       </block>
       <block wx:elif="{{type == '委托推荐'}}">
         <view class="bg-white" wx:if="{{activityList.length == 0}}">
@@ -102,6 +106,7 @@
             </view>
           </van-card>
         </view>
+
       </block>
 
       <block wx:else>
@@ -117,7 +122,7 @@
         </view>
 
         <view class='margin-xs bg-white radius shadow-lg' wx:for="{{activityList}}" wx:key="id">
-          <van-card tag="{{item.activity_type.name}}" title="{{item.name}}" bindtap="jumpToSonPages" data-id="{{item.id}}" thumb="{{item.photo == '' ? '/static/img/nophoto.jpg' : 'http://114.116.215.100:443' + item.photo}}">
+          <van-card tag="{{item.activity_type.name}}" title="{{item.name}}" bindtap="jumpToSonPages" data-id="{{item.id}}" thumb="{{(item.photo == '' || item.photo == null || item.photo == undefined) ? '/static/img/nophoto.jpg' : 'https://marfr1.2022martu1.cn' + item.photo}}">
             <view slot="desc">
               <van-tag wx:for="{{item.tags}}" wx:for-item="tag" wx:key="id" round type="primary">{{tag.name}}</van-tag>
               <view>

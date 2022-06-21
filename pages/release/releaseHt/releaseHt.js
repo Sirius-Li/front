@@ -6,7 +6,7 @@ Component({
    * 页面的初始数据
    */
   data: {
-    head:null,
+    head: null,
     topic_name: null,
     modalname: null,
     textareaValue: '',
@@ -31,7 +31,7 @@ Component({
     textareaAInput(e) {
       this.setData({
         textareaValue: e.detail.value,
-        'list.description': e.detail.value
+        'list.description': e.detail.value.trim()
       })
     },
     ViewImage(e) {
@@ -96,13 +96,13 @@ Component({
 
     submit: function () {
       let app = getApp()
-      if (this.data.topic_name == null || this.data.topic_name.length == 0) {
+      if (this.data.topic_name == null || this.data.topic_name.trim().length == 0) {
         wx.showModal({
           title: '提示',
           content: '没有设置话题名称',
           showCancel: false
         })
-      } else if (this.data.textareaValue.length == 0) {
+      } else if (this.data.textareaValue.trim().length == 0 || this.data.textareaValue == null) {
         wx.showModal({
           title: '提示',
           content: '请输入话题内容',
@@ -122,7 +122,7 @@ Component({
         })
       } else {
         this.setData({
-          'list.name': this.data.topic_name,
+          'list.name': this.data.topic_name.trim(),
           'list.topic_type': this.data.type[this.data.typeStr],
           'list.photo': this.data.imgList,
         })
@@ -161,17 +161,17 @@ Component({
       }
     },
     release(self) {
-      if(this.data.list.photo.length==0){
+      if (this.data.list.photo.length == 0) {
         console.log(self.data.list)
         console.log(self.data.head)
         wx.request({
           url: getApp().globalData.baseUrl + '/api/topic/',
-          header:self.data.head,
-          method:"POST",
-          data:{
-            name:self.data.list.name,
-            description:self.data.list.description,
-            topic_type:self.data.list.topic_type
+          header: self.data.head,
+          method: "POST",
+          data: {
+            name: self.data.list.name,
+            description: self.data.list.description,
+            topic_type: self.data.list.topic_type
           },
           success(res) {
             console.log(res)
@@ -183,6 +183,18 @@ Component({
                 title: '话题发布成功',
               })
               self.reset()
+            } else if (res.statusCode == 403) {
+              self.reset()
+              wx.showModal({
+                title: '当前用户无发布话题权限，请及时进行申诉。是否跳转至权限申诉界面？',
+                success(res) {
+                  if (res.confirm) {
+                    wx.navigateTo({
+                      url: '/pages/other/appeal/appeal',
+                    })
+                  }
+                }
+              })
             } else if (res.statusCode == 400) {
               if (res.data === '') {
                 wx.showToast({
@@ -206,7 +218,9 @@ Component({
             getApp().globalData.util.netErrorToast()
           }
         })
-      }else{
+      } else {
+        // console.log(self.data.imgList[0])
+        // console.log(self.data.list)
         wx.uploadFile({
           header: self.data.head,
           url: getApp().globalData.baseUrl + '/api/topic/', //接口名称
@@ -224,6 +238,18 @@ Component({
                 title: '话题发布成功',
               })
               self.reset()
+            } else if (res.statusCode == 403) {
+              self.reset()
+              wx.showModal({
+                title: '当前用户无发布话题权限，请及时进行申诉。是否跳转至权限申诉界面？',
+                success(res) {
+                  if (res.confirm) {
+                    wx.navigateTo({
+                      url: '/pages/other/appeal/appeal',
+                    })
+                  }
+                }
+              })
             } else if (res.statusCode == 400) {
               if (res.data === '') {
                 wx.showToast({
@@ -248,7 +274,7 @@ Component({
           }
         })
       }
-      
+
     },
   },
 
@@ -283,7 +309,7 @@ Component({
         }
       }
       wx.request({
-        url: app.globalData.baseUrl+'/api/topic_types_simple/',
+        url: app.globalData.baseUrl + '/api/topic_types_simple/',
         method: 'GET',
         data: {
 

@@ -1,5 +1,5 @@
 // pages/message/message.js
-import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog'
+import Dialog from '../../../miniprogram_npm/@vant/weapp/dialog/dialog'
 const util = require('../../../utils/util.js')
 Page({
 
@@ -23,6 +23,27 @@ Page({
     newNotificationCount: 0
   },
 
+  //发送订阅消息
+  requestSendMsg() {
+    var that = this;
+    //订阅消息模板id
+    var template_id = "tnmAvtNzq1q0BHU-eou3pUurmiaRGGpFQxHW9VO5GB4";
+    // var APPID = getApp().globalData.appid;
+    // var APPSECRET = getApp().globalData.appsecret;
+    // var myurl = getApp().globalData.baseUrl + '';
+    wx.requestSubscribeMessage({
+      tmplIds: [template_id],
+      success(res) {
+        console.log(res)
+        wx.showToast({
+          title: '成功',
+          icon: 'success',
+          duration: 1000//持续的时间
+        })
+      }
+    })
+  },
+
   routeSecretMsg: function (event) {
     const id = event.currentTarget.dataset.fromuserid
     const name = event.currentTarget.dataset.fromusername
@@ -34,7 +55,7 @@ Page({
 
   watchBack: function (value) {
     if (value) {
-      
+
       this.getSecretMsg()
     }
   },
@@ -72,29 +93,29 @@ Page({
     })
   },
 
-  onChange: function(event) {
+  onChange: function (event) {
     this.setData({
       active: event.detail.index
     })
   },
 
-  getMessage: function() {
+  getMessage: function () {
     var systemMessages = []
     var replyMessages = []
     var headers = {}
     var app = getApp()
     var that = this
     if (app.globalData.token == null) {
-      headers = {      
+      headers = {
         'content-type': 'application/json'
-       }
+      }
     } else {
-      headers = {      
+      headers = {
         'content-type': 'application/json',
         'Authorization': 'Token ' + app.globalData.token
-       }
+      }
     }
-    
+
     wx.request({
       url: getApp().globalData.baseUrl + '/api/notifications/my/',
       method: 'GET',
@@ -102,7 +123,7 @@ Page({
       data: {
 
       },
-      success (res) {
+      success(res) {
         for (var i = 0; i < res.data.length; i++) {
           var m = res.data[i]
           var dis = {
@@ -119,13 +140,13 @@ Page({
           newNotificationCount: res.data.filter(d => !d.isread).length
         })
       },
-      fail(res){
+      fail(res) {
         getApp().globalData.util.netErrorToast()
       }
     })
   },
 
-  getMessageContent: function(type, content) {
+  getMessageContent: function (type, content) {
     switch (type) {
       case 'schedule_remind':
         return '活动"' + content.activity_name + '"即将开始，请注意时间'
@@ -138,7 +159,7 @@ Page({
     }
   },
 
-  getMessageTime: function(time) {
+  getMessageTime: function (time) {
     var myDate = new Date()
     var times = time.split(' ')
     var nowData = myDate.toLocaleDateString()
@@ -147,7 +168,7 @@ Page({
     if (date1.getTime() === date2.getTime()) {
       return times[1]
     } else {
-      var dd = parseInt((myDate.getTime()-Date.parse(new Date(times[0])))/ (1000 * 60 * 60 * 24))
+      var dd = parseInt((myDate.getTime() - Date.parse(new Date(times[0]))) / (1000 * 60 * 60 * 24))
       if (dd >= 7) {
         var datas = times[0].split('/')
         var nowDatas = nowData.split('/')
@@ -163,8 +184,8 @@ Page({
   },
 
   dateEqual: function (date1, date2) {
-    
-    
+
+
     var d1 = date1.split('/')
     var d2 = date2.split('/')
     for (var i = 0; i < 3; i++) {
@@ -198,12 +219,12 @@ Page({
       } else if (detailType == "委托") {
         wx.navigateTo({
           url: '../../commission/commission?id=' + activityId,
-        }) 
+        })
       } else if (detailType == "话题") {
         wx.navigateTo({
           url: '../../htdetail/htdetail?id=' + activityId,
         })
-      }  
+      }
     }
   },
 
@@ -223,16 +244,16 @@ Page({
         url: getApp().globalData.baseUrl + '/api/notifications/' + deleteId + '/user_delete/',
         method: 'POST',
         header: headers,
-        success (res) {
-          
+        success(res) {
           that.getMessage()
+          that.getTabBar().init();
         },
-        fail(res){
+        fail(res) {
           getApp().globalData.util.netErrorToast()
         }
       })
     }).catch(() => {
-      
+
     });
   },
 
@@ -252,11 +273,11 @@ Page({
         url: getApp().globalData.baseUrl + '/api/notifications/user_deleteall/',
         method: 'GET',
         header: headers,
-        success (res) {
-          
+        success(res) {
           that.getMessage()
+          that.getTabBar().init();
         },
-        fail(res){
+        fail(res) {
           getApp().globalData.util.netErrorToast()
         }
       })
@@ -265,7 +286,7 @@ Page({
     })
   },
 
-  setAllRead: function (event) {
+  setAllRead: function () {
     var message = '是否要将所有系统消息设为已读？'
     var that = this
     var headers = {}
@@ -281,11 +302,11 @@ Page({
         url: getApp().globalData.baseUrl + '/api/notifications/read/',
         method: 'GET',
         header: headers,
-        success (res) {
-          
+        success(res) {
           that.getMessage()
+          that.getTabBar().init();
         },
-        fail(res){
+        fail(res) {
           getApp().globalData.util.netErrorToast()
         }
       })
@@ -296,7 +317,7 @@ Page({
 
   setAllSecretMsgRead: function () {
     const that = this
-    
+
     Dialog.confirm({
       message: '是否要将所有未读私信消息标记为已读？'
     }).then(() => {
@@ -310,13 +331,14 @@ Page({
       wx.setStorageSync('messages', messages)
       that.getSecretMsg()
       getApp().globalData.messageCount = 0
+      that.getTabBar().init();
     }).catch(() => {
 
     })
   },
 
   deleteAllSecretMsg: function () {
-    
+
     const that = this
     Dialog.confirm({
       message: '是否要清空本地私信聊天记录？'
@@ -329,8 +351,9 @@ Page({
       wx.setStorageSync('messagesId', messagesId)
       that.getSecretMsg()
       getApp().globalData.messageCount = 0
+      that.getTabBar().init();
     }).catch(() => {
-      
+
     })
   },
 
@@ -346,8 +369,9 @@ Page({
       wx.setStorageSync('messages', messages)
       that.getSecretMsg()
       getApp().globalData.messageCount -= unread_count
+      that.getTabBar().init();
     }).catch(() => {
-      
+
     })
   },
 
@@ -355,7 +379,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+
   },
 
   /**
@@ -373,7 +397,6 @@ Page({
     getApp().watch('new_message_func', 'message', this.watchBack)
     this.getMessage()
     this.getSecretMsg()
-    
   },
 
   /**

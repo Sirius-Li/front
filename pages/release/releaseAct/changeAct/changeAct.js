@@ -169,8 +169,8 @@ Page({
 
   //修改经纬度
   onClick: function () {
-    const key = '6QIBZ-MEA63-GAZ3S-3AHGH-MJPXJ-3FB5S'; //使用在腾讯位置服务申请的key
-    const referer = 'asr-fri-1'; //调用插件的app的名称
+    const key = 'KZHBZ-ZDZCD-P5Z4T-HZJZ5-APMDK-GFFB5'; //使用在腾讯位置服务申请的key
+    const referer = 'mar-fri-1'; //调用插件的app的名称
     let location = JSON.stringify({
       latitude: 39.89631551,
       longitude: 116.323459711
@@ -267,6 +267,7 @@ Page({
       stopDate: this.data.getActive.end_enrollment_at.split(' ')[0].replace(/\//g, '-'),
       typetemp: this.data.getActive.activity_type.name,
       imgList: this.data.getActive.photo,
+      new_photo: 'https://marfr1.2022martu1.cn' + this.data.getActive.photo,
       date: dd,
       start_time: stdd,
       end_time: rtdd,
@@ -300,7 +301,7 @@ Page({
         method: 'GET',
         data: {
           'location': self.data.latitude + ',' + self.data.longitude,
-          'key': 'SVYBZ-IMUKD-23D4M-PU46M-WMXIQ-MPFRZ',
+          'key': 'KZHBZ-ZDZCD-P5Z4T-HZJZ5-APMDK-GFFB5',
         },
         success(res){
           if(res.statusCode == 200){
